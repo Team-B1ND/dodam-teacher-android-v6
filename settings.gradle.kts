@@ -10,10 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven("https://naver.jfrog.io/artifactory/maven/")
     }
 }
 rootProject.name = "Dodam_Teacher_V6"
-include ':presentation'
-include ':data'
-include ':domain'
+include(":presentation")
+include(":data")
+include(":domain")
