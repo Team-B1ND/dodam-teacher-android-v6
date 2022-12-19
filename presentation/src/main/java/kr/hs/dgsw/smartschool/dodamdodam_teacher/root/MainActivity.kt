@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.ui.theme.Dodam_Teacher_V6Theme
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.theme.Dodam_Teacher_V6Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

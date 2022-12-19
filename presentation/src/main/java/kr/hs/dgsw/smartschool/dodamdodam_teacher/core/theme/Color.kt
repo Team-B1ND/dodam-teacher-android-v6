@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam_teacher.ui.theme
+package kr.hs.dgsw.smartschool.dodamdodam_teacher.core.theme
 
 import androidx.compose.ui.graphics.Color
 
