@@ -35,17 +35,10 @@ android {
 dependencies {
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.LIFECYCLE_KTX)
-    implementation(Compose.ACTIVITY_COMPOSE)
-    implementation(Compose.UI_COMPOSE)
-    implementation(Compose.UI_TOOLING_PREVIEW)
-    implementation(Compose.MATERIAL_COMPOSE)
     testImplementation(UnitTest.JUNIT)
     androidTestImplementation(AndroidTest.ANDROID_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
-    androidTestImplementation(Compose.UI_TEST_JUNIT4)
-    debugImplementation(Compose.UI_TOOLING)
-    debugImplementation(Compose.UI_TEST_MANIFEST)
-
+    
     // coroutine
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_CORE)
