@@ -14,4 +14,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Dodam_Teacher_V6"
-include ':app'
+include ':presentation'
+include ':data'
+include ':domain'
