@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam_teacher
+package kr.hs.dgsw.smartschool.dodamdodam_teacher.root
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +17,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Dodam_Teacher_V6Theme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
