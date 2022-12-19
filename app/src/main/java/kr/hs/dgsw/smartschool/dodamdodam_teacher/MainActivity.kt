@@ -18,8 +18,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             Dodam_Teacher_V6Theme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
                     Greeting("Android")
                 }
             }
