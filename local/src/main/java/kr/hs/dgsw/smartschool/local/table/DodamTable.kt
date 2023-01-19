@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.data.local.table
+package kr.hs.dgsw.smartschool.local.table
 
 object DodamTable {
 

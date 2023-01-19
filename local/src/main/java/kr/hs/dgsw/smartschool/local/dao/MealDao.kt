@@ -1,9 +1,9 @@
-package kr.hs.dgsw.smartschool.data.local.dao
+package kr.hs.dgsw.smartschool.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import kr.hs.dgsw.smartschool.data.local.entity.meal.MealEntity
-import kr.hs.dgsw.smartschool.data.local.table.DodamTable
+import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
+import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Dao
 interface MealDao {

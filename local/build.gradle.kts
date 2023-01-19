@@ -43,11 +43,10 @@ dependencies {
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_CORE)
 
-    // retrofit
-    implementation(Libraries.RETROFIT)
-    implementation(Libraries.RETROFIT_CONVERTER_GSON)
-    implementation(Libraries.OKHTTP)
-    implementation(Libraries.OKHTTP_LOGGING_INTERCEPTOR)
+    // room
+    implementation(AndroidX.ROOM_RUNTIME)
+    kapt(AndroidX.ROOM_COMPILER)
+    implementation(AndroidX.ROOM_KTX)
 
     // hilt
     implementation(Google.HILT_ANDROID)

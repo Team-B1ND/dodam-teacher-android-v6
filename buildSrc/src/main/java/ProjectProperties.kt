@@ -31,6 +31,8 @@ object ProjectProperties {
 
     const val BUILD_FEATURE_COMPOSE = true
 
+    const val PATH_LOCAL = ":local"
+    const val PATH_REMOTE = ":remote"
     const val PATH_DATA = ":data"
     const val PATH_DOMAIN = ":domain"
     const val PATH_PRESENTATION = ":presentation"

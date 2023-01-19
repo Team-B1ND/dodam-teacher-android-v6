@@ -58,6 +58,7 @@ dependencies {
     kapt(AndroidX.ROOM_COMPILER)
     implementation(AndroidX.ROOM_KTX)
 
-    implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DATA))
+    implementation(project(ProjectProperties.PATH_LOCAL))
+    implementation(project(ProjectProperties.PATH_REMOTE))
 }
