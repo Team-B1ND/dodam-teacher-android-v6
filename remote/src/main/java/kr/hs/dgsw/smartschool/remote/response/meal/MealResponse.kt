@@ -12,7 +12,7 @@ data class MealResponse(
     @field:SerializedName("dinner")
     val dinner: String?,
 
-    @field:SerializedName("date") // "2023-01-19"
+    @field:SerializedName("date")
     val date: String,
 
     @field:SerializedName("exists")
