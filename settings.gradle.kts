@@ -17,3 +17,4 @@ rootProject.name = "Dodam_Teacher_V6"
 include(":presentation")
 include(":data")
 include(":domain")
+include(":di")
