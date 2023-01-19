@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.utils
 
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +21,7 @@ import kr.hs.dgsw.smartschool.domain.exception.UnknownException
 import kr.hs.dgsw.smartschool.remote.response.ErrorResponse
 import retrofit2.HttpException
 
-const val EXPIRED_TOKEN_MESSAGE = "토큰이 만료되었습니다."
+const val EXPIRED_TOKEN_MESSAGE = "만료된 토큰"
 
 suspend inline fun <T> dodamApiCall(
     crossinline callFunction: suspend () -> T,

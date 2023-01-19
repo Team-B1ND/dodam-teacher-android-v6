@@ -4,7 +4,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
-@Entity(tableName = DodamTable.MEAL)
+@Entity(
+    tableName = DodamTable.MEAL,
+    primaryKeys = ["year", "month", "day"]
+)
 data class MealEntity(
-    @PrimaryKey val id: Int
+    val year: Int,
+    val month: Int,
+    val day: Int,
+    val exists: Boolean,
+    val breakfast: String?,
+    val lunch: String?,
+    val dinner: String?,
 )
