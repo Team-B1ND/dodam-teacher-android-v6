@@ -22,6 +22,6 @@ interface MealService {
     ): Response<List<MealResponse>>
 
     @GET(DodamUrl.Meal.CALORIE)
-    suspend fun getCalorieOfMeal(): Response<String>
+    suspend fun getCalorieOfMeal(): Response<String?>
 
 }
