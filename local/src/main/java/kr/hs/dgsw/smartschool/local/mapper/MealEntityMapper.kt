@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.local.mapper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
+import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
 
 internal fun MealEntity.toModel(): Meal {
@@ -11,11 +12,26 @@ internal fun MealEntity.toModel(): Meal {
     return Meal(
         date = LocalDate.parse(date, formatter),
         exists = exists,
-        breakfast = breakfast ?: "조식이 없는 날이에요.",
-        lunch = lunch ?: "중식이 없는 날이에요.",
-        dinner = dinner ?: "석식이 없는 날이에요."
+        breakfast = breakfast,
+        lunch = lunch,
+        dinner = dinner
     )
 }
 
-internal fun List<MealEntity>.toModel(): List<Meal> =
-    this.map { it.toModel() }
+internal fun List<MealEntity>.toModel(): MealList =
+    MealList(mealList = this.map { it.toModel() })
+
+internal fun Meal.toEntity(): MealEntity {
+    return MealEntity(
+        year = date.year,
+        month = date.monthValue,
+        day = date.dayOfMonth,
+        exists = exists,
+        breakfast = breakfast,
+        lunch = lunch,
+        dinner = dinner
+    )
+}
+
+internal fun MealList.toEntity(): List<MealEntity> =
+    this.mealList.map { it.toEntity() }

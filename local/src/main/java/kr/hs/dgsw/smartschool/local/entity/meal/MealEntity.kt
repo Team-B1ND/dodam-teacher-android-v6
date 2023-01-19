@@ -13,7 +13,7 @@ data class MealEntity(
     val month: Int,
     val day: Int,
     val exists: Boolean,
-    val breakfast: String?,
-    val lunch: String?,
-    val dinner: String?,
+    val breakfast: String,
+    val lunch: String,
+    val dinner: String,
 )
