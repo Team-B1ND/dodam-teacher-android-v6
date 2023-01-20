@@ -9,7 +9,7 @@ object Versions {
     const val APP_COMPAT = "1.4.2"
     const val ROOM = "2.4.3"
 
-    const val HILT = "2.38.1"
+    const val HILT = "2.44"
     const val MATERIAL = "1.5.0"
     
     const val KT_LINT = "10.2.0"
@@ -40,4 +40,7 @@ object Versions {
     const val COMPOSE_VERSION = "1.3.1"
     const val ACTIVITY_COMPOSE = "1.6.1"
     const val MATERIAL_COMPOSE = "1.3.1"
+    const val COMPOSE_HILT = "1.0.0"
+
+    const val ORBIT = "4.5.0"
 }
