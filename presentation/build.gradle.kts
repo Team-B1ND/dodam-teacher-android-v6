@@ -98,6 +98,6 @@ dependencies {
     // map
     implementation(NaverMap.NAVER_MAP)
 
-    implementation(project(ProjectProperties.PATH_DATA))
     implementation(project(ProjectProperties.PATH_DOMAIN))
+    implementation(project(ProjectProperties.PATH_DI))
 }

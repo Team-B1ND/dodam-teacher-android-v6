@@ -9,5 +9,5 @@ data class GetMealState(
 )
 
 sealed class GetMealSideEffect {
-    data class Toast(val text: String) : GetMealSideEffect()
+    data class Toast(val message: String) : GetMealSideEffect()
 }

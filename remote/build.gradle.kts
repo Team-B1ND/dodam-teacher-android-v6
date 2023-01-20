@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = ProjectProperties.NAME_SPACE_DATA
+    namespace = ProjectProperties.NAME_SPACE_REMOTE
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {

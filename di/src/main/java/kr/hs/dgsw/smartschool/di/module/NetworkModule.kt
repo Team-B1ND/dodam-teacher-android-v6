@@ -46,9 +46,9 @@ class NetworkModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun providesMealService(retrofit: Retrofit): MealService =
         retrofit.create(MealService::class.java)
-
 
 }

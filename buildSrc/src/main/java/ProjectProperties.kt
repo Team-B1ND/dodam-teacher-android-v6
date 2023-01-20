@@ -7,6 +7,9 @@ object ProjectProperties {
     const val APPLICATION_ID = "kr.hs.dgsw.smartschool.dodamdodam_teacher"
     const val NAME_SPACE_DOMAIN = "kr.hs.dgsw.smartschool.domain"
     const val NAME_SPACE_DATA = "kr.hs.dgsw.smartschool.data"
+    const val NAME_SPACE_LOCAL = "kr.hs.dgsw.smartschool.local"
+    const val NAME_SPACE_DI = "kr.hs.dgsw.smartschool.di"
+    const val NAME_SPACE_REMOTE = "kr.hs.dgsw.smartschool.remote"
     const val TEST_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8
@@ -36,4 +39,5 @@ object ProjectProperties {
     const val PATH_DATA = ":data"
     const val PATH_DOMAIN = ":domain"
     const val PATH_PRESENTATION = ":presentation"
+    const val PATH_DI = ":di"
 }

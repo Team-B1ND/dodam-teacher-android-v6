@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.data.datasource.meal
 
 import java.time.LocalDate
+import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.base.BaseDataSource
 import kr.hs.dgsw.smartschool.data.cache.MealCache
 import kr.hs.dgsw.smartschool.data.remote.MealRemote
@@ -8,7 +9,7 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 
-class MealDataSourceImpl(
+class MealDataSourceImpl @Inject constructor(
     override val remote: MealRemote,
     override val cache: MealCache,
 ) : BaseDataSource<MealRemote, MealCache>, MealDataSource {

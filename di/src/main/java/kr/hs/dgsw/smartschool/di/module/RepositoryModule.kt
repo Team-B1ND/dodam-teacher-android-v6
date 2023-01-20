@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.data.repository.MealRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 
@@ -11,6 +12,9 @@ import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
+    @Singleton
     @Binds
-    abstract fun providesMealRepository(mealRepositoryImpl: MealRepositoryImpl): MealRepository
+    abstract fun providesMealRepository(
+        mealRepositoryImpl: MealRepositoryImpl,
+    ): MealRepository
 }
