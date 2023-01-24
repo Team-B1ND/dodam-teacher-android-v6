@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
+import java.time.LocalDate
 
 interface MealRepository {
 

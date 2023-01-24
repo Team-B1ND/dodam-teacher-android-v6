@@ -1,13 +1,13 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 internal fun MealEntity.toModel(): Meal {
-    val date = "${year}-${month}-${day}"
+    val date = "$year-$month-$day"
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return Meal(
         date = LocalDate.parse(date, formatter),

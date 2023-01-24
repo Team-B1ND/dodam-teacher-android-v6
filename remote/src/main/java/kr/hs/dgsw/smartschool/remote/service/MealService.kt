@@ -23,5 +23,4 @@ interface MealService {
 
     @GET(DodamUrl.Meal.CALORIE)
     suspend fun getCalorieOfMeal(): Response<String?>
-
 }

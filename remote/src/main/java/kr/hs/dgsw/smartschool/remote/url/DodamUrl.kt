@@ -7,8 +7,7 @@ object DodamUrl {
 
     object Meal {
         const val SINGLE = MEAL
-        const val CALORIE = "${MEAL}/calorie"
-        const val MONTH = "${MEAL}/month"
+        const val CALORIE = "$MEAL/calorie"
+        const val MONTH = "$MEAL/month"
     }
-
 }

@@ -10,5 +10,5 @@ import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
 )
 
 abstract class DodamTeacherDatabase : RoomDatabase() {
-   abstract fun mealDao(): MealDao
+    abstract fun mealDao(): MealDao
 }

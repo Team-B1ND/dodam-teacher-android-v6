@@ -7,9 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,5 +32,4 @@ object LocalModule {
     fun provideMealDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): MealDao = dodamTeacherDatabase.mealDao()
-
 }

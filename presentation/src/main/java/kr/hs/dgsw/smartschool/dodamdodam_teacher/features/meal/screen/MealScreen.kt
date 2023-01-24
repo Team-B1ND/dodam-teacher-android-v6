@@ -13,13 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDate
 
 @Composable
 fun MealScreen(
@@ -56,7 +55,6 @@ fun MealBox(meal: Meal) {
         Text(text = "저녁 : ${meal.dinner}")
     }
 }
-
 
 private fun handleSideEffect(context: Context, sideEffect: GetMealSideEffect) {
     when (sideEffect) {

@@ -1,12 +1,12 @@
 package kr.hs.dgsw.smartschool.local.cache
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.cache.MealCache
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
+import javax.inject.Inject
 
 class MealCacheImpl @Inject constructor(
     private val mealDao: MealDao,
@@ -28,7 +28,6 @@ class MealCacheImpl @Inject constructor(
     override suspend fun insertMealList(mealList: MealList) {
         mealDao.insert(mealList.toEntity())
     }
-
 
     override suspend fun deleteAllMeal() =
         mealDao.deleteAllMeal()

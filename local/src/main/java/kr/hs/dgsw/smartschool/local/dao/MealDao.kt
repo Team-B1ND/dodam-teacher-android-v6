@@ -20,5 +20,4 @@ interface MealDao : BaseDao<MealEntity> {
 
     @Query("DELETE FROM ${DodamTable.MEAL}")
     fun deleteAllMeal()
-
 }

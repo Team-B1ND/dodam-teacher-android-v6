@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 internal fun MealResponse.toModel(): Meal {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -22,7 +22,6 @@ internal fun List<MealResponse>.toModel(): MealList =
     MealList(
         mealList = this.map { it.toModel() }
     )
-
 
 internal fun String?.toCalorieModel(): Calorie =
     Calorie(

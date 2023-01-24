@@ -1,8 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.utils
 
 import com.google.gson.Gson
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kr.hs.dgsw.smartschool.domain.exception.BadRequestException
@@ -20,6 +18,8 @@ import kr.hs.dgsw.smartschool.domain.exception.UnAuthorizedException
 import kr.hs.dgsw.smartschool.domain.exception.UnknownException
 import kr.hs.dgsw.smartschool.remote.response.ErrorResponse
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 const val EXPIRED_TOKEN_MESSAGE = "만료된 토큰"
 
@@ -33,7 +33,7 @@ suspend inline fun <T> dodamApiCall(
     } catch (e: HttpException) {
         val message: String = getErrorMessage(e)
 
-        throw when(e.code()) {
+        throw when (e.code()) {
             400 -> BadRequestException(
                 message = message,
                 fieldErrors = emptyList()

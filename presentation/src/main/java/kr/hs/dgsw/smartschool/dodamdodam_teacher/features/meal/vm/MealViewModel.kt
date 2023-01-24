@@ -2,8 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealState
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
@@ -14,12 +12,14 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
+import javax.inject.Inject
 
 @HiltViewModel
 class MealViewModel @Inject constructor(
     private val getMealUseCase: GetMealUseCase,
     private val getCalorieOfMealUseCase: GetCalorieOfMealUseCase,
-): ContainerHost<GetMealState, GetMealSideEffect>, ViewModel() {
+) : ContainerHost<GetMealState, GetMealSideEffect>, ViewModel() {
 
     override val container = container<GetMealState, GetMealSideEffect>(GetMealState())
 
@@ -48,5 +48,4 @@ class MealViewModel @Inject constructor(
                 }
             }
     }
-
 }
