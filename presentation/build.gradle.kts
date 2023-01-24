@@ -53,16 +53,25 @@ android {
 dependencies {
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.LIFECYCLE_KTX)
+    testImplementation(UnitTest.JUNIT)
+    androidTestImplementation(AndroidTest.ANDROID_JUNIT)
+    androidTestImplementation(AndroidTest.ESPRESSO_CORE)
+
+    // Compose
     implementation(Compose.ACTIVITY_COMPOSE)
     implementation(Compose.UI_COMPOSE)
     implementation(Compose.UI_TOOLING_PREVIEW)
     implementation(Compose.MATERIAL_COMPOSE)
-    testImplementation(UnitTest.JUNIT)
-    androidTestImplementation(AndroidTest.ANDROID_JUNIT)
-    androidTestImplementation(AndroidTest.ESPRESSO_CORE)
+    implementation(Compose.COMPOSE_HILT)
     androidTestImplementation(Compose.UI_TEST_JUNIT4)
     debugImplementation(Compose.UI_TOOLING)
     debugImplementation(Compose.UI_TEST_MANIFEST)
+
+    // orbit-mvi
+    implementation(OrbitMVI.ORBIT_CORE)
+    implementation(OrbitMVI.ORBIT_VIEWMODEL)
+    implementation(OrbitMVI.ORBIT_COMPOSE)
+    testImplementation(OrbitMVI.ORBIT_TEST)
 
     // coroutine
     implementation(Kotlin.COROUTINES_ANDROID)
@@ -89,6 +98,6 @@ dependencies {
     // map
     implementation(NaverMap.NAVER_MAP)
 
-    implementation(project(ProjectProperties.PATH_DATA))
     implementation(project(ProjectProperties.PATH_DOMAIN))
+    implementation(project(ProjectProperties.PATH_DI))
 }
