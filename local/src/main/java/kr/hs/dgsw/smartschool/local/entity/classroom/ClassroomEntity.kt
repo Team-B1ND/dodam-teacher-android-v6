@@ -10,7 +10,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
 )
 data class ClassroomEntity(
     @PrimaryKey val id: Int,
+    val placeId: Int,
     val grade: Int,
-    val place: PlaceEntity,
     val room: Int
 )

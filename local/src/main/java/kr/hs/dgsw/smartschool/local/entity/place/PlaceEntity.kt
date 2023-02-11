@@ -1,18 +1,15 @@
 package kr.hs.dgsw.smartschool.local.entity.place
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Entity(
     tableName = DodamTable.PLACE
 )
 data class PlaceEntity(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val name: Int,
-    val type: PlaceType,
-) {
-    data class PlaceType(
-        val id: Int,
-        val name: String,
-    )
-}
+    val placeTypeId: Int,
+    val placeTypeName: String,
+)

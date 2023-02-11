@@ -9,8 +9,8 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
     tableName = DodamTable.TEACHER,
 )
 data class TeacherEntity(
-    @PrimaryKey val id: Int,
-    val member: MemberEntity,
+    @PrimaryKey val teacherId: Int,
+    val memberId: String,
     val phone: String,
     val position: String,
     val tel: String,

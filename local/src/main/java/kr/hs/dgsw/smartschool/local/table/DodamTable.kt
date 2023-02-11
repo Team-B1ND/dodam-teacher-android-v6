@@ -10,4 +10,6 @@ object DodamTable {
     const val STUDENT = "student_table"
     const val CLASSROOM = "classroom_table"
     const val PLACE = "place_table"
+    const val PARENT = "parent_table"
+    const val TOKEN = "token_table"
 }
