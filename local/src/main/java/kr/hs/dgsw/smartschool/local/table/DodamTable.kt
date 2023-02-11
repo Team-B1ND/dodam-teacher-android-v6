@@ -12,4 +12,5 @@ object DodamTable {
     const val PLACE = "place_table"
     const val PARENT = "parent_table"
     const val TOKEN = "token_table"
+    const val ACCOUNT = "account_table"
 }

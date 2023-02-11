@@ -9,7 +9,7 @@ import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Dao
-interface TeacherDao : BaseDao<TeacherDao> {
+interface TeacherDao : BaseDao<TeacherEntity> {
 
     @Query("SELECT * FROM ${DodamTable.TEACHER}")
     suspend fun getAllTeacher(): List<TeacherEntity>
