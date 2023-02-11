@@ -22,7 +22,15 @@ class AuthRepositoryImpl @Inject constructor(
         pw: String,
         tel: String,
     ) {
-        remote.join(email, id, name, phone, position, pw.encryptSHA512(), tel)
+        remote.join(
+            email = email,
+            id = id,
+            name = name,
+            phone = phone,
+            position = position,
+            pw = pw.encryptSHA512(),
+            tel = tel
+        )
     }
 
     override suspend fun login(id: String, pw: String): Token {
