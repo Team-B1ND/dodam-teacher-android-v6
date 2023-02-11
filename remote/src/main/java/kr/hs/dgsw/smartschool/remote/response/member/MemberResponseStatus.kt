@@ -1,5 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.response.member
 
-enum class MemberStatus {
+enum class MemberResponseStatus {
     ACTIVE, DEACTIVATED
 }

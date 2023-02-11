@@ -1,5 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.response.member
 
-enum class MemberRole {
+enum class MemberResponseRole {
     ADMIN, PARENT, STUDENT, TEACHER
 }

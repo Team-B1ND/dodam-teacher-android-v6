@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.domain.model.member
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Member(
     val email: String,
     val id: String,
-    val joinDate: LocalDate?,
+    val joinDate: LocalDateTime?,
     val name: String,
     val profileImage: String?,
     val role: MemberRole,
