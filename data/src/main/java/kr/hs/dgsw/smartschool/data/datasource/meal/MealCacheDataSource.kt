@@ -1,9 +1,9 @@
-package kr.hs.dgsw.smartschool.data.cache
+package kr.hs.dgsw.smartschool.data.datasource.meal
 
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 
-interface MealCache {
+interface MealCacheDataSource {
 
     suspend fun getAllMeal(): MealList
 

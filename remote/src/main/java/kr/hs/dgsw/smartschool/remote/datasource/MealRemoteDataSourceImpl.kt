@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import kr.hs.dgsw.smartschool.data.remote.MealRemote
+import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
@@ -10,9 +10,9 @@ import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
 
-class MealRemoteImpl @Inject constructor(
+class MealRemoteDataSourceImpl @Inject constructor(
     private val mealService: MealService
-) : MealRemote {
+) : MealRemoteDataSource {
 
     override suspend fun getMeal(
         day: Int,

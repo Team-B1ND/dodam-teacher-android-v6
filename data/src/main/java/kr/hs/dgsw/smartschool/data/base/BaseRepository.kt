@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.data.base
 
-interface BaseDataSource<REMOTE, CACHE> {
+interface BaseRepository<REMOTE, CACHE> {
     val remote: REMOTE
     val cache: CACHE
 }

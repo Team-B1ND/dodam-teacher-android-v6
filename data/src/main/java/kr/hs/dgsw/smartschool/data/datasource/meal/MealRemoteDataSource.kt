@@ -1,10 +1,10 @@
-package kr.hs.dgsw.smartschool.data.remote
+package kr.hs.dgsw.smartschool.data.datasource.meal
 
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 
-interface MealRemote {
+interface MealRemoteDataSource {
 
     suspend fun getMeal(day: Int, month: Int, year: Int): Meal
 
