@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.local.cache
+package kr.hs.dgsw.smartschool.local.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal

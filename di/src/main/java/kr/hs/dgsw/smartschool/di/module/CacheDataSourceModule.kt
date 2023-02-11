@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
-import kr.hs.dgsw.smartschool.local.cache.MealCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
 import javax.inject.Singleton
 
 @Module

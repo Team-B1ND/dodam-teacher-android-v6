@@ -7,7 +7,7 @@ import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Dao
-interface MemberDao : BaseDao<MemberDao> {
+interface MemberDao : BaseDao<MemberEntity> {
 
     @Query("SELECT * FROM ${DodamTable.MEMBER}")
     suspend fun getAllMember(): List<MemberEntity>

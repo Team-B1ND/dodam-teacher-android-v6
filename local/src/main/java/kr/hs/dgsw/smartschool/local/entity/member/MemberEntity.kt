@@ -12,7 +12,7 @@ data class MemberEntity(
     val email: String,
     val joinDate: String?,
     val name: String,
-    val profileImage: String,
+    val profileImage: String?,
     val role: String,
     val status: String,
 )
