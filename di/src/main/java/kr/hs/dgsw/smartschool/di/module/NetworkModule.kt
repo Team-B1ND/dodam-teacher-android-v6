@@ -12,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 
 @Module
@@ -50,4 +51,9 @@ class NetworkModule {
     @Provides
     fun providesMealService(retrofit: Retrofit): MealService =
         retrofit.create(MealService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 }

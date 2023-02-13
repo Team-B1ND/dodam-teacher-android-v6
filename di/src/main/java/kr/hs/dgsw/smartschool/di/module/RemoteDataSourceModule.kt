@@ -7,6 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.auth.AuthRemoteDataSource
+import kr.hs.dgsw.smartschool.remote.datasource.AuthRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -14,7 +16,13 @@ abstract class RemoteDataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun providesMealRemote(
+    abstract fun providesMealRemoteDataSource(
         mealRemoteDataSourceImpl: MealRemoteDataSourceImpl
     ): MealRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesAuthRemoteDataSource(
+        authRemoteDataSourceImpl: AuthRemoteDataSourceImpl
+    ): AuthRemoteDataSource
 }
