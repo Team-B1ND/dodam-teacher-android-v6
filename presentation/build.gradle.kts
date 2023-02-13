@@ -98,6 +98,8 @@ dependencies {
     // map
     implementation(NaverMap.NAVER_MAP)
 
+    implementation("com.github.Team-B1ND:dui-android:1.0.2")
+
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
 }

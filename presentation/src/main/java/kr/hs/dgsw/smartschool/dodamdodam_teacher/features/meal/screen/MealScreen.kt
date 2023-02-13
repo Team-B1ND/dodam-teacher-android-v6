@@ -19,6 +19,8 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDate
+import kr.hs.dgsw.smartschool.components.component.organization.card.DodamMealCard
+import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 
 @Composable
 fun MealScreen(
@@ -48,11 +50,7 @@ fun MealScreen(
 @Composable
 fun MealBox(meal: Meal) {
     Column {
-        Text(text = "아침 : ${meal.breakfast}")
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "점심 : ${meal.lunch}")
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "저녁 : ${meal.dinner}")
+
     }
 }
 
