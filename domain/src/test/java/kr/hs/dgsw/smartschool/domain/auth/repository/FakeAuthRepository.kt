@@ -13,6 +13,8 @@ class FakeAuthRepository: AuthRepository {
     private val members = mutableListOf<Member>()
     private val accounts = mutableListOf<FakeAccount>()
 
+    private var currentToken: Token? = null
+
     override suspend fun join(
         email: String,
         id: String,
@@ -31,14 +33,15 @@ class FakeAuthRepository: AuthRepository {
         val account = accounts.find { it.id == member?.id }
 
         if (account?.pw == pw) {
-            return Token("Test Token", "Test Token")
+            currentToken = Token("Test Token", "Test Token")
+            return currentToken!!
         } else {
             throw BadRequestException(message = "로그인 실패", fieldErrors = emptyList())
         }
     }
 
     override suspend fun logout() {
-        accounts.removeFirst()
+        currentToken = null
     }
 
     private data class FakeAccount(
