@@ -82,4 +82,10 @@ object LocalModule {
     fun provideTokenDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): TokenDao = dodamTeacherDatabase.tokenDao()
+
+    @Provides
+    @Singleton
+    fun provideAccountDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): AccountDao = dodamTeacherDatabase.accountDao()
 }

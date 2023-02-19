@@ -66,6 +66,7 @@ dependencies {
     androidTestImplementation(Compose.UI_TEST_JUNIT4)
     debugImplementation(Compose.UI_TOOLING)
     debugImplementation(Compose.UI_TEST_MANIFEST)
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
     // orbit-mvi
     implementation(OrbitMVI.ORBIT_CORE)

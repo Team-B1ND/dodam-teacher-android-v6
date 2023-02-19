@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Dodam_Teacher_V6</string>
+    <string name="app_name">도담도담 T</string>
+
+    <string name="title_login">로그인</string>
+    <string name="hint_id">아이디 (5~20)</string>
+    <string name="hint_pw">비밀번호 (7~20)</string>
+    <string name="label_login">로그인</string>
+    <string name="desc_navigate_join">도담도담 계정이 없어요</string>
+    <string name="desc_auto_login">자동 로그인 (개인용 기기만)</string>
 </resources>
