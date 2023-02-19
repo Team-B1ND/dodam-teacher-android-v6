@@ -22,6 +22,7 @@ object Versions {
     const val CIRCULAR_IMAGE_VIEW = "3.1.0"
 
     const val JUNIT = "4.13.2"
+    const val MOCKITO = "4.2.0"
     const val ANDROID_JUNIT = "1.1.4"
     const val ESPRESSO_CORE = "3.5.0"
 

@@ -49,6 +49,7 @@ object Libraries {
 
 object UnitTest {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
+    const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"
 }
 
 object AndroidTest {
