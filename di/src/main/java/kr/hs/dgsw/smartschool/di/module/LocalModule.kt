@@ -18,6 +18,7 @@ import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
+import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,6 +34,8 @@ object LocalModule {
             DodamTeacherDatabase::class.java,
             "dodam_database"
         )
+        .addMigrations(MIGRATION_1_TO_2)
+        .fallbackToDestructiveMigration()
         .build()
 
     @Provides
