@@ -66,7 +66,8 @@ dependencies {
     androidTestImplementation(Compose.UI_TEST_JUNIT4)
     debugImplementation(Compose.UI_TOOLING)
     debugImplementation(Compose.UI_TEST_MANIFEST)
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
+    implementation(Compose.SYSTEM_UI_CONTROLLER)
+    implementation(Compose.DUI)
 
     // orbit-mvi
     implementation(OrbitMVI.ORBIT_CORE)
@@ -99,7 +100,6 @@ dependencies {
     // map
     implementation(NaverMap.NAVER_MAP)
 
-    implementation("com.github.Team-B1ND:dui-android:1.0.2")
 
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
