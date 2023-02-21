@@ -4,6 +4,8 @@
     <string name="title_login">로그인</string>
     <string name="hint_id">아이디 (5~20)</string>
     <string name="hint_pw">비밀번호 (7~20)</string>
+    <string name="desc_id_login">5~20 글자 사이로 입력해주세요.</string>
+    <string name="desc_pw_login">7~20 글자 사이로 입력해주세요.</string>
     <string name="label_login">로그인</string>
     <string name="desc_navigate_join">도담도담 계정이 없어요</string>
     <string name="desc_auto_login">자동 로그인 (개인용 기기만)</string>

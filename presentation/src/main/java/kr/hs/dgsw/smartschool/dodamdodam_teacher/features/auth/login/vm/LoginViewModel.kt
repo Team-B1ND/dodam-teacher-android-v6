@@ -47,19 +47,10 @@ class LoginViewModel @Inject constructor(
                 reduce {
                     state.copy(
                         isLoading = false,
-                        exception = it
                     )
                 }
+                postSideEffect(LoginSideEffect.ToastLoginErrorMessage(it.message ?: "오류가 발생했습니다."))
             }
-        }
-    }
-
-    fun clearState() = intent {
-        reduce {
-            state.copy(
-                isLoading = false,
-                exception = null,
-            )
         }
     }
 

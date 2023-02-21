@@ -68,18 +68,15 @@ fun LoginScreen(
         mutableStateOf(loginState.pw)
     }
 
-    loginViewModel.clearState()
-
     loginViewModel.collectSideEffect {
         when(it) {
             is LoginSideEffect.NavigateToHomeScreen -> {
                 navController.navigate(NavGroup.Main.HOME)
             }
+            is LoginSideEffect.ToastLoginErrorMessage -> {
+                Toast.makeText(context, it.errMsg, Toast.LENGTH_SHORT).show()
+            }
         }
-    }
-
-    loginState.exception?.let {
-        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
     }
 
     if (loginState.isLoading)
@@ -120,9 +117,13 @@ fun LoginScreen(
                     DodamInput(
                         value = idText,
                         onValueChange = {
-                            idText = it
-                            loginViewModel.inputId(it)
+                            if (it.length <= 20) {
+                                idText = it
+                                loginViewModel.inputId(it)
+                            }
                         },
+                        isError = idText.length in 1..4,
+                        errorMessage = stringResource(id = R.string.desc_id_login),
                         modifier = Modifier.fillMaxWidth(),
                         hint = stringResource(id = R.string.hint_id),
                         keyboardOptions = KeyboardOptions(
@@ -134,9 +135,13 @@ fun LoginScreen(
                     DodamInput(
                         value = pwText,
                         onValueChange = {
-                            pwText = it
-                            loginViewModel.inputPw(it)
+                            if (it.length < 20) {
+                                pwText = it
+                                loginViewModel.inputPw(it)
+                            }
                         },
+                        isError = pwText.length in 1..6,
+                        errorMessage = stringResource(id = R.string.desc_pw_login),
                         modifier = Modifier.fillMaxWidth(),
                         hint = stringResource(id = R.string.hint_pw),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
