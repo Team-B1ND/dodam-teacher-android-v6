@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamInput
 import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
@@ -45,12 +45,15 @@ import kr.hs.dgsw.smartschool.components.theme.IcRightArrow
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.mvi.LoginSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.vm.LoginViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun LoginScreen(
+    navController: NavController,
     loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
 
@@ -65,127 +68,140 @@ fun LoginScreen(
         mutableStateOf(loginState.pw)
     }
 
+    loginViewModel.clearState()
+
     loginViewModel.collectSideEffect {
         when(it) {
-            is LoginSideEffect.SuccessLogin -> {
-                Toast.makeText(context, it.token.token, Toast.LENGTH_SHORT).show()
-            }
-            is LoginSideEffect.ErrorLogin -> {
-                Log.e("LoginErrorLog", it.exception.stackTraceToString())
+            is LoginSideEffect.NavigateToHomeScreen -> {
+                navController.navigate(NavGroup.Main.HOME)
             }
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DodamTheme.color.White)
-            .padding(DodamDimen.ScreenSidePadding)
-    ) {
-        Box(
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
-            LogoInLogin(
-                modifier = Modifier.align(Alignment.Center),
-                label = stringResource(id = R.string.app_name)
-            )
-        }
+    loginState.exception?.let {
+        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+    }
 
-        Box(
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(32.dp)
-            ) {
-                Title3(
-                    text = stringResource(id = R.string.title_login)
-                )
-
-                DodamInput(
-                    value = idText,
-                    onValueChange = {
-                        idText = it
-                        loginViewModel.inputId(it)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    hint = stringResource(id = R.string.hint_id),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                    )
-                )
-                
-                DodamInput(
-                    value = pwText,
-                    onValueChange = {
-                        pwText = it
-                        loginViewModel.inputPw(it)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    hint = stringResource(id = R.string.hint_pw),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
-                )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    DodamCheckBox(boxSize = 14.dp) { isChecked ->
-                        loginViewModel.changeChecked(isChecked)
-                    }
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Body3(text = stringResource(id = R.string.desc_auto_login))
-                }
-            }
-        }
-
-        Box(
+    if (loginState.isLoading)
+        LoadInFullScreen()
+    else
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
+                .fillMaxSize()
+                .background(color = DodamTheme.color.White)
+                .padding(DodamDimen.ScreenSidePadding)
         ) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
             ) {
-                DodamMaxWidthButton(
-                    text = stringResource(id = R.string.label_login)
+                LogoInLogin(
+                    modifier = Modifier.align(Alignment.Center),
+                    label = stringResource(id = R.string.app_name)
+                )
+            }
+
+            Box(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    loginViewModel.login(loginState.id, loginState.pw)
+                    Title3(
+                        text = stringResource(id = R.string.title_login)
+                    )
+
+                    DodamInput(
+                        value = idText,
+                        onValueChange = {
+                            idText = it
+                            loginViewModel.inputId(it)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        hint = stringResource(id = R.string.hint_id),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        )
+                    )
+
+                    DodamInput(
+                        value = pwText,
+                        onValueChange = {
+                            pwText = it
+                            loginViewModel.inputPw(it)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        hint = stringResource(id = R.string.hint_pw),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        visualTransformation = PasswordVisualTransformation(),
+                    )
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        DodamCheckBox(
+                            isChecked = loginState.enableAutoLogin,
+                            boxSize = 14.dp
+                        ) { isChecked ->
+                            loginViewModel.changeChecked(isChecked)
+                        }
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Body3(text = stringResource(id = R.string.desc_auto_login))
+                    }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Body2(
-                        text = stringResource(id = R.string.desc_navigate_join),
-                        textColor = DodamTheme.color.Gray500,
-                        onClick = { navigateToJoinScreen() },
-                        rippleEnabled = false,
-                    )
-                    IcRightArrow(
-                        contentDescription = null,
-                        tint = DodamTheme.color.Gray500,
-                        modifier = Modifier
-                            .size(14.dp)
-                            .dodamClickable(rippleEnable = false) { navigateToJoinScreen() }
-                    )
+                    DodamMaxWidthButton(
+                        text = stringResource(id = R.string.label_login)
+                    ) {
+                        loginViewModel.login(loginState.id, loginState.pw)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Body2(
+                            text = stringResource(id = R.string.desc_navigate_join),
+                            textColor = DodamTheme.color.Gray500,
+                            onClick = { navigateToJoinScreen(navController) },
+                            rippleEnabled = false,
+                        )
+                        IcRightArrow(
+                            contentDescription = null,
+                            tint = DodamTheme.color.Gray500,
+                            modifier = Modifier
+                                .size(14.dp)
+                                .dodamClickable(rippleEnable = false) {
+                                    navigateToJoinScreen(
+                                        navController
+                                    )
+                                }
+                        )
+                    }
                 }
             }
         }
-    }
 }
 
-private fun navigateToJoinScreen() {
-
+private fun navigateToJoinScreen(navController: NavController) {
+    navController.navigate(NavGroup.Auth.JOIN)
 }
 
 @Composable
@@ -211,10 +227,4 @@ private fun LogoInLogin(
 @Composable
 private fun PreviewLogoInLogin() {
     LogoInLogin(label = "도담도담 T")
-}
-
-@Preview
-@Composable
-private fun PreviewLoginScreen() {
-    LoginScreen()
 }

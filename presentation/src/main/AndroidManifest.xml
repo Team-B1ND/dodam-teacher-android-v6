@@ -20,6 +20,7 @@
             android:name=".root.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Dodam_Teacher_V6">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

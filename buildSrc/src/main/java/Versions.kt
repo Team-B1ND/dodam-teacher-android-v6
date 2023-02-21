@@ -33,7 +33,7 @@ object Versions {
     const val SWIPE_REFRESH_LAYOUT = "1.1.0"
 
     const val SPLASH_SCREEN = "1.0.0-rc01"
-    const val LOTTIE = "5.2.0"
+    const val LOTTIE = "6.0.0"
 
     const val NAVER_MAP = "3.16.0"
     const val GOOGLE_LOCATION = "20.0.0"
@@ -46,4 +46,5 @@ object Versions {
     const val ORBIT = "4.5.0"
     const val SYSTEM_UI_CONTROLLER = "0.28.0"
     const val DUI = "1.0.3"
+    const val COMPOSE_NAVIGATION = "2.5.3"
 }

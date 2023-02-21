@@ -25,6 +25,11 @@ class LoginViewModel @Inject constructor(
         id: String,
         pw: String,
     ) = intent {
+        reduce {
+            state.copy(
+                isLoading = true
+            )
+        }
         viewModelScope.launch {
             loginUseCase(
                 param = LoginUseCase.Param(
@@ -32,10 +37,29 @@ class LoginViewModel @Inject constructor(
                     pw = pw,
                 )
             ).onSuccess {
-                postSideEffect(LoginSideEffect.SuccessLogin(it))
+                reduce {
+                    state.copy(
+                        isLoading = false,
+                    )
+                }
+                postSideEffect(LoginSideEffect.NavigateToHomeScreen)
             }.onFailure {
-                postSideEffect(LoginSideEffect.ErrorLogin(it))
+                reduce {
+                    state.copy(
+                        isLoading = false,
+                        exception = it
+                    )
+                }
             }
+        }
+    }
+
+    fun clearState() = intent {
+        reduce {
+            state.copy(
+                isLoading = false,
+                exception = null,
+            )
         }
     }
 
