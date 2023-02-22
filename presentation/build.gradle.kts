@@ -70,6 +70,9 @@ dependencies {
     implementation(Compose.SYSTEM_UI_CONTROLLER)
     implementation(Compose.DUI)
 
+    // splash screen
+    implementation(AndroidX.SPLASH_SCREEN)
+
     // orbit-mvi
     implementation(OrbitMVI.ORBIT_CORE)
     implementation(OrbitMVI.ORBIT_VIEWMODEL)
