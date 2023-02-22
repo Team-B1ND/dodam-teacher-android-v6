@@ -24,6 +24,7 @@ class LoginViewModel @Inject constructor(
     fun login(
         id: String,
         pw: String,
+        enableAutoLogin: Boolean,
     ) = intent {
         reduce {
             state.copy(
@@ -35,6 +36,7 @@ class LoginViewModel @Inject constructor(
                 param = LoginUseCase.Param(
                     id = id,
                     pw = pw,
+                    enableAutoLogin = enableAutoLogin,
                 )
             ).onSuccess {
                 reduce {

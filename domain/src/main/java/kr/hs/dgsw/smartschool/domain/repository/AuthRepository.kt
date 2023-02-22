@@ -14,7 +14,9 @@ interface AuthRepository {
         tel: String,
     )
 
-    suspend fun login(id: String, pw: String): Token
+    suspend fun login(id: String, pw: String, enableAutoLogin: Boolean): Token
+
+    suspend fun getIsAutoLogin(): Boolean
 
     suspend fun logout()
 }

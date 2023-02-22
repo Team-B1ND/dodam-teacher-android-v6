@@ -10,12 +10,14 @@ class LoginUseCase @Inject constructor(
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
         authRepository.login(
             id = param.id,
-            pw = param.pw
+            pw = param.pw,
+            enableAutoLogin = param.enableAutoLogin,
         )
     }
 
     data class Param(
         val id: String,
         val pw: String,
+        val enableAutoLogin: Boolean,
     )
 }

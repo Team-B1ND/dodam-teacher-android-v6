@@ -10,9 +10,10 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeS
 
 @Composable
 fun NavigationGraph(
+    enableAutoLogin: Boolean,
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = NavGroup.Auth.LOGIN) {
+    NavHost(navController = navController, startDestination = getStartDestination(enableAutoLogin)) {
         
         composable(NavGroup.Auth.LOGIN) {
             LoginScreen(navController = navController)
@@ -27,3 +28,6 @@ fun NavigationGraph(
         }
     }
 }
+
+fun getStartDestination(enableAutoLogin: Boolean) =
+    if (enableAutoLogin) NavGroup.Main.HOME else NavGroup.Auth.LOGIN

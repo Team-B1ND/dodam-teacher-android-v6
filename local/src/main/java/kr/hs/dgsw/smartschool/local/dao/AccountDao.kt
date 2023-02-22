@@ -10,7 +10,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
 interface AccountDao : BaseDao<AccountEntity> {
 
     @Query("SELECT * FROM ${DodamTable.ACCOUNT} where idx=0")
-    suspend fun getAccount(): AccountEntity
+    suspend fun getAccount(): AccountEntity?
 
     @Query("DELETE FROM ${DodamTable.ACCOUNT}")
     suspend fun deleteAccount()

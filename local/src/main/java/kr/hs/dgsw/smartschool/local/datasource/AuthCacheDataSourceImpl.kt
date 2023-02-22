@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.local.datasource
 
 import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
+import kr.hs.dgsw.smartschool.domain.model.account.Account
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.token.Token
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
@@ -9,6 +10,7 @@ import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
+import kr.hs.dgsw.smartschool.local.mapper.toModel
 
 class AuthCacheDataSourceImpl @Inject constructor(
     private val memberDao: MemberDao,
@@ -17,6 +19,7 @@ class AuthCacheDataSourceImpl @Inject constructor(
 ) : AuthCacheDataSource {
 
     override suspend fun logout() {
+        accountDao.deleteAccount()
         tokenDao.deleteToken()
     }
 
@@ -27,6 +30,9 @@ class AuthCacheDataSourceImpl @Inject constructor(
     override suspend fun insertToken(token: Token) {
         tokenDao.insert(token.toEntity())
     }
+
+    override suspend fun getAccount(): Account =
+        accountDao.getAccount().toModel()
 
     override suspend fun insertAccount(id: String, pw: String) {
         accountDao.insert(AccountEntity(id, pw))

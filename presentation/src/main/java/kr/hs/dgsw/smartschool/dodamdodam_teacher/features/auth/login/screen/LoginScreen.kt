@@ -71,7 +71,11 @@ fun LoginScreen(
     loginViewModel.collectSideEffect {
         when(it) {
             is LoginSideEffect.NavigateToHomeScreen -> {
-                navController.navigate(NavGroup.Main.HOME)
+                navController.navigate(NavGroup.Main.HOME) {
+                    popUpTo(NavGroup.Auth.LOGIN) {
+                        inclusive = true
+                    }
+                }
             }
             is LoginSideEffect.ToastLoginErrorMessage -> {
                 Toast.makeText(context, it.errMsg, Toast.LENGTH_SHORT).show()
@@ -176,7 +180,7 @@ fun LoginScreen(
                     DodamMaxWidthButton(
                         text = stringResource(id = R.string.label_login)
                     ) {
-                        loginViewModel.login(loginState.id, loginState.pw)
+                        loginViewModel.login(loginState.id, loginState.pw, loginState.enableAutoLogin)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(

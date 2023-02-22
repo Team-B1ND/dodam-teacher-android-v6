@@ -33,14 +33,21 @@ class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun login(id: String, pw: String): Token {
+    override suspend fun login(id: String, pw: String, enableAutoLogin: Boolean): Token {
         val password = pw.encryptSHA512()
         return remote.login(id, password).let {
             cache.insertMember(it.member)
             cache.insertToken(it.token)
-            cache.insertAccount(id, password)
+            if (enableAutoLogin) {
+                cache.insertAccount(id, password)
+            }
             it.token
         }
+    }
+
+    override suspend fun getIsAutoLogin(): Boolean {
+        val account = cache.getAccount()
+        return (account.id != null) && (account.pw != null)
     }
 
     override suspend fun logout() {
