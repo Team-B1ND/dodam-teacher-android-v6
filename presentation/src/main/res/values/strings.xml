@@ -28,4 +28,11 @@
     <string name="desc_email_join">1~30 글자 사이로 입력해주세요.</string>
     <string name="desc_tel_join">1~20 글자 사이로 입력해주세요.</string>
     <string name="desc_position_join">1~20 글자 사이로 입력해주세요.</string>
+
+    <string name="text_check_terms">필수 약관에 동의해주세요</string>
+    <string name="text_private_term">> 개인정보 취급 방침</string>
+    <string name="text_service_terms">> 서비스 운영 정책</string>
+
+    <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>
+    <string name="url_service_info">https://dodam.b1nd.com/detailed-information/service-policy</string>
 </resources>

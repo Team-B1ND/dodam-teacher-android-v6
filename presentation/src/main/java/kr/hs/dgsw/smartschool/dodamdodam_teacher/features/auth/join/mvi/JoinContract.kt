@@ -10,6 +10,8 @@ data class JoinState(
     val tel: String = "",
     val position: String = "",
 
+    val checkTerms: Boolean = false,
+
     val loading: Boolean = false,
 )
 

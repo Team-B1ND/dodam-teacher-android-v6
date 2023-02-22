@@ -1,15 +1,20 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.screen
 
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -18,7 +23,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,7 +37,9 @@ import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamInput
+import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
+import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
@@ -54,6 +63,10 @@ fun JoinScreen(
     }
 
     val joinState = joinViewModel.collectAsState().value
+
+    BackHandler(currentPage == 1) {
+        currentPage = 0
+    }
 
     Column(
         modifier = Modifier
@@ -246,6 +259,8 @@ private fun JoinFirst(joinViewModel: JoinViewModel, state: JoinState) {
 @Composable
 private fun JoinSecond(joinViewModel: JoinViewModel, state: JoinState) {
 
+    val context = LocalContext.current
+
     var emailText by remember {
         mutableStateOf(state.email)
     }
@@ -257,6 +272,11 @@ private fun JoinSecond(joinViewModel: JoinViewModel, state: JoinState) {
     var positionText by remember {
         mutableStateOf(state.position)
     }
+
+    val personalInfoUrl = stringResource(id = R.string.url_personal_info)
+    val serviceInfoUrl = stringResource(id = R.string.url_service_info)
+    val personalInfo = remember { Intent(Intent.ACTION_VIEW, Uri.parse(personalInfoUrl)) }
+    val serviceInfo = remember { Intent(Intent.ACTION_VIEW, Uri.parse(serviceInfoUrl)) }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(JOIN_FIELD_MARGIN)
@@ -316,5 +336,35 @@ private fun JoinSecond(joinViewModel: JoinViewModel, state: JoinState) {
                 imeAction = ImeAction.Done,
             ),
         )
+
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DodamCheckBox(
+                    isChecked = state.checkTerms
+                ) {
+                    joinViewModel.checkTerms(it)
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Body3(text = stringResource(id = R.string.text_check_terms))
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Body3(
+                text = stringResource(id = R.string.text_private_term),
+                textColor = DodamTheme.color.MainColor400,
+                modifier = Modifier.padding(start = 16.dp),
+                rippleEnabled = false,
+                onClick = { context.startActivity(personalInfo) }
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Body3(
+                text = stringResource(id = R.string.text_service_terms),
+                textColor = DodamTheme.color.MainColor400,
+                modifier = Modifier.padding(start = 16.dp),
+                rippleEnabled = false,
+                onClick = { context.startActivity(serviceInfo) }
+            )
+        }
     }
 }
