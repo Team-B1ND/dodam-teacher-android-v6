@@ -95,4 +95,8 @@ class JoinViewModel @Inject constructor(
     fun checkTerms(value: Boolean) = intent {
         reduce { state.copy(checkTerms = value) }
     }
+
+    fun setCurrentPage(page: Int) = intent {
+        reduce { state.copy(currentPage = page) }
+    }
 }

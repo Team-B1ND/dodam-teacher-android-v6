@@ -13,6 +13,8 @@ data class JoinState(
     val checkTerms: Boolean = false,
 
     val loading: Boolean = false,
+
+    val currentPage: Int = 0,
 )
 
 sealed class JoinSideEffect {

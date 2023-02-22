@@ -30,12 +30,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamInput
 import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
@@ -58,14 +56,11 @@ fun JoinScreen(
 ) {
 
     val scrollState = rememberScrollState()
-    var currentPage by remember {
-        mutableStateOf(0)
-    }
 
     val joinState = joinViewModel.collectAsState().value
 
-    BackHandler(currentPage == 1) {
-        currentPage = 0
+    BackHandler(joinState.currentPage == 1) {
+        joinViewModel.setCurrentPage(0)
     }
 
     Column(
@@ -74,14 +69,14 @@ fun JoinScreen(
             .fillMaxSize()
     ) {
         DodamAppBar(onStartIconClick = {
-            if (currentPage == 0) {
+            if (joinState.currentPage == 0) {
                 navController.navigate(NavGroup.Auth.LOGIN) {
                     popUpTo(NavGroup.Auth.JOIN) {
                         inclusive = true
                     }
                 }
             } else {
-                currentPage = 0
+                joinViewModel.setCurrentPage(0)
             }
         })
 
@@ -101,10 +96,10 @@ fun JoinScreen(
                     .fillMaxWidth()
                     .verticalScroll(scrollState)
             ) {
-                AnimatedVisibility(visible = currentPage == 0) {
+                AnimatedVisibility(visible = joinState.currentPage == 0) {
                     JoinFirst(joinViewModel = joinViewModel, state = joinState)
                 }
-                AnimatedVisibility(visible = currentPage == 1) {
+                AnimatedVisibility(visible = joinState.currentPage == 1) {
                     JoinSecond(joinViewModel = joinViewModel, state = joinState)
                 }
             }
@@ -112,13 +107,13 @@ fun JoinScreen(
 
         Box(modifier = Modifier.padding(all = DodamDimen.ScreenSidePadding)) {
             DodamMaxWidthButton(
-                text = if (currentPage == 0)
+                text = if (joinState.currentPage == 0)
                     stringResource(id = R.string.label_next)
                 else
                     stringResource(id = R.string.label_join)
             ) {
-                if (currentPage == 0)
-                    currentPage = 1
+                if (joinState.currentPage == 0)
+                    joinViewModel.setCurrentPage(1)
                 else
                     joinViewModel.join(
                         email = joinState.email,
