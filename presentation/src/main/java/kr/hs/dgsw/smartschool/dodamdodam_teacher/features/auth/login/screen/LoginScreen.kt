@@ -139,7 +139,7 @@ fun LoginScreen(
                     DodamInput(
                         value = pwText,
                         onValueChange = {
-                            if (it.length < 20) {
+                            if (it.length <= 20) {
                                 pwText = it
                                 loginViewModel.inputPw(it)
                             }

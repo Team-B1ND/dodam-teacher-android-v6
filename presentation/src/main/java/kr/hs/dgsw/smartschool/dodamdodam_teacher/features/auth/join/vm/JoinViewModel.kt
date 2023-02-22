@@ -45,16 +45,46 @@ class JoinViewModel @Inject constructor(
             reduce {
                 state.copy(
                     loading = false,
-                    isSuccess = true,
                 )
             }
         }.onFailure {
             reduce {
                 state.copy(
                     loading = false,
-                    exception = it,
                 )
             }
         }
+    }
+
+    fun inputId(text: String) = intent {
+        reduce { state.copy(id = text) }
+    }
+
+    fun inputPw(text: String) = intent {
+        reduce { state.copy(pw = text) }
+    }
+
+    fun inputCheckedPw(text: String) = intent {
+        reduce { state.copy(checkedPw = text) }
+    }
+
+    fun inputName(text: String) = intent {
+        reduce { state.copy(name = text) }
+    }
+
+    fun inputPhone(text: String) = intent {
+        reduce { state.copy(phone = text) }
+    }
+
+    fun inputEmail(text: String) = intent {
+        reduce { state.copy(email = text) }
+    }
+
+    fun inputTel(text: String) = intent {
+        reduce { state.copy(tel = text) }
+    }
+
+    fun inputPosition(text: String) = intent {
+        reduce { state.copy(position = text) }
     }
 }
