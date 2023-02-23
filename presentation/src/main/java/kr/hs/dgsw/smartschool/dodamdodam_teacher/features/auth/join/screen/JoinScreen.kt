@@ -5,6 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,10 +46,13 @@ import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.mvi.JoinSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.mvi.JoinState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.vm.JoinViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 private val JOIN_FIELD_MARGIN = 32.dp
 
@@ -63,77 +69,102 @@ fun JoinScreen(
     BackHandler(joinState.currentPage == 1) {
         joinViewModel.setCurrentPage(0)
     }
-
-    Column(
-        modifier = Modifier
-            .background(color = DodamTheme.color.White)
-            .fillMaxSize()
-    ) {
-        DodamAppBar(onStartIconClick = {
-            if (joinState.currentPage == 0) {
+    
+    joinViewModel.collectSideEffect { sideEffect ->  
+        when (sideEffect) {
+            is JoinSideEffect.SuccessJoin -> {
+                context.shortToast(context.getString(R.string.inform_join_success))
                 navController.popBackStack()
-            } else {
-                joinViewModel.setCurrentPage(0)
             }
-        })
+            is JoinSideEffect.FailJoin -> {
+                context.shortToast(sideEffect.throwable.message ?: context.getString(R.string.inform_join_fail))
+            }
+        }
+    }
 
+    AnimatedVisibility(
+        visible = joinState.loading,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        LoadInFullScreen()
+    }
+    AnimatedVisibility(
+        visible = joinState.loading.not(),
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding)
-                .fillMaxWidth()
-                .weight(1f)
+                .background(color = DodamTheme.color.White)
+                .fillMaxSize()
         ) {
-
-            Spacer(modifier = Modifier.height(JOIN_FIELD_MARGIN / 2))
-
-            Title3(text = stringResource(id = R.string.label_join))
+            DodamAppBar(onStartIconClick = {
+                if (joinState.currentPage == 0) {
+                    navController.popBackStack()
+                } else {
+                    joinViewModel.setCurrentPage(0)
+                }
+            })
 
             Column(
                 modifier = Modifier
+                    .padding(horizontal = DodamDimen.ScreenSidePadding)
                     .fillMaxWidth()
-                    .verticalScroll(scrollState)
+                    .weight(1f)
             ) {
-                AnimatedVisibility(visible = joinState.currentPage == 0) {
-                    JoinFirst(joinViewModel = joinViewModel, state = joinState)
-                }
-                AnimatedVisibility(visible = joinState.currentPage == 1) {
-                    JoinSecond(joinViewModel = joinViewModel, state = joinState)
+
+                Spacer(modifier = Modifier.height(JOIN_FIELD_MARGIN / 2))
+
+                Title3(text = stringResource(id = R.string.label_join))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(scrollState)
+                ) {
+                    AnimatedVisibility(visible = joinState.currentPage == 0) {
+                        JoinFirst(joinViewModel = joinViewModel, state = joinState)
+                    }
+                    AnimatedVisibility(visible = joinState.currentPage == 1) {
+                        JoinSecond(joinViewModel = joinViewModel, state = joinState)
+                    }
                 }
             }
-        }
 
-        Box(modifier = Modifier.padding(all = DodamDimen.ScreenSidePadding)) {
-            DodamMaxWidthButton(
-                text = if (joinState.currentPage == 0)
-                    stringResource(id = R.string.label_next)
-                else
-                    stringResource(id = R.string.label_join)
-            ) {
-                if (joinState.currentPage == 0)
-                    joinViewModel.setCurrentPage(1)
-                else {
-                    if (checkJoinData(
-                            context = context,
-                            email = joinState.email,
-                            id = joinState.id,
-                            name = joinState.name,
-                            phone = joinState.phone,
-                            position = joinState.position,
-                            pw = joinState.pw,
-                            checkedPw = joinState.checkedPw,
-                            tel = joinState.tel,
-                            checkTerms = joinState.checkTerms
+            Box(modifier = Modifier.padding(all = DodamDimen.ScreenSidePadding)) {
+                DodamMaxWidthButton(
+                    text = if (joinState.currentPage == 0)
+                        stringResource(id = R.string.label_next)
+                    else
+                        stringResource(id = R.string.label_join)
+                ) {
+                    if (joinState.currentPage == 0)
+                        joinViewModel.setCurrentPage(1)
+                    else {
+                        if (checkJoinData(
+                                context = context,
+                                email = joinState.email,
+                                id = joinState.id,
+                                name = joinState.name,
+                                phone = joinState.phone,
+                                position = joinState.position,
+                                pw = joinState.pw,
+                                checkedPw = joinState.checkedPw,
+                                tel = joinState.tel,
+                                checkTerms = joinState.checkTerms
+                            )
                         )
-                    )
-                        joinViewModel.join(
-                            email = joinState.email,
-                            id = joinState.id,
-                            name = joinState.name,
-                            phone = joinState.phone,
-                            position = joinState.position,
-                            pw = joinState.pw,
-                            tel = joinState.tel,
-                        )
+                            joinViewModel.join(
+                                email = joinState.email,
+                                id = joinState.id,
+                                name = joinState.name,
+                                phone = joinState.phone,
+                                position = joinState.position,
+                                pw = joinState.pw,
+                                tel = joinState.tel,
+                            )
+                    }
                 }
             }
         }
@@ -389,17 +420,17 @@ private fun checkJoinData(
 ): Boolean {
 
     if (email.isEmpty() || id.isEmpty() || name.isEmpty() || phone.isEmpty() || position.isEmpty() || pw.isEmpty() || checkedPw.isEmpty() || tel.isEmpty()) {
-        context.shortToast("빈 값이 없도록 입력해주세요")
+        context.shortToast(context.getString(R.string.warn_empty_field))
         return false
     }
 
     if (pw != checkedPw) {
-        context.shortToast("비밀번호가 일치하지 않아요")
+        context.shortToast(context.getString(R.string.warn_empty_field))
         return false
     }
 
     if (checkTerms.not()) {
-        context.shortToast("약관에 동의해주세요")
+        context.shortToast(context.getString(R.string.warn_check_term))
         return false
     }
 

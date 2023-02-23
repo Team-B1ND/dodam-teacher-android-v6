@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen
 
+import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -50,6 +51,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.mvi.LoginSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.vm.LoginViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -181,7 +183,8 @@ fun LoginScreen(
                     DodamMaxWidthButton(
                         text = stringResource(id = R.string.label_login)
                     ) {
-                        loginViewModel.login(loginState.id, loginState.pw, loginState.enableAutoLogin)
+                        if (checkLoginData(context, loginState.id, loginState.pw))
+                            loginViewModel.login(loginState.id, loginState.pw, loginState.enableAutoLogin)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
@@ -208,6 +211,27 @@ fun LoginScreen(
                 }
             }
         }
+}
+
+private fun checkLoginData(
+    context: Context,
+    id: String,
+    pw: String,
+): Boolean {
+    if (id.isEmpty() || pw.isEmpty()) {
+        context.shortToast(context.getString(R.string.warn_empty_field))
+        return false
+    }
+    if ((id.length in 5..20).not()) {
+        context.shortToast(context.getString(R.string.desc_id_login))
+        return false
+    }
+
+    if ((pw.length in 7 .. 20).not()) {
+        context.shortToast(context.getString(R.string.desc_pw_login))
+        return false
+    }
+    return true
 }
 
 private fun navigateToJoinScreen(navController: NavController) {
