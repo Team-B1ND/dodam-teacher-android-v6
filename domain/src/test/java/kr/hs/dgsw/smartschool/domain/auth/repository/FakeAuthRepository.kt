@@ -28,7 +28,7 @@ class FakeAuthRepository: AuthRepository {
         accounts.add(FakeAccount(id, pw))
     }
 
-    override suspend fun login(id: String, pw: String): Token {
+    override suspend fun login(id: String, pw: String, enableAutoLogin: Boolean): Token {
         val member = members.find { it.id == id }
         val account = accounts.find { it.id == member?.id }
 
@@ -38,6 +38,10 @@ class FakeAuthRepository: AuthRepository {
         } else {
             throw BadRequestException(message = "로그인 실패", fieldErrors = emptyList())
         }
+    }
+
+    override suspend fun getIsAutoLogin(): Boolean {
+        return accounts.isEmpty().not()
     }
 
     override suspend fun logout() {

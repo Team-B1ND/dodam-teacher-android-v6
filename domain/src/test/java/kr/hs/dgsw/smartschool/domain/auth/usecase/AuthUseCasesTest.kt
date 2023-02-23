@@ -45,7 +45,7 @@ class AuthUseCasesTest {
 
     @Test
     fun `Login by account, correct value`(): Unit = runBlocking {
-        val result = loginUseCase(LoginUseCase.Param("a", "a"))
+        val result = loginUseCase(LoginUseCase.Param("a", "a", false))
 
         result.onSuccess {
             assertEquals("Test Token", it.token)
@@ -56,7 +56,7 @@ class AuthUseCasesTest {
 
     @Test
     fun `Login by account, wrong value`(): Unit = runBlocking {
-        val result = loginUseCase(LoginUseCase.Param("a", "b"))
+        val result = loginUseCase(LoginUseCase.Param("a", "b", true))
 
         result.onFailure {
             assertEquals(BadRequestException::class.java, it::class.java)
