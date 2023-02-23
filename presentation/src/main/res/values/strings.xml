@@ -35,4 +35,7 @@
 
     <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>
     <string name="url_service_info">https://dodam.b1nd.com/detailed-information/service-policy</string>
+
+    <string name="warn_empty_field">빈 값이 없도록 입력해주세요</string>
+    <string name="warn_pw_check">비밀번호가 일치하지 않아요</string>
 </resources>

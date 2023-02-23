@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.screen
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -44,7 +45,7 @@ import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.mvi.JoinState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.vm.JoinViewModel
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
 
 private val JOIN_FIELD_MARGIN = 32.dp
@@ -56,8 +57,8 @@ fun JoinScreen(
 ) {
 
     val scrollState = rememberScrollState()
-
     val joinState = joinViewModel.collectAsState().value
+    val context = LocalContext.current
 
     BackHandler(joinState.currentPage == 1) {
         joinViewModel.setCurrentPage(0)
@@ -70,11 +71,7 @@ fun JoinScreen(
     ) {
         DodamAppBar(onStartIconClick = {
             if (joinState.currentPage == 0) {
-                navController.navigate(NavGroup.Auth.LOGIN) {
-                    popUpTo(NavGroup.Auth.JOIN) {
-                        inclusive = true
-                    }
-                }
+                navController.popBackStack()
             } else {
                 joinViewModel.setCurrentPage(0)
             }
@@ -114,16 +111,30 @@ fun JoinScreen(
             ) {
                 if (joinState.currentPage == 0)
                     joinViewModel.setCurrentPage(1)
-                else
-                    joinViewModel.join(
-                        email = joinState.email,
-                        id = joinState.id,
-                        name = joinState.name,
-                        phone = joinState.phone,
-                        position = joinState.position,
-                        pw = joinState.pw,
-                        tel = joinState.tel,
+                else {
+                    if (checkJoinData(
+                            context = context,
+                            email = joinState.email,
+                            id = joinState.id,
+                            name = joinState.name,
+                            phone = joinState.phone,
+                            position = joinState.position,
+                            pw = joinState.pw,
+                            checkedPw = joinState.checkedPw,
+                            tel = joinState.tel,
+                            checkTerms = joinState.checkTerms
+                        )
                     )
+                        joinViewModel.join(
+                            email = joinState.email,
+                            id = joinState.id,
+                            name = joinState.name,
+                            phone = joinState.phone,
+                            position = joinState.position,
+                            pw = joinState.pw,
+                            tel = joinState.tel,
+                        )
+                }
             }
         }
     }
@@ -362,4 +373,35 @@ private fun JoinSecond(joinViewModel: JoinViewModel, state: JoinState) {
             )
         }
     }
+}
+
+private fun checkJoinData(
+    context: Context,
+    email: String,
+    id: String,
+    name: String,
+    phone: String,
+    position: String,
+    pw: String,
+    checkedPw: String,
+    tel: String,
+    checkTerms: Boolean,
+): Boolean {
+
+    if (email.isEmpty() || id.isEmpty() || name.isEmpty() || phone.isEmpty() || position.isEmpty() || pw.isEmpty() || checkedPw.isEmpty() || tel.isEmpty()) {
+        context.shortToast("빈 값이 없도록 입력해주세요")
+        return false
+    }
+
+    if (pw != checkedPw) {
+        context.shortToast("비밀번호가 일치하지 않아요")
+        return false
+    }
+
+    if (checkTerms.not()) {
+        context.shortToast("약관에 동의해주세요")
+        return false
+    }
+
+    return true
 }

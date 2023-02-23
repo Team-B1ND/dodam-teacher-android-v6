@@ -28,6 +28,8 @@ class JoinViewModel @Inject constructor(
         pw: String,
         tel: String,
     ) = intent {
+
+
         reduce {
             state.copy(
                 loading = true,
