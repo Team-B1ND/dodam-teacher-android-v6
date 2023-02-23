@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -69,8 +68,8 @@ fun JoinScreen(
     BackHandler(joinState.currentPage == 1) {
         joinViewModel.setCurrentPage(0)
     }
-    
-    joinViewModel.collectSideEffect { sideEffect ->  
+
+    joinViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is JoinSideEffect.SuccessJoin -> {
                 context.shortToast(context.getString(R.string.inform_join_success))
@@ -191,7 +190,7 @@ private fun JoinFirst(joinViewModel: JoinViewModel, state: JoinState) {
     }
 
     var phoneText by remember {
-         mutableStateOf(state.phone)
+        mutableStateOf(state.phone)
     }
 
     Column(

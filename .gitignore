@@ -149,3 +149,5 @@ gradle.properties
 .idea/inspectionProfiles/Project_Default.xml
 
 remote/src/main/java/kr/hs/dgsw/smartschool/remote/url/
+
+.idea/other.xml

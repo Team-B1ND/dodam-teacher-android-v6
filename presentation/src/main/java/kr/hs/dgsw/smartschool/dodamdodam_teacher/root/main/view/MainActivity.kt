@@ -7,9 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,9 +15,7 @@ import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.mvi.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.mvi.MainState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.vm.MainViewModel
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavigationGraph
-import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.viewmodel.observe
 
 @AndroidEntryPoint

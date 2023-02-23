@@ -29,7 +29,7 @@ internal fun MemberResponse.toMember(): Member =
     )
 
 internal fun MemberResponseRole.toMemberRole(): MemberRole =
-    when(this.name) {
+    when (this.name) {
         MemberRole.STUDENT.name -> MemberRole.STUDENT
         MemberRole.TEACHER.name -> MemberRole.TEACHER
         MemberRole.ADMIN.name -> MemberRole.ADMIN
@@ -38,7 +38,7 @@ internal fun MemberResponseRole.toMemberRole(): MemberRole =
     }
 
 internal fun MemberResponseStatus.toMemberStatus(): MemberStatus =
-    when(this.name) {
+    when (this.name) {
         MemberStatus.ACTIVE.name -> MemberStatus.ACTIVE
         MemberStatus.DEACTIVATED.name -> MemberStatus.DEACTIVATED
         else -> MemberStatus.DEACTIVATED

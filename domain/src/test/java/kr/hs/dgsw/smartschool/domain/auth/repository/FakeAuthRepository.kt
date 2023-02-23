@@ -1,14 +1,14 @@
 package kr.hs.dgsw.smartschool.domain.auth.repository
 
-import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.domain.exception.BadRequestException
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
 import kr.hs.dgsw.smartschool.domain.model.token.Token
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
+import java.time.LocalDateTime
 
-class FakeAuthRepository: AuthRepository {
+class FakeAuthRepository : AuthRepository {
 
     private val members = mutableListOf<Member>()
     private val accounts = mutableListOf<FakeAccount>()

@@ -12,5 +12,5 @@ data class AccountEntity(
     val id: String,
     val pw: String,
 ) {
-    constructor(id: String, pw: String): this(0, id, pw)
+    constructor(id: String, pw: String) : this(0, id, pw)
 }

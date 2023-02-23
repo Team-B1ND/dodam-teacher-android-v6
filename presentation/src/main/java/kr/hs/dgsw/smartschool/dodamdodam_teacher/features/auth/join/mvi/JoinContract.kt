@@ -19,5 +19,5 @@ data class JoinState(
 
 sealed class JoinSideEffect {
     object SuccessJoin : JoinSideEffect()
-    data class FailJoin(val throwable: Throwable): JoinSideEffect()
+    data class FailJoin(val throwable: Throwable) : JoinSideEffect()
 }

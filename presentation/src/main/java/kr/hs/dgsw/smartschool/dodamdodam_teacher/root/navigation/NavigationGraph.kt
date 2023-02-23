@@ -14,7 +14,7 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = getStartDestination(enableAutoLogin)) {
-        
+
         composable(NavGroup.Auth.LOGIN) {
             LoginScreen(navController = navController)
         }

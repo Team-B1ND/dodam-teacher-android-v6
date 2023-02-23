@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.mvi.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.main.mvi.MainState
@@ -14,6 +13,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -37,5 +37,4 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
 }

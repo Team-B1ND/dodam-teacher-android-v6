@@ -6,14 +6,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.remote.service.AuthService
-import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 
 @Module
 @InstallIn(SingletonComponent::class)

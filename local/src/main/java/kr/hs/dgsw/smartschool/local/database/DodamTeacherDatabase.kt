@@ -29,7 +29,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class,
-   ],
+    ],
     version = 2,
     exportSchema = false
 )
@@ -46,7 +46,7 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
 }
 
-val MIGRATION_1_TO_2: Migration = object : Migration(1,2) {
+val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.run {
             execSQL("CREATE TABLE ${DodamTable.CLASSROOM} (id INTEGER not null, placeId INTEGER not null, grade INTEGER not null, room INTEGER not null, PRIMARY KEY (id))")

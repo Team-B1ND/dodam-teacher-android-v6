@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.local.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.account.Account
 import kr.hs.dgsw.smartschool.domain.model.member.Member
@@ -11,6 +10,7 @@ import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
+import javax.inject.Inject
 
 class AuthCacheDataSourceImpl @Inject constructor(
     private val memberDao: MemberDao,

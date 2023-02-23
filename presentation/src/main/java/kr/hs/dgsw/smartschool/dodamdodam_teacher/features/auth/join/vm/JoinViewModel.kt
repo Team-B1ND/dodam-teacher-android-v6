@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.mvi.JoinSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.mvi.JoinState
 import kr.hs.dgsw.smartschool.domain.usecase.auth.JoinUseCase
@@ -11,6 +10,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(

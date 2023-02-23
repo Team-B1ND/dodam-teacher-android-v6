@@ -7,18 +7,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kr.hs.dgsw.smartschool.local.dao.MealDao
-import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
-import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
+import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
+import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen
 
 import android.content.Context
 import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -72,7 +71,7 @@ fun LoginScreen(
     }
 
     loginViewModel.collectSideEffect {
-        when(it) {
+        when (it) {
             is LoginSideEffect.NavigateToHomeScreen -> {
                 navController.navigate(NavGroup.Main.HOME) {
                     popUpTo(NavGroup.Auth.LOGIN) {
@@ -227,7 +226,7 @@ private fun checkLoginData(
         return false
     }
 
-    if ((pw.length in 7 .. 20).not()) {
+    if ((pw.length in 7..20).not()) {
         context.shortToast(context.getString(R.string.desc_pw_login))
         return false
     }
