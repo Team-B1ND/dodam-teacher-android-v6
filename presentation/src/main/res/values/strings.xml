@@ -42,4 +42,9 @@
 
     <string name="inform_join_success">회원가입에 성공했어요</string>
     <string name="inform_join_fail">회원가입에 실패했어요</string>
+
+    <string name="label_home">홈</string>
+    <string name="label_studyroom">자습실</string>
+    <string name="label_out">자습실</string>
+    <string name="label_etc">더보기</string>
 </resources>
