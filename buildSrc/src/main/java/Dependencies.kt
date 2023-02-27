@@ -44,11 +44,12 @@ object Libraries {
     const val INDICATOR = "com.tbuonomo:dotsindicator:${Versions.INDICATOR}"
     const val VIEW_PAGER = "androidx.viewpager2:viewpager2:${Versions.VIEW_PAGER}"
 
-    const val LOTTIE = "com.airbnb.android:lottie:${Versions.LOTTIE}"
+    const val LOTTIE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
 }
 
 object UnitTest {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
+    const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"
 }
 
 object AndroidTest {
@@ -66,9 +67,13 @@ object Compose {
     const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE_VERSION}"
     const val MATERIAL_COMPOSE = "androidx.compose.material:material:${Versions.MATERIAL_COMPOSE}"
     const val COMPOSE_HILT = "androidx.hilt:hilt-navigation-compose:${Versions.COMPOSE_HILT}"
+    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
     const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_VERSION}"
     const val UI_TEST_JUNIT4 = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE_VERSION}"
     const val UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE_VERSION}"
+    const val SYSTEM_UI_CONTROLLER = "com.google.accompanist:accompanist-systemuicontroller:${Versions.SYSTEM_UI_CONTROLLER}"
+
+    const val DUI = "com.github.Team-B1ND:dui-android:${Versions.DUI}"
 }
 
 object OrbitMVI {

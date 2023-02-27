@@ -3,15 +3,12 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
@@ -48,11 +45,6 @@ fun MealScreen(
 @Composable
 fun MealBox(meal: Meal) {
     Column {
-        Text(text = "아침 : ${meal.breakfast}")
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "점심 : ${meal.lunch}")
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "저녁 : ${meal.dinner}")
     }
 }
 

@@ -22,6 +22,7 @@ object Versions {
     const val CIRCULAR_IMAGE_VIEW = "3.1.0"
 
     const val JUNIT = "4.13.2"
+    const val MOCKITO = "4.2.0"
     const val ANDROID_JUNIT = "1.1.4"
     const val ESPRESSO_CORE = "3.5.0"
 
@@ -31,8 +32,8 @@ object Versions {
     const val NAVIGATION = "2.4.2"
     const val SWIPE_REFRESH_LAYOUT = "1.1.0"
 
-    const val SPLASH_SCREEN = "1.0.0-rc01"
-    const val LOTTIE = "5.2.0"
+    const val SPLASH_SCREEN = "1.0.0"
+    const val LOTTIE = "6.0.0"
 
     const val NAVER_MAP = "3.16.0"
     const val GOOGLE_LOCATION = "20.0.0"
@@ -43,4 +44,7 @@ object Versions {
     const val COMPOSE_HILT = "1.0.0"
 
     const val ORBIT = "4.5.0"
+    const val SYSTEM_UI_CONTROLLER = "0.28.0"
+    const val DUI = "1.0.3"
+    const val COMPOSE_NAVIGATION = "2.5.3"
 }

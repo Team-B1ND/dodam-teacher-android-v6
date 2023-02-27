@@ -14,12 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Dodam_Teacher_V6"
+        android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".root.MainActivity"
+            android:name=".root.main.view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Dodam_Teacher_V6">
+            android:theme="@style/Theme.App.Starting">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -63,9 +63,15 @@ dependencies {
     implementation(Compose.UI_TOOLING_PREVIEW)
     implementation(Compose.MATERIAL_COMPOSE)
     implementation(Compose.COMPOSE_HILT)
+    implementation(Compose.NAVIGATION_COMPOSE)
     androidTestImplementation(Compose.UI_TEST_JUNIT4)
     debugImplementation(Compose.UI_TOOLING)
     debugImplementation(Compose.UI_TEST_MANIFEST)
+    implementation(Compose.SYSTEM_UI_CONTROLLER)
+    implementation(Compose.DUI)
+
+    // splash screen
+    implementation(AndroidX.SPLASH_SCREEN)
 
     // orbit-mvi
     implementation(OrbitMVI.ORBIT_CORE)

@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">Dodam_Teacher_V6</string>
+    <string name="app_name">도담도담 T</string>
+
+    <string name="title_login">로그인</string>
+    <string name="desc_id_login">5~20 글자 사이로 입력해주세요</string>
+    <string name="desc_pw_login">7~20 글자 사이로 입력해주세요</string>
+
+    <string name="hint_id">아이디 (5~20)</string>
+    <string name="hint_pw">비밀번호 (7~20)</string>
+    <string name="hint_checkedPw">비밀번호 확인 (7~20)</string>
+    <string name="hint_name">이름 (1~20)</string>
+    <string name="hint_phone">휴대전화 번호 (1~11)</string>
+    <string name="hint_email">이메일 (1~30)</string>
+    <string name="hint_tel">내선 전화 (1~20)</string>
+    <string name="hint_position">직책 (1~20)</string>
+
+    <string name="label_login">로그인</string>
+    <string name="label_join">회원가입</string>
+    <string name="label_next">다음</string>
+    <string name="desc_navigate_join">도담도담 계정이 없어요</string>
+    <string name="desc_auto_login">자동 로그인 (개인용 기기만)</string>
+
+    <string name="desc_id_join">5~20 글자 사이로 입력해주세요</string>
+    <string name="desc_pw_join">7~20 글자 사이로 입력해주세요</string>
+    <string name="desc_checkedPw_join">비밀번호가 일치하지 않아요</string>
+    <string name="desc_name_join">1~20 글자 사이로 입력해주세요</string>
+    <string name="desc_phone_join">1~11 글자 사이로 입력해주세요</string>
+    <string name="desc_email_join">1~30 글자 사이로 입력해주세요</string>
+    <string name="desc_tel_join">1~20 글자 사이로 입력해주세요</string>
+    <string name="desc_position_join">1~20 글자 사이로 입력해주세요</string>
+
+    <string name="text_check_terms">필수 약관에 동의해주세요</string>
+    <string name="text_private_term">> 개인정보 취급 방침</string>
+    <string name="text_service_terms">> 서비스 운영 정책</string>
+
+    <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>
+    <string name="url_service_info">https://dodam.b1nd.com/detailed-information/service-policy</string>
+
+    <string name="warn_empty_field">빈 값이 없도록 입력해주세요</string>
+    <string name="warn_pw_check">비밀번호가 일치하지 않아요</string>
+    <string name="warn_check_term">약관에 동의해주세요</string>
+
+    <string name="inform_join_success">회원가입에 성공했어요</string>
+    <string name="inform_join_fail">회원가입에 실패했어요</string>
 </resources>
