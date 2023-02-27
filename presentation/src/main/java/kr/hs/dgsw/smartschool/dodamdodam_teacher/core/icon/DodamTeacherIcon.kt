@@ -48,3 +48,59 @@ fun IcBurger(
         tint = tint
     )
 }
+
+@Composable
+fun IcGrinningFace3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_grinning_face_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
+
+@Composable
+fun IcSleepingFace3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_sleeping_face_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
+
+@Composable
+fun IcThinkingFace3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_thinking_face_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
+
+@Composable
+fun IcCalendar3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_calendar_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}

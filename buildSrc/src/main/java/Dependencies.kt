@@ -73,6 +73,9 @@ object Compose {
     const val UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE_VERSION}"
     const val SYSTEM_UI_CONTROLLER = "com.google.accompanist:accompanist-systemuicontroller:${Versions.SYSTEM_UI_CONTROLLER}"
 
+    const val PAGER_COMPOSE = "com.google.accompanist:accompanist-pager:${Versions.PAGER_COMPOSE}"
+    const val PAGER_INDICATORS_COMPOSE = "com.google.accompanist:accompanist-pager-indicators:${Versions.PAGER_COMPOSE}"
+
     const val DUI = "com.github.Team-B1ND:dui-android:${Versions.DUI}"
 }
 

@@ -35,6 +35,8 @@ object Versions {
     const val SPLASH_SCREEN = "1.0.0"
     const val LOTTIE = "6.0.0"
 
+    const val PAGER_COMPOSE = "0.28.0"
+
     const val NAVER_MAP = "3.16.0"
     const val GOOGLE_LOCATION = "20.0.0"
 
@@ -47,4 +49,6 @@ object Versions {
     const val SYSTEM_UI_CONTROLLER = "0.28.0"
     const val DUI = "1.0.3"
     const val COMPOSE_NAVIGATION = "2.5.3"
+
+
 }

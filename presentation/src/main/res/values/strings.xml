@@ -47,4 +47,24 @@
     <string name="label_studyroom">자습실</string>
     <string name="label_out">자습실</string>
     <string name="label_etc">더보기</string>
+
+    <string name="title_out_approve">외출/외박 승인</string>
+    <string name="title_studyroom_check">자습실 확인</string>
+    <string name="text_outgoing_application">외출 신청</string>
+    <string name="text_outsleeping_application">외박 신청</string>
+    <string name="text_studyroom_check">자습실 미신청 / 미확인</string>
+
+    <string name="title_home_dinner">오늘의 석식</string>
+    <string name="title_home_lunch">오늘의 중식</string>
+    <string name="title_home_breakfast">오늘의 조식</string>
+    <string name="title_home_tomorrow_breakfast">내일의 조식</string>
+    <string name="title_home_tomorrow_lunch">내일의 중식</string>
+    <string name="title_home_tomorrow_dinner">내일의 석식</string>
+    
+    <string name="label_manage">관리</string>
+    <string name="label_employ">취업</string>
+    <string name="title_prize">상벌점</string>
+    <string name="title_schedule">일정</string>
+    <string name="title_itmap">it을지도</string>
+
 </resources>
