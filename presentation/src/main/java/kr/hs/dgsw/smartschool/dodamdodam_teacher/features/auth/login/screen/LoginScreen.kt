@@ -73,7 +73,7 @@ fun LoginScreen(
     loginViewModel.collectSideEffect {
         when (it) {
             is LoginSideEffect.NavigateToHomeScreen -> {
-                navController.navigate(NavGroup.Main.HOME) {
+                navController.navigate(NavGroup.Main.MAIN) {
                     popUpTo(NavGroup.Auth.LOGIN) {
                         inclusive = true
                     }
