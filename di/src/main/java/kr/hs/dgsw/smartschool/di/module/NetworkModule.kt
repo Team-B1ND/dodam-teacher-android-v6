@@ -14,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.remote.service.OutService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,4 +57,9 @@ class NetworkModule {
     @Provides
     fun providesAuthService(retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesOutService(retrofit: Retrofit): OutService =
+        retrofit.create(OutService::class.java)
 }

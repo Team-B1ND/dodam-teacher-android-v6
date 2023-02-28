@@ -9,6 +9,8 @@ import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
 import kr.hs.dgsw.smartschool.local.datasource.AuthCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
+import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,4 +27,10 @@ abstract class CacheDataSourceModule {
     abstract fun provideAuthCacheDataSource(
         authCacheDataSourceImpl: AuthCacheDataSourceImpl
     ): AuthCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideOutCacheDataSource(
+        outCacheDataSourceImpl: OutCacheDataSourceImpl
+    ): OutCacheDataSource
 }

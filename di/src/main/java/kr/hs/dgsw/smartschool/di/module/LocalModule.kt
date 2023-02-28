@@ -19,6 +19,8 @@ import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.local.dao.OutDao
+import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,7 +34,7 @@ object LocalModule {
         .databaseBuilder(
             context,
             DodamTeacherDatabase::class.java,
-            "dodam_database"
+            DodamTable.DATABASE
         )
         .addMigrations(MIGRATION_1_TO_2)
         .fallbackToDestructiveMigration()
@@ -91,4 +93,10 @@ object LocalModule {
     fun provideAccountDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): AccountDao = dodamTeacherDatabase.accountDao()
+
+    @Provides
+    @Singleton
+    fun provideOutDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): OutDao = dodamTeacherDatabase.outDao()
 }
