@@ -178,8 +178,6 @@ fun HomeScreen(
     }
 }
 
-
-
 private val CardItemIconSize = 35.dp
 
 @Composable

@@ -8,6 +8,10 @@ import kr.hs.dgsw.smartschool.remote.request.auth.LoginRequest
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.exception.NotFoundException
+import kr.hs.dgsw.smartschool.domain.exception.UnAuthorizedException
+import kr.hs.dgsw.smartschool.domain.exception.UncertifiedRoleException
+import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 
 class AuthRemoteDataSourceImpl @Inject constructor(
     private val authService: AuthService,
@@ -30,9 +34,15 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     override suspend fun login(
         id: String,
         pw: String
-    ): LoginData = dodamApiCall {
-        authService.login(
-            LoginRequest(id, pw)
-        ).data.toLoginData()
+    ): LoginData {
+        val result = dodamApiCall {
+            authService.login(
+                LoginRequest(id, pw)
+            ).data.toLoginData()
+        }
+        if (result.member.role == MemberRole.TEACHER || result.member.role == MemberRole.ADMIN)
+            return result
+        else
+            throw UncertifiedRoleException("접근할 수 없는 권한입니다")
     }
 }
