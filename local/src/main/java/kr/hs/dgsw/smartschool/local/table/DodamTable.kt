@@ -13,4 +13,5 @@ object DodamTable {
     const val PARENT = "parent_table"
     const val TOKEN = "token_table"
     const val ACCOUNT = "account_table"
+    const val OUT = "out_table"
 }
