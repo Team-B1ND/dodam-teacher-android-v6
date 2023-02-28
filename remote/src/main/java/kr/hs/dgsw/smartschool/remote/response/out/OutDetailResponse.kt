@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class OutDetailResponse(
     @field:SerializedName("id") val id: Int,
     @field:SerializedName("reason") val reason: String,
-    @field:SerializedName("status") val status: OutStatus,
+    @field:SerializedName("status") val status: OutResponseStatus,
     @field:SerializedName("student") val student: OutStudentResponse,
     @field:SerializedName("teacher") val teacher: OutTeacherResponse?,
     @field:SerializedName("startOutDate") val startOutDate: String,

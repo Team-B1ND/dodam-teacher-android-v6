@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.remote.response.out
+package kr.hs.dgsw.smartschool.domain.model.out
 
 enum class OutStatus {
     ALLOWED, PENDING, DENIED;
