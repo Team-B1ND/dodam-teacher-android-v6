@@ -13,7 +13,7 @@ interface OutDao : BaseDao<OutEntity> {
     suspend fun getAllOut(): List<OutEntity>
 
     @Query("SELECT * FROM ${DodamTable.OUT} WHERE id=:id")
-    suspend fun getOutById(id: Int): OutEntity
+    suspend fun getOutById(id: Int): OutEntity?
 
     @Query("SELECT * FROM ${DodamTable.OUT} WHERE status=:status")
     suspend fun getOutByStatus(status: String): List<OutEntity>
@@ -44,6 +44,9 @@ interface OutDao : BaseDao<OutEntity> {
 
     @Query("SELECT * FROM ${DodamTable.OUT} WHERE teacherId!=null AND startOutDate!=endOutDate")
     suspend fun getNotAllowedOutsleeping(): List<OutEntity>
+
+    @Query("DELETE FROM ${DodamTable.OUT} where id=:id")
+    suspend fun deleteOutById(id: Int)
 
     @Query("DELETE FROM ${DodamTable.OUT}")
     suspend fun deleteAllOut()

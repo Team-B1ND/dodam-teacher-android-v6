@@ -1,10 +1,10 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
-import kr.hs.dgsw.smartschool.remote.utils.yearDateToLocalDate
 
 internal fun MealResponse.toModel(): Meal =
     Meal(
