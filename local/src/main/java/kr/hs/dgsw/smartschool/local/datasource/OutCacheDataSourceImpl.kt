@@ -39,10 +39,10 @@ class OutCacheDataSourceImpl @Inject constructor(
     override suspend fun getOutByStudentId(studentId: Int): List<OutItem> =
         outDao.getOutByStudentId(studentId).map { it.toModel() }
 
-    override suspend fun getOutgoing(): List<OutItem> =
+    override suspend fun getOutgoings(): List<OutItem> =
         outDao.getOutgoing().map { it.toModel() }
 
-    override suspend fun getOutsleeping(): List<OutItem> =
+    override suspend fun getOutsleepings(): List<OutItem> =
         outDao.getOutsleeping().map { it.toModel() }
 
     override suspend fun getAllowedOut(): List<OutItem> =

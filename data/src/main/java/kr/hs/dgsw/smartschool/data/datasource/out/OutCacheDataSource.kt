@@ -13,9 +13,9 @@ interface OutCacheDataSource {
 
     suspend fun getOutByStudentId(studentId: Int): List<OutItem>
 
-    suspend fun getOutgoing(): List<OutItem>
+    suspend fun getOutgoings(): List<OutItem>
 
-    suspend fun getOutsleeping(): List<OutItem>
+    suspend fun getOutsleepings(): List<OutItem>
 
     suspend fun getAllowedOut(): List<OutItem>
 
