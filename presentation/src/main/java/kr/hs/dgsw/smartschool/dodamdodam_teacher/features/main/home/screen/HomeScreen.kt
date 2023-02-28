@@ -57,6 +57,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -107,7 +108,7 @@ fun HomeScreen(
                 title = stringResource(id = R.string.title_out_approve),
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 hasLinkIcon = true,
-                content = { OutApproveCardContent() }
+                content = { OutApproveCardContent(homeState) }
             )
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -181,24 +182,26 @@ fun HomeScreen(
 private val CardItemIconSize = 35.dp
 
 @Composable
-private fun OutApproveCardContent() {
+private fun OutApproveCardContent(
+    homeState: HomeState,
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = LocalDateTime.now().toSimpleYearDateTime(),
+            text = homeState.outUpdateDate?.toSimpleYearDateTime() ?: LocalDateTime.now().toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
         HomeCardDetailItem(
             title = stringResource(id = R.string.text_outgoing_application),
-            content = "30명",
+            content = "${homeState.outgoingCount}명",
             icon = { IcGrinningFace3D(contentDescription = null, modifier = Modifier.size(CardItemIconSize)) }
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
         HomeCardDetailItem(
             title = stringResource(id = R.string.text_outsleeping_application),
-            content = "20명",
+            content = "${homeState.outsleepingCount}명",
             icon = { IcSleepingFace3D(contentDescription = null, modifier = Modifier.size(CardItemIconSize)) }
         )
     }

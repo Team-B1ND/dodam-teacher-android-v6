@@ -1,13 +1,14 @@
 package kr.hs.dgsw.smartschool.local.entity.out
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
 @Entity(
     tableName = DodamTable.OUT,
 )
 data class OutEntity(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val reason: String,
     val status: String,
     val studentId: Int,

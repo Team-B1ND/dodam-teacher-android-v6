@@ -32,7 +32,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 
