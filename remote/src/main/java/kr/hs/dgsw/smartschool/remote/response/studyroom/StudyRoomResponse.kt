@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName
 import kr.hs.dgsw.smartschool.remote.response.place.PlaceResponse
 
 data class StudyRoomResponse(
-    val id : Int,
-    val date : String,
-    val timeTable : TimeTable,
-    val place: Place,
-    val student : Student,
-    val status: String,
-    val teacher : Teacher
+    @field:SerializedName("id") val id : Int,
+    @field:SerializedName("date") val date : String,
+    @field:SerializedName("timeTable") val timeTable : TimeTable,
+    @field:SerializedName("place") val place: Place,
+    @field:SerializedName("student") val student : Student,
+    @field:SerializedName("status") val status: String,
+    @field:SerializedName("teacher") val teacher : Teacher
 ){
     data class TimeTable(
-        val id: Int,
-        val name : String,
-        val type : String,
-        val startTime : String,
-        val endTime : String
+        @field:SerializedName("id") val id: Int,
+        @field:SerializedName("name") val name : String,
+        @field:SerializedName("type") val type : String,
+        @field:SerializedName("startTime") val startTime : String,
+        @field:SerializedName("endTime") val endTime : String
     )
     data class Place(
         @field:SerializedName("id") val id: Int,
@@ -30,23 +30,23 @@ data class StudyRoomResponse(
         )
     }
     data class Student(
-        val id : Int
+        @field:SerializedName("id") val id : Int
     )
     data class Teacher(
-        val id : Int,
-        val member: Member,
-        val tel : String,
-        val position : String,
-        val phone : String
+        @field:SerializedName("id") val id : Int,
+        @field:SerializedName("member") val member: Member,
+        @field:SerializedName("tel") val tel : String,
+        @field:SerializedName("position") val position : String,
+        @field:SerializedName("phone") val phone : String
     ){
         data class Member(
-            val id : Int,
-            val name : String,
-            val email : String,
-            val role : String,
-            val status: String,
-            val joinDate : String,
-            val profileImage : String
+            @field:SerializedName("id") val id : Int,
+            @field:SerializedName("name") val name : String,
+            @field:SerializedName("email") val email : String,
+            @field:SerializedName("role") val role : String,
+            @field:SerializedName("status") val status: String,
+            @field:SerializedName("joinDate") val joinDate : String,
+            @field:SerializedName("profileImage") val profileImage : String
         )
     }
 }
