@@ -9,3 +9,10 @@ internal fun Token.toEntity(): TokenEntity {
         refreshToken = refreshToken,
     )
 }
+
+internal fun TokenEntity.toModel(): Token {
+    return Token(
+        token = token,
+        refreshToken = refreshToken,
+    )
+}
