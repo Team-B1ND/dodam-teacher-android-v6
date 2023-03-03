@@ -60,11 +60,15 @@
     <string name="title_home_tomorrow_breakfast">내일의 조식</string>
     <string name="title_home_tomorrow_lunch">내일의 중식</string>
     <string name="title_home_tomorrow_dinner">내일의 석식</string>
-    
+    <string name="desc_empty_breakfast">조식이 없어요</string>
+    <string name="desc_empty_lunch">중식이 없어요</string>
+    <string name="desc_empty_dinner">석식이 없어요</string>
+
     <string name="label_manage">관리</string>
     <string name="label_employ">취업</string>
     <string name="title_prize">상벌점</string>
     <string name="title_schedule">일정</string>
     <string name="title_itmap">it을지도</string>
 
+    <string name="content_unknown_exception">알 수 없는 오류가 발생했어요</string>
 </resources>

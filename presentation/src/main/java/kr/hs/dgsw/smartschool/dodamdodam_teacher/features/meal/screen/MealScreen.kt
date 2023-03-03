@@ -10,15 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDate
+import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 
 @Composable
 fun MealScreen(
+    navController: NavController,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -29,6 +32,7 @@ fun MealScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        DodamAppBar(onStartIconClick = { navController.popBackStack() })
         Button(onClick = { mealViewModel.getMeal(LocalDate.now().minusMonths(3)) }) {
             Text(text = "SHOW!")
         }
