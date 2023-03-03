@@ -42,6 +42,7 @@ class TokenInterceptor @Inject constructor(
 
         var response = chain.proceed(request)
         if (response.code == TOKEN_ERROR) {
+            response.close()
             runBlocking(Dispatchers.IO) {
                 fetchTokenUseCase().onSuccess {
                     val refreshRequest: Request = chain.request().newBuilder()
@@ -50,25 +51,30 @@ class TokenInterceptor @Inject constructor(
                     response = chain.proceed(refreshRequest)
 
                     if (response.code == TOKEN_ERROR) {
+                        response.close()
                         runBlocking(Dispatchers.IO) {
                             val account = authCacheDataSource.getAccount()
-                            loginUseCase(
-                                LoginUseCase.Param(
-                                    id = account.id ?: "",
-                                    pw = account.pw ?: "",
-                                    enableAutoLogin = true,
-                                )
-                            ).onSuccess { loginToken ->
-                                val loginRequest: Request = chain.request().newBuilder()
-                                    .addHeader(TOKEN_HEADER, "Bearer ${loginToken.token}")
-                                    .build()
-                                response = chain.proceed(loginRequest)
+                            if (account.id == null && account.pw == null) {
+                                throw ExpiredRefreshTokenException()
+                            } else {
+                                loginUseCase(
+                                    LoginUseCase.Param(
+                                        id = account.id ?: "",
+                                        pw = account.pw ?: "",
+                                        enableAutoLogin = true,
+                                    )
+                                ).onSuccess { loginToken ->
+                                    val loginRequest: Request = chain.request().newBuilder()
+                                        .addHeader(TOKEN_HEADER, "Bearer ${loginToken.token}")
+                                        .build()
+                                    response = chain.proceed(loginRequest)
 
-                                if (response.code == TOKEN_ERROR) {
+                                    if (response.code == TOKEN_ERROR) {
+                                        throw ExpiredRefreshTokenException()
+                                    }
+                                }.onFailure {
                                     throw ExpiredRefreshTokenException()
                                 }
-                            }.onFailure {
-                                throw ExpiredRefreshTokenException()
                             }
                         }
                     }
@@ -78,6 +84,7 @@ class TokenInterceptor @Inject constructor(
             }
         }
 
-        return chain.proceed(request)
+        return response
+
     }
 }
