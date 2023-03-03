@@ -1,0 +1,17 @@
+package kr.hs.dgsw.smartschool.domain.model.studyroom
+
+import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
+import kr.hs.dgsw.smartschool.domain.model.place.Place
+import kr.hs.dgsw.smartschool.domain.model.studyroom.student.Student
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
+
+data class StudyRoom(
+    val id : Int,
+    val date : String,
+    val timeTable : TimeTable,
+    val place: Place,
+    val student : Student,
+    val status: StudyRoomResponseStatus,
+    val teacher : Teacher
+){
+}
