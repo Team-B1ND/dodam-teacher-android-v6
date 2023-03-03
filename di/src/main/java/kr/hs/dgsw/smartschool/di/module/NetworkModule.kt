@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -56,4 +57,9 @@ class NetworkModule {
     @Provides
     fun providesAuthService(retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesStudyService(retrofit: Retrofit): StudyRoomService =
+        retrofit.create(StudyRoomService::class.java)
 }
