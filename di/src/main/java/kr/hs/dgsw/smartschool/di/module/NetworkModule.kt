@@ -60,6 +60,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesStudyService(retrofit: Retrofit): StudyRoomService =
+    fun providesStudyRoomService(retrofit: Retrofit): StudyRoomService =
         retrofit.create(StudyRoomService::class.java)
 }

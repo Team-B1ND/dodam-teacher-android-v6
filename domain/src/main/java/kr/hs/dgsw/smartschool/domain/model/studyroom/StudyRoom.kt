@@ -11,7 +11,7 @@ data class StudyRoom(
     val timeTable : TimeTable,
     val place: Place,
     val student : Student,
-    val status: StudyRoomResponseStatus,
+    val status: StudyRoomStatus,
     val teacher : Teacher
 ){
 }

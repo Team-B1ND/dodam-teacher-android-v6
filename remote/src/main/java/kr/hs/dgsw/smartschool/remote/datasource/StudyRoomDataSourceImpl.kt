@@ -1,25 +1,35 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
+import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
+import kr.hs.dgsw.smartschool.remote.mapper.toModel
+import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
+import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
+import javax.inject.Inject
 
-class StudyRoomDataSourceImpl {
-    suspend fun getAllHistory() : StudyRoomList {
+class StudyRoomDataSourceImpl @Inject constructor(
+    private val studyRoomService: StudyRoomService
+) : StudyRoomRemoteDataSource {
+    override suspend fun getAllHistory(
+    ) : StudyRoomList = dodamApiCall {
+        studyRoomService.getAllHistory().data.toModel()
+    }
+
+    override suspend fun getHistoryById(
+        id : Int
+    ) : StudyRoomList = dodamApiCall {
+        studyRoomService.getHistoryById(id).data.toModel()
+    }
+
+    override suspend fun checkStudyRoom(id : Int) {
 
     }
 
-    suspend fun getHistoryById(id : Int) : StudyRoomList {
+    override suspend fun unCheckStudyRoom(id : Int) {
 
     }
 
-    suspend fun checkStudyRoom(id : Int) {
-
-    }
-
-    suspend fun unCheckStudyRoom(id : Int) {
-
-    }
-
-    suspend fun ctrlStudyRoom(studentId : Int, placeId : Int, timeTableId : Int) {
+    override suspend fun ctrlStudyRoom(studentId : Int, placeId : Int, timeTableId : Int) {
 
     }
 }
