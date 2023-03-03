@@ -12,10 +12,10 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 fun OutScreen(
     navController: NavController
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DodamColor.MainColor400)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = DodamColor.MainColor400)
     ) {
-
     }
 }

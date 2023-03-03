@@ -1,18 +1,18 @@
 package kr.hs.dgsw.smartschool.data.repository
 
-import java.time.LocalDateTime
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
+import java.time.LocalDateTime
+import javax.inject.Inject
 
 class OutRepositoryImpl @Inject constructor(
     override val remote: OutRemoteDataSource,
     override val cache: OutCacheDataSource,
-): BaseRepository<OutRemoteDataSource, OutCacheDataSource>, OutRepository {
+) : BaseRepository<OutRemoteDataSource, OutCacheDataSource>, OutRepository {
 
     /* 날짜 변경 시 필수로 호출되는 함수 */
     override suspend fun getOutsByDateRemote(date: String): Out =

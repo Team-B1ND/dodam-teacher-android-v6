@@ -28,14 +28,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
@@ -45,7 +43,6 @@ import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.IcBreakfast3D
-import kr.hs.dgsw.smartschool.components.theme.IcCalendar
 import kr.hs.dgsw.smartschool.components.theme.IcDinner3D
 import kr.hs.dgsw.smartschool.components.theme.IcItmap3D
 import kr.hs.dgsw.smartschool.components.theme.IcLunch3D
@@ -61,6 +58,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeStat
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -73,7 +71,6 @@ fun HomeScreen(
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 
     homeViewModel.collectSideEffect {
-
     }
 
     val scrollState = rememberScrollState()
@@ -144,7 +141,8 @@ fun HomeScreen(
                             contentDescription = null,
                             modifier = Modifier.size(32.dp)
                         )
-                    }),
+                    }
+                ),
                 ItemCardContent(
                     subTitle = stringResource(id = R.string.label_manage),
                     title = stringResource(id = R.string.title_schedule),
@@ -153,7 +151,8 @@ fun HomeScreen(
                             contentDescription = null,
                             modifier = Modifier.size(32.dp)
                         )
-                    }),
+                    }
+                ),
                 ItemCardContent(
                     subTitle = stringResource(id = R.string.label_employ),
                     title = stringResource(id = R.string.title_itmap),
@@ -162,7 +161,8 @@ fun HomeScreen(
                             contentDescription = null,
                             modifier = Modifier.size(32.dp)
                         )
-                    }),
+                    }
+                ),
             )
 
             LazyRow(
@@ -267,7 +267,7 @@ private fun MealCardItem(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeMealCard() {
-    val initialPage = when(LocalDateTime.now().hour) {
+    val initialPage = when (LocalDateTime.now().hour) {
         in 20..23 -> -1
         in 1..8 -> 0
         in 9..13 -> 1
@@ -290,7 +290,7 @@ private fun HomeMealCard() {
         ) {
             MealCardItem(
                 icon = {
-                    when(it) {
+                    when (it) {
                         0 -> IcBreakfast3D(contentDescription = null, modifier = Modifier.size(32.dp))
                         1 -> IcLunch3D(contentDescription = null, modifier = Modifier.size(32.dp))
                         2 -> IcDinner3D(contentDescription = null, modifier = Modifier.size(32.dp))

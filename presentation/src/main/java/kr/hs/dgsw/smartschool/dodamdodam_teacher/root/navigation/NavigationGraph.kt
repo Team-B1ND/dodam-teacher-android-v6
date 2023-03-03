@@ -26,7 +26,7 @@ fun NavigationGraph(
         composable(NavGroup.Auth.JOIN) {
             JoinScreen(navController = navController)
         }
-        
+
         composable(NavGroup.Main.MAIN) {
             MainScreen(navController = navController)
         }

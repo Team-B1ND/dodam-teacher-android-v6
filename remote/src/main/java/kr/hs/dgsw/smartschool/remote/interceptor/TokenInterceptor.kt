@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.interceptor
 
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
@@ -12,6 +11,7 @@ import kr.hs.dgsw.smartschool.domain.usecase.token.GetTokenUseCase
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
 
 class TokenInterceptor @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
@@ -34,7 +34,6 @@ class TokenInterceptor @Inject constructor(
                 throw ExpiredRefreshTokenException()
             }
         }
-
 
         val request: Request = chain.request().newBuilder()
             .addHeader(TOKEN_HEADER, "Bearer ${token.token}")
@@ -85,6 +84,5 @@ class TokenInterceptor @Inject constructor(
         }
 
         return response
-
     }
 }

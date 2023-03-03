@@ -1,10 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
-import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -38,5 +34,3 @@ internal fun OutResponseStatus.toOutStatus(): OutStatus =
         OutStatus.DENIED.name -> OutStatus.DENIED
         else -> OutStatus.PENDING
     }
-
-

@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcState
@@ -14,11 +13,12 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 @HiltViewModel
 class EtcViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
-): ContainerHost<EtcState, EtcSideEffect>, ViewModel() {
+) : ContainerHost<EtcState, EtcSideEffect>, ViewModel() {
 
     override val container: Container<EtcState, EtcSideEffect> = container(EtcState())
 

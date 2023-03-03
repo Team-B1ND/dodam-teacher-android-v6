@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.domain.usecase.token
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
+import javax.inject.Inject
 
 class FetchTokenUseCase @Inject constructor(
     private val tokenRepository: TokenRepository,

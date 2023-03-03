@@ -6,23 +6,21 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kr.hs.dgsw.smartschool.di.qualifier.AuthOkhttpClient
+import kr.hs.dgsw.smartschool.di.qualifier.AuthRetrofit
+import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
+import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
+import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.di.qualifier.AuthOkhttpClient
-import kr.hs.dgsw.smartschool.di.qualifier.AuthRetrofit
-import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
-import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
-import kr.hs.dgsw.smartschool.domain.usecase.token.FetchTokenUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.token.GetTokenUseCase
-import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
-import kr.hs.dgsw.smartschool.remote.service.OutService
-import kr.hs.dgsw.smartschool.remote.service.TokenService
 
 @Module
 @InstallIn(SingletonComponent::class)

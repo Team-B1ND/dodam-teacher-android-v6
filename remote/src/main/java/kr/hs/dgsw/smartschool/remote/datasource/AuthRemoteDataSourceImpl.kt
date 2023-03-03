@@ -2,16 +2,14 @@ package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.data.auth.LoginData
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthRemoteDataSource
+import kr.hs.dgsw.smartschool.domain.exception.UncertifiedRoleException
+import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.remote.mapper.toLoginData
 import kr.hs.dgsw.smartschool.remote.request.auth.JoinRequest
 import kr.hs.dgsw.smartschool.remote.request.auth.LoginRequest
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.exception.NotFoundException
-import kr.hs.dgsw.smartschool.domain.exception.UnAuthorizedException
-import kr.hs.dgsw.smartschool.domain.exception.UncertifiedRoleException
-import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 
 class AuthRemoteDataSourceImpl @Inject constructor(
     private val authService: AuthService,

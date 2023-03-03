@@ -12,10 +12,10 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 fun StudyroomScreen(
     navController: NavController
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DodamColor.FeatureColor.MyInfoColor)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = DodamColor.FeatureColor.MyInfoColor)
     ) {
-
     }
 }

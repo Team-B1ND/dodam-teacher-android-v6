@@ -8,6 +8,4 @@ data class HomeState(
     val outsleepingCount: Int = 0,
 )
 
-sealed class HomeSideEffect {
-
-}
+sealed class HomeSideEffect
