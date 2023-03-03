@@ -6,8 +6,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
 import kr.hs.dgsw.smartschool.local.datasource.AuthCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.TokenCacheDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +29,16 @@ abstract class CacheDataSourceModule {
     abstract fun provideAuthCacheDataSource(
         authCacheDataSourceImpl: AuthCacheDataSourceImpl
     ): AuthCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideOutCacheDataSource(
+        outCacheDataSourceImpl: OutCacheDataSourceImpl
+    ): OutCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideTokenCacheDataSource(
+        tokenCacheDataSourceImpl: TokenCacheDataSourceImpl
+    ): TokenCacheDataSource
 }

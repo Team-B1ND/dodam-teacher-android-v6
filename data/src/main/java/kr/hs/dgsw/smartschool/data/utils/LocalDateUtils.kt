@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.remote.utils
+package kr.hs.dgsw.smartschool.data.utils
 
 import java.time.LocalDate
 import java.time.LocalDateTime
