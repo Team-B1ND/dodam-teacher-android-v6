@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +39,7 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamConten
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
 import kr.hs.dgsw.smartschool.components.foundation.Text
-import kr.hs.dgsw.smartschool.components.theme.Body2
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
@@ -56,17 +55,15 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDateTime
-import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -77,7 +74,7 @@ fun HomeScreen(
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 
     homeViewModel.collectSideEffect {
-        when(it) {
+        when (it) {
             is HomeSideEffect.ToastError -> {
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
                 Log.e("HomeScreenError", it.exception.stackTraceToString())
@@ -186,7 +183,7 @@ fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(56.dp))
+            Spacer(modifier = Modifier.height(72.dp)) // 56 + 16
         }
     }
 }
@@ -312,7 +309,7 @@ private fun HomeMealCard(navController: NavController, state: HomeState) {
                         else -> IcBreakfast3D(contentDescription = null)
                     }
                 },
-                content = when(it) {
+                content = when (it) {
                     0 -> state.meal?.breakfast ?: stringResource(id = R.string.desc_empty_breakfast)
                     1 -> state.meal?.lunch ?: stringResource(id = R.string.desc_empty_lunch)
                     2 -> state.meal?.dinner ?: stringResource(id = R.string.desc_empty_dinner)

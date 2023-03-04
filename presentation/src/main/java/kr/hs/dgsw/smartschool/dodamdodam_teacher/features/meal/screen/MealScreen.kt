@@ -18,14 +18,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -33,13 +31,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.dialog.DodamCalendarDialog
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.MealSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
-import org.orbitmvi.orbit.compose.collectAsState
-import org.orbitmvi.orbit.compose.collectSideEffect
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamMealCard
 import kr.hs.dgsw.smartschool.components.component.organization.card.MealType
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
@@ -48,19 +41,20 @@ import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.Body1
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Headline2
 import kr.hs.dgsw.smartschool.components.theme.IcLeftArrow
 import kr.hs.dgsw.smartschool.components.theme.IcRightArrow
 import kr.hs.dgsw.smartschool.components.theme.Label1
-import kr.hs.dgsw.smartschool.components.theme.Title1
-import kr.hs.dgsw.smartschool.components.theme.Title2
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.anim.shimmerEffect
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.MealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.MealState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.dayOfWeek
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kotlin.reflect.KCallable
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDate
 
 @Composable
 fun MealScreen(
@@ -103,7 +97,6 @@ fun MealScreen(
             backgroundColor = DodamTheme.color.Background,
             onStartIconClick = { navController.popBackStack() },
         )
-
 
         ChangeDateCard(mealViewModel, state)
 
