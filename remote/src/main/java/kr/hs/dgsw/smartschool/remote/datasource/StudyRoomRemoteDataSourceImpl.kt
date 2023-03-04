@@ -7,7 +7,7 @@ import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
 
-class StudyRoomDataSourceImpl @Inject constructor(
+class StudyRoomRemoteDataSourceImpl @Inject constructor(
     private val studyRoomService: StudyRoomService
 ) : StudyRoomRemoteDataSource {
     override suspend fun getAllHistory(

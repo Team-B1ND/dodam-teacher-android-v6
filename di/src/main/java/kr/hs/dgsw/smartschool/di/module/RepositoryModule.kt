@@ -6,8 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.repository.AuthRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MealRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.StudyRoomRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
+import kr.hs.dgsw.smartschool.domain.repository.StudyRoomRepository
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun providesAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesStudyRoomRepository(
+        studyRoomRepositoryImpl: StudyRoomRepositoryImpl
+    ): StudyRoomRepository
 }

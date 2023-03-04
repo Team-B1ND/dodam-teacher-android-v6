@@ -9,7 +9,7 @@ import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.datasource.AuthRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
-import kr.hs.dgsw.smartschool.remote.datasource.StudyRoomDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.StudyRoomRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -30,7 +30,7 @@ abstract class RemoteDataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun providesStudyRoomDataSource(
-        studyRoomDataSourceImpl: StudyRoomDataSourceImpl
+    abstract fun providesStudyRoomRemoteDataSource(
+        studyRoomRemoteDataSourceImpl: StudyRoomRemoteDataSourceImpl
     ): StudyRoomRemoteDataSource
 }
