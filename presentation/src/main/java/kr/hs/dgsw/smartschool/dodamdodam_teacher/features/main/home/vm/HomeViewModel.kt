@@ -87,7 +87,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getBanner() = intent {
-        getActiveBannersUseCase().onSuccess {
+        getActiveBannersUseCase(true).onSuccess {
             reduce {
                 state.copy(banners = it)
             }
