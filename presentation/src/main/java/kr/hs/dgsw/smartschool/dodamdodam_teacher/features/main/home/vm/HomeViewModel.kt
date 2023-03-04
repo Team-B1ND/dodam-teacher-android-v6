@@ -15,11 +15,13 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMealUseCase: GetMealUseCase,
+    private val getActiveBannersUseCase: GetActiveBannersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -32,6 +34,7 @@ class HomeViewModel @Inject constructor(
             else
                 LocalDate.now()
         )
+        getBanner()
     }
 
     private fun getOutsByDate(date: LocalDate) = intent {
@@ -79,6 +82,16 @@ class HomeViewModel @Inject constructor(
                     isMealLoading = false,
                 )
             }
+            postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
+    private fun getBanner() = intent {
+        getActiveBannersUseCase().onSuccess {
+            reduce {
+                state.copy(banners = it)
+            }
+        }.onFailure {
             postSideEffect(HomeSideEffect.ToastError(it))
         }
     }

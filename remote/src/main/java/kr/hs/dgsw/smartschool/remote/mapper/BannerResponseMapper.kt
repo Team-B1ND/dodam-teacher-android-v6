@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.banner.BannerStatus
@@ -14,8 +15,8 @@ internal fun List<BannerResponse>.toModel(): List<Banner> =
 internal fun BannerResponse.toModel(): Banner =
     Banner(
         bannerOrder = bannerOrder,
-        createdDate = createdDate.yearDateToLocalDate(),
-        expiryDateTime = expiryDateTime.yearDateToLocalDate(),
+        createdDate = createdDate.yearDateTimeToLocalDate(),
+        expiryDateTime = expiryDateTime.yearDateTimeToLocalDate(),
         id = id,
         image = image,
         url = redirectUrl,

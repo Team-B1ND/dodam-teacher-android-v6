@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.banner.BannerStatus
@@ -19,8 +20,8 @@ internal fun BannerEntity.toModel(): Banner =
     Banner(
         id = id,
         bannerOrder = bannerOrder,
-        createdDate = createdDate.yearDateToLocalDate(),
-        expiryDateTime = expiryDateTime.yearDateToLocalDate(),
+        createdDate = createdDate.yearDateTimeToLocalDate(),
+        expiryDateTime = expiryDateTime.yearDateTimeToLocalDate(),
         image = image,
         url = url,
         status = status.toBannerStatus(),

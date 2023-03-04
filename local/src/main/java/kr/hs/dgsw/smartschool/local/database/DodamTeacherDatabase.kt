@@ -16,6 +16,7 @@ import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
+import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
 import kr.hs.dgsw.smartschool.local.entity.classroom.ClassroomEntity
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
 import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
@@ -31,7 +32,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
     entities = [
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
-        AccountEntity::class, OutEntity::class,
+        AccountEntity::class, OutEntity::class, BannerEntity::class,
     ],
     version = 4,
     exportSchema = false
