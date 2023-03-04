@@ -13,6 +13,9 @@ import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.TokenRemoteDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.banner.BannerRemoteDataSource
+import kr.hs.dgsw.smartschool.local.datasource.BannerCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.BannerRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,4 +44,10 @@ abstract class RemoteDataSourceModule {
     abstract fun providesTokenDataSource(
         tokenRemoteDataSourceImpl: TokenRemoteDataSourceImpl
     ): TokenRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesBannerDataSource(
+        bannerRemoteDataSourceImpl: BannerRemoteDataSourceImpl
+    ): BannerRemoteDataSource
 }

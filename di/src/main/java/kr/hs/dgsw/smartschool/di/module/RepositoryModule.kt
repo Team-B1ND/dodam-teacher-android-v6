@@ -13,6 +13,8 @@ import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.repository.BannerRepositoryImpl
+import kr.hs.dgsw.smartschool.domain.repository.BannerRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,8 +38,15 @@ abstract class RepositoryModule {
         outRepositoryImpl: OutRepositoryImpl
     ): OutRepository
 
+    @Singleton
     @Binds
     abstract fun providesTokenRepository(
         tokenRepositoryImpl: TokenRepositoryImpl
     ): TokenRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesBannerRepository(
+        bannerRepositoryImpl: BannerRepositoryImpl
+    ): BannerRepository
 }

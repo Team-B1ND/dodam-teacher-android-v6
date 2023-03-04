@@ -21,6 +21,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.remote.service.BannerService
+import retrofit2.create
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -98,4 +100,9 @@ class NetworkModule {
     @Provides
     fun providesTokenService(@AuthRetrofit retrofit: Retrofit): TokenService =
         retrofit.create(TokenService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
+        retrofit.create(BannerService::class.java)
 }

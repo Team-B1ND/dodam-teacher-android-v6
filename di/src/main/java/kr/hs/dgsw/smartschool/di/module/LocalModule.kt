@@ -21,6 +21,8 @@ import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.domain.model.banner.Banner
+import kr.hs.dgsw.smartschool.local.dao.BannerDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -99,4 +101,10 @@ object LocalModule {
     fun provideOutDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): OutDao = dodamTeacherDatabase.outDao()
+
+    @Provides
+    @Singleton
+    fun provideBannerDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): BannerDao = dodamTeacherDatabase.bannerDao()
 }
