@@ -5,16 +5,16 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.repository.AuthRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.BannerRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MealRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.OutRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TokenRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
+import kr.hs.dgsw.smartschool.domain.repository.BannerRepository
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.data.repository.BannerRepositoryImpl
-import kr.hs.dgsw.smartschool.domain.repository.BannerRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

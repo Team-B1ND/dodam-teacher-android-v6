@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.banner.BannerStatus
 import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
@@ -40,7 +39,7 @@ internal fun Banner.toEntity(): BannerEntity =
         title = title,
     )
 
-internal fun String.toBannerStatus(): BannerStatus = when(this) {
+internal fun String.toBannerStatus(): BannerStatus = when (this) {
     BannerStatus.ACTIVE.name -> BannerStatus.ACTIVE
     BannerStatus.DEACTIVATED.name -> BannerStatus.DEACTIVATED
     else -> BannerStatus.ACTIVE

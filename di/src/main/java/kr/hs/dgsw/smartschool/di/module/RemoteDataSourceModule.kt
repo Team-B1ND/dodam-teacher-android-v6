@@ -5,17 +5,16 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthRemoteDataSource
+import kr.hs.dgsw.smartschool.data.datasource.banner.BannerRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.token.TokenRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.datasource.AuthRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.BannerRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.TokenRemoteDataSourceImpl
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.data.datasource.banner.BannerRemoteDataSource
-import kr.hs.dgsw.smartschool.local.datasource.BannerCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.remote.datasource.BannerRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
