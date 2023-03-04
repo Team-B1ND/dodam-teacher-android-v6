@@ -6,8 +6,10 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 data class MealState(
     val currentDate: LocalDate = LocalDate.now(),
     val showDialog: Boolean = false,
+    val calorie: String = "",
 
-    val loading: Boolean = true,
+    val getMealLoading: Boolean = false,
+    val getCalorieLoading: Boolean = false,
     val meal: Meal? = null,
 )
 

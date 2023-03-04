@@ -22,21 +22,55 @@ class MealViewModel @Inject constructor(
 
     override val container = container<MealState, MealSideEffect>(MealState())
 
+    init {
+        getCalorie()
+    }
+
     fun getMeal(date: LocalDate) = intent {
+        reduce {
+            state.copy(
+                getMealLoading = true,
+            )
+        }
         getMealUseCase(date)
             .onSuccess {
                 reduce {
                     state.copy(
-                        loading = false,
+                        getMealLoading = false,
                         meal = it
                     )
                 }
             }
             .onFailure { exception ->
                 reduce {
-                    state.copy(loading = false)
+                    state.copy(getMealLoading = false)
                 }
                 postSideEffect(MealSideEffect.ToastError(exception))
+            }
+    }
+
+    private fun getCalorie() = intent {
+        reduce {
+            state.copy(
+                getCalorieLoading = true,
+            )
+        }
+        getCalorieOfMealUseCase()
+            .onSuccess {
+                reduce {
+                    state.copy(
+                        getCalorieLoading = false,
+                        calorie = it.calorie.toString()
+                    )
+                }
+            }
+            .onFailure {
+                reduce {
+                    state.copy(
+                        getCalorieLoading = false,
+                        calorie = ""
+                    )
+                }
             }
     }
 
