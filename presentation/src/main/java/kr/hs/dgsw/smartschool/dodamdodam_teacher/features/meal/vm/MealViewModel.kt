@@ -55,4 +55,20 @@ class MealViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateDate(date: LocalDate) = intent {
+        reduce {
+            state.copy(
+                currentDate = date
+            )
+        }
+    }
+
+    fun changeShowDialogState() = intent {
+        reduce {
+            state.copy(
+                showDialog = state.showDialog.not()
+            )
+        }
+    }
 }

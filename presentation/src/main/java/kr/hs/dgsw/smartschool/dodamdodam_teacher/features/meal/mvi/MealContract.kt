@@ -5,6 +5,7 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 
 data class MealState(
     val currentDate: LocalDate = LocalDate.now(),
+    val showDialog: Boolean = false,
 
     val loading: Boolean = true,
     val meal: Meal? = null,

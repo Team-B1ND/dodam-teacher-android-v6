@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.surface
+import kr.hs.dgsw.smartschool.components.component.organization.calendar.dialog.DodamCalendarDialog
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.MealSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.vm.MealViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -54,6 +56,15 @@ fun MealScreen(
     mealViewModel.getMeal(state.currentDate)
 
     val scrollState = rememberScrollState()
+
+    if (state.showDialog) {
+        DodamCalendarDialog { date ->
+            date?.let {
+                mealViewModel.updateDate(it)
+            }
+            mealViewModel.changeShowDialogState()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -120,6 +131,9 @@ private fun ChangeDateCard(mealViewModel: MealViewModel, state: MealState) {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
+                .dodamClickable(rippleEnable = false) {
+                    mealViewModel.changeShowDialogState()
+                }
         ) {
             Row(modifier = Modifier.align(Alignment.Center)) {
                 Body2(
