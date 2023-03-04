@@ -14,4 +14,8 @@ sealed class NavGroup(val group: String) {
         const val OUT = "OUT"
         const val ETC = "ETC"
     }
+
+    object Feature : NavGroup("feature") {
+        const val MEAL = "meal"
+    }
 }

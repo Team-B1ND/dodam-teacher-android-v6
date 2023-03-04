@@ -11,6 +11,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeS
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 
 @Composable
 fun NavigationGraph(
@@ -45,6 +46,10 @@ fun NavigationGraph(
 
         composable(NavGroup.Main.HOME) {
             HomeScreen(navController = navController)
+        }
+
+        composable(NavGroup.Feature.MEAL) {
+            MealScreen(navController = navController)
         }
     }
 }

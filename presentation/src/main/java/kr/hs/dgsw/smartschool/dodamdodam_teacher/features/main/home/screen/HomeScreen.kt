@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,7 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamConten
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
 import kr.hs.dgsw.smartschool.components.foundation.Text
-import kr.hs.dgsw.smartschool.components.theme.Body2
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
@@ -54,13 +55,15 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDateTime
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -71,6 +74,12 @@ fun HomeScreen(
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 
     homeViewModel.collectSideEffect {
+        when (it) {
+            is HomeSideEffect.ToastError -> {
+                context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
+                Log.e("HomeScreenError", it.exception.stackTraceToString())
+            }
+        }
     }
 
     val scrollState = rememberScrollState()
@@ -128,7 +137,7 @@ fun HomeScreen(
                 )
             }
 
-            HomeMealCard()
+            HomeMealCard(navController, homeState)
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
 
@@ -174,7 +183,7 @@ fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(56.dp))
+            Spacer(modifier = Modifier.height(72.dp)) // 56 + 16
         }
     }
 }
@@ -260,13 +269,13 @@ private fun MealCardItem(
     ) {
         icon()
         Spacer(modifier = Modifier.width(19.dp))
-        Body2(text = content, textColor = DodamTheme.color.Black)
+        Body3(text = content, textColor = DodamTheme.color.Black)
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun HomeMealCard() {
+private fun HomeMealCard(navController: NavController, state: HomeState) {
     val initialPage = when (LocalDateTime.now().hour) {
         in 20..23 -> -1
         in 1..8 -> 0
@@ -282,6 +291,9 @@ private fun HomeMealCard() {
     HorizontalPager(
         count = 3,
         state = pagerState,
+        modifier = Modifier.dodamClickable(rippleEnable = false) {
+            navController.navigate(NavGroup.Feature.MEAL)
+        }
     ) {
         DodamContentCard(
             modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
@@ -297,7 +309,12 @@ private fun HomeMealCard() {
                         else -> IcBreakfast3D(contentDescription = null)
                     }
                 },
-                content = "석식이 없습니다."
+                content = when (it) {
+                    0 -> state.meal?.breakfast ?: stringResource(id = R.string.desc_empty_breakfast)
+                    1 -> state.meal?.lunch ?: stringResource(id = R.string.desc_empty_lunch)
+                    2 -> state.meal?.dinner ?: stringResource(id = R.string.desc_empty_dinner)
+                    else -> state.meal?.dinner ?: stringResource(id = R.string.desc_empty_dinner)
+                }
             )
         }
     }
