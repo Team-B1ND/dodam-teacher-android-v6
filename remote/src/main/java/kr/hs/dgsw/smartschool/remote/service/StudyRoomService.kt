@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.service
 
-import kr.hs.dgsw.smartschool.remote.request.studyroom.StudyRoomRequest
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
@@ -20,19 +20,19 @@ interface StudyRoomService {
     ) : Response<List<StudyRoomResponse>>
 
     @POST(DodamUrl.StudyRoom.CHECK)
-    suspend fun postStudyRoomCheck(
+    suspend fun postCheckStudyRoom(
         @Query("id") id : Int
-    ) : Response<Any>
+    ) : Response<Unit>
 
     @POST(DodamUrl.StudyRoom.UNCHECK)
-    suspend fun postStudyRoomUnCheck(
+    suspend fun postUnCheckStudyRoom(
         @Path("id") id : Int
-    ) : Response<Any>
+    ) : Response<Unit>
 
     @POST(DodamUrl.StudyRoom.CTRL)
     suspend fun postStudyRoomCtrl(
         @Body studentId : Int,
-        @Body studyRoomList : List<StudyRoomRequest>
-    ) : Response<Any>
+        @Body studyRoomList : StudyRoomRequest
+    ) : Response<Unit>
 
 }

@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.data.datasource.studyroom
 
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 
 interface StudyRoomRemoteDataSource {
     suspend fun getAllHistory() : StudyRoomList
@@ -11,5 +12,5 @@ interface StudyRoomRemoteDataSource {
 
     suspend fun unCheckStudyRoom(id : Int)
 
-    suspend fun ctrlStudyRoom(studentId : Int, placeId : Int, timeTableId : Int)
+    suspend fun ctrlStudyRoom(studentId : Int, studyRoomList: StudyRoomRequest)
 }
