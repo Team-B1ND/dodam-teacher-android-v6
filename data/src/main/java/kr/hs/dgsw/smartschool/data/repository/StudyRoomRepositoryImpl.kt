@@ -24,12 +24,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
         return remote.getHistoryById(id)
     }
 
-    override suspend fun checkStudyRoom(id: Int) {
-        remote.checkStudyRoom(id)
-    }
-
-    override suspend fun unCheckStudyRoom(id: Int) {
-        remote.unCheckStudyRoom(id)
+    override suspend fun checkStudyRoom(id: Int, isChecked: Boolean) {
+        when(isChecked){
+            true -> remote.unCheckStudyRoom(id)
+            false -> remote.checkStudyRoom(id)
+        }
     }
 
     override suspend fun ctrlStudyRoom(studentId: Int, studyRoomList: StudyRoomRequest) {

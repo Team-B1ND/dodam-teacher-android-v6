@@ -8,9 +8,7 @@ interface StudyRoomRepository {
 
     suspend fun getHistoryById(id : Int) : StudyRoomList
 
-    suspend fun checkStudyRoom(id : Int)
-
-    suspend fun unCheckStudyRoom(id : Int)
+    suspend fun checkStudyRoom(id : Int, isChecked : Boolean)
 
     suspend fun ctrlStudyRoom(studentId : Int, studyRoomList: StudyRoomRequest)
 }
