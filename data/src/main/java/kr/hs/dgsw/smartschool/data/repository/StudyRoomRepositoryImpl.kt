@@ -11,8 +11,13 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override val remote: StudyRoomRemoteDataSource,
     override val cache : Any
 ) : BaseRepository<StudyRoomRemoteDataSource, Any>,StudyRoomRepository {
-    override suspend fun getHistoryByTime(startTime :) : StudyRoomList {
-        return remote.getAllHistory()
+
+    override suspend fun getHistoryByTime(startTime: String, endTime: String): StudyRoomList {
+        return StudyRoomList(
+            remote.getAllHistory().studyRoomList.filter {
+                it.timeTable.startTime == startTime && it.timeTable.endTime == endTime
+            }
+        )
     }
 
     override suspend fun getHistoryById(id: Int): StudyRoomList {
