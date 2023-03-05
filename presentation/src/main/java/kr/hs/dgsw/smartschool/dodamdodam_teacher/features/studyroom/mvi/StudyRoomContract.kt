@@ -8,6 +8,6 @@ data class StudyRoomState(
     val studyRoomList : StudyRoomList? = null,
 )
 
-sealed class StudyRoomEffect {
-    data class Toast(val message: String) : StudyRoomEffect()
+sealed class StudyRoomSideEffect {
+    data class Toast(val message: String) : StudyRoomSideEffect()
 }
