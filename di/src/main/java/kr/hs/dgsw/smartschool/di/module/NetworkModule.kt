@@ -12,6 +12,7 @@ import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
 import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
+import kr.hs.dgsw.smartschool.remote.service.BannerService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
@@ -20,6 +21,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -98,4 +100,9 @@ class NetworkModule {
     @Provides
     fun providesTokenService(@AuthRetrofit retrofit: Retrofit): TokenService =
         retrofit.create(TokenService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
+        retrofit.create(BannerService::class.java)
 }

@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
+import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
@@ -99,4 +100,10 @@ object LocalModule {
     fun provideOutDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): OutDao = dodamTeacherDatabase.outDao()
+
+    @Provides
+    @Singleton
+    fun provideBannerDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): BannerDao = dodamTeacherDatabase.bannerDao()
 }

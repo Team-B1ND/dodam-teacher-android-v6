@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -130,11 +132,10 @@ fun HomeScreen(
 
             Box(modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding)) {
                 DodamBanner(
-                    imageUrls = listOf(
-                        "https://dodam.kr.object.ncloudstorage.com/dodam/c70c7b96-dd67-4467-a49c-2d0baa459624TEAM%20B1ND%20Banner.png",
-                        "https://i.ytimg.com/vi/rX0eNVqEn10/maxresdefault.jpg"
-                    )
-                )
+                    imageUrls = homeState.banners.map { it.image },
+                ) { page ->
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(homeState.banners[page].url)))
+                }
             }
 
             HomeMealCard(navController, homeState)

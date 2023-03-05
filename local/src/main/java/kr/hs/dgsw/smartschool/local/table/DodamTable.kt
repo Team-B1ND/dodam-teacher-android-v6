@@ -14,4 +14,5 @@ object DodamTable {
     const val TOKEN = "token_table"
     const val ACCOUNT = "account_table"
     const val OUT = "out_table"
+    const val BANNER = "banner_table"
 }

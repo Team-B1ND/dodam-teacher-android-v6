@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
+import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import org.orbitmvi.orbit.Container
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMealUseCase: GetMealUseCase,
+    private val getActiveBannersUseCase: GetActiveBannersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -32,6 +34,7 @@ class HomeViewModel @Inject constructor(
             else
                 LocalDate.now()
         )
+        getBanner()
     }
 
     private fun getOutsByDate(date: LocalDate) = intent {
@@ -79,6 +82,16 @@ class HomeViewModel @Inject constructor(
                     isMealLoading = false,
                 )
             }
+            postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
+    private fun getBanner() = intent {
+        getActiveBannersUseCase(true).onSuccess {
+            reduce {
+                state.copy(banners = it)
+            }
+        }.onFailure {
             postSideEffect(HomeSideEffect.ToastError(it))
         }
     }

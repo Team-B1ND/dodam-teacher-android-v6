@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
+import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
@@ -15,6 +16,7 @@ import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
+import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
 import kr.hs.dgsw.smartschool.local.entity.classroom.ClassroomEntity
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
 import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
@@ -30,9 +32,9 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
     entities = [
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
-        AccountEntity::class, OutEntity::class,
+        AccountEntity::class, OutEntity::class, BannerEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 
@@ -47,6 +49,7 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun tokenDao(): TokenDao
     abstract fun accountDao(): AccountDao
     abstract fun outDao(): OutDao
+    abstract fun bannerDao(): BannerDao
 }
 
 val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
