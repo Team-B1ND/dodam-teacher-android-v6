@@ -23,6 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.remote.service.PointService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -105,4 +106,9 @@ class NetworkModule {
     @Provides
     fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
         retrofit.create(BannerService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesPointService(@BasicRetrofit retrofit: Retrofit): PointService =
+        retrofit.create(PointService::class.java)
 }
