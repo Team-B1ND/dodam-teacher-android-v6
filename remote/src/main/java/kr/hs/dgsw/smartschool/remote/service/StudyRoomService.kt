@@ -12,10 +12,10 @@ import retrofit2.http.Query
 
 interface StudyRoomService {
     @GET(DodamUrl.StudyRoom.HISTORY)
-    suspend fun getAllHistory() : Response<List<StudyRoomResponse>>
+    suspend fun getAllSheet() : Response<List<StudyRoomResponse>>
 
     @GET(DodamUrl.StudyRoom.HISTORY_ID)
-    suspend fun getHistoryById(
+    suspend fun getSheetById(
         @Path("id") id : Int
     ) : Response<List<StudyRoomResponse>>
 

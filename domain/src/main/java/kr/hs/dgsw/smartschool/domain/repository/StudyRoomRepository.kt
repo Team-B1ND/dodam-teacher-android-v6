@@ -4,9 +4,9 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 
 interface StudyRoomRepository {
-    suspend fun getHistoryByTime(startTime : String, endTime : String) : StudyRoomList
+    suspend fun getSheetByTime(startTime : String, endTime : String) : StudyRoomList
 
-    suspend fun getHistoryById(id : Int) : StudyRoomList
+    suspend fun getSheetById(id : Int) : StudyRoomList
 
     suspend fun checkStudyRoom(id : Int, isChecked : Boolean)
 

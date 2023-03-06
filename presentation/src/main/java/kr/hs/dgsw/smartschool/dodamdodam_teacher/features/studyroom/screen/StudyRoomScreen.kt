@@ -4,12 +4,11 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.mvi.GetMealSideEffect
+import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.vm.StudyRoomViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -26,6 +25,9 @@ fun StudyRoomScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        {
+
+        }
     }
 
 }

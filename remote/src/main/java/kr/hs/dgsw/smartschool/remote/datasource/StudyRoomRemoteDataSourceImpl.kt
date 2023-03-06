@@ -11,15 +11,15 @@ import javax.inject.Inject
 class StudyRoomRemoteDataSourceImpl @Inject constructor(
     private val studyRoomService: StudyRoomService
 ) : StudyRoomRemoteDataSource {
-    override suspend fun getAllHistory(
+    override suspend fun getAllSheet(
     ) : StudyRoomList = dodamApiCall {
-        studyRoomService.getAllHistory().data.toModel()
+        studyRoomService.getAllSheet().data.toModel()
     }
 
-    override suspend fun getHistoryById(
+    override suspend fun getSheetById(
         id : Int
     ) : StudyRoomList = dodamApiCall {
-        studyRoomService.getHistoryById(id).data.toModel()
+        studyRoomService.getSheetById(id).data.toModel()
     }
 
     override suspend fun checkStudyRoom(

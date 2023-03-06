@@ -12,16 +12,16 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override val cache : Any
 ) : BaseRepository<StudyRoomRemoteDataSource, Any>,StudyRoomRepository {
 
-    override suspend fun getHistoryByTime(startTime: String, endTime: String): StudyRoomList {
+    override suspend fun getSheetByTime(startTime: String, endTime: String): StudyRoomList {
         return StudyRoomList(
-            remote.getAllHistory().studyRoomList.filter {
+            remote.getAllSheet().studyRoomList.filter {
                 it.timeTable.startTime == startTime && it.timeTable.endTime == endTime
             }
         )
     }
 
-    override suspend fun getHistoryById(id: Int): StudyRoomList {
-        return remote.getHistoryById(id)
+    override suspend fun getSheetById(id: Int): StudyRoomList {
+        return remote.getSheetById(id)
     }
 
     override suspend fun checkStudyRoom(id: Int, isChecked: Boolean) {
