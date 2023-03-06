@@ -151,7 +151,7 @@ fun HomeScreen(
                             contentDescription = null,
                             modifier = Modifier.size(32.dp)
                         )
-                    }
+                    },
                 ),
                 ItemCardContent(
                     subTitle = stringResource(id = R.string.label_manage),
@@ -180,7 +180,16 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
             ) {
                 items(itemCardList) { item: ItemCardContent ->
-                    DodamItemCard(title = item.title, subTitle = item.subTitle, icon = item.icon)
+                    DodamItemCard(
+                        title = item.title,
+                        subTitle = item.subTitle,
+                        icon = item.icon,
+                        onClick = {
+                            when(item.title) {
+                                context.getString(R.string.title_prize) -> navController.navigate(NavGroup.Feature.POINT)
+                            }
+                        }
+                    )
                 }
             }
 
