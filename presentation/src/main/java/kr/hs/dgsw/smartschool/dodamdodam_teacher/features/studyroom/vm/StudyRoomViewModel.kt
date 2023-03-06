@@ -21,8 +21,7 @@ class StudyRoomViewModel @Inject constructor(
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container = container<StudyRoomState, StudyRoomSideEffect>(StudyRoomState())
-
-    fun get(){
+    fun getSheetByTime(){
 
     }
 }

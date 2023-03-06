@@ -11,6 +11,9 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override val remote: StudyRoomRemoteDataSource,
     override val cache : Any
 ) : BaseRepository<StudyRoomRemoteDataSource, Any>,StudyRoomRepository {
+    override suspend fun getAllSheet()
+    : StudyRoomList
+    = remote.getAllSheet()
 
     override suspend fun getSheetByTime(startTime: String, endTime: String): StudyRoomList {
         return StudyRoomList(
