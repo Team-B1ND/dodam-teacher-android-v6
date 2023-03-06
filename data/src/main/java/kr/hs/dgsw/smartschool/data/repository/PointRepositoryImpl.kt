@@ -5,6 +5,7 @@ import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
+import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 
@@ -33,5 +34,9 @@ class PointRepositoryImpl @Inject constructor(
             studentId = studentId,
             type = type,
         )
+    }
+
+    override suspend fun getReason(): List<PointReason> {
+        return remote.getReason()
     }
 }

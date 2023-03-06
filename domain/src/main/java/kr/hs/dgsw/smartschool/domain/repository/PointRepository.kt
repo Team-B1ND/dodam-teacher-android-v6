@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.domain.repository
 
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
+import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 
 interface PointRepository {
@@ -16,4 +17,6 @@ interface PointRepository {
         studentId: List<Int>,
         type: PointType,
     )
+
+    suspend fun getReason(): List<PointReason>
 }

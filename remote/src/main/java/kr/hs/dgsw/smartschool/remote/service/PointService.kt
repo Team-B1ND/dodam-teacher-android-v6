@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.remote.service
 
 import kr.hs.dgsw.smartschool.remote.request.point.GivePointRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
+import kr.hs.dgsw.smartschool.remote.response.point.PointReasonResponse
 import kr.hs.dgsw.smartschool.remote.response.point.PointResponse
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import retrofit2.http.Body
@@ -22,4 +23,7 @@ interface PointService {
     suspend fun givePoint(
         @Body givePointRequest: GivePointRequest
     ): Response<Unit>
+
+    @GET(DodamUrl.Point.GET_REASON)
+    suspend fun getReason(): Response<List<PointReasonResponse>>
 }
