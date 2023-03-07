@@ -16,8 +16,10 @@ import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
 import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.data.repository.ClassroomRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.MemberRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PointRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
+import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 
 @Module
@@ -65,4 +67,10 @@ abstract class RepositoryModule {
     abstract fun providesClassroomRepository(
         classroomRepositoryImpl: ClassroomRepositoryImpl
     ): ClassroomRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesMemberRepository(
+        memberRepositoryImpl: MemberRepositoryImpl
+    ): MemberRepository
 }

@@ -24,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.remote.service.ClassroomService
+import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.PointService
 
 @Module
@@ -117,4 +118,9 @@ class NetworkModule {
     @Provides
     fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
         retrofit.create(ClassroomService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesMemberService(@BasicRetrofit retrofit: Retrofit): MemberService =
+        retrofit.create(MemberService::class.java)
 }
