@@ -25,9 +25,7 @@ fun StudyRoomScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        {
 
-        }
     }
 
 }

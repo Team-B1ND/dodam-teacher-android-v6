@@ -91,4 +91,25 @@ class NetworkModule {
     @Provides
     fun providesAuthService(@AuthRetrofit retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
+        retrofit.create(BannerService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesOutService(@AuthRetrofit retrofit: Retrofit): OutService =
+        retrofit.create(OutService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesTokenService(@BasicRetrofit retrofit: Retrofit): TokenService =
+        retrofit.create(TokenService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesStudyRoomService(@AuthRetrofit retrofit: Retrofit): StudyRoomService =
+        retrofit.create(StudyRoomService::class.java)
+
 }
