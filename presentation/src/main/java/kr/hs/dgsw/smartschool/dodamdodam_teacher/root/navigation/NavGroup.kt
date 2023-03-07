@@ -8,6 +8,14 @@ sealed class NavGroup(val group: String) {
     }
 
     object Main : NavGroup("main") {
+        const val MAIN = "main"
         const val HOME = "home"
+        const val STUDYROOM = "studyroom"
+        const val OUT = "OUT"
+        const val ETC = "ETC"
+    }
+
+    object Feature : NavGroup("feature") {
+        const val MEAL = "meal"
     }
 }

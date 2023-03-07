@@ -6,14 +6,23 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kr.hs.dgsw.smartschool.di.qualifier.AuthOkhttpClient
+import kr.hs.dgsw.smartschool.di.qualifier.AuthRetrofit
+import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
+import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
+import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
+import kr.hs.dgsw.smartschool.remote.service.BannerService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -28,9 +37,10 @@ class NetworkModule {
         return gsonBuilder.create()
     }
 
+    @AuthOkhttpClient
     @Provides
     @Singleton
-    fun provideHttpClient(): OkHttpClient {
+    fun provideAuthClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val okhttpBuilder = OkHttpClient().newBuilder()
@@ -38,9 +48,22 @@ class NetworkModule {
         return okhttpBuilder.build()
     }
 
+    @OkhttpClient
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    fun provideHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val okhttpBuilder = OkHttpClient().newBuilder()
+            .addInterceptor(interceptor)
+            .addInterceptor(tokenInterceptor)
+        return okhttpBuilder.build()
+    }
+
+    @BasicRetrofit
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson, @OkhttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(DodamUrl.BASE_URL)
@@ -48,18 +71,24 @@ class NetworkModule {
             .build()
     }
 
+    @AuthRetrofit
+    @Provides
+    @Singleton
+    fun provideAuthRetrofit(gson: Gson, @AuthOkhttpClient okHttpAuthClint: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpAuthClint)
+            .baseUrl(DodamUrl.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
     @Singleton
     @Provides
-    fun providesMealService(retrofit: Retrofit): MealService =
+    fun providesMealService(@BasicRetrofit retrofit: Retrofit): MealService =
         retrofit.create(MealService::class.java)
 
     @Singleton
     @Provides
-    fun providesAuthService(retrofit: Retrofit): AuthService =
+    fun providesAuthService(@AuthRetrofit retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesStudyRoomService(retrofit: Retrofit): StudyRoomService =
-        retrofit.create(StudyRoomService::class.java)
 }

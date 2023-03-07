@@ -6,7 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.screen.JoinScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen.LoginScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 
 @Composable
 fun NavigationGraph(
@@ -23,11 +28,31 @@ fun NavigationGraph(
             JoinScreen(navController = navController)
         }
 
+        composable(NavGroup.Main.MAIN) {
+            MainScreen(navController = navController)
+        }
+
+        composable(NavGroup.Main.STUDYROOM) {
+            StudyroomScreen(navController = navController)
+        }
+
+        composable(NavGroup.Main.OUT) {
+            OutScreen(navController = navController)
+        }
+
+        composable(NavGroup.Main.ETC) {
+            EtcScreen(navController = navController)
+        }
+
         composable(NavGroup.Main.HOME) {
             HomeScreen(navController = navController)
+        }
+
+        composable(NavGroup.Feature.MEAL) {
+            MealScreen(navController = navController)
         }
     }
 }
 
 fun getStartDestination(enableAutoLogin: Boolean) =
-    if (enableAutoLogin) NavGroup.Main.HOME else NavGroup.Auth.LOGIN
+    if (enableAutoLogin) NavGroup.Main.MAIN else NavGroup.Auth.LOGIN

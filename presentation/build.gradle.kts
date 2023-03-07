@@ -104,6 +104,10 @@ dependencies {
     // map
     implementation(NaverMap.NAVER_MAP)
 
+    // pager
+    implementation(Compose.PAGER_COMPOSE)
+    implementation(Compose.PAGER_INDICATORS_COMPOSE)
+
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
 }
