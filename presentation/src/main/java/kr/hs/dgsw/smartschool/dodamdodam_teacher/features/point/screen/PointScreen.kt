@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,9 +33,11 @@ import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label2
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun PointScreen(
@@ -49,6 +52,16 @@ fun PointScreen(
         checkPage(navController, state.value.page, pointViewModel)
     }
 
+    pointViewModel.collectSideEffect {
+        when(it) {
+            is PointSideEffect.FailToGetClassrooms -> {
+                context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
+                Log.e("PointErrorLog", it.exception.stackTraceToString())
+                navController.popBackStack()
+            }
+        }
+    }
+
     Column(
         modifier = Modifier.background(DodamTheme.color.White)
     ) {
@@ -61,17 +74,27 @@ fun PointScreen(
                 .weight(1f)
                 .fillMaxWidth()
         ) {
+            val gradeList = state.value.classrooms.asSequence().map { it.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+                stringResource(id = R.string.label_all)
+            ).toList().reversed()
+
+            val roomList = state.value.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+                stringResource(id = R.string.label_all)
+            ).toList().reversed()
+
             PointCategorySelectBar(
                 modifier = Modifier
                     .padding(horizontal = DodamDimen.ScreenSidePadding),
-                categoryList = listOf("전체", "1학년", "2학년", "3학년"),
+                categoryList = gradeList,
                 onSelectedItem = { idx -> context.shortToast(idx.toString()) }
             )
+
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
             PointCategorySelectBar(
                 modifier = Modifier
                     .padding(horizontal = DodamDimen.ScreenSidePadding),
-                categoryList = listOf("전체", "1반", "2반", "3반", "4반"),
+                categoryList = roomList,
                 onSelectedItem = { idx -> context.shortToast(idx.toString()) }
             )
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding * 2))
@@ -85,6 +108,7 @@ fun PointScreen(
             )
         ) {
             DodamMaxWidthButton(
+                modifier = Modifier.background(DodamTheme.color.MainColor400),
                 text = stringResource(id = R.string.label_next),
             ) {
                 when (state.value.page) {
