@@ -12,13 +12,9 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import kr.hs.dgsw.smartschool.domain.model.studyroom.student.Student
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
-import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
-import kr.hs.dgsw.smartschool.remote.response.member.MemberResponseRole
-import kr.hs.dgsw.smartschool.remote.response.place.PlaceResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
 import kr.hs.dgsw.smartschool.remote.response.studyroom.TimeTableType
-import kr.hs.dgsw.smartschool.remote.utils.yearDateToLocalDate
 
 internal fun StudyRoomResponse.toModel(): StudyRoom =
     StudyRoom(
@@ -48,7 +44,7 @@ internal fun StudyRoomResponse.toModel(): StudyRoom =
                 member = with(member) {
                     Member(
                         email = email,
-                        id = id.toString(),
+                        id = id,
                         joinDate = joinDate,
                         name = name,
                         profileImage = profileImage,

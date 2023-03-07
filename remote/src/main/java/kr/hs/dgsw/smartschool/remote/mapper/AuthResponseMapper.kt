@@ -21,7 +21,7 @@ internal fun MemberResponse.toMember(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = joinDate?.yearDateTimeToLocalDate(),
+        joinDate = joinDate,
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),

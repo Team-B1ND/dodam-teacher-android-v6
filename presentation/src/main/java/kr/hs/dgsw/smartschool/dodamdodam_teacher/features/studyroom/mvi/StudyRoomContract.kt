@@ -10,4 +10,5 @@ data class StudyRoomState(
 
 sealed class StudyRoomSideEffect {
     data class Toast(val message: String) : StudyRoomSideEffect()
+    data class ToastError(val throwable: Throwable) : StudyRoomSideEffect()
 }

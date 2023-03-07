@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.vm.StudyRoomViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -31,8 +30,9 @@ fun StudyRoomScreen(
 }
 
 private fun handleSideEffect(context: Context, sideEffect: StudyRoomSideEffect) {
-    when (sideEffect) {
+    when(sideEffect) {
         is StudyRoomSideEffect.Toast -> showToast(context, sideEffect.message)
+        else -> {}
     }
 }
 private fun showToast(context: Context, message: String) {
