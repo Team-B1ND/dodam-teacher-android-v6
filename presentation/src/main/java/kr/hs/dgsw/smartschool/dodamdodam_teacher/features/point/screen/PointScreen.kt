@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,6 +31,7 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label2
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
@@ -83,7 +85,7 @@ fun PointScreen(
             )
         ) {
             DodamMaxWidthButton(
-                text = "다음",
+                text = stringResource(id = R.string.label_next),
             ) {
                 when (state.value.page) {
                     1 -> pointViewModel.updatePage(2)
