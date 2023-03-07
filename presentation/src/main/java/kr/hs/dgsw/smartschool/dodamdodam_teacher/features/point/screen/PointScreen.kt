@@ -3,13 +3,19 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,12 +30,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.component.basic.surface
+import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
+import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.theme.Label2
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
@@ -97,7 +106,34 @@ fun PointScreen(
                 categoryList = roomList,
                 onSelectedItem = { idx -> context.shortToast(idx.toString()) }
             )
-            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding * 2))
+
+            val studentList = listOf(
+                PointStudent("최민재"),
+                PointStudent("금현호"),
+                PointStudent("김도현"),
+                PointStudent("기준"),
+                PointStudent("임동현"),
+                PointStudent("김상은"),
+                PointStudent("김준호"),
+                PointStudent("우준성"),
+                PointStudent("크리스"),
+                PointStudent("Mooooong"),
+                PointStudent("Kim"),
+                PointStudent("도현욱"),
+                PointStudent("윤석규"),
+            )
+
+            LazyColumn(
+                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding),
+                verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
+            ) {
+                items(studentList) { pointStudent ->
+                    CheckStudentItem(
+                        modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+                        pointStudent = pointStudent
+                    )
+                }
+            }
         }
 
         Box(
@@ -175,6 +211,48 @@ private fun PointCategorySelectBar(
         }
     }
 }
+
+@Composable
+private fun CheckStudentItem(
+    modifier: Modifier = Modifier,
+    pointStudent: PointStudent
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .surface(RoundedCornerShape(100.dp), DodamTheme.color.Background)
+            .height(44.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Avatar(
+            modifier = Modifier
+                .padding(start = DodamDimen.ScreenSidePadding)
+                .size(30.dp),
+            iconColor = DodamTheme.color.Gray400,
+            iconSize = 15.dp,
+            backgroundColor = DodamTheme.color.White,
+        )
+
+        Spacer(modifier = Modifier.width(11.dp))
+
+        Label1(
+            text = pointStudent.name,
+            modifier = Modifier.weight(1f)
+        )
+
+        DodamCheckBox(
+            modifier = Modifier
+                .padding(end = DodamDimen.ScreenSidePadding),
+            isChecked = pointStudent.isChecked,
+            boxSize = 16.dp
+        )
+    }
+}
+
+data class PointStudent(
+    val name: String,
+    val isChecked: Boolean = false,
+)
 
 private fun checkPage(navController: NavController, page: Int, pointViewModel: PointViewModel) {
     when (page) {
