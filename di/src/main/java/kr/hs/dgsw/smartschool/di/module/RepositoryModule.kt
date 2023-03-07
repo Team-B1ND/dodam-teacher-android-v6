@@ -18,9 +18,11 @@ import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.data.repository.ClassroomRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MemberRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PointRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.TeacherRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
 import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
+import kr.hs.dgsw.smartschool.domain.repository.TeacherRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -73,4 +75,10 @@ abstract class RepositoryModule {
     abstract fun providesMemberRepository(
         memberRepositoryImpl: MemberRepositoryImpl
     ): MemberRepository
+    
+    @Singleton
+    @Binds
+    abstract fun providesTeacherRepository(
+        teacherRepositoryImpl: TeacherRepositoryImpl
+    ): TeacherRepository
 }
