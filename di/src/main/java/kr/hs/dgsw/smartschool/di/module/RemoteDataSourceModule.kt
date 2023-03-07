@@ -15,7 +15,9 @@ import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.TokenRemoteDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
+import kr.hs.dgsw.smartschool.remote.datasource.ClassroomRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.PointRemoteDataSourceImpl
 
 @Module
@@ -57,4 +59,10 @@ abstract class RemoteDataSourceModule {
     abstract fun providesPointDataSource(
         pointRemoteDataSourceImpl: PointRemoteDataSourceImpl
     ): PointRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesClassroomDataSource(
+        classroomRemoteDataSourceImpl: ClassroomRemoteDataSourceImpl
+    ): ClassroomRemoteDataSource
 }
