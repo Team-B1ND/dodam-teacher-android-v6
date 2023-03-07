@@ -74,4 +74,6 @@
     <string name="desc_empty_calorie">칼로리를 받아오지 못했어요</string>
     <string name="label_calorie">오늘 삼시세끼 칼로리는?</string>
     <string name="label_kcal">Kcal</string>
+
+    <string name="label_all">전체</string>
 </resources>

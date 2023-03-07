@@ -9,7 +9,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
 )
 data class PlaceEntity(
     @PrimaryKey val id: Int,
-    val name: Int,
+    val name: String,
     val placeTypeId: Int,
     val placeTypeName: String,
 )
