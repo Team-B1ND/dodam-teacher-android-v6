@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
@@ -22,7 +23,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
 
 @Composable
-internal fun CheckStudentItem(
+fun CheckStudentItem(
     pointViewModel: PointViewModel,
     pointStudent: PointState.PointStudent,
     modifier: Modifier = Modifier,
@@ -30,8 +31,19 @@ internal fun CheckStudentItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .surface(RoundedCornerShape(100.dp), DodamTheme.color.Background)
-            .height(44.dp),
+            .surface(
+                shape = RoundedCornerShape(100.dp),
+                backgroundColor = if (pointStudent.isChecked)
+                    DodamTheme.color.MainColor400
+                else
+                    DodamTheme.color.Background
+            )
+            .height(44.dp)
+            .dodamClickable {
+                pointViewModel.updateChecked(
+                    pointStudent.id
+                )
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar(
@@ -47,10 +59,14 @@ internal fun CheckStudentItem(
 
         Label1(
             text = pointStudent.name,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            textColor = if (pointStudent.isChecked)
+                DodamTheme.color.White
+            else
+                DodamTheme.color.Black
         )
 
-        DodamCheckBox(
+/*        DodamCheckBox(
             modifier = Modifier
                 .padding(end = DodamDimen.ScreenSidePadding),
             isChecked = pointStudent.isChecked,
@@ -59,6 +75,6 @@ internal fun CheckStudentItem(
             pointViewModel.updateChecked(
                 pointStudent.id
             )
-        }
+        }*/
     }
 }
