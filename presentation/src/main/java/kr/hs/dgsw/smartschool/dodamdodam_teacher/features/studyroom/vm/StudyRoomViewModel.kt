@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
@@ -36,15 +37,21 @@ class StudyRoomViewModel @Inject constructor(
         }
 
         getAllSheetUseCase().onSuccess { studyRoomResult ->
-            val eighthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "16:30" && it.timeTable.endTime == "17:20" }.size
-            val ninethClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "17:30" && it.timeTable.endTime == "18:20" }.size
-            val tenthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "19:10" && it.timeTable.endTime == "20:00" }.size
-            val eleventhClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "20:10" && it.timeTable.endTime == "21:00" }.size
+            val isWeekDay : Boolean = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY
+            val firstClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "16:30" && it.timeTable.endTime == "17:20" }.size
+            val secondClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "17:30" && it.timeTable.endTime == "18:20" }.size
+            val thirdClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "19:10" && it.timeTable.endTime == "20:00" }.size
+            val fourthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "20:10" && it.timeTable.endTime == "21:00" }.size
 
             reduce {
                 state.copy(
                     loading = false,
-                    studyRoomList = studyRoomResult
+                    studyRoomList = studyRoomResult,
+                    isWeekDay = isWeekDay,
+                    firstClass = firstClass,
+                    secondClass = secondClass,
+                    thirdClass = thirdClass,
+                    fourthClass = fourthClass
                 )
             }
         }.onFailure {

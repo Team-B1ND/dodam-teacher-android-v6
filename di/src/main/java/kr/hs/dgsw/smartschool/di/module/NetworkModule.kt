@@ -111,11 +111,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
-        retrofit.create(BannerService::class.java)
-
-    @Singleton
-    @Provides
     fun providesPointService(@BasicRetrofit retrofit: Retrofit): PointService =
         retrofit.create(PointService::class.java)
 
@@ -123,7 +118,10 @@ class NetworkModule {
     @Provides
     fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
         retrofit.create(ClassroomService::class.java)
-    fun providesStudyRoomService(@AuthRetrofit retrofit: Retrofit): StudyRoomService =
+
+    @Singleton
+    @Provides
+    fun providesStudyRoomService(@BasicRetrofit retrofit: Retrofit): StudyRoomService =
         retrofit.create(StudyRoomService::class.java)
 
 }

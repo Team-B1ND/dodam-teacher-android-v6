@@ -31,7 +31,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcOut
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -66,7 +66,7 @@ fun MainScreen(
                         HomeScreen(navController = navController)
                     }
                     1 -> {
-                        StudyroomScreen(navController = navController)
+                        StudyRoomScreen(navController = navController)
                     }
                     2 -> {
                         OutScreen(navController = navController)

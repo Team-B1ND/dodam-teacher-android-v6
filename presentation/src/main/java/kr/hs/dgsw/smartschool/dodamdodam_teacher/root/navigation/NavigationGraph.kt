@@ -10,7 +10,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.PointScreen
 
@@ -34,7 +34,7 @@ fun NavigationGraph(
         }
 
         composable(NavGroup.Main.STUDYROOM) {
-            StudyroomScreen(navController = navController)
+            StudyRoomScreen(navController = navController)
         }
 
         composable(NavGroup.Main.OUT) {

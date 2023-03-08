@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 class StudyRoomRepositoryImpl @Inject constructor(
     override val remote: StudyRoomRemoteDataSource,
-    override val cache : Any
 ) : BaseRepository<StudyRoomRemoteDataSource, Any>,StudyRoomRepository {
     override suspend fun getAllSheet()
     : StudyRoomList
@@ -37,4 +36,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun ctrlStudyRoom(studentId: Int, studyRoomList: StudyRoomRequest) {
         remote.ctrlStudyRoom(studentId, studyRoomList)
     }
+
+    override val cache: Any
+        get() = TODO("Not yet implemented")
 }

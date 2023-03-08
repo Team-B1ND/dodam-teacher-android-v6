@@ -6,6 +6,11 @@ data class StudyRoomState(
     val loading: Boolean = true,
     val exception: Throwable? = null,
     val studyRoomList : StudyRoomList? = null,
+    val isWeekDay : Boolean? = null,
+    val firstClass : Int? = null,
+    val secondClass : Int? = null,
+    val thirdClass : Int? = null,
+    val fourthClass : Int? = null,
 )
 
 sealed class StudyRoomSideEffect {
