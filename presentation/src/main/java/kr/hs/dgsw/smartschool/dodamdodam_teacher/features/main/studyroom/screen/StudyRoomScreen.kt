@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
@@ -15,10 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.vm.StudyRoomViewModel
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
