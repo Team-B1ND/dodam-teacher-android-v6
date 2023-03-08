@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeHourToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.member.Member
@@ -16,7 +17,7 @@ internal fun MemberEntity.toModel(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = joinDate?.yearDateTimeToLocalDate(),
+        joinDate = joinDate?.yearDateTimeHourToLocalDate(),
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),

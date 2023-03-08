@@ -47,8 +47,6 @@ object Versions {
 
     const val ORBIT = "4.5.0"
     const val SYSTEM_UI_CONTROLLER = "0.28.0"
-    const val DUI = "1.0.3"
+    const val DUI = "1.0.4"
     const val COMPOSE_NAVIGATION = "2.5.3"
-
-
 }
