@@ -14,6 +14,8 @@ data class PointState(
     val members: List<Member> = emptyList(),
     val students: List<Student> = emptyList(),
     val pointStudents: List<PointStudent> = emptyList(),
+
+    val currentPlace: Int = 0,
 ) {
     data class PointStudent(
         val id: String,

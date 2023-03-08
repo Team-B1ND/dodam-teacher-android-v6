@@ -118,6 +118,14 @@ class PointViewModel @Inject constructor(
         }
     }
 
+    fun updateCurrentPlace(place: Int) = intent {
+        reduce {
+            state.copy(
+                currentPlace = place
+            )
+        }
+    }
+
     private fun makePointStudents() = intent {
         reduce {
             val list = emptyList<PointState.PointStudent>().toMutableList()
