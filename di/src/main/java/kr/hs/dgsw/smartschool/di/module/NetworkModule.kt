@@ -101,12 +101,12 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesOutService(@AuthRetrofit retrofit: Retrofit): OutService =
+    fun providesOutService(@BasicRetrofit retrofit: Retrofit): OutService =
         retrofit.create(OutService::class.java)
 
     @Singleton
     @Provides
-    fun providesTokenService(@BasicRetrofit retrofit: Retrofit): TokenService =
+    fun providesTokenService(@AuthRetrofit retrofit: Retrofit): TokenService =
         retrofit.create(TokenService::class.java)
 
     @Singleton
