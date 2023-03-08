@@ -43,7 +43,7 @@ fun MainScreen(
 
     val state = mainViewModel.collectAsState().value
 
-    if (state.setClassroomLoading)
+    if (state.setClassroomLoading && state.setMembersLoading && state.setStudentsLoading && state.setTeachersLoading)
         LoadInFullScreen()
     else
         Box(
