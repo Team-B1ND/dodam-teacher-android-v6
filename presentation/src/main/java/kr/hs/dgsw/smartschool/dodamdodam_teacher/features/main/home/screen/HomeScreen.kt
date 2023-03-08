@@ -145,7 +145,7 @@ fun HomeScreen(
             val itemCardList = listOf(
                 ItemCardContent(
                     subTitle = stringResource(id = R.string.label_manage),
-                    title = stringResource(id = R.string.title_prize),
+                    title = stringResource(id = R.string.title_point),
                     icon = {
                         IcPoint3D(
                             contentDescription = null,
@@ -186,7 +186,7 @@ fun HomeScreen(
                         icon = item.icon,
                         onClick = {
                             when(item.title) {
-                                context.getString(R.string.title_prize) -> navController.navigate(NavGroup.Feature.POINT)
+                                context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
                             }
                         }
                     )

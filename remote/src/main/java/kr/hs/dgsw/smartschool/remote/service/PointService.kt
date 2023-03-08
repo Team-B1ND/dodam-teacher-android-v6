@@ -25,5 +25,7 @@ interface PointService {
     ): Response<Unit>
 
     @GET(DodamUrl.Point.GET_REASON)
-    suspend fun getReason(): Response<List<PointReasonResponse>>
+    suspend fun getReason(
+        @Query("type") type: String,
+    ): Response<List<PointReasonResponse>>
 }

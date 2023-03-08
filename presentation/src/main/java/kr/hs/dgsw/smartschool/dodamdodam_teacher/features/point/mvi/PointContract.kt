@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
+import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 
 data class PointState(
     val classrooms: List<Classroom> = emptyList(),
@@ -16,6 +17,11 @@ data class PointState(
     val pointStudents: List<PointStudent> = emptyList(),
 
     val currentPlace: Int = 0,
+    val currentPointType: Int = 0,
+    val minusReason: List<PointReason> = emptyList(),
+    val bonusReason: List<PointReason> = emptyList(),
+
+    val currentSelectedReason: PointReason? = null,
 ) {
     data class PointStudent(
         val id: String,

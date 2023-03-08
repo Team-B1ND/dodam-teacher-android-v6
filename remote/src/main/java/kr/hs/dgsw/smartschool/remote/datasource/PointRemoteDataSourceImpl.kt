@@ -46,7 +46,9 @@ class PointRemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getReason(): List<PointReason> = dodamApiCall {
-        pointService.getReason().data.toPointReasonList()
+    override suspend fun getReason(pointType: PointType): List<PointReason> = dodamApiCall {
+        pointService.getReason(
+            pointType.name
+        ).data.toPointReasonList()
     }
 }

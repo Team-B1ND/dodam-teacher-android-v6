@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.data.repository
 
 import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
+import kr.hs.dgsw.smartschool.data.base.DataSourceRepository
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
@@ -10,12 +11,11 @@ import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 
 class PointRepositoryImpl @Inject constructor(
-    override val remote: PointRemoteDataSource,
-    override val cache: Any
-) : BaseRepository<PointRemoteDataSource, Any>, PointRepository {
+    override val datasource: PointRemoteDataSource,
+) : DataSourceRepository<PointRemoteDataSource>, PointRepository {
 
     override suspend fun getPoint(studentId: Int, type: PointType): List<Point> {
-        return remote.getPoint(studentId, type)
+        return datasource.getPoint(studentId, type)
     }
 
     override suspend fun givePoint(
@@ -26,7 +26,7 @@ class PointRepositoryImpl @Inject constructor(
         studentId: List<Int>,
         type: PointType,
     ) {
-        remote.givePoint(
+        datasource.givePoint(
             givenDate = givenDate,
             place = place,
             reason = reason,
@@ -36,7 +36,7 @@ class PointRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getReason(): List<PointReason> {
-        return remote.getReason()
+    override suspend fun getReason(pointType: PointType): List<PointReason> {
+        return datasource.getReason(pointType)
     }
 }

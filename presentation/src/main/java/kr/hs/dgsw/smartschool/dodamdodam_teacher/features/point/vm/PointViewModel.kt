@@ -7,8 +7,11 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEff
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.point.PointReason
+import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.point.GetPointReasonUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -22,6 +25,7 @@ class PointViewModel @Inject constructor(
     private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
+    private val getPointReasonUseCase: GetPointReasonUseCase,
 ): ContainerHost<PointState, PointSideEffect>, ViewModel() {
 
     override val container: Container<PointState, PointSideEffect> = container(PointState())
@@ -30,6 +34,8 @@ class PointViewModel @Inject constructor(
         getClassrooms()
         getMembers()
         getStudents()
+        getPointReason(PointType.MINUS)
+        getPointReason(PointType.BONUS)
     }
 
     fun updatePage(page: Int) = intent {
@@ -102,6 +108,24 @@ class PointViewModel @Inject constructor(
         }
     }
 
+    private fun getPointReason(pointType: PointType) = intent {
+        getPointReasonUseCase(pointType).onSuccess {
+            reduce {
+                if (pointType == PointType.MINUS) {
+                    state.copy(
+                        minusReason = it
+                    )
+                } else {
+                    state.copy(
+                        bonusReason = it
+                    )
+                }
+            }
+        }.onFailure {
+            postSideEffect(PointSideEffect.ShowException(it))
+        }
+    }
+
     fun updateGrade(grade: Int) = intent {
         reduce {
             state.copy(
@@ -122,6 +146,22 @@ class PointViewModel @Inject constructor(
         reduce {
             state.copy(
                 currentPlace = place
+            )
+        }
+    }
+
+    fun updateCurrentPointType(pointType: Int) = intent {
+        reduce {
+            state.copy(
+                currentPointType = pointType
+            )
+        }
+    }
+
+    fun updateReason(pointReason: PointReason) = intent {
+        reduce {
+            state.copy(
+                currentSelectedReason = pointReason
             )
         }
     }

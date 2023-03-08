@@ -18,5 +18,5 @@ interface PointRepository {
         type: PointType,
     )
 
-    suspend fun getReason(): List<PointReason>
+    suspend fun getReason(pointType: PointType): List<PointReason>
 }
