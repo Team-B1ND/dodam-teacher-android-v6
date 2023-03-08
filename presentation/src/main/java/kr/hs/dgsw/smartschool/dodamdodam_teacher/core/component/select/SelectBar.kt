@@ -25,9 +25,10 @@ import kr.hs.dgsw.smartschool.components.theme.Label2
 fun SelectBar(
     modifier: Modifier = Modifier,
     categoryList: List<String>,
+    selectIdx: Int,
     onSelectedItem: (idx: Int) -> Unit,
 ) {
-    var currentSelectedIdx by remember { mutableStateOf(0) }
+    var currentSelectedIdx by remember { mutableStateOf(selectIdx) }
 
     Row(
         modifier = modifier

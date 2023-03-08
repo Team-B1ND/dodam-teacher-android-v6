@@ -46,7 +46,7 @@ internal fun CheckStudentItem(
         Spacer(modifier = Modifier.width(11.dp))
 
         Label1(
-            text = pointStudent.member.name,
+            text = pointStudent.name,
             modifier = Modifier.weight(1f)
         )
 
@@ -57,7 +57,7 @@ internal fun CheckStudentItem(
             boxSize = 16.dp
         ) {
             pointViewModel.updateChecked(
-                pointStudent.member
+                pointStudent.id
             )
         }
     }

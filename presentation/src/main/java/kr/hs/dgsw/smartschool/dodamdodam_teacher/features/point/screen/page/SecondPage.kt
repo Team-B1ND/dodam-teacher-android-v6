@@ -10,5 +10,6 @@ fun ColumnScope.SecondPage(
     state: PointState,
     viewModel: PointViewModel,
 ) {
+    
 
 }

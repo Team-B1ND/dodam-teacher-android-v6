@@ -9,6 +9,7 @@ import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -20,12 +21,14 @@ import org.orbitmvi.orbit.viewmodel.container
 class PointViewModel @Inject constructor(
     private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
+    private val getStudentsUseCase: GetStudentsUseCase,
 ): ContainerHost<PointState, PointSideEffect>, ViewModel() {
 
     override val container: Container<PointState, PointSideEffect> = container(PointState())
 
     init {
         getClassrooms()
+        getMembers()
         getStudents()
     }
 
@@ -44,31 +47,54 @@ class PointViewModel @Inject constructor(
                     classrooms = it
                 )
             }
-        }.onFailure {
-            postSideEffect(PointSideEffect.ShowException(it))
-        }
-    }
-
-    private fun getStudents() = intent {
-        getMembersUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it.filter { it.role == MemberRole.STUDENT }.map {
-                        PointState.PointStudent(member = it)
-                    }
-                )
+            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty()) {
+                makePointStudents()
             }
         }.onFailure {
             postSideEffect(PointSideEffect.ShowException(it))
         }
     }
 
-    fun updateChecked(member: Member) = intent {
+    private fun getStudents() = intent {
+        getStudentsUseCase().onSuccess {
+            reduce {
+                state.copy(
+                    students = it
+                )
+            }
+            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty())
+                makePointStudents()
+        }.onFailure {
+            postSideEffect(PointSideEffect.ShowException(it))
+        }
+    }
+
+    private fun getMembers() = intent {
+        getMembersUseCase().onSuccess {
+            reduce {
+                state.copy(
+                    members = it.filter { it.role == MemberRole.STUDENT }
+                )
+            }
+            if (state.students.isNotEmpty() && state.classrooms.isNotEmpty())
+                makePointStudents()
+        }.onFailure {
+            postSideEffect(PointSideEffect.ShowException(it))
+        }
+    }
+
+    fun updateChecked(id: String) = intent {
         reduce {
             state.copy(
-                students = state.students.toMutableList().map {
-                    if (member == it.member)
-                        PointState.PointStudent(member, it.isChecked.not())
+                pointStudents = state.pointStudents.toMutableList().map {
+                    if (id == it.id)
+                        PointState.PointStudent(
+                            id = it.id,
+                            name = it.name,
+                            grade = it.grade,
+                            room = it.room,
+                            isChecked =  it.isChecked.not()
+                        )
                     else
                         it
                 }
@@ -87,7 +113,35 @@ class PointViewModel @Inject constructor(
     fun updateClassroom(classroom: Int) = intent {
         reduce {
             state.copy(
-                currentGrade = classroom
+                currentClassroom = classroom
+            )
+        }
+    }
+
+    private fun makePointStudents() = intent {
+        reduce {
+            val list = emptyList<PointState.PointStudent>().toMutableList()
+            state.students.map { student ->
+                state.members.forEach { member ->
+                    state.classrooms.forEach { classroom ->
+                        if (student.member.id == member.id) {
+                            if (student.classroom.id == classroom.id) {
+                                list.add(
+                                    PointState.PointStudent(
+                                        id = member.id,
+                                        name = member.name,
+                                        grade = classroom.grade,
+                                        room = classroom.room,
+                                        isChecked = false,
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            state.copy(
+                pointStudents = list
             )
         }
     }

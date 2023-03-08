@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,6 +35,7 @@ fun ColumnScope.FirstPage(
     SelectBar(
         modifier = Modifier
             .padding(horizontal = DodamDimen.ScreenSidePadding),
+        selectIdx = state.currentGrade,
         categoryList = gradeList,
         onSelectedItem = { idx ->
             viewModel.updateGrade(idx)
@@ -46,6 +48,7 @@ fun ColumnScope.FirstPage(
         modifier = Modifier
             .padding(horizontal = DodamDimen.ScreenSidePadding),
         categoryList = roomList,
+        selectIdx = state.currentClassroom,
         onSelectedItem = { idx ->
             viewModel.updateClassroom(idx)
         }
@@ -55,12 +58,35 @@ fun ColumnScope.FirstPage(
         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding),
         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
     ) {
-        items(state.students) { pointStudent ->
+        items(getStudentList(state)) { pointStudent ->
             CheckStudentItem(
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 pointStudent = pointStudent,
                 pointViewModel = viewModel
             )
+        }
+    }
+}
+
+private fun getStudentList(state: PointState): List<PointState.PointStudent> {
+    return if (state.currentGrade == 0 && state.currentClassroom == 0) {
+        Log.d("LOGLOG", "CURRENT GRADE 0 ${state.currentGrade}  ${state.currentClassroom}")
+        state.pointStudents
+    } else if (state.currentGrade == 0) {
+        Log.d("LOGLOG", "CURRENT GRADE 1 ${state.currentGrade}  ${state.currentClassroom}")
+        state.pointStudents.filter {
+            //Log.d("LOGLOG", "${it.room} / ${state.currentGrade}")
+            it.room == state.currentClassroom
+        }
+    } else if(state.currentClassroom == 0) {
+        Log.d("LOGLOG", "CURRENT GRADE 2 ${state.currentGrade}  ${state.currentClassroom}")
+        state.pointStudents.filter {
+            it.grade == state.currentGrade
+        }
+    } else {
+        Log.d("LOGLOG", "CURRENT GRADE 3 ${state.currentGrade}  ${state.currentClassroom}")
+        state.pointStudents.filter {
+            it.grade == state.currentGrade && it.room == state.currentClassroom
         }
     }
 }

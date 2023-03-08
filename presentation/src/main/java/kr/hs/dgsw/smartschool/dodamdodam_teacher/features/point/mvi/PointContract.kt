@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.Member
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 
 data class PointState(
     val classrooms: List<Classroom> = emptyList(),
@@ -9,10 +10,17 @@ data class PointState(
     val page: Int = 1,
     val currentGrade: Int = 0,
     val currentClassroom: Int = 0,
-    val students: List<PointStudent> = emptyList(),
+
+    val members: List<Member> = emptyList(),
+    val students: List<Student> = emptyList(),
+    val pointStudents: List<PointStudent> = emptyList(),
 ) {
     data class PointStudent(
-        val member: Member,
+        val id: String,
+        val name: String,
+        val grade: Int,
+        val room: Int,
+
         val isChecked: Boolean = false,
     )
 }
