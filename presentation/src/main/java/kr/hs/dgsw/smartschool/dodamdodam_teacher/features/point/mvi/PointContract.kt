@@ -22,9 +22,11 @@ data class PointState(
     val bonusReason: List<PointReason> = emptyList(),
 
     val currentSelectedReason: PointReason? = null,
+    val givePointLoading: Boolean = false,
 ) {
     data class PointStudent(
         val id: String,
+        val studentId: Int,
         val name: String,
         val grade: Int,
         val room: Int,
@@ -34,5 +36,6 @@ data class PointState(
 }
 
 sealed class PointSideEffect {
+    object SuccessGivePoint : PointSideEffect()
     data class ShowException(val exception: Throwable): PointSideEffect()
 }

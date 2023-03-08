@@ -2,16 +2,18 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
 import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
-import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GetPointReasonUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.point.GivePointUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -26,6 +28,7 @@ class PointViewModel @Inject constructor(
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getPointReasonUseCase: GetPointReasonUseCase,
+    private val givePointUseCase: GivePointUseCase,
 ): ContainerHost<PointState, PointSideEffect>, ViewModel() {
 
     override val container: Container<PointState, PointSideEffect> = container(PointState())
@@ -99,7 +102,8 @@ class PointViewModel @Inject constructor(
                             name = it.name,
                             grade = it.grade,
                             room = it.room,
-                            isChecked =  it.isChecked.not()
+                            isChecked =  it.isChecked.not(),
+                            studentId = it.studentId,
                         )
                     else
                         it
@@ -122,6 +126,44 @@ class PointViewModel @Inject constructor(
                 }
             }
         }.onFailure {
+            postSideEffect(PointSideEffect.ShowException(it))
+        }
+    }
+
+    fun givePoint(
+        place: PointPlace,
+        reason: String,
+        score: Int,
+        studentId: List<Int>,
+        type: PointType
+    ) = intent {
+        reduce {
+            state.copy(
+                givePointLoading = true
+            )
+        }
+        givePointUseCase(
+            param = GivePointUseCase.Param(
+                givenDate = LocalDate.now().toString(),
+                place = place,
+                reason = reason,
+                score = score,
+                studentId = studentId,
+                type = type
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    givePointLoading = false
+                )
+            }
+            postSideEffect(PointSideEffect.SuccessGivePoint)
+        }.onFailure {
+            reduce {
+                state.copy(
+                    givePointLoading = false
+                )
+            }
             postSideEffect(PointSideEffect.ShowException(it))
         }
     }
@@ -181,6 +223,7 @@ class PointViewModel @Inject constructor(
                                         grade = classroom.grade,
                                         room = classroom.room,
                                         isChecked = false,
+                                        studentId = student.id,
                                     )
                                 )
                             }

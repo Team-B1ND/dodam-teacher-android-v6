@@ -19,12 +19,15 @@ import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.FirstPage
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.SecondPage
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.ThirdPage
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
+import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -48,63 +51,89 @@ fun PointScreen(
                 Log.e("PointErrorLog", it.exception.stackTraceToString())
                 navController.popBackStack()
             }
-        }
-    }
-
-    Column(
-        modifier = Modifier.background(DodamTheme.color.White)
-    ) {
-        DodamAppBar(onStartIconClick = {
-            checkPage(navController, state.page, pointViewModel)
-        })
-
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
-            when(state.page) {
-                1 -> FirstPage(state = state, viewModel = pointViewModel)
-                2 -> SecondPage(state = state, viewModel = pointViewModel)
-                3 -> ThirdPage(state = state, viewModel = pointViewModel)
+            is PointSideEffect.SuccessGivePoint -> {
+                context.shortToast(context.getString(R.string.desc_give_point_success))
+                navController.popBackStack()
             }
         }
-
-        val size = state.pointStudents.filter { it.isChecked }.size
-        val text = when(state.page) {
-            1 -> "${size}명 선택"
-            2 -> context.getString(R.string.label_next)
-            3 -> context.getString(R.string.label_give)
-            else -> context.getString(R.string.label_next)
-        }
-
-        Button(
-            modifier = Modifier.padding(
-                bottom = DodamDimen.ScreenSidePadding,
-                start = DodamDimen.ScreenSidePadding,
-                end = DodamDimen.ScreenSidePadding,
-            ),
-            onClick = {
-                when (state.page) {
-                    1 -> {
-                        if (size == 0)
-                            context.shortToast(context.getString(R.string.desc_minimum_point_members))
-                        else
-                            pointViewModel.updatePage(2)
-                    }
-                    2 -> pointViewModel.updatePage(3)
-                    3 -> {}
-                }
-            },
-            type = ButtonType.PrimaryVariant,
-        ) {
-            Label1(
-                text = text,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-        }
     }
+
+    if (state.givePointLoading)
+        LoadInFullScreen()
+    else
+        Column(
+            modifier = Modifier.background(DodamTheme.color.White)
+        ) {
+            DodamAppBar(onStartIconClick = {
+                checkPage(navController, state.page, pointViewModel)
+            })
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                when(state.page) {
+                    1 -> FirstPage(state = state, viewModel = pointViewModel)
+                    2 -> SecondPage(state = state, viewModel = pointViewModel)
+                    3 -> ThirdPage(state = state, viewModel = pointViewModel)
+                }
+            }
+
+            val size = state.pointStudents.filter { it.isChecked }.size
+            val text = when(state.page) {
+                1 -> "${size}명 선택"
+                2 -> context.getString(R.string.label_next)
+                3 -> context.getString(R.string.label_give)
+                else -> context.getString(R.string.label_next)
+            }
+
+            Button(
+                modifier = Modifier.padding(
+                    bottom = DodamDimen.ScreenSidePadding,
+                    start = DodamDimen.ScreenSidePadding,
+                    end = DodamDimen.ScreenSidePadding,
+                ),
+                onClick = {
+                    when (state.page) {
+                        1 -> {
+                            if (size == 0)
+                                context.shortToast(context.getString(R.string.desc_minimum_point_members))
+                            else
+                                pointViewModel.updatePage(2)
+                        }
+                        2 -> pointViewModel.updatePage(3)
+                        3 -> {
+                            if (state.currentSelectedReason != null)
+                                pointViewModel.givePoint(
+                                    place = when(state.currentPlace) {
+                                        0 -> PointPlace.DORMITORY
+                                        1 -> PointPlace.SCHOOL
+                                        else -> PointPlace.DORMITORY
+                                    },
+                                    reason = state.currentSelectedReason.reason,
+                                    score = state.currentSelectedReason.score,
+                                    studentId = state.pointStudents.filter { it.isChecked }.map { it.studentId },
+                                    type = when(state.currentPointType) {
+                                        0 -> PointType.BONUS
+                                        1 -> PointType.MINUS
+                                        else -> PointType.MINUS
+                                    },
+                                )
+                            else
+                                context.shortToast(context.getString(R.string.desc_point_reason_empty))
+                        }
+                    }
+                },
+                type = ButtonType.PrimaryVariant,
+            ) {
+                Label1(
+                    text = text,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
 }
 
 private fun checkPage(navController: NavController, page: Int, pointViewModel: PointViewModel) {

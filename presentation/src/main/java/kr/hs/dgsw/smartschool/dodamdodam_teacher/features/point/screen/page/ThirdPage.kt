@@ -79,7 +79,7 @@ fun ColumnScope.ThirdPage(
                     },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Label2(
+                Label1(
                     text = pointReason.reason,
                     textColor = when (state.currentSelectedReason) {
                         null -> DodamTheme.color.Black

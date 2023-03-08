@@ -66,6 +66,8 @@
     <string name="desc_empty_lunch">중식이 없어요</string>
     <string name="desc_empty_dinner">석식이 없어요</string>
     <string name="desc_minimum_point_members">최소 한 명 이상 선택해 주세요</string>
+    <string name="desc_point_reason_empty">사유를 선택해 주세요</string>
+    <string name="desc_give_point_success">상벌점 발급에 성공했어요</string>
 
     <string name="label_manage">관리</string>
     <string name="label_employ">취업</string>
