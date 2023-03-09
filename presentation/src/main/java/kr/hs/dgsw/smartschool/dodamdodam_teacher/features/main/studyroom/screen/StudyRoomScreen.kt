@@ -72,7 +72,7 @@ fun StudyRoomScreen(
                 StudyRoomMain(navController, studyRoomState)
             }
             composable("class_1") {
-                FirstClass(studyRoomState)
+                FirstClass(navController, studyRoomState)
             }
             composable("class_2") {
             }
@@ -128,7 +128,7 @@ fun StudyRoomMain(navController : NavController, state : StudyRoomState){
 }
 
 @Composable
-fun FirstClass(state : StudyRoomState){
+fun FirstClass(navController : NavController, state : StudyRoomState){
     Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(){
             items(state.studyRoomList!!.studyRoomList){item ->
