@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllSheetUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -17,6 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class StudyRoomViewModel @Inject constructor(
     private val getAllSheetUseCase: GetAllSheetUseCase,
+    private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
+    private val getSheetByIdUseCase: GetSheetByIdUseCase,
+    private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
+    private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(StudyRoomState())
@@ -55,6 +59,16 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
             postSideEffect(StudyRoomSideEffect.ToastError(it))
+        }
+    }
+    fun getSheetByTime(type : Int) = intent{
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        getSheetByTimeUseCase(startTime = "", endTime = "").onSuccess { StudyRoomResult ->
+
         }
     }
 }
