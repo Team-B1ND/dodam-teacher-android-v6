@@ -21,10 +21,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
+import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
@@ -54,43 +56,29 @@ fun StudyRoomScreen(
         }
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = DodamColor.FeatureColor.MyInfoColor)
     ) {
-        DodamTabs() {
-            DodamTab(text = "자습 1", selected = tabSelected.value == 1, onClick = {
-                tabNavController.navigate("class 1")
-            })
-            DodamTab(text = "자습 2", selected = tabSelected.value == 2, onClick = {
-                tabNavController.navigate("class 2")
-            })
-            DodamTab(text = "자습 3", selected = tabSelected.value == 3, onClick = {
-                tabNavController.navigate("class 3")
-            })
-            DodamTab(text = "자습 4", selected = tabSelected.value == 4, onClick = {
-                tabNavController.navigate("class 4")
-            })
-        }
+
         NavHost(
             navController = tabNavController,
             startDestination = "class 1",
             modifier = Modifier
+                .fillMaxSize()
         ) {
-            composable("class 1") {
+            composable("study_room"){
+                StudyRoomMain(studyRoomState)
+            }
+            composable("class_1") {
                 FirstClass(studyRoomState)
             }
-            composable("class2") {
+            composable("class_2") {
             }
-            composable("class3") {
+            composable("class_3") {
             }
-            composable("class4") {
-            }
-        }
-        LazyRow(){
-            items(studyRoomState.studyRoomList!!.studyRoomList){
-
+            composable("class_4") {
             }
         }
     }
@@ -112,7 +100,32 @@ private data class ItemCardContent(
     val title: String,
     val icon: @Composable () -> Unit,
 )
+@Composable
+fun StudyRoomMain(navController : NavController, state : StudyRoomState){
+    Column(modifier = Modifier.fillMaxSize()){
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
 
+        Row() {
+            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+                navController.navigate("class_1")
+            })
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
+            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+                navController.navigate("class_1")
+            })
+        }
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
+        Row() {
+            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+                navController.navigate("class_1")
+            })
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
+            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+                navController.navigate("class_1")
+            })
+        }
+    }
+}
 
 @Composable
 fun FirstClass(state : StudyRoomState){
