@@ -13,7 +13,6 @@ data class StudyRoomState(
     val fourthClass : Int? = null,
 )
 
-sealed class StudyRoomSideEffect {
-    data class Toast(val message: String) : StudyRoomSideEffect()
-    data class ToastError(val throwable: Throwable) : StudyRoomSideEffect()
+sealed class StudyRoomSideEffect { data class Toast(val message: String) : StudyRoomSideEffect()
+    data class ToastError(val exception: Throwable) : StudyRoomSideEffect()
 }

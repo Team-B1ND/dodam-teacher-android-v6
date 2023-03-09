@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,8 +25,10 @@ import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -42,12 +45,13 @@ fun StudyRoomScreen(
     }
 
     studyRoomViewModel.collectSideEffect {
-        /*when (it) {
+        when (it) {
             is StudyRoomSideEffect.ToastError -> {
-                context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
-                Log.e("HomeScreenError", it.exception.stackTraceToString())
+                context.shortToast(it.exception.message ?: context.getString(kr.hs.dgsw.smartschool.dodamdodam_teacher.R.string.content_unknown_exception))
+                Log.e("StudyRoomScreenError", it.exception.stackTraceToString())
             }
-        }*/
+            else -> {}
+        }
     }
 
     Box(
