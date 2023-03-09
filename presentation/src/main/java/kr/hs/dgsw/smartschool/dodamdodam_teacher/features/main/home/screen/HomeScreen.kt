@@ -185,7 +185,7 @@ fun HomeScreen(
                         subTitle = item.subTitle,
                         icon = item.icon,
                         onClick = {
-                            when(item.title) {
+                            when (item.title) {
                                 context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
                             }
                         }

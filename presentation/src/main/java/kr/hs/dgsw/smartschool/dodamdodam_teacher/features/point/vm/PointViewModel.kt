@@ -2,8 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
@@ -21,6 +19,8 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
+import javax.inject.Inject
 
 @HiltViewModel
 class PointViewModel @Inject constructor(
@@ -29,7 +29,7 @@ class PointViewModel @Inject constructor(
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getPointReasonUseCase: GetPointReasonUseCase,
     private val givePointUseCase: GivePointUseCase,
-): ContainerHost<PointState, PointSideEffect>, ViewModel() {
+) : ContainerHost<PointState, PointSideEffect>, ViewModel() {
 
     override val container: Container<PointState, PointSideEffect> = container(PointState())
 
@@ -102,7 +102,7 @@ class PointViewModel @Inject constructor(
                             name = it.name,
                             grade = it.grade,
                             room = it.room,
-                            isChecked =  it.isChecked.not(),
+                            isChecked = it.isChecked.not(),
                             studentId = it.studentId,
                         )
                     else

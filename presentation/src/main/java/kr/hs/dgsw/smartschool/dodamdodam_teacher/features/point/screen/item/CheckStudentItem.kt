@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.surface
-import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
@@ -65,16 +64,5 @@ fun CheckStudentItem(
             else
                 DodamTheme.color.Black
         )
-
-/*        DodamCheckBox(
-            modifier = Modifier
-                .padding(end = DodamDimen.ScreenSidePadding),
-            isChecked = pointStudent.isChecked,
-            boxSize = 16.dp
-        ) {
-            pointViewModel.updateChecked(
-                pointStudent.id
-            )
-        }*/
     }
 }

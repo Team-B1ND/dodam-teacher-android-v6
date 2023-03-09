@@ -75,10 +75,10 @@ private fun getStudentList(state: PointState): List<PointState.PointStudent> {
     } else if (state.currentGrade == 0) {
         Log.d("LOGLOG", "CURRENT GRADE 1 ${state.currentGrade}  ${state.currentClassroom}")
         state.pointStudents.filter {
-            //Log.d("LOGLOG", "${it.room} / ${state.currentGrade}")
+            // Log.d("LOGLOG", "${it.room} / ${state.currentGrade}")
             it.room == state.currentClassroom
         }
-    } else if(state.currentClassroom == 0) {
+    } else if (state.currentClassroom == 0) {
         Log.d("LOGLOG", "CURRENT GRADE 2 ${state.currentGrade}  ${state.currentClassroom}")
         state.pointStudents.filter {
             it.grade == state.currentGrade

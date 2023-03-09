@@ -45,7 +45,7 @@ fun PointScreen(
     }
 
     pointViewModel.collectSideEffect {
-        when(it) {
+        when (it) {
             is PointSideEffect.ShowException -> {
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
                 Log.e("PointErrorLog", it.exception.stackTraceToString())
@@ -73,7 +73,7 @@ fun PointScreen(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                when(state.page) {
+                when (state.page) {
                     1 -> FirstPage(state = state, viewModel = pointViewModel)
                     2 -> SecondPage(state = state, viewModel = pointViewModel)
                     3 -> ThirdPage(state = state, viewModel = pointViewModel)
@@ -81,7 +81,7 @@ fun PointScreen(
             }
 
             val size = state.pointStudents.filter { it.isChecked }.size
-            val text = when(state.page) {
+            val text = when (state.page) {
                 1 -> "${size}명 선택"
                 2 -> context.getString(R.string.label_next)
                 3 -> context.getString(R.string.label_give)
@@ -106,7 +106,7 @@ fun PointScreen(
                         3 -> {
                             if (state.currentSelectedReason != null)
                                 pointViewModel.givePoint(
-                                    place = when(state.currentPlace) {
+                                    place = when (state.currentPlace) {
                                         0 -> PointPlace.DORMITORY
                                         1 -> PointPlace.SCHOOL
                                         else -> PointPlace.DORMITORY
@@ -114,7 +114,7 @@ fun PointScreen(
                                     reason = state.currentSelectedReason.reason,
                                     score = state.currentSelectedReason.score,
                                     studentId = state.pointStudents.filter { it.isChecked }.map { it.studentId },
-                                    type = when(state.currentPointType) {
+                                    type = when (state.currentPointType) {
                                         0 -> PointType.BONUS
                                         1 -> PointType.MINUS
                                         else -> PointType.MINUS

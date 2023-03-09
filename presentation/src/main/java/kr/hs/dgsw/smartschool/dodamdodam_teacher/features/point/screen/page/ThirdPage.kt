@@ -100,7 +100,7 @@ fun ColumnScope.ThirdPage(
             text = stringResource(id = R.string.title_point_info),
             textColor = DodamTheme.color.Black,
         )
-        val type = when(state.currentSelectedReason?.type) {
+        val type = when (state.currentSelectedReason?.type) {
             null -> ""
             PointType.BONUS -> context.getString(R.string.label_bonus)
             PointType.MINUS -> context.getString(R.string.label_minus)

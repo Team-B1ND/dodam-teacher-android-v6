@@ -1,8 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeHourToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
@@ -24,7 +22,7 @@ internal fun MemberEntity.toModel(): Member =
         status = status.toMemberStatus(),
     )
 
-internal fun String.toMemberRole(): MemberRole = when(this) {
+internal fun String.toMemberRole(): MemberRole = when (this) {
     MemberRole.TEACHER.name -> MemberRole.TEACHER
     MemberRole.STUDENT.name -> MemberRole.STUDENT
     MemberRole.ADMIN.name -> MemberRole.ADMIN
@@ -32,7 +30,7 @@ internal fun String.toMemberRole(): MemberRole = when(this) {
     else -> MemberRole.STUDENT
 }
 
-internal fun String.toMemberStatus(): MemberStatus = when(this) {
+internal fun String.toMemberStatus(): MemberStatus = when (this) {
     MemberStatus.ACTIVE.name -> MemberStatus.ACTIVE
     MemberStatus.DEACTIVATED.name -> MemberStatus.DEACTIVATED
     else -> MemberStatus.DEACTIVATED

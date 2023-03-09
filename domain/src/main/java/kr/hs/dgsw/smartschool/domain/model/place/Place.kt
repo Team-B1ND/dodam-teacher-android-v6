@@ -10,7 +10,7 @@ data class Place(
         val name: String,
     )
 
-    constructor(): this(
+    constructor() : this(
         id = -1,
         name = "",
         type = PlaceType(

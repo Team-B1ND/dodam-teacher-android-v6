@@ -37,5 +37,5 @@ data class PointState(
 
 sealed class PointSideEffect {
     object SuccessGivePoint : PointSideEffect()
-    data class ShowException(val exception: Throwable): PointSideEffect()
+    data class ShowException(val exception: Throwable) : PointSideEffect()
 }

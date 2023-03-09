@@ -14,12 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.surface
-import kr.hs.dgsw.smartschool.components.component.basic.toggle.DodamCheckBox
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
 
 @Composable
 internal fun StudentItem(

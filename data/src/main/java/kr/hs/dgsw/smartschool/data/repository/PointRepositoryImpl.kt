@@ -1,7 +1,5 @@
 package kr.hs.dgsw.smartschool.data.repository
 
-import javax.inject.Inject
-import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.base.DataSourceRepository
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.point.Point
@@ -9,6 +7,7 @@ import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
+import javax.inject.Inject
 
 class PointRepositoryImpl @Inject constructor(
     override val datasource: PointRemoteDataSource,

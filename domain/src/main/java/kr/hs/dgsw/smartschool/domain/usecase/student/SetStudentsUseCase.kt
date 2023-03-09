@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.domain.usecase.student
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
+import javax.inject.Inject
 
 class SetStudentsUseCase @Inject constructor(
     private val studentRepository: StudentRepository

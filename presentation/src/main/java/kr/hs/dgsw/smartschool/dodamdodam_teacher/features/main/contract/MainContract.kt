@@ -7,6 +7,4 @@ data class MainState(
     val setTeachersLoading: Boolean = true,
 )
 
-sealed class MainSideEffect {
-
-}
+sealed class MainSideEffect

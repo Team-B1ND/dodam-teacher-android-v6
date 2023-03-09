@@ -8,7 +8,7 @@ data class Classroom(
     val place: Place,
     val room: Int,
 ) {
-    constructor(id: Int): this(
+    constructor(id: Int) : this(
         grade = -1,
         id = id,
         place = Place(),

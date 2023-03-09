@@ -72,7 +72,6 @@ fun SelectBar(
                         .align(Alignment.Center)
                 )
             }
-
         }
     }
 }

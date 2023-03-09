@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.data.repository
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.data.member.MemberData
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberCacheDataSource
@@ -8,6 +7,7 @@ import kr.hs.dgsw.smartschool.data.datasource.member.MemberRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.exception.UnknownException
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
+import javax.inject.Inject
 
 class MemberRepositoryImpl @Inject constructor(
     override val remote: MemberRemoteDataSource,
