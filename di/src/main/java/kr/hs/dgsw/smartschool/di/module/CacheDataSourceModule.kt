@@ -23,6 +23,8 @@ import kr.hs.dgsw.smartschool.local.datasource.StudentCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TeacherCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TokenCacheDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
+import kr.hs.dgsw.smartschool.local.datasource.ScheduleCacheDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -81,4 +83,10 @@ abstract class CacheDataSourceModule {
     abstract fun provideStudentCacheDataSource(
         studentCacheDataSourceImpl: StudentCacheDataSourceImpl
     ): StudentCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideScheduleCacheDataSource(
+        scheduleCacheDataSourceImpl: ScheduleCacheDataSourceImpl
+    ): ScheduleCacheDataSource
 }

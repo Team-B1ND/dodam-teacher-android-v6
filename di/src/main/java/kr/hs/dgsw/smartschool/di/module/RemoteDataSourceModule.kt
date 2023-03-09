@@ -21,6 +21,8 @@ import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.PointRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.TokenRemoteDataSourceImpl
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleRemoteDataSource
+import kr.hs.dgsw.smartschool.remote.datasource.ScheduleRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -73,4 +75,10 @@ abstract class RemoteDataSourceModule {
     abstract fun providesMemberRemoteDataSource(
         memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl
     ): MemberRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesScheduleRemoteDataSource(
+        scheduleRemoteDataSourceImpl: ScheduleRemoteDataSourceImpl
+    ): ScheduleRemoteDataSource
 }

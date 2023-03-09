@@ -12,6 +12,7 @@ import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
+import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
@@ -23,6 +24,7 @@ import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
 import kr.hs.dgsw.smartschool.local.entity.out.OutEntity
 import kr.hs.dgsw.smartschool.local.entity.parent.ParentEntity
 import kr.hs.dgsw.smartschool.local.entity.place.PlaceEntity
+import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
 import kr.hs.dgsw.smartschool.local.entity.student.StudentEntity
 import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
 import kr.hs.dgsw.smartschool.local.entity.token.TokenEntity
@@ -32,7 +34,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
     entities = [
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
-        AccountEntity::class, OutEntity::class, BannerEntity::class,
+        AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
     ],
     version = 5,
     exportSchema = false
@@ -50,6 +52,7 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
     abstract fun outDao(): OutDao
     abstract fun bannerDao(): BannerDao
+    abstract fun scheduleDao(): ScheduleDao
 }
 
 val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
