@@ -13,8 +13,11 @@ import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.BannerService
+import kr.hs.dgsw.smartschool.remote.service.ClassroomService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
@@ -105,4 +108,19 @@ class NetworkModule {
     @Provides
     fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
         retrofit.create(BannerService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesPointService(@BasicRetrofit retrofit: Retrofit): PointService =
+        retrofit.create(PointService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
+        retrofit.create(ClassroomService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesMemberService(@BasicRetrofit retrofit: Retrofit): MemberService =
+        retrofit.create(MemberService::class.java)
 }

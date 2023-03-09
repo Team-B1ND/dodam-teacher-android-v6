@@ -13,10 +13,10 @@ interface TeacherDao : BaseDao<TeacherEntity> {
     suspend fun getAllTeacher(): List<TeacherEntity>
 
     @Query("SELECT * FROM ${DodamTable.TEACHER} where teacherId=:id")
-    suspend fun getTeacherById(id: Int): TeacherEntity
+    suspend fun getTeacherById(id: Int): TeacherEntity?
 
     @Query("SELECT * FROM ${DodamTable.TEACHER} where memberId=:id")
-    suspend fun getTeacherByMemberId(id: String): TeacherEntity
+    suspend fun getTeacherByMemberId(id: String): TeacherEntity?
 
     @Query("DELETE FROM ${DodamTable.TEACHER}")
     suspend fun deleteAllTeacher()

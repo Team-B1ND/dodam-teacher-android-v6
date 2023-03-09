@@ -8,5 +8,5 @@ data class Student(
     val id: Int,
     val member: Member,
     val number: Int,
-    val phone: Int,
+    val phone: String,
 )

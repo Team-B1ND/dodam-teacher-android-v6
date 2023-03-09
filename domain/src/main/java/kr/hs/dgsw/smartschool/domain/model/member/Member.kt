@@ -10,4 +10,14 @@ data class Member(
     val profileImage: String?,
     val role: MemberRole,
     val status: MemberStatus,
-)
+) {
+    constructor(id: String, role: MemberRole) : this(
+        email = "",
+        id = id,
+        joinDate = null,
+        name = "",
+        profileImage = null,
+        role = role,
+        status = MemberStatus.ACTIVE
+    )
+}
