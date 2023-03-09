@@ -69,7 +69,7 @@ fun StudyRoomScreen(
                 .fillMaxSize()
         ) {
             composable("study_room"){
-                StudyRoomMain(studyRoomState)
+                StudyRoomMain(navController, studyRoomState)
             }
             composable("class_1") {
                 FirstClass(studyRoomState)
