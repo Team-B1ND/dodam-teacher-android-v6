@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi
+package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 

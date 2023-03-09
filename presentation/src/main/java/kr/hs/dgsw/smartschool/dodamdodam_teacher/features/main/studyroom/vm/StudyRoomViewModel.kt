@@ -2,8 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
 import org.orbitmvi.orbit.Container
@@ -23,7 +23,9 @@ class StudyRoomViewModel @Inject constructor(
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
-    override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(StudyRoomState())
+    override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(
+        StudyRoomState()
+    )
 
     init {
         getStudyRoomSheet()
@@ -67,8 +69,28 @@ class StudyRoomViewModel @Inject constructor(
                 loading = true
             )
         }
-        getSheetByTimeUseCase(startTime = "", endTime = "").onSuccess { StudyRoomResult ->
+        getSheetByTimeUseCase(type).onSuccess { studyRoomResult ->
+            reduce {
+                state.copy(
+                    loading = false,
+                    studyRoomList = studyRoomResult,
+                    isWeekDay = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY,
 
+                    firstClass = null,
+                    secondClass = null,
+                    thirdClass = null,
+                    fourthClass = null
+                )
+            }
+        }.onFailure {exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                    exception = exception
+                )
+            }
         }
     }
+
+
 }

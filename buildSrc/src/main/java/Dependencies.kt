@@ -39,6 +39,7 @@ object Libraries {
 
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+    const val GLIDE_LANDSCAPIST = "com.github.skydoves:landscapist-glide:${Versions.GLIDE_LANDSCAPIST}"
 
     const val CIRCULAR_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCULAR_IMAGE_VIEW}"
     const val INDICATOR = "com.tbuonomo:dotsindicator:${Versions.INDICATOR}"

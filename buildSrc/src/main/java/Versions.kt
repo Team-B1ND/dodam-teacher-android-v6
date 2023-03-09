@@ -27,6 +27,7 @@ object Versions {
     const val ESPRESSO_CORE = "3.5.0"
 
     const val GLIDE = "4.13.0"
+    const val GLIDE_LANDSCAPIST = "2.1.6"
 
     const val NAVIGATION_SAFE_ARGS = "2.5.0"
     const val NAVIGATION = "2.4.2"
