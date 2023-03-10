@@ -87,11 +87,11 @@ fun StudyRoomScreen(
 @Preview
 @Composable
 fun StudyRoomPreview(){
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        StudyRoomScreen(navController = rememberNavController())
+        StudyRoomMain(navController = rememberNavController(), StudyRoomState())
     }
 }
 
@@ -102,25 +102,29 @@ private data class ItemCardContent(
 )
 @Composable
 fun StudyRoomMain(navController : NavController, state : StudyRoomState){
-    Column(modifier = Modifier.fillMaxSize()){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = DodamDimen.ScreenSidePadding)
+        ){
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
 
         Row() {
-            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+            DodamItemCard(title = "수업 1", subTitle = "${state.firstClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+            DodamItemCard(title = "수업 2", subTitle = "${state.secondClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
         }
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         Row() {
-            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+            DodamItemCard(title = "수업 3", subTitle = "${state.thirdClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "수업 1", subTitle = "30/50", onClick = {
+            DodamItemCard(title = "수업 4", subTitle = "${state.fourthClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
         }
