@@ -22,10 +22,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
+import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
@@ -134,6 +136,7 @@ fun StudyRoomMain(navController : NavController, state : StudyRoomState){
 @Composable
 fun FirstClass(navController : NavController, state : StudyRoomState){
     Box(modifier = Modifier.fillMaxSize()){
+        DodamAppBar(onStartIconClick = { navController.popBackStack()})
         LazyColumn(){
             items(state.studyRoomList!!.studyRoomList){item ->
                 Row(
@@ -151,7 +154,10 @@ fun FirstClass(navController : NavController, state : StudyRoomState){
                             modifier = Modifier
                                 .size(20.dp),
                         )
-                        Body2(text = "")
+                        Title3(text = item.student.toString())//TODO 여기 수정해야함
+                        Body2(text = item.student.toString())//TODO 여기 수정해야함
+
+
                     }
                 }
             }
