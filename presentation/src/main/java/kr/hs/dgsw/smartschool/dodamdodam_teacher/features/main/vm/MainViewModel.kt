@@ -119,4 +119,12 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateSelectedTab(tab: Int) = intent {
+        reduce {
+            state.copy(
+                selectedTab = tab
+            )
+        }
+    }
 }

@@ -5,6 +5,8 @@ data class MainState(
     val setMembersLoading: Boolean = true,
     val setStudentsLoading: Boolean = true,
     val setTeachersLoading: Boolean = true,
+
+    val selectedTab: Int = 0,
 )
 
 sealed class MainSideEffect

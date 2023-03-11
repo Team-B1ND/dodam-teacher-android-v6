@@ -35,6 +35,8 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 
+private lateinit var mainViewModelAll: MainViewModel
+
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -42,6 +44,7 @@ fun MainScreen(
 ) {
 
     val state = mainViewModel.collectAsState().value
+    mainViewModelAll = mainViewModel
 
     if (state.setClassroomLoading && state.setMembersLoading && state.setStudentsLoading && state.setTeachersLoading)
         LoadInFullScreen()
@@ -50,10 +53,8 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            var selectedNavTab by remember { mutableStateOf(0) }
-
-            BackHandler(selectedNavTab != 0) {
-                selectedNavTab = 0
+            BackHandler(state.selectedTab != 0) {
+                mainViewModel.updateSelectedTab(0)
             }
 
             Box(
@@ -61,7 +62,7 @@ fun MainScreen(
                     .fillMaxSize()
                     .zIndex(1f)
             ) {
-                when (selectedNavTab) {
+                when (state.selectedTab) {
                     0 -> {
                         HomeScreen(navController = navController)
                     }
@@ -93,27 +94,33 @@ fun MainScreen(
                 DodamNavTab(
                     text = stringResource(id = R.string.label_home),
                     icon = { IcHome(contentDescription = null) },
-                    onClick = { selectedNavTab = 0 },
-                    selected = selectedNavTab == 0,
+                    onClick = { mainViewModel.updateSelectedTab(0) },
+                    selected = state.selectedTab == 0,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_studyroom),
                     icon = { IcLocation(contentDescription = null) },
-                    onClick = { selectedNavTab = 1 },
-                    selected = selectedNavTab == 1,
+                    onClick = { mainViewModel.updateSelectedTab(1) },
+                    selected = state.selectedTab == 1,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_out),
                     icon = { IcOut(contentDescription = null) },
-                    onClick = { selectedNavTab = 2 },
-                    selected = selectedNavTab == 2,
+                    onClick = { mainViewModel.updateSelectedTab(2) },
+                    selected = state.selectedTab == 2,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_etc),
                     icon = { IcBurger(contentDescription = null) },
-                    onClick = { selectedNavTab = 3 },
-                    selected = selectedNavTab == 3,
+                    onClick = { mainViewModel.updateSelectedTab(3) },
+                    selected = state.selectedTab == 3,
                 )
             }
         }
+
+
+}
+
+internal fun updateMainNavTabSelectedTab(tab: Int) {
+    mainViewModelAll.updateSelectedTab(tab)
 }

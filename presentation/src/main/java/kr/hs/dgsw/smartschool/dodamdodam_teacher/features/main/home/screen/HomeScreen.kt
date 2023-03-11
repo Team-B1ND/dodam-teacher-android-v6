@@ -65,6 +65,8 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDateTime
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.updateMainNavTabSelectedTab
 
 @Composable
 fun HomeScreen(
@@ -116,8 +118,10 @@ fun HomeScreen(
                 title = stringResource(id = R.string.title_out_approve),
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 hasLinkIcon = true,
-                content = { OutApproveCardContent(homeState) }
-            )
+                onClick = { updateMainNavTabSelectedTab(2) }
+            ) {
+                OutApproveCardContent(homeState)
+            }
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
 
