@@ -13,8 +13,8 @@ internal fun ScheduleResponse.toModel(): Schedule =
     Schedule(
         id = id,
         name = name,
-        place = place,
+        place = place ?: "장소 없음",
         startDate = startDate.yearDateToLocalDate(),
         endDate = endDate.yearDateToLocalDate(),
-        target = target,
+        target = target ?: "기타",
     )

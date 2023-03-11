@@ -34,6 +34,6 @@ internal fun Schedule.toEntity(): ScheduleEntity =
         startMonth = startDate.monthValue,
         startDay = startDate.dayOfMonth,
         endYear = endDate.year,
-        endMonth = endDate.dayOfMonth,
+        endMonth = endDate.monthValue,
         endDay = endDate.dayOfMonth,
     )

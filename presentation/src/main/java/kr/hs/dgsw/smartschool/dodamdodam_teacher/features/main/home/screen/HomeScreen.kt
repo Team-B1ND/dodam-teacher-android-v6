@@ -187,6 +187,7 @@ fun HomeScreen(
                         onClick = {
                             when (item.title) {
                                 context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
+                                context.getString(R.string.title_schedule) -> navController.navigate(NavGroup.Feature.SCHEDULE)
                             }
                         }
                     )

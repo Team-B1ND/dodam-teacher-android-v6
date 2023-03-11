@@ -13,6 +13,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.PointScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.screen.ScheduleScreen
 
 @Composable
 fun NavigationGraph(
@@ -55,6 +56,10 @@ fun NavigationGraph(
 
         composable(NavGroup.Feature.POINT) {
             PointScreen(navController = navController)
+        }
+
+        composable(NavGroup.Feature.SCHEDULE) {
+            ScheduleScreen(navController = navController)
         }
     }
 }

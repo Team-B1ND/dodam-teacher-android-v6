@@ -16,7 +16,6 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getSchedules(startDate: LocalDate, endDate: LocalDate): List<Schedule> =
         cache.getSchedules(startDate.year, startDate.monthValue).ifEmpty {
             remote.getSchedules(startDate.toString(), endDate.toString()).apply {
-                cache.deleteSchedules()
                 cache.insertSchedules(this)
             }
         }
