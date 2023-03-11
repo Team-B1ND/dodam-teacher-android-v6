@@ -7,6 +7,7 @@ import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 
 class OutCacheDataSourceImpl @Inject constructor(
     private val outDao: OutDao,
@@ -18,7 +19,7 @@ class OutCacheDataSourceImpl @Inject constructor(
         val outsleepings = emptyList<OutItem>().toMutableList()
 
         outDao.getAllOut().map {
-            if (it.type == "OUTGOING")
+            if (it.type == OutType.OUTGOING.name)
                 outgoings.add(it.toModel())
             else
                 outsleepings.add(it.toModel())

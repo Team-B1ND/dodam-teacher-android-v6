@@ -11,6 +11,7 @@
     <string name="title_home_tomorrow_lunch">내일의 중식</string>
     <string name="title_home_tomorrow_dinner">내일의 석식</string>
     <string name="title_point">상벌점</string>
+    <string name="title_out_current">외출/외박 현황</string>
     <string name="title_schedule">일정</string>
     <string name="title_itmap">it을지도</string>
     <string name="title_student_list">학생 목록</string>
@@ -61,6 +62,7 @@
     <string name="label_out">외출/외박</string>
     <string name="label_etc">더보기</string>
     <string name="label_manage">관리</string>
+    <string name="label_current">현황</string>
     <string name="label_employ">취업</string>
     <string name="label_bonus">상점</string>
     <string name="label_minus">벌점</string>
@@ -76,6 +78,8 @@
     <string name="label_outsleeping">외박</string>
     <string name="label_approve">승인</string>
     <string name="label_deny">거절</string>
+    <string name="label_arrive">복귀 처리</string>
+    <string name="label_approve_cancel">승인 취소</string>
 
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>

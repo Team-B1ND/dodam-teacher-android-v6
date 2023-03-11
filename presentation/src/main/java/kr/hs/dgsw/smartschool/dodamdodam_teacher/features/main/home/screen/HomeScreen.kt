@@ -172,6 +172,16 @@ fun HomeScreen(
                     }
                 ),
                 ItemCardContent(
+                    subTitle = stringResource(id = R.string.label_current),
+                    title = stringResource(id = R.string.label_out),
+                    icon = {
+                        IcSleepingFace3D(
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                ),
+                ItemCardContent(
                     subTitle = stringResource(id = R.string.label_employ),
                     title = stringResource(id = R.string.title_itmap),
                     icon = {
@@ -184,7 +194,7 @@ fun HomeScreen(
             )
 
             LazyRow(
-                contentPadding = PaddingValues(start = DodamDimen.ScreenSidePadding),
+                contentPadding = PaddingValues(horizontal = DodamDimen.ScreenSidePadding),
                 horizontalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
             ) {
                 items(itemCardList) { item: ItemCardContent ->
@@ -196,6 +206,7 @@ fun HomeScreen(
                             when (item.title) {
                                 context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
                                 context.getString(R.string.title_schedule) -> navController.navigate(NavGroup.Feature.SCHEDULE)
+                                context.getString(R.string.label_out) -> navController.navigate(NavGroup.Feature.CURRENT_OUT)
                             }
                         }
                     )
