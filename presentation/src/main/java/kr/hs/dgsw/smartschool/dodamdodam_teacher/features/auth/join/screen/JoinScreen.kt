@@ -72,11 +72,11 @@ fun JoinScreen(
     joinViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is JoinSideEffect.SuccessJoin -> {
-                context.shortToast(context.getString(R.string.inform_join_success))
+                context.shortToast(context.getString(R.string.desc_join_success))
                 navController.popBackStack()
             }
             is JoinSideEffect.FailJoin -> {
-                context.shortToast(sideEffect.throwable.message ?: context.getString(R.string.inform_join_fail))
+                context.shortToast(sideEffect.throwable.message ?: context.getString(R.string.desc_join_fail))
             }
         }
     }
@@ -419,17 +419,17 @@ private fun checkJoinData(
 ): Boolean {
 
     if (email.isEmpty() || id.isEmpty() || name.isEmpty() || phone.isEmpty() || position.isEmpty() || pw.isEmpty() || checkedPw.isEmpty() || tel.isEmpty()) {
-        context.shortToast(context.getString(R.string.warn_empty_field))
+        context.shortToast(context.getString(R.string.desc_empty_field))
         return false
     }
 
     if (pw != checkedPw) {
-        context.shortToast(context.getString(R.string.warn_empty_field))
+        context.shortToast(context.getString(R.string.desc_empty_field))
         return false
     }
 
     if (checkTerms.not()) {
-        context.shortToast(context.getString(R.string.warn_check_term))
+        context.shortToast(context.getString(R.string.desc_check_term))
         return false
     }
 
