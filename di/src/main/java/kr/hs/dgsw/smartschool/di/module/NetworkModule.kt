@@ -18,6 +18,7 @@ import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.PointService
+import kr.hs.dgsw.smartschool.remote.service.ScheduleService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
@@ -123,4 +124,9 @@ class NetworkModule {
     @Provides
     fun providesMemberService(@BasicRetrofit retrofit: Retrofit): MemberService =
         retrofit.create(MemberService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesScheduleService(@BasicRetrofit retrofit: Retrofit): ScheduleService =
+        retrofit.create(ScheduleService::class.java)
 }

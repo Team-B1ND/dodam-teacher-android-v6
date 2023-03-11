@@ -15,6 +15,7 @@ import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
+import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
@@ -106,4 +107,10 @@ object LocalModule {
     fun provideBannerDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): BannerDao = dodamTeacherDatabase.bannerDao()
+
+    @Provides
+    @Singleton
+    fun provideScheduleDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): ScheduleDao = dodamTeacherDatabase.scheduleDao()
 }
