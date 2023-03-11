@@ -71,6 +71,7 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel(),
     navTabNavigate: ((tab: Int) -> Unit)? = null,
+    outUpdateTime: LocalDateTime = LocalDateTime.now()
 ) {
 
     val context = LocalContext.current
@@ -123,7 +124,7 @@ fun HomeScreen(
                     }
                 }
             ) {
-                OutApproveCardContent(homeState)
+                OutApproveCardContent(homeState, outUpdateTime)
             }
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -211,12 +212,13 @@ private val CardItemIconSize = 35.dp
 @Composable
 private fun OutApproveCardContent(
     homeState: HomeState,
+    outUpdateTime: LocalDateTime,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = homeState.outUpdateDate?.toSimpleYearDateTime() ?: LocalDateTime.now().toSimpleYearDateTime(),
+            text = outUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))

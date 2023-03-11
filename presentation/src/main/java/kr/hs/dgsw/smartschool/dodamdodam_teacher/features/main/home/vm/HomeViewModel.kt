@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
@@ -16,6 +17,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 
 @HiltViewModel
@@ -44,8 +46,12 @@ class HomeViewModel @Inject constructor(
         }
 
         getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.teacherId == null }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.teacherId == null }.size
+            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
+            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
+
+            out.outgoings.forEach {
+                Log.d("HomeLog", it.status.name)
+            }
 
             reduce {
                 state.copy(

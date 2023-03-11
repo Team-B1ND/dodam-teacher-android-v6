@@ -9,7 +9,6 @@ data class HomeState(
     val isMealLoading: Boolean = false,
     val banners: List<Banner> = emptyList(),
 
-    val outUpdateDate: LocalDateTime? = null,
     val outgoingCount: Int = 0,
     val outsleepingCount: Int = 0,
 

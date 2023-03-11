@@ -4,6 +4,7 @@ import kr.hs.dgsw.smartschool.data.utils.yearDateTimeHourToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.local.entity.out.OutEntity
 
 internal fun OutEntity.toModel(): OutItem =
@@ -17,6 +18,7 @@ internal fun OutEntity.toModel(): OutItem =
         endOutDate = endOutDate.yearDateTimeHourToLocalDate(),
         arrivedDate = arrivedDate?.yearDateTimeHourToLocalDate(),
         checkedDate = checkedDate?.yearDateTimeHourToLocalDate(),
+        type = type.toOutType()
     )
 
 internal fun OutItem.toEntity(): OutEntity {
@@ -29,7 +31,8 @@ internal fun OutItem.toEntity(): OutEntity {
         startOutDate = startOutDate.toString(),
         endOutDate = endOutDate.toString(),
         arrivedDate = arrivedDate?.toString(),
-        checkedDate = checkedDate?.toString()
+        checkedDate = checkedDate?.toString(),
+        type = type.name,
     )
 }
 
@@ -39,4 +42,11 @@ internal fun String.toOutStatus(): OutStatus =
         OutStatus.PENDING.name -> OutStatus.PENDING
         OutStatus.DENIED.name -> OutStatus.DENIED
         else -> OutStatus.PENDING
+    }
+
+internal fun String.toOutType(): OutType =
+    when (this) {
+        OutType.OUTGOING.name -> OutType.OUTGOING
+        OutType.OUTSLEEPING.name -> OutType.OUTSLEEPING
+        else -> OutType.OUTGOING
     }

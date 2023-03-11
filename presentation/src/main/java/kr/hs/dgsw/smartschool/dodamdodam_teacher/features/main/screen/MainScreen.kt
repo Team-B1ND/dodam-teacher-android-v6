@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavBar
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavTab
@@ -63,7 +64,8 @@ fun MainScreen(
                     0 -> {
                         HomeScreen(
                             navController = navController,
-                            navTabNavigate = { mainViewModel.updateSelectedTab(it) }
+                            navTabNavigate = { mainViewModel.updateSelectedTab(it) },
+                            outUpdateTime = state.getOutTime ?: LocalDateTime.now()
                         )
                     }
                     1 -> {
@@ -117,6 +119,4 @@ fun MainScreen(
                 )
             }
         }
-
-
 }

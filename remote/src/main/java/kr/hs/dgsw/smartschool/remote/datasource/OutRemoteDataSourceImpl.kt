@@ -9,6 +9,7 @@ import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 
 class OutRemoteDataSourceImpl @Inject constructor(
     private val outService: OutService,
@@ -19,7 +20,7 @@ class OutRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getOutgoing(id: Int): OutItem = dodamApiCall {
-        outService.getOutgoing(id).data.toOutItem()
+        outService.getOutgoing(id).data.toOutItem(OutType.OUTGOING)
     }
 
     override suspend fun deleteOutgoing(id: Int) = dodamApiCall {
@@ -39,7 +40,7 @@ class OutRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getOutsleeping(id: Int): OutItem = dodamApiCall {
-        outService.getOutsleeping(id).data.toOutItem()
+        outService.getOutsleeping(id).data.toOutItem(OutType.OUTSLEEPING)
     }
 
     override suspend fun deleteOutsleeping(id: Int) = dodamApiCall {
