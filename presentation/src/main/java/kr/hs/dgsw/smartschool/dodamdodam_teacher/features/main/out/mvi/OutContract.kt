@@ -10,6 +10,8 @@ data class OutState(
     val currentClassroom: Int = 0,
     val currentOutType: Int = 0,
 
+    val currentSelectedOutItem: OutItem? = null,
+
     val outGoings: List<OutItem> = emptyList(),
     val outSleepings: List<OutItem> = emptyList(),
     val classrooms: List<Classroom> = emptyList(),

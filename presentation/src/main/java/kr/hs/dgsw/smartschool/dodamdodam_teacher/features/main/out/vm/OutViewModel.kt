@@ -136,6 +136,14 @@ class OutViewModel @Inject constructor(
         }
     }
 
+    fun updateOutItem(outItem: OutItem) = intent {
+        reduce {
+            state.copy(
+                currentSelectedOutItem = outItem
+            )
+        }
+    }
+
     private fun List<OutItem>.getNotAllowedOutItems(): List<OutItem> =
         this.filter {
             it.status == OutStatus.PENDING

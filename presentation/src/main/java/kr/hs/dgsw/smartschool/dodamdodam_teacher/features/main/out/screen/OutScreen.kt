@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,18 +19,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
+import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
+import kr.hs.dgsw.smartschool.components.component.organization.prompt.DodamPrompt
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudentItem
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.updateMainNavTabSelectedTab
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.item.StudentItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -50,7 +58,7 @@ fun OutScreen(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
                 Log.e("OutErrorLog", it.exception.stackTraceToString())
-                navController.popBackStack()
+                updateMainNavTabSelectedTab(0)
             }
         }
     }
@@ -65,67 +73,103 @@ fun OutScreen(
     
     val outTypeList = listOf(stringResource(id = R.string.label_outgoing), stringResource(id = R.string.label_outsleeping))
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DodamColor.White)
-    ) {
+    if (state.getOutsLoading)
+        LoadInFullScreen()
+    else {
+        if (state.showPrompt) {
+            state.currentSelectedOutItem?.let {
+                DodamPrompt(
+                    title = "${it.getOutItemNameInfo(state)}님의 ${getOutType(context, state.currentOutType)} 정보",
+                    primaryButton = {
+                        DodamMediumRoundedButton(
+                            text = stringResource(id = R.string.label_approve),
+                            type = ButtonType.PrimaryVariant,
+                        ) {
 
-        Spacer(modifier = Modifier.height(45.dp))
-
-        Title1(
-            text = stringResource(id = R.string.title_out_approve),
-            modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
-        )
-
-        Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
-        
+                            outViewModel.updateShowPrompt(false)
+                        }
+                    },
+                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
+                    secondaryButton = {
+                        DodamMediumRoundedButton(
+                            text = stringResource(id = R.string.label_deny),
+                            type = ButtonType.Danger,
+                        ) {
+                            outViewModel.updateShowPrompt(false)
+                        }
+                    },
+                    onDismiss = {
+                        outViewModel.updateShowPrompt(false)
+                    }
+                )
+            }
+        }
         Column(
             modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding),
-            verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
+                .fillMaxSize()
+                .background(color = DodamColor.White)
         ) {
-            SelectBar(
-                selectIdx = state.currentGrade,
-                categoryList = gradeList,
-                onSelectedItem = { idx ->
-                    outViewModel.updateGrade(idx)
-                }
-            )
-            
-            SelectBar(
-                categoryList = roomList,
-                selectIdx = state.currentClassroom,
-                onSelectedItem = { idx ->
-                    outViewModel.updateClassroom(idx)
-                }
-            )
-            
-            SelectBar(
-                categoryList = outTypeList,
-                selectIdx = state.currentOutType,
-                onSelectedItem = { idx ->
-                    outViewModel.updateOutType(idx)
-                }
-            )
-        }
 
-        Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding * 2))
+            Spacer(modifier = Modifier.height(45.dp))
 
-        val outList = getFilteredOutList(state)
+            Title1(
+                text = stringResource(id = R.string.title_out_approve),
+                modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
+            )
 
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-            verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
-        ) {
-            items(outList) { outItem ->
-                val findStudent = state.students.find {
-                    it.id == outItem.studentId
-                }
-                DodamStudentItem(
-                    members = state.members,
-                    findMemberId = findStudent?.member?.id ?: ""
+            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = DodamDimen.ScreenSidePadding),
+                verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
+            ) {
+                SelectBar(
+                    selectIdx = state.currentGrade,
+                    categoryList = gradeList,
+                    onSelectedItem = { idx ->
+                        outViewModel.updateGrade(idx)
+                    }
                 )
+
+                SelectBar(
+                    categoryList = roomList,
+                    selectIdx = state.currentClassroom,
+                    onSelectedItem = { idx ->
+                        outViewModel.updateClassroom(idx)
+                    }
+                )
+
+                SelectBar(
+                    categoryList = outTypeList,
+                    selectIdx = state.currentOutType,
+                    onSelectedItem = { idx ->
+                        outViewModel.updateOutType(idx)
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding * 2))
+
+            val outList = getFilteredOutList(state)
+
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+                verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
+            ) {
+                items(outList) { outItem ->
+                    val findStudent = state.students.find {
+                        it.id == outItem.studentId
+                    }
+                    DodamStudentItem(
+                        members = state.members,
+                        findMemberId = findStudent?.member?.id ?: "",
+                        modifier = Modifier.dodamClickable(rippleEnable = false) {
+                            outViewModel.updateOutItem(outItem)
+                            outViewModel.updateShowPrompt(showPrompt = true)
+                        }
+                    )
+                }
             }
         }
     }
@@ -140,17 +184,14 @@ private fun getFilteredOutList(state: OutState): List<OutItem> {
     return if (state.currentGrade == 0 && state.currentClassroom == 0) {
         outList
     } else if (state.currentGrade == 0) {
-        Log.d("LOGLOG", "CURRENT GRADE 1 ${state.currentGrade}  ${state.currentClassroom}")
         outList.filter {
             it.getOutItemRoomInfo(state) == state.currentClassroom
         }
     } else if (state.currentClassroom == 0) {
-        Log.d("LOGLOG", "CURRENT GRADE 2 ${state.currentGrade}  ${state.currentClassroom}")
         outList.filter {
             it.getOutItemGradeInfo(state) == state.currentGrade
         }
     } else {
-        Log.d("LOGLOG", "CURRENT GRADE 3 ${state.currentGrade}  ${state.currentClassroom}")
         outList.filter {
             (it.getOutItemGradeInfo(state) == state.currentGrade) && (it.getOutItemRoomInfo(state) == state.currentClassroom)
         }
@@ -179,4 +220,22 @@ private fun OutItem.getOutItemGradeInfo(state: OutState): Int {
     } ?: return 0
 
     return classroom.grade
+}
+
+private fun OutItem.getOutItemNameInfo(state: OutState): String {
+    val student = state.students.find {
+        studentId == it.id
+    } ?: return ""
+
+    val member = state.members.find {
+        student.member.id == it.id
+    } ?: return ""
+
+    return member.name
+}
+
+private fun getOutType(context: Context, outType: Int): String = when(outType) {
+    0 -> context.getString(R.string.label_outgoing)
+    1 -> context.getString(R.string.label_outsleeping)
+    else -> ""
 }

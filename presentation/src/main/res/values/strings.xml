@@ -74,6 +74,8 @@
     <string name="label_kcal">Kcal</string>
     <string name="label_outgoing">외출</string>
     <string name="label_outsleeping">외박</string>
+    <string name="label_approve">승인</string>
+    <string name="label_deny">거절</string>
 
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>
