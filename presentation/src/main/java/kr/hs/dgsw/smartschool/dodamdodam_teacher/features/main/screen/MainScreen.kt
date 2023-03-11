@@ -80,16 +80,15 @@ fun MainScreen(
             DodamNavBar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
+                    )
                     .surface(
                         shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp),
                         DodamTheme.color.White
                     )
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
-                    )
                     .zIndex(2f)
-                    .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp))
             ) {
                 DodamNavTab(
                     text = stringResource(id = R.string.label_home),
