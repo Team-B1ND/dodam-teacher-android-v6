@@ -2,9 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import javax.inject.Inject
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
@@ -14,7 +11,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
@@ -23,6 +19,8 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
+import javax.inject.Inject
 
 @HiltViewModel
 class CurrentOutViewModel @Inject constructor(

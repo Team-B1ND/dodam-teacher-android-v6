@@ -263,7 +263,7 @@ private fun OutItem.getOutItemNameInfo(state: CurrentOutState): String {
     return member.name
 }
 
-private fun getOutType(context: Context, outType: Int): String = when(outType) {
+private fun getOutType(context: Context, outType: Int): String = when (outType) {
     0 -> context.getString(R.string.label_outgoing)
     1 -> context.getString(R.string.label_outsleeping)
     else -> ""

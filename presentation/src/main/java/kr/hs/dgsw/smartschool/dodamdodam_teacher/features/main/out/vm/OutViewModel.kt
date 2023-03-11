@@ -2,11 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -24,6 +21,8 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
+import javax.inject.Inject
 
 @HiltViewModel
 class OutViewModel @Inject constructor(
@@ -227,7 +226,6 @@ class OutViewModel @Inject constructor(
             postSideEffect(OutSideEffect.ShowException(it))
         }
     }
-
 
     fun updateShowPrompt(showPrompt: Boolean) = intent {
         reduce {

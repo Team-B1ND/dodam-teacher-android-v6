@@ -63,7 +63,7 @@ fun OutScreen(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
                 Log.e("OutErrorLog", it.exception.stackTraceToString())
-                //updateMainNavTabSelectedTab(0)
+                // updateMainNavTabSelectedTab(0)
             }
             is OutSideEffect.SuccessControl -> {
                 context.shortToast(message = it.message)
@@ -79,7 +79,7 @@ fun OutScreen(
     val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
-    
+
     val outTypeList = listOf(stringResource(id = R.string.label_outgoing), stringResource(id = R.string.label_outsleeping))
 
     val refreshState = rememberPullRefreshState(
@@ -276,7 +276,7 @@ private fun OutItem.getOutItemNameInfo(state: OutState): String {
     return member.name
 }
 
-private fun getOutType(context: Context, outType: Int): String = when(outType) {
+private fun getOutType(context: Context, outType: Int): String = when (outType) {
     0 -> context.getString(R.string.label_outgoing)
     1 -> context.getString(R.string.label_outsleeping)
     else -> ""

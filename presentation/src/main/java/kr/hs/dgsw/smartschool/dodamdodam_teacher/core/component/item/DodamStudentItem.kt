@@ -17,9 +17,7 @@ import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 
 @Composable
 internal fun DodamStudentItem(

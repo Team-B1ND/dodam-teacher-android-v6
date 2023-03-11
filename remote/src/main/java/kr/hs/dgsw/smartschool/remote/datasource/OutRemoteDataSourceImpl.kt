@@ -3,13 +3,13 @@ package kr.hs.dgsw.smartschool.remote.datasource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.remote.mapper.toOut
 import kr.hs.dgsw.smartschool.remote.mapper.toOutItem
 import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.model.out.OutType
 
 class OutRemoteDataSourceImpl @Inject constructor(
     private val outService: OutService,

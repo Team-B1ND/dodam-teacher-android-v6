@@ -3,11 +3,11 @@ package kr.hs.dgsw.smartschool.local.datasource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.model.out.OutType
 
 class OutCacheDataSourceImpl @Inject constructor(
     private val outDao: OutDao,

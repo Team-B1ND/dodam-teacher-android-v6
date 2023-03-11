@@ -6,19 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavBar
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavTab
@@ -35,6 +31,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyroomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import java.time.LocalDateTime
 
 @Composable
 fun MainScreen(
