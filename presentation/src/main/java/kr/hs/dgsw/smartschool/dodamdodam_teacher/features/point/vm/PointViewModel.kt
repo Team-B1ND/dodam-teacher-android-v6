@@ -104,6 +104,7 @@ class PointViewModel @Inject constructor(
                             room = it.room,
                             isChecked = it.isChecked.not(),
                             studentId = it.studentId,
+                            profileImage = it.profileImage,
                         )
                     else
                         it
@@ -224,6 +225,7 @@ class PointViewModel @Inject constructor(
                                         room = classroom.room,
                                         isChecked = false,
                                         studentId = student.id,
+                                        profileImage = member.profileImage ?: ""
                                     )
                                 )
                             }

@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.item
+package kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,42 +14,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.surface
-import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
+import kr.hs.dgsw.smartschool.domain.model.member.Member
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 
 @Composable
-fun CheckStudentItem(
-    pointViewModel: PointViewModel,
-    pointStudent: PointState.PointStudent,
+internal fun DodamStudentItem(
+    members: List<Member>,
+    findMemberId: String,
     modifier: Modifier = Modifier,
 ) {
+    val member = members.find { it.id == findMemberId }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .surface(
-                shape = RoundedCornerShape(100.dp),
-                backgroundColor = if (pointStudent.isChecked)
-                    DodamTheme.color.MainColor400
-                else
-                    DodamTheme.color.Background
-            )
-            .height(44.dp)
-            .dodamClickable {
-                pointViewModel.updateChecked(
-                    pointStudent.id
-                )
-            },
+            .surface(RoundedCornerShape(100.dp), DodamTheme.color.Background)
+            .height(44.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar(
             modifier = Modifier
                 .padding(start = DodamDimen.ScreenSidePadding)
                 .size(30.dp),
-            link = pointStudent.profileImage,
+            link = member?.profileImage ?: "",
             failureIconColor = DodamTheme.color.Gray400,
             failureIconSize = 15.dp,
             backgroundColor = DodamTheme.color.White,
@@ -58,12 +49,8 @@ fun CheckStudentItem(
         Spacer(modifier = Modifier.width(11.dp))
 
         Label1(
-            text = pointStudent.name,
-            modifier = Modifier.weight(1f),
-            textColor = if (pointStudent.isChecked)
-                DodamTheme.color.White
-            else
-                DodamTheme.color.Black
+            text = member?.name ?: "",
+            modifier = Modifier.weight(1f)
         )
     }
 }

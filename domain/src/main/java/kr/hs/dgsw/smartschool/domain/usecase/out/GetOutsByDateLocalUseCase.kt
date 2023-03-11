@@ -4,7 +4,7 @@ import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class GetOutsByDateLocal @Inject constructor(
+class GetOutsByDateLocalUseCase @Inject constructor(
     private val outRepository: OutRepository,
 ) {
 
