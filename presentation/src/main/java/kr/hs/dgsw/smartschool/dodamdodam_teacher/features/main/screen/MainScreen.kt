@@ -35,8 +35,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 
-private lateinit var mainViewModelAll: MainViewModel
-
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -44,7 +42,6 @@ fun MainScreen(
 ) {
 
     val state = mainViewModel.collectAsState().value
-    mainViewModelAll = mainViewModel
 
     if (state.setClassroomLoading && state.setMembersLoading && state.setStudentsLoading && state.setTeachersLoading)
         LoadInFullScreen()
@@ -64,7 +61,10 @@ fun MainScreen(
             ) {
                 when (state.selectedTab) {
                     0 -> {
-                        HomeScreen(navController = navController)
+                        HomeScreen(
+                            navController = navController,
+                            navTabNavigate = { mainViewModel.updateSelectedTab(it) }
+                        )
                     }
                     1 -> {
                         StudyroomScreen(navController = navController)
@@ -119,8 +119,4 @@ fun MainScreen(
         }
 
 
-}
-
-internal fun updateMainNavTabSelectedTab(tab: Int) {
-    mainViewModelAll.updateSelectedTab(tab)
 }
