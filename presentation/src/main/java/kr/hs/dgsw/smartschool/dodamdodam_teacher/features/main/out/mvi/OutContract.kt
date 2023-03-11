@@ -24,4 +24,5 @@ data class OutState(
 
 sealed class OutSideEffect {
     data class ShowException(val exception: Throwable) : OutSideEffect()
+    data class SuccessControl(val message: String) : OutSideEffect()
 }

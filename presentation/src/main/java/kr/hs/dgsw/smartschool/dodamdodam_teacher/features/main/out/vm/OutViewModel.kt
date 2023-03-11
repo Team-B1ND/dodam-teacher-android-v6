@@ -12,6 +12,10 @@ import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
@@ -27,6 +31,10 @@ class OutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
+    private val allowOutgoingUseCase: AllowOutgoingUseCase,
+    private val denyOutgoingUseCase: DenyOutgoingUseCase,
+    private val allowOutsleepingUseCase: AllowOutsleepingUseCase,
+    private val denyOutsleepingUseCase: DenyOutsleepingUseCase,
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
 
     override val container: Container<OutState, OutSideEffect> = container(OutState())
@@ -57,6 +65,94 @@ class OutViewModel @Inject constructor(
                     outSleepings = it.outsleepings.getNotAllowedOutItems(),
                 )
             }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun allowOutgoing(id: Int) = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+        allowOutgoingUseCase(
+            AllowOutgoingUseCase.Param(
+                ids = listOf(id)
+            )
+        ).onSuccess {
+            postSideEffect(OutSideEffect.SuccessControl("외출 승인에 성공했어요"))
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun allowOutsleeping(id: Int) = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+        allowOutsleepingUseCase(
+            AllowOutsleepingUseCase.Param(
+                ids = listOf(id)
+            )
+        ).onSuccess {
+            postSideEffect(OutSideEffect.SuccessControl("외박 승인에 성공했어요"))
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun denyOutgoing(id: Int) = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+        denyOutgoingUseCase(
+            DenyOutgoingUseCase.Param(
+                ids = listOf(id)
+            )
+        ).onSuccess {
+            postSideEffect(OutSideEffect.SuccessControl("외출 거절에 성공했어요"))
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun denyOutsleeping(id: Int) = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+        denyOutsleepingUseCase(
+            DenyOutsleepingUseCase.Param(
+                ids = listOf(id)
+            )
+        ).onSuccess {
+            postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
         }.onFailure {
             reduce {
                 state.copy(

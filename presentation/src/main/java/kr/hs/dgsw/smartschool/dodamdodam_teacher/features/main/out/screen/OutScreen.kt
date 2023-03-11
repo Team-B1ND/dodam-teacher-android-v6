@@ -58,7 +58,11 @@ fun OutScreen(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
                 Log.e("OutErrorLog", it.exception.stackTraceToString())
-                updateMainNavTabSelectedTab(0)
+                //updateMainNavTabSelectedTab(0)
+            }
+            is OutSideEffect.SuccessControl -> {
+                context.shortToast(message = it.message)
+                outViewModel.getOutsRemote()
             }
         }
     }
@@ -85,19 +89,28 @@ fun OutScreen(
                             text = stringResource(id = R.string.label_approve),
                             type = ButtonType.PrimaryVariant,
                         ) {
+                            if (state.currentOutType == 0)
+                                outViewModel.allowOutgoing(id = it.id)
+                            else
+                                outViewModel.allowOutsleeping(id = it.id)
 
                             outViewModel.updateShowPrompt(false)
                         }
                     },
-                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
                     secondaryButton = {
                         DodamMediumRoundedButton(
                             text = stringResource(id = R.string.label_deny),
                             type = ButtonType.Danger,
                         ) {
+                            if (state.currentOutType == 0)
+                                outViewModel.denyOutgoing(id = it.id)
+                            else
+                                outViewModel.denyOutsleeping(id = it.id)
+
                             outViewModel.updateShowPrompt(false)
                         }
                     },
+                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
                     onDismiss = {
                         outViewModel.updateShowPrompt(false)
                     }
