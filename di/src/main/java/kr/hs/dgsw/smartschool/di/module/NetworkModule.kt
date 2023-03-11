@@ -18,6 +18,7 @@ import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.PointService
+import kr.hs.dgsw.smartschool.remote.service.ScheduleService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
@@ -26,7 +27,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.remote.service.ScheduleService
 
 @Module
 @InstallIn(SingletonComponent::class)

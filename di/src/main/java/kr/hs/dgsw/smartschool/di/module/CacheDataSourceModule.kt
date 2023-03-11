@@ -10,6 +10,7 @@ import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.student.StudentCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.teacher.TeacherCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
@@ -19,12 +20,11 @@ import kr.hs.dgsw.smartschool.local.datasource.ClassroomCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MemberCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.ScheduleCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.StudentCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TeacherCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TokenCacheDataSourceImpl
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
-import kr.hs.dgsw.smartschool.local.datasource.ScheduleCacheDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

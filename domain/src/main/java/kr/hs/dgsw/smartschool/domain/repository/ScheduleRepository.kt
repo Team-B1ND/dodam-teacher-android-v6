@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.model.schedule.Schedule
+import java.time.LocalDate
 
 interface ScheduleRepository {
 

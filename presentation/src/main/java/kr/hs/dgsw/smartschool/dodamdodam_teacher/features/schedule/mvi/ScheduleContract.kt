@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.mvi
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.schedule.Schedule
+import java.time.LocalDate
 
 data class ScheduleState(
     val schedules: List<Schedule> = emptyList(),
@@ -10,5 +10,5 @@ data class ScheduleState(
 )
 
 sealed class ScheduleSideEffect {
-    data class ShowException(val exception: Throwable): ScheduleSideEffect()
+    data class ShowException(val exception: Throwable) : ScheduleSideEffect()
 }

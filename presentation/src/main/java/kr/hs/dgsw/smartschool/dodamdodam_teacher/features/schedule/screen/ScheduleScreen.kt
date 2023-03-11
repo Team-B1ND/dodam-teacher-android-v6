@@ -17,15 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.Divider
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.DodamCalendar
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.schedule.DodamScheduleItem
-import kr.hs.dgsw.smartschool.components.component.organization.calendar.schedule.Schedule
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
-import kr.hs.dgsw.smartschool.components.foundation.Text
 import kr.hs.dgsw.smartschool.components.theme.Body1
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
@@ -47,7 +44,7 @@ fun ScheduleScreen(
     val state = scheduleViewModel.collectAsState().value
 
     scheduleViewModel.collectSideEffect {
-        when(it) {
+        when (it) {
             is ScheduleSideEffect.ShowException -> {
                 Log.e("ScheduleLog", it.exception.stackTraceToString())
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))

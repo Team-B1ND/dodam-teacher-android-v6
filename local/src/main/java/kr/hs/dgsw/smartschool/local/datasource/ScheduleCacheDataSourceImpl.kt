@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.local.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.schedule.Schedule
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
+import javax.inject.Inject
 
 class ScheduleCacheDataSourceImpl @Inject constructor(
     private val scheduleDao: ScheduleDao,

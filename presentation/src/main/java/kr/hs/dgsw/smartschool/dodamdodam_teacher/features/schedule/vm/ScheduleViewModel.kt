@@ -3,9 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.vm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import java.time.LocalDateTime
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.DodamBasicCalendarCategory
 import kr.hs.dgsw.smartschool.components.component.organization.calendar.schedule.Schedule
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.mvi.ScheduleSideEffect
@@ -17,6 +14,9 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
+import java.time.LocalDateTime
+import javax.inject.Inject
 
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
@@ -45,7 +45,7 @@ class ScheduleViewModel @Inject constructor(
                     schedules = it.map { schedule ->
                         Schedule(
                             title = schedule.name,
-                            category = when(schedule.target) {
+                            category = when (schedule.target) {
                                 "전교생" -> DodamBasicCalendarCategory.AllGrade()
                                 "1학년" -> DodamBasicCalendarCategory.FirstGrade()
                                 "2학년" -> DodamBasicCalendarCategory.SecondGrade()

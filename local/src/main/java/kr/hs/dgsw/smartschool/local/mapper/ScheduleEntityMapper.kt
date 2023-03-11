@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.model.schedule.Schedule
 import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
+import java.time.LocalDate
 
 internal fun List<ScheduleEntity>.toModel(): List<Schedule> =
     this.map {
