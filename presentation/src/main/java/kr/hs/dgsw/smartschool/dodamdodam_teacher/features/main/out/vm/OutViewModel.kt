@@ -75,6 +75,35 @@ class OutViewModel @Inject constructor(
         }
     }
 
+    fun getOutsRefresh() = intent {
+        reduce {
+            state.copy(
+                refreshing = true,
+            )
+        }
+
+        getOutsByDateRemoteUseCase(
+            GetOutsByDateRemoteUseCase.Param(
+                date = LocalDate.now().toString()
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                    outGoings = it.outgoings.getNotAllowedOutItems(),
+                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
     fun allowOutgoing(id: Int) = intent {
         reduce {
             state.copy(

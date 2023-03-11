@@ -20,6 +20,8 @@ data class OutState(
 
     val getOutsLoading: Boolean = false,
     val showPrompt: Boolean = false,
+
+    val refreshing: Boolean = false,
 )
 
 sealed class OutSideEffect {
