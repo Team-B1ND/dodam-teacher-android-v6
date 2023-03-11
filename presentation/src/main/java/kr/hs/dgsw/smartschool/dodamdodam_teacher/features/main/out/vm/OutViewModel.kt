@@ -53,8 +53,8 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it.outsleepings.getNotAllowedOutItems(),
-                    outSleepings = it.outgoings.getNotAllowedOutItems(),
+                    outGoings = it.outgoings.getNotAllowedOutItems(),
+                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
                 )
             }
         }.onFailure {

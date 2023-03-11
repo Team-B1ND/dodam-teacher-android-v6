@@ -152,7 +152,7 @@ private fun getFilteredOutList(state: OutState): List<OutItem> {
     } else {
         Log.d("LOGLOG", "CURRENT GRADE 3 ${state.currentGrade}  ${state.currentClassroom}")
         outList.filter {
-            (it.getOutItemRoomInfo(state) == state.currentGrade) && (it.getOutItemRoomInfo(state) == state.currentClassroom)
+            (it.getOutItemGradeInfo(state) == state.currentGrade) && (it.getOutItemRoomInfo(state) == state.currentClassroom)
         }
     }
 }
