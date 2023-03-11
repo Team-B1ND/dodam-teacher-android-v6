@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeHourToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -12,10 +13,10 @@ internal fun OutEntity.toModel(): OutItem =
         status = status.toOutStatus(),
         studentId = studentId,
         teacherId = teacherId,
-        startOutDate = startOutDate.yearDateTimeToLocalDate(),
-        endOutDate = endOutDate.yearDateTimeToLocalDate(),
-        arrivedDate = arrivedDate?.yearDateTimeToLocalDate(),
-        checkedDate = checkedDate?.yearDateTimeToLocalDate(),
+        startOutDate = startOutDate.yearDateTimeHourToLocalDate(),
+        endOutDate = endOutDate.yearDateTimeHourToLocalDate(),
+        arrivedDate = arrivedDate?.yearDateTimeHourToLocalDate(),
+        checkedDate = checkedDate?.yearDateTimeHourToLocalDate(),
     )
 
 internal fun OutItem.toEntity(): OutEntity {

@@ -80,8 +80,8 @@
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>
     <string name="text_service_terms">> 서비스 운영 정책</string>
-    <string name="text_outgoing_application">외출 신청</string>
-    <string name="text_outsleeping_application">외박 신청</string>
+    <string name="text_outgoing_application">외출 미승인</string>
+    <string name="text_outsleeping_application">외박 미승인</string>
     <string name="text_studyroom_check">자습실 미신청 / 미확인</string>
 
     <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>

@@ -16,10 +16,11 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
+    private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
@@ -27,7 +28,7 @@ class HomeViewModel @Inject constructor(
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
     init {
-        getOutsByDate(LocalDate.now())
+        getOutsByDate(LocalDateTime.now())
         getMeal(
             if (LocalDateTime.now().hour >= 20)
                 LocalDate.now().plusDays(1)
@@ -37,19 +38,18 @@ class HomeViewModel @Inject constructor(
         getBanner()
     }
 
-    private fun getOutsByDate(date: LocalDate) = intent {
+    private fun getOutsByDate(date: LocalDateTime) = intent {
         reduce {
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateRemoteUseCase(GetOutsByDateRemoteUseCase.Param(date.toString())).onSuccess { out ->
+        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { out ->
             val outgoingsCnt = out.outgoings.filter { it.teacherId == null }.size
             val outsleepingsCnt = out.outsleepings.filter { it.teacherId == null }.size
 
             reduce {
                 state.copy(
                     isOutLoading = false,
-                    outUpdateDate = LocalDateTime.now(),
                     outgoingCount = outgoingsCnt,
                     outsleepingCount = outsleepingsCnt,
                 )

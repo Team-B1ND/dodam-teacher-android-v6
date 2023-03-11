@@ -60,8 +60,6 @@ class OutRemoteDataSourceImpl @Inject constructor(
 
     private fun List<Int>.toOutIdRequest(): OutIdRequest =
         OutIdRequest(
-            outId = this.map {
-                OutIdRequest.OutId(it)
-            }
+            outId = this
         )
 }

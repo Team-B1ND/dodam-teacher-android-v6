@@ -18,6 +18,7 @@ class OutCacheDataSourceImpl @Inject constructor(
         val outsleepings = emptyList<OutItem>().toMutableList()
 
         outDao.getAllOut().map {
+            // TODO 조건 수정하기 endoutdate, startoutdate 맞게 수정
             if (it.endOutDate == it.startOutDate)
                 outgoings.add(it.toModel())
             else
