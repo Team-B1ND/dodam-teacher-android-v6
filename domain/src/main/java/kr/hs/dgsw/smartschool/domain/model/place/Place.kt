@@ -9,4 +9,13 @@ data class Place(
         val id: Int,
         val name: String,
     )
+
+    constructor() : this(
+        id = -1,
+        name = "",
+        type = PlaceType(
+            id = -1,
+            name = ""
+        )
+    )
 }

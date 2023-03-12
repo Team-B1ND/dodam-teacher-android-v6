@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.domain.model.point
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
+import java.time.LocalDate
 
 data class Point(
     val id: Int,

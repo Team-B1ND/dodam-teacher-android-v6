@@ -13,8 +13,13 @@ import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.BannerService
+import kr.hs.dgsw.smartschool.remote.service.ClassroomService
+import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.PointService
+import kr.hs.dgsw.smartschool.remote.service.ScheduleService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
@@ -24,8 +29,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.remote.service.ClassroomService
-import kr.hs.dgsw.smartschool.remote.service.PointService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -118,6 +121,21 @@ class NetworkModule {
     @Provides
     fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
         retrofit.create(ClassroomService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesMemberService(@BasicRetrofit retrofit: Retrofit): MemberService =
+        retrofit.create(MemberService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesScheduleService(@BasicRetrofit retrofit: Retrofit): ScheduleService =
+        retrofit.create(ScheduleService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
+        retrofit.create(ItmapService::class.java)
 
     @Singleton
     @Provides

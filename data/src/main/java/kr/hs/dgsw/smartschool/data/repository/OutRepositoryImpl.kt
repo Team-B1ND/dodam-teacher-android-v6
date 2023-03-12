@@ -17,6 +17,7 @@ class OutRepositoryImpl @Inject constructor(
     /* 날짜 변경 시 필수로 호출되는 함수 */
     override suspend fun getOutsByDateRemote(date: String): Out =
         remote.getOutsByDate(date).apply {
+            cache.deleteAllOut()
             cache.insertOuts(this.outgoings + this.outsleepings)
         }
 
@@ -27,12 +28,12 @@ class OutRepositoryImpl @Inject constructor(
 
         cache.getAllOut().let { out ->
             out.outgoings.map { outItem ->
-                if (outItem.startOutDate.isAfter(date))
+                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
                     outgoings.add(outItem)
             }
 
             out.outsleepings.map { outItem ->
-                if (outItem.startOutDate.isAfter(date))
+                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
                     outsleepings.add(outItem)
             }
         }

@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,6 +31,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import java.time.LocalDateTime
 
 @Composable
 fun MainScreen(
@@ -43,17 +41,15 @@ fun MainScreen(
 
     val state = mainViewModel.collectAsState().value
 
-    if (state.setClassroomLoading)
+    if (state.setClassroomLoading && state.setMembersLoading && state.setStudentsLoading && state.setTeachersLoading)
         LoadInFullScreen()
     else
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            var selectedNavTab by remember { mutableStateOf(0) }
-
-            BackHandler(selectedNavTab != 0) {
-                selectedNavTab = 0
+            BackHandler(state.selectedTab != 0) {
+                mainViewModel.updateSelectedTab(0)
             }
 
             Box(
@@ -61,9 +57,13 @@ fun MainScreen(
                     .fillMaxSize()
                     .zIndex(1f)
             ) {
-                when (selectedNavTab) {
+                when (state.selectedTab) {
                     0 -> {
-                        HomeScreen(navController = navController)
+                        HomeScreen(
+                            navController = navController,
+                            navTabNavigate = { mainViewModel.updateSelectedTab(it) },
+                            outUpdateTime = state.getOutTime ?: LocalDateTime.now()
+                        )
                     }
                     1 -> {
                         StudyRoomScreen(navController = navController)
@@ -80,40 +80,39 @@ fun MainScreen(
             DodamNavBar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
+                    )
                     .surface(
                         shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp),
                         DodamTheme.color.White
                     )
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
-                    )
                     .zIndex(2f)
-                    .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp))
             ) {
                 DodamNavTab(
                     text = stringResource(id = R.string.label_home),
                     icon = { IcHome(contentDescription = null) },
-                    onClick = { selectedNavTab = 0 },
-                    selected = selectedNavTab == 0,
+                    onClick = { mainViewModel.updateSelectedTab(0) },
+                    selected = state.selectedTab == 0,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_studyroom),
                     icon = { IcLocation(contentDescription = null) },
-                    onClick = { selectedNavTab = 1 },
-                    selected = selectedNavTab == 1,
+                    onClick = { mainViewModel.updateSelectedTab(1) },
+                    selected = state.selectedTab == 1,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_out),
                     icon = { IcOut(contentDescription = null) },
-                    onClick = { selectedNavTab = 2 },
-                    selected = selectedNavTab == 2,
+                    onClick = { mainViewModel.updateSelectedTab(2) },
+                    selected = state.selectedTab == 2,
                 )
                 DodamNavTab(
                     text = stringResource(id = R.string.label_etc),
                     icon = { IcBurger(contentDescription = null) },
-                    onClick = { selectedNavTab = 3 },
-                    selected = selectedNavTab == 3,
+                    onClick = { mainViewModel.updateSelectedTab(3) },
+                    selected = state.selectedTab == 3,
                 )
             }
         }

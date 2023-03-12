@@ -12,4 +12,5 @@ data class OutItem(
     val endOutDate: LocalDateTime,
     val arrivedDate: LocalDateTime?,
     val checkedDate: LocalDateTime?,
+    val type: OutType,
 )

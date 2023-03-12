@@ -41,14 +41,14 @@ internal fun PointReasonResponse.toModel(): PointReason =
         place = place.toPointPlace(),
     )
 
-internal fun PointResponseType.toPointType(): PointType = when(this.name) {
+internal fun PointResponseType.toPointType(): PointType = when (this.name) {
     PointType.BONUS.name -> PointType.BONUS
     PointType.MINUS.name -> PointType.MINUS
     PointType.OFFSET.name -> PointType.OFFSET
     else -> PointType.OFFSET
 }
 
-internal fun PointPlaceResponse.toPointPlace(): PointPlace = when(this.name) {
+internal fun PointPlaceResponse.toPointPlace(): PointPlace = when (this.name) {
     PointPlace.DORMITORY.name -> PointPlace.DORMITORY
     PointPlace.SCHOOL.name -> PointPlace.SCHOOL
     else -> PointPlace.DORMITORY

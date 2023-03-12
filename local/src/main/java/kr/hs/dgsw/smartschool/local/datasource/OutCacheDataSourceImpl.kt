@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.local.datasource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
@@ -18,7 +19,7 @@ class OutCacheDataSourceImpl @Inject constructor(
         val outsleepings = emptyList<OutItem>().toMutableList()
 
         outDao.getAllOut().map {
-            if (it.endOutDate == it.startOutDate)
+            if (it.type == OutType.OUTGOING.name)
                 outgoings.add(it.toModel())
             else
                 outsleepings.add(it.toModel())

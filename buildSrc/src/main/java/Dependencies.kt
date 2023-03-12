@@ -46,6 +46,8 @@ object Libraries {
     const val VIEW_PAGER = "androidx.viewpager2:viewpager2:${Versions.VIEW_PAGER}"
 
     const val LOTTIE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
+
+    const val NAVER_MAP_COMPOSE = "io.github.fornewid:naver-map-compose:${Versions.NAVER_MAP_COMPOSE}"
 }
 
 object UnitTest {

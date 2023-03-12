@@ -1,12 +1,12 @@
 package kr.hs.dgsw.smartschool.data.repository
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.exception.UnknownException
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
+import javax.inject.Inject
 
 class ClassroomRepositoryImpl @Inject constructor(
     override val remote: ClassroomRemoteDataSource,
@@ -31,7 +31,7 @@ class ClassroomRepositoryImpl @Inject constructor(
         cache.getClassroomById(id).let {
             it ?: remote.getClassrooms().let { classrooms ->
                 cache.insertClassrooms(classrooms)
-                classrooms.find { classroom ->  classroom.id == id } ?: throw UnknownException("교실을 받아오지 못했어요")
+                classrooms.find { classroom -> classroom.id == id } ?: throw UnknownException("교실을 받아오지 못했어요")
             }
         }
 

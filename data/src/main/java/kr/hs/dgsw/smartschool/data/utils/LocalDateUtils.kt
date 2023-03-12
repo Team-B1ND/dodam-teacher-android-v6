@@ -13,3 +13,7 @@ fun String.yearDateTimeToLocalDate(): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     return LocalDateTime.parse(this, formatter)
 }
+
+fun String.yearDateTimeHourToLocalDate(): LocalDateTime {
+    return LocalDateTime.parse(this)
+}

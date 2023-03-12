@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
@@ -11,6 +10,7 @@ import kr.hs.dgsw.smartschool.remote.mapper.toPointReasonList
 import kr.hs.dgsw.smartschool.remote.request.point.GivePointRequest
 import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
+import javax.inject.Inject
 
 class PointRemoteDataSourceImpl @Inject constructor(
     private val pointService: PointService,
@@ -46,7 +46,9 @@ class PointRemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getReason(): List<PointReason> = dodamApiCall {
-        pointService.getReason().data.toPointReasonList()
+    override suspend fun getReason(pointType: PointType): List<PointReason> = dodamApiCall {
+        pointService.getReason(
+            pointType.name
+        ).data.toPointReasonList()
     }
 }
