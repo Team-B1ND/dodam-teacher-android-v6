@@ -30,6 +30,7 @@ data class PointState(
         val name: String,
         val grade: Int,
         val room: Int,
+        val profileImage: String,
 
         val isChecked: Boolean = false,
     )

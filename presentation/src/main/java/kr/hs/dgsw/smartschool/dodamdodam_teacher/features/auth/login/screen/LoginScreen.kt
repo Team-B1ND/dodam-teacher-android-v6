@@ -218,7 +218,7 @@ private fun checkLoginData(
     pw: String,
 ): Boolean {
     if (id.isEmpty() || pw.isEmpty()) {
-        context.shortToast(context.getString(R.string.warn_empty_field))
+        context.shortToast(context.getString(R.string.desc_empty_field))
         return false
     }
     if ((id.length in 5..20).not()) {

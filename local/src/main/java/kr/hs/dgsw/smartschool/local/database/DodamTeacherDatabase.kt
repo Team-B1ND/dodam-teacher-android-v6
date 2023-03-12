@@ -36,7 +36,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 

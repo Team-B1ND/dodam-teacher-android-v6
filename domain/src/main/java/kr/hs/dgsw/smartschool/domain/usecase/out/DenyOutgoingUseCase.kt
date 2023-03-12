@@ -1,18 +1,17 @@
 package kr.hs.dgsw.smartschool.domain.usecase.out
 
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
-import java.time.LocalDateTime
 import javax.inject.Inject
 
-class GetOutgoingsByDate @Inject constructor(
+class DenyOutgoingUseCase @Inject constructor(
     private val outRepository: OutRepository,
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.getOutgoingsByDate(param.date)
+        outRepository.denyOutgoing(param.ids)
     }
 
     data class Param(
-        val date: LocalDateTime,
+        val ids: List<Int>,
     )
 }

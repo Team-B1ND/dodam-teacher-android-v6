@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen
+package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen
 
 import android.content.Context
 import android.util.Log
@@ -28,18 +28,18 @@ import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.organization.prompt.DodamPrompt
+import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudentItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.vm.CurrentOutViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
@@ -48,26 +48,25 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun OutScreen(
+fun CurrentOutScreen(
     navController: NavController,
-    outViewModel: OutViewModel = hiltViewModel(),
+    currentOutViewModel: CurrentOutViewModel = hiltViewModel(),
 ) {
 
-    val state = outViewModel.collectAsState().value
+    val state = currentOutViewModel.collectAsState().value
     val context = LocalContext.current
 
-    outViewModel.collectSideEffect {
+    currentOutViewModel.collectSideEffect {
         when (it) {
-            is OutSideEffect.ShowException -> {
+            is CurrentOutSideEffect.ShowException -> {
                 context.shortToast(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
                 Log.e("OutErrorLog", it.exception.stackTraceToString())
-                // updateMainNavTabSelectedTab(0)
             }
-            is OutSideEffect.SuccessControl -> {
+            is CurrentOutSideEffect.SuccessControl -> {
                 context.shortToast(message = it.message)
-                outViewModel.getOutsRemote()
+                currentOutViewModel.getOutsRemote()
             }
         }
     }
@@ -85,7 +84,7 @@ fun OutScreen(
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
         onRefresh = {
-            outViewModel.getOutsRefresh()
+            currentOutViewModel.getOutsRefresh()
         }
     )
 
@@ -96,35 +95,23 @@ fun OutScreen(
             state.currentSelectedOutItem?.let {
                 DodamPrompt(
                     title = "${it.getOutItemNameInfo(state)}님의 ${getOutType(context, state.currentOutType)} 정보",
+                    secondaryButton = {},
                     primaryButton = {
                         DodamMediumRoundedButton(
-                            text = stringResource(id = R.string.label_approve),
-                            type = ButtonType.PrimaryVariant,
-                        ) {
-                            if (state.currentOutType == 0)
-                                outViewModel.allowOutgoing(id = it.id)
-                            else
-                                outViewModel.allowOutsleeping(id = it.id)
-
-                            outViewModel.updateShowPrompt(false)
-                        }
-                    },
-                    secondaryButton = {
-                        DodamMediumRoundedButton(
-                            text = stringResource(id = R.string.label_deny),
+                            text = stringResource(id = R.string.label_approve_cancel),
                             type = ButtonType.Danger,
                         ) {
                             if (state.currentOutType == 0)
-                                outViewModel.denyOutgoing(id = it.id)
+                                currentOutViewModel.cancelAllowOutgoing(id = it.id)
                             else
-                                outViewModel.denyOutsleeping(id = it.id)
+                                currentOutViewModel.cancelAllowOutsleeping(id = it.id)
 
-                            outViewModel.updateShowPrompt(false)
+                            currentOutViewModel.updateShowPrompt(false)
                         }
                     },
                     description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
                     onDismiss = {
-                        outViewModel.updateShowPrompt(false)
+                        currentOutViewModel.updateShowPrompt(false)
                     }
                 )
             }
@@ -135,11 +122,11 @@ fun OutScreen(
                 .background(color = DodamColor.White)
         ) {
 
-            Spacer(modifier = Modifier.height(45.dp))
-
-            Title1(
-                text = stringResource(id = R.string.title_out_approve),
-                modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
+            DodamAppBar(
+                title = stringResource(id = R.string.title_out_current),
+                onStartIconClick = {
+                    navController.popBackStack()
+                }
             )
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -160,7 +147,7 @@ fun OutScreen(
                             selectIdx = state.currentGrade,
                             categoryList = gradeList,
                             onSelectedItem = { idx ->
-                                outViewModel.updateGrade(idx)
+                                currentOutViewModel.updateGrade(idx)
                             }
                         )
 
@@ -168,7 +155,7 @@ fun OutScreen(
                             categoryList = roomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
-                                outViewModel.updateClassroom(idx)
+                                currentOutViewModel.updateClassroom(idx)
                             }
                         )
 
@@ -176,7 +163,7 @@ fun OutScreen(
                             categoryList = outTypeList,
                             selectIdx = state.currentOutType,
                             onSelectedItem = { idx ->
-                                outViewModel.updateOutType(idx)
+                                currentOutViewModel.updateOutType(idx)
                             }
                         )
                     }
@@ -198,8 +185,8 @@ fun OutScreen(
                                 members = state.members,
                                 findMemberId = findStudent?.member?.id ?: "",
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
-                                    outViewModel.updateOutItem(outItem)
-                                    outViewModel.updateShowPrompt(showPrompt = true)
+                                    currentOutViewModel.updateOutItem(outItem)
+                                    currentOutViewModel.updateShowPrompt(showPrompt = true)
                                 }
                             )
                         }
@@ -217,7 +204,7 @@ fun OutScreen(
     }
 }
 
-private fun getFilteredOutList(state: OutState): List<OutItem> {
+private fun getFilteredOutList(state: CurrentOutState): List<OutItem> {
     val outList: List<OutItem> = if (state.currentOutType == 0)
         state.outGoings
     else
@@ -240,7 +227,7 @@ private fun getFilteredOutList(state: OutState): List<OutItem> {
     }
 }
 
-private fun OutItem.getOutItemRoomInfo(state: OutState): Int {
+private fun OutItem.getOutItemRoomInfo(state: CurrentOutState): Int {
     val student = state.students.find {
         studentId == it.id
     } ?: return 0
@@ -252,7 +239,7 @@ private fun OutItem.getOutItemRoomInfo(state: OutState): Int {
     return classroom.room
 }
 
-private fun OutItem.getOutItemGradeInfo(state: OutState): Int {
+private fun OutItem.getOutItemGradeInfo(state: CurrentOutState): Int {
     val student = state.students.find {
         studentId == it.id
     } ?: return 0
@@ -264,7 +251,7 @@ private fun OutItem.getOutItemGradeInfo(state: OutState): Int {
     return classroom.grade
 }
 
-private fun OutItem.getOutItemNameInfo(state: OutState): String {
+private fun OutItem.getOutItemNameInfo(state: CurrentOutState): String {
     val student = state.students.find {
         studentId == it.id
     } ?: return ""

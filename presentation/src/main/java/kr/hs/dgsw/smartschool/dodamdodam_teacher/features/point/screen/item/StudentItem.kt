@@ -35,8 +35,9 @@ internal fun StudentItem(
             modifier = Modifier
                 .padding(start = DodamDimen.ScreenSidePadding)
                 .size(30.dp),
-            iconColor = DodamTheme.color.Gray400,
-            iconSize = 15.dp,
+            link = pointStudent.profileImage,
+            failureIconColor = DodamTheme.color.Gray400,
+            failureIconSize = 15.dp,
             backgroundColor = DodamTheme.color.White,
         )
 

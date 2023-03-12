@@ -4,17 +4,18 @@ import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.remote.response.out.OutDetailResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponseStatus
 
 internal fun OutResponse.toOut(): Out =
     Out(
-        outgoings = outgoingList.map { it.toOutItem() },
-        outsleepings = outsleepingList.map { it.toOutItem() }
+        outgoings = outgoingList.map { it.toOutItem(OutType.OUTGOING) },
+        outsleepings = outsleepingList.map { it.toOutItem(OutType.OUTSLEEPING) }
     )
 
-internal fun OutDetailResponse.toOutItem(): OutItem =
+internal fun OutDetailResponse.toOutItem(type: OutType): OutItem =
     OutItem(
         id = id,
         reason = reason,
@@ -25,6 +26,7 @@ internal fun OutDetailResponse.toOutItem(): OutItem =
         endOutDate = endOutDate.yearDateTimeToLocalDate(),
         arrivedDate = arrivedDate?.yearDateTimeToLocalDate(),
         checkedDate = checkedDate?.yearDateTimeToLocalDate(),
+        type = type
     )
 
 internal fun OutResponseStatus.toOutStatus(): OutStatus =
