@@ -70,7 +70,7 @@ fun NavigationGraph(
         composable(NavGroup.Feature.ITMAP) {
             ItmapScreen(navController = navController)
         }
-        
+
         composable(NavGroup.Feature.CURRENT_OUT) {
             CurrentOutScreen(navController = navController)
         }
