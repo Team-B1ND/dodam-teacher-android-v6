@@ -17,4 +17,5 @@ data class OutEntity(
     val endOutDate: String,
     val arrivedDate: String?,
     val checkedDate: String?,
+    val type: String,
 )

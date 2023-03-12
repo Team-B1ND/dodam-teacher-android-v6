@@ -1,12 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
+import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -19,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
+    private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
@@ -27,7 +29,7 @@ class HomeViewModel @Inject constructor(
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
     init {
-        getOutsByDate(LocalDate.now())
+        getOutsByDate(LocalDateTime.now())
         getMeal(
             if (LocalDateTime.now().hour >= 20)
                 LocalDate.now().plusDays(1)
@@ -37,19 +39,22 @@ class HomeViewModel @Inject constructor(
         getBanner()
     }
 
-    private fun getOutsByDate(date: LocalDate) = intent {
+    private fun getOutsByDate(date: LocalDateTime) = intent {
         reduce {
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateRemoteUseCase(GetOutsByDateRemoteUseCase.Param(date.toString())).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.teacherId == null }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.teacherId == null }.size
+        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { out ->
+            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
+            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
+
+            out.outgoings.forEach {
+                Log.d("HomeLog", it.status.name)
+            }
 
             reduce {
                 state.copy(
                     isOutLoading = false,
-                    outUpdateDate = LocalDateTime.now(),
                     outgoingCount = outgoingsCnt,
                     outsleepingCount = outsleepingsCnt,
                 )

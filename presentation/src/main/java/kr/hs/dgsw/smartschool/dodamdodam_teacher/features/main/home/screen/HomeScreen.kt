@@ -70,6 +70,8 @@ import java.time.LocalDateTime
 fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    navTabNavigate: ((tab: Int) -> Unit)? = null,
+    outUpdateTime: LocalDateTime = LocalDateTime.now()
 ) {
 
     val context = LocalContext.current
@@ -116,8 +118,14 @@ fun HomeScreen(
                 title = stringResource(id = R.string.title_out_approve),
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 hasLinkIcon = true,
-                content = { OutApproveCardContent(homeState) }
-            )
+                onClick = {
+                    navTabNavigate?.let {
+                        it(2)
+                    }
+                }
+            ) {
+                OutApproveCardContent(homeState, outUpdateTime)
+            }
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
 
@@ -164,6 +172,16 @@ fun HomeScreen(
                     }
                 ),
                 ItemCardContent(
+                    subTitle = stringResource(id = R.string.label_current),
+                    title = stringResource(id = R.string.label_out),
+                    icon = {
+                        IcSleepingFace3D(
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                ),
+                ItemCardContent(
                     subTitle = stringResource(id = R.string.label_employ),
                     title = stringResource(id = R.string.title_itmap),
                     icon = {
@@ -176,7 +194,7 @@ fun HomeScreen(
             )
 
             LazyRow(
-                contentPadding = PaddingValues(start = DodamDimen.ScreenSidePadding),
+                contentPadding = PaddingValues(horizontal = DodamDimen.ScreenSidePadding),
                 horizontalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
             ) {
                 items(itemCardList) { item: ItemCardContent ->
@@ -189,6 +207,7 @@ fun HomeScreen(
                                 context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
                                 context.getString(R.string.title_schedule) -> navController.navigate(NavGroup.Feature.SCHEDULE)
                                 context.getString(R.string.title_itmap) -> navController.navigate(NavGroup.Feature.ITMAP)
+                                context.getString(R.string.label_out) -> navController.navigate(NavGroup.Feature.CURRENT_OUT)
                             }
                         }
                     )
@@ -205,12 +224,13 @@ private val CardItemIconSize = 35.dp
 @Composable
 private fun OutApproveCardContent(
     homeState: HomeState,
+    outUpdateTime: LocalDateTime,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = homeState.outUpdateDate?.toSimpleYearDateTime() ?: LocalDateTime.now().toSimpleYearDateTime(),
+            text = outUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))

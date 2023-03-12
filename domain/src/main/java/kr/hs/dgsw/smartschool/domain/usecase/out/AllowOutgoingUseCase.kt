@@ -3,12 +3,12 @@ package kr.hs.dgsw.smartschool.domain.usecase.out
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import javax.inject.Inject
 
-class CancelAllowOutgoing @Inject constructor(
+class AllowOutgoingUseCase @Inject constructor(
     private val outRepository: OutRepository,
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.cancelAllowOutgoing(param.ids)
+        outRepository.allowOutgoing(param.ids)
     }
 
     data class Param(

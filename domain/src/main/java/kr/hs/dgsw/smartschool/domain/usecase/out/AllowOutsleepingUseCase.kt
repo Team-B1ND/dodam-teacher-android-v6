@@ -3,7 +3,7 @@ package kr.hs.dgsw.smartschool.domain.usecase.out
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import javax.inject.Inject
 
-class AllowOutsleeping @Inject constructor(
+class AllowOutsleepingUseCase @Inject constructor(
     private val outRepository: OutRepository,
 ) {
 

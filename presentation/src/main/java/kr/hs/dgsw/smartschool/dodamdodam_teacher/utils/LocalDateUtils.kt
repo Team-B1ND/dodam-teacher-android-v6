@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 fun LocalDateTime.toSimpleYearDateTime(): String =
-    "$year.$monthValue.$dayOfMonth %02d:%02d".format(hour, minute)
+    "$year.%02d.%02d %02d:%02d".format(monthValue, dayOfMonth, hour, minute)
 
 fun LocalDate.dayOfWeek(): String = when (this.dayOfWeek.value) {
     1 -> "월"
