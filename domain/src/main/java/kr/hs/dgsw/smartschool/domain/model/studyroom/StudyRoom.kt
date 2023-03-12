@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.domain.model.studyroom
 
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
-import kr.hs.dgsw.smartschool.domain.model.studyroom.student.Student
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 
 data class StudyRoom(

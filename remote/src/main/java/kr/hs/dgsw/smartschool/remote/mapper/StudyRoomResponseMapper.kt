@@ -5,12 +5,12 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
-import kr.hs.dgsw.smartschool.domain.model.studyroom.student.Student
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
@@ -35,7 +35,13 @@ internal fun StudyRoomResponse.toModel(): StudyRoom =
                 place.type.name
             )
         ),
-        student = Student(student.id),
+        student = Student(
+            classroom = student.classroom.toModel(),
+            id = student.id,
+            member = student.member.toMember(),
+            number = student.number,
+            phone = student.phone
+        ),
         status = status.toStudyRoomStatus(),
         teacher =
         with(teacher) {

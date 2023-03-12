@@ -13,11 +13,7 @@ data class StudyRoomResponse(
     @field:SerializedName("date") val date : String,
     @field:SerializedName("timeTable") val timeTable : TimeTableResponse,
     @field:SerializedName("place") val place: PlaceResponse,
-    @field:SerializedName("student") val student : Student,
+    @field:SerializedName("student") val student : StudentResponse,
     @field:SerializedName("status") val status: StudyRoomResponseStatus,
     @field:SerializedName("teacher") val teacher : TeacherResponse
-){
-    data class Student(
-        @field:SerializedName("id") val id : Int
-    )
-}
+)
