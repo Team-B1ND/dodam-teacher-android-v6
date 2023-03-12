@@ -27,6 +27,8 @@ import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
 import kr.hs.dgsw.smartschool.domain.repository.TeacherRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.data.repository.ItmapRepositoryImpl
+import kr.hs.dgsw.smartschool.domain.repository.ItmapRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -97,4 +99,10 @@ abstract class RepositoryModule {
     abstract fun providesScheduleRepository(
         scheduleRepositoryImpl: ScheduleRepositoryImpl
     ): ScheduleRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesItmapRepository(
+        itmapRepositoryImpl: ItmapRepositoryImpl
+    ): ItmapRepository
 }

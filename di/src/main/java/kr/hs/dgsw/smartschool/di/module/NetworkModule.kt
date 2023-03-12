@@ -27,6 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.remote.service.ItmapService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -129,4 +130,9 @@ class NetworkModule {
     @Provides
     fun providesScheduleService(@BasicRetrofit retrofit: Retrofit): ScheduleService =
         retrofit.create(ScheduleService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
+        retrofit.create(ItmapService::class.java)
 }
