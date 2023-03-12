@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
+import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.OutDao
@@ -23,7 +24,6 @@ import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 
 @Module
 @InstallIn(SingletonComponent::class)

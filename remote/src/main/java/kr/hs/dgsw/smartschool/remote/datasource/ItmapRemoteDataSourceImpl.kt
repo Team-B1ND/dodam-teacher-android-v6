@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.itmap.ItmapRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.itmap.Company
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
+import javax.inject.Inject
 
 class ItmapRemoteDataSourceImpl @Inject constructor(
     private val itmapService: ItmapService,

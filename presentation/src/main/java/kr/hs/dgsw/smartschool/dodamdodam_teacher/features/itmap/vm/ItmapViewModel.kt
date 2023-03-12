@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.mvi.ItmapSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.mvi.ItmapState
 import kr.hs.dgsw.smartschool.domain.usecase.itmap.GetCompaniesUseCase
@@ -13,6 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 @HiltViewModel
 class ItmapViewModel @Inject constructor(

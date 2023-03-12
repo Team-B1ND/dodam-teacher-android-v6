@@ -9,5 +9,5 @@ data class ItmapState(
 )
 
 sealed class ItmapSideEffect {
-    data class ShowException(val exception: Throwable): ItmapSideEffect()
+    data class ShowException(val exception: Throwable) : ItmapSideEffect()
 }

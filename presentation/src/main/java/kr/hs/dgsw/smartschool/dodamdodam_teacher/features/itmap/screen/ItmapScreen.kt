@@ -34,7 +34,6 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
-import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
@@ -103,7 +102,7 @@ fun ItmapScreen(
             .fillMaxSize()
     ) {
         DodamAppBar(
-            onStartIconClick = { 
+            onStartIconClick = {
                 navController.popBackStack()
             },
             endContents = {
@@ -134,56 +133,56 @@ fun ItmapScreen(
                             .align(Alignment.CenterHorizontally)
                     )
                 }, sheetBottomContent = {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = DodamDimen.ScreenSidePadding)
-                            .fillMaxWidth(),
-                        contentPadding = PaddingValues(vertical = DodamDimen.ScreenSidePadding),
-                        verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
-                    ) {
-                        items(state.companies) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .dodamClickable {
-                                        navController.navigate(
-                                            NavGroup.Feature.ITMAP_DETAIL
-                                                .replace(
-                                                    oldValue = "{companyId}",
-                                                    newValue = "${it.id}"
-                                                )
-                                        )
-                                    }
-                                    .surface(
-                                        shape = DodamTheme.shape.large,
-                                        backgroundColor = DodamTheme.color.White
-                                    ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                if (it.symbolLogo.isEmpty())
-                                    Avatar(
-                                        modifier = Modifier.padding(DodamDimen.ScreenSidePadding),
-                                        name = it.name,
-                                        size = 40.dp,
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(horizontal = DodamDimen.ScreenSidePadding)
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(vertical = DodamDimen.ScreenSidePadding),
+                    verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
+                ) {
+                    items(state.companies) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .dodamClickable {
+                                    navController.navigate(
+                                        NavGroup.Feature.ITMAP_DETAIL
+                                            .replace(
+                                                oldValue = "{companyId}",
+                                                newValue = "${it.id}"
+                                            )
                                     )
-                                else
-                                    Avatar(
-                                        modifier = Modifier.padding(DodamDimen.ScreenSidePadding),
-                                        link = it.symbolLogo,
-                                        size = 40.dp,
-                                    )
-
-                                Spacer(modifier = Modifier.width(DodamDimen.ScreenSidePadding))
-
-                                Column {
-                                    Label1(text = it.name)
-                                    Spacer(modifier = Modifier.height(2.dp))
-                                    Body2(text = it.address, textColor = DodamTheme.color.Gray500)
                                 }
+                                .surface(
+                                    shape = DodamTheme.shape.large,
+                                    backgroundColor = DodamTheme.color.White
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (it.symbolLogo.isEmpty())
+                                Avatar(
+                                    modifier = Modifier.padding(DodamDimen.ScreenSidePadding),
+                                    name = it.name,
+                                    size = 40.dp,
+                                )
+                            else
+                                Avatar(
+                                    modifier = Modifier.padding(DodamDimen.ScreenSidePadding),
+                                    link = it.symbolLogo,
+                                    size = 40.dp,
+                                )
+
+                            Spacer(modifier = Modifier.width(DodamDimen.ScreenSidePadding))
+
+                            Column {
+                                Label1(text = it.name)
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Body2(text = it.address, textColor = DodamTheme.color.Gray500)
                             }
                         }
                     }
                 }
+            }
             ) {
                 NaverMap(
                     uiSettings = mapUiSettings,
@@ -213,4 +212,3 @@ fun ItmapScreen(
         }
     }
 }
-
