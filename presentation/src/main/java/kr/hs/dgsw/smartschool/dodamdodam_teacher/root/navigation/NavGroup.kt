@@ -20,5 +20,6 @@ sealed class NavGroup(val group: String) {
         const val POINT = "point"
         const val SCHEDULE = "schedule"
         const val ITMAP = "itmap"
+        const val ITMAP_DETAIL = "itmapDetail/{companyId}"
     }
 }
