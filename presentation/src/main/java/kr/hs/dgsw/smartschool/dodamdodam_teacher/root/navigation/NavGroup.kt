@@ -19,5 +19,6 @@ sealed class NavGroup(val group: String) {
         const val MEAL = "meal"
         const val POINT = "point"
         const val SCHEDULE = "schedule"
+        const val ITMAP = "itmap"
     }
 }

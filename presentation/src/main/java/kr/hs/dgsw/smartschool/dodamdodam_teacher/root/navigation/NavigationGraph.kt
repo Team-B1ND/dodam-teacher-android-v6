@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.join.screen.JoinScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen.LoginScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.screen.ItmapScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
@@ -60,6 +61,10 @@ fun NavigationGraph(
 
         composable(NavGroup.Feature.SCHEDULE) {
             ScheduleScreen(navController = navController)
+        }
+
+        composable(NavGroup.Feature.ITMAP) {
+            ItmapScreen(navController = navController)
         }
     }
 }

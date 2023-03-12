@@ -50,6 +50,20 @@ fun IcBurger(
 }
 
 @Composable
+fun IcRefresh(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color = Color.Unspecified,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_refresh),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
+
+@Composable
 fun IcGrinningFace3D(
     contentDescription: String?,
     modifier: Modifier = Modifier,
