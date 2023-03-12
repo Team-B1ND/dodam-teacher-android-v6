@@ -206,6 +206,7 @@ fun HomeScreen(
                             when (item.title) {
                                 context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
                                 context.getString(R.string.title_schedule) -> navController.navigate(NavGroup.Feature.SCHEDULE)
+                                context.getString(R.string.title_itmap) -> navController.navigate(NavGroup.Feature.ITMAP)
                                 context.getString(R.string.label_out) -> navController.navigate(NavGroup.Feature.CURRENT_OUT)
                             }
                         }

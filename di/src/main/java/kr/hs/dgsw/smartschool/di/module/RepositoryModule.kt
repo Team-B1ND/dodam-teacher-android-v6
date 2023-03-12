@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.repository.AuthRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.BannerRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.ClassroomRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.ItmapRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MealRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MemberRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.OutRepositoryImpl
@@ -18,6 +19,7 @@ import kr.hs.dgsw.smartschool.data.repository.TokenRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
 import kr.hs.dgsw.smartschool.domain.repository.BannerRepository
 import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
+import kr.hs.dgsw.smartschool.domain.repository.ItmapRepository
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
@@ -97,4 +99,10 @@ abstract class RepositoryModule {
     abstract fun providesScheduleRepository(
         scheduleRepositoryImpl: ScheduleRepositoryImpl
     ): ScheduleRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesItmapRepository(
+        itmapRepositoryImpl: ItmapRepositoryImpl
+    ): ItmapRepository
 }

@@ -29,6 +29,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/naver_map_sdk_client_id" />
     </application>
 
 </manifest>

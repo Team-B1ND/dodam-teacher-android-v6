@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.banner.BannerCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.itmap.ItmapCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
@@ -17,6 +18,7 @@ import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
 import kr.hs.dgsw.smartschool.local.datasource.AuthCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.BannerCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.ClassroomCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.ItmapCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MemberCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
@@ -89,4 +91,10 @@ abstract class CacheDataSourceModule {
     abstract fun provideScheduleCacheDataSource(
         scheduleCacheDataSourceImpl: ScheduleCacheDataSourceImpl
     ): ScheduleCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideItmapCacheDataSource(
+        itmapCacheDataSourceImpl: ItmapCacheDataSourceImpl,
+    ): ItmapCacheDataSource
 }
