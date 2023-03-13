@@ -98,6 +98,7 @@
 
     <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>
     <string name="url_service_info">https://dodam.b1nd.com/detailed-information/service-policy</string>
+    <string name="url_version_info">https://play.google.com/store/apps/details?id=kr.hs.dgsw.smartschool.dodamdodam_teacher</string>
 
     <string name="content_unknown_exception">알 수 없는 오류가 발생했어요</string>
 </resources>

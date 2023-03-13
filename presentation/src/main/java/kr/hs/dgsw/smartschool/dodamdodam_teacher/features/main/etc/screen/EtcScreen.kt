@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -112,25 +114,25 @@ fun EtcScreen(
                 modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
             )
 
+            val versionInfo = stringResource(id = R.string.url_version_info)
+            val serviceInfoUrl = stringResource(id = R.string.url_service_info)
+            val privateInfoUrl = stringResource(id = R.string.url_personal_info)
+
             val infoList = listOf(
                 InfoItemParam(
                     title = stringResource(id = R.string.label_version_info),
-                    action = {}
-                ),
-                InfoItemParam(
-                    title = stringResource(id = R.string.label_open_source),
-                    action = {}
+                    action = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(versionInfo))) }
                 ),
             )
 
             val termList = listOf(
                 InfoItemParam(
                     title = stringResource(id = R.string.label_service_term),
-                    action = {}
+                    action = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(serviceInfoUrl))) }
                 ),
                 InfoItemParam(
                     title = stringResource(id = R.string.label_private_term),
-                    action = {}
+                    action = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(privateInfoUrl))) }
                 ),
             )
 
@@ -146,7 +148,7 @@ fun EtcScreen(
                                 modifier = Modifier
                                     .padding(horizontal = DodamDimen.ScreenSidePadding)
                                     .dodamClickable(rippleEnable = false) {
-                                         etcViewModel.updateShowPrompt(true)
+                                        etcViewModel.updateShowPrompt(true)
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
