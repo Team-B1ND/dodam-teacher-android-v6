@@ -42,6 +42,7 @@ import kr.hs.dgsw.smartschool.components.theme.Label1
 import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.vm.EtcViewModel
@@ -105,7 +106,7 @@ fun EtcScreen(
                 .background(DodamTheme.color.White)
                 .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(45.dp))
+            Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultMainScreenTitleSpace))
 
             Title1(
                 text = stringResource(id = R.string.label_etc),
@@ -137,7 +138,7 @@ fun EtcScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
-                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding, bottom = 56.dp + DodamDimen.ScreenSidePadding)
+                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
             ) {
                 etcState.myInfo?.let {
                     item {

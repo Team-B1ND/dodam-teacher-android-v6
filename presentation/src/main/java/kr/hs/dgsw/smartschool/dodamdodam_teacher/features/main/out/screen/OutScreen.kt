@@ -22,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
@@ -34,6 +33,7 @@ import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudentItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
@@ -135,7 +135,7 @@ fun OutScreen(
                 .background(color = DodamColor.White)
         ) {
 
-            Spacer(modifier = Modifier.height(45.dp))
+            Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultMainScreenTitleSpace))
 
             Title1(
                 text = stringResource(id = R.string.title_out_approve),
@@ -188,7 +188,7 @@ fun OutScreen(
                             .padding(horizontal = DodamDimen.ScreenSidePadding)
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
-                        contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = 56.dp + DodamDimen.ScreenSidePadding)
+                        contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
                     ) {
                         items(outList) { outItem ->
                             val findStudent = state.students.find {
