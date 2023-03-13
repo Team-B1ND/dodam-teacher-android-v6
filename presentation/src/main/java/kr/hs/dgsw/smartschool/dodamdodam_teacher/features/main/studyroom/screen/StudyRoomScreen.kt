@@ -34,6 +34,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.Stu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -72,9 +73,11 @@ fun StudyRoomScreen(
                 .fillMaxSize()
         ) {
             composable("study_room"){
-                StudyRoomMain(navController, studyRoomState)
+                studyRoomViewModel.getStudyRoomSheet()
+                StudyRoomMain(studyRoomViewModel,navController, studyRoomState)
             }
             composable("class_1") {
+                studyRoomViewModel.getSheetByTime(1)
                 FirstClass(studyRoomViewModel ,navController, studyRoomState)
             }
             composable("class_2") {
@@ -86,25 +89,14 @@ fun StudyRoomScreen(
         }
     }
 }
-
-@Preview
-@Composable
-fun StudyRoomPreview(){
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        StudyRoomMain(navController = rememberNavController(), StudyRoomState())
-    }
-}
-
 private data class ItemCardContent(
     val subTitle: String,
     val title: String,
     val icon: @Composable () -> Unit,
 )
 @Composable
-fun StudyRoomMain(navController : NavController, state : StudyRoomState){
+fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
+    viewModel.getStudyRoomSheet()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -147,7 +139,11 @@ fun FirstClass(viewModel : StudyRoomViewModel,navController : NavController, sta
                     place = item.place.name,
                     status = item.status,
                     onClick = {
-                        viewModel
+                        viewModel.checkStudyRoom(
+                            item.id,
+                            item.status == StudyRoomStatus.CHECKED
+                        )
+                        viewModel.getSheetByTime(1)
                     }
                 )
             }

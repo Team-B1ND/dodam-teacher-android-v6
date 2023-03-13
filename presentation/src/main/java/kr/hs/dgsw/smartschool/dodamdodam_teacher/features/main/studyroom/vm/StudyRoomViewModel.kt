@@ -31,12 +31,13 @@ class StudyRoomViewModel @Inject constructor(
         getStudyRoomSheet()
     }
 
-    private fun getStudyRoomSheet() = intent {
+    fun getStudyRoomSheet() = intent {
         reduce {
             state.copy(loading = true)
         }
 
         getAllSheetUseCase().onSuccess { studyRoomResult ->
+            //TODO 수정해야함 수정해야함 수정해야함 수정해야함 수정해야함
             val isWeekDay : Boolean = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY
             val firstClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "16:30" && it.timeTable.endTime == "17:20" }.size
             val secondClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "17:30" && it.timeTable.endTime == "18:20" }.size
@@ -89,6 +90,24 @@ class StudyRoomViewModel @Inject constructor(
                     exception = exception
                 )
             }
+        }
+    }
+
+    fun checkStudyRoom(applyId : Int, isChecked : Boolean) = intent{
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        checkStudyRoomUseCase(applyId, isChecked).onSuccess { studyRoomResult ->
+            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
+        }.onFailure {exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
 
