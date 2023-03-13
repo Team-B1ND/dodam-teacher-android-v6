@@ -26,6 +26,7 @@
     <string name="hint_tel">내선 전화 (1~20)</string>
     <string name="hint_position">직책 (1~20)</string>
 
+    <string name="label_logout">로그아웃</string>
     <string name="label_login">로그인</string>
     <string name="label_join">회원가입</string>
     <string name="label_next">다음</string>
@@ -56,6 +57,8 @@
     <string name="desc_empty_field">빈 값이 없도록 입력해주세요</string>
     <string name="desc_pw_check">비밀번호가 일치하지 않아요</string>
     <string name="desc_check_term">약관에 동의해주세요</string>
+    <string name="desc_logout_main">로그아웃하시겠습니까?</string>
+    <string name="desc_logout_sub">로그인 화면으로 돌아갑니다</string>
 
     <string name="label_home">홈</string>
     <string name="label_studyroom">자습실</string>
@@ -80,6 +83,11 @@
     <string name="label_deny">거절</string>
     <string name="label_arrive">복귀 처리</string>
     <string name="label_approve_cancel">승인 취소</string>
+    <string name="label_cancel">취소</string>
+    <string name="label_version_info">버전 정보</string>
+    <string name="label_open_source">오픈소스 라이선스</string>
+    <string name="label_private_term">개인정보 취급 방침</string>
+    <string name="label_service_term">서비스 운영 정책</string>
 
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>

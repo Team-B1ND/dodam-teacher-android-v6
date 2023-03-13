@@ -153,3 +153,5 @@ remote/src/main/java/kr/hs/dgsw/smartschool/remote/url/
 .idea/other.xml
 
 presentation/src/main/res/values/client_id.xml
+
+.idea/deploymentTargetDropDown.xml
