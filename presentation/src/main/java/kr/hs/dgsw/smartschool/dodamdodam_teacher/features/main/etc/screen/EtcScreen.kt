@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -47,7 +46,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.vm.EtcViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
-import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -187,7 +185,6 @@ fun EtcScreen(
                     )
                 }
             }
-
         }
 }
 

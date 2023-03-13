@@ -12,4 +12,3 @@ sealed class EtcSideEffect {
     object SuccessLogout : EtcSideEffect()
     data class ShowException(val throwable: Throwable) : EtcSideEffect()
 }
-
