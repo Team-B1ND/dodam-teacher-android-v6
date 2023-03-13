@@ -29,6 +29,7 @@ import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
@@ -74,7 +75,7 @@ fun StudyRoomScreen(
                 StudyRoomMain(navController, studyRoomState)
             }
             composable("class_1") {
-                FirstClass(navController, studyRoomState)
+                FirstClass(studyRoomViewModel ,navController, studyRoomState)
             }
             composable("class_2") {
             }
@@ -112,21 +113,21 @@ fun StudyRoomMain(navController : NavController, state : StudyRoomState){
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
 
         Row() {
-            DodamItemCard(title = "수업 1", subTitle = "${state.firstClass} / 180", onClick = {
+            DodamItemCard(title = "자습 1", subTitle = "${state.firstClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "수업 2", subTitle = "${state.secondClass} / 180", onClick = {
+            DodamItemCard(title = "자습 2", subTitle = "${state.secondClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
         }
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         Row() {
-            DodamItemCard(title = "수업 3", subTitle = "${state.thirdClass} / 180", onClick = {
+            DodamItemCard(title = "자습 3", subTitle = "${state.thirdClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "수업 4", subTitle = "${state.fourthClass} / 180", onClick = {
+            DodamItemCard(title = "자습 4", subTitle = "${state.fourthClass} / 180", onClick = {
                 navController.navigate("class_1")
             })
         }
@@ -134,32 +135,21 @@ fun StudyRoomMain(navController : NavController, state : StudyRoomState){
 }
 
 @Composable
-fun FirstClass(navController : NavController, state : StudyRoomState){
-    Box(modifier = Modifier.fillMaxSize()){
-        DodamAppBar(onStartIconClick = { navController.popBackStack()})
-        LazyColumn(){
-            items(state.studyRoomList!!.studyRoomList){item ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(30.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(30.dp)
-                    ) {
-                        Avatar(
-                            iconColor = DodamColor.MainColor,
-                            modifier = Modifier
-                                .size(20.dp),
-                        )
-                        Title3(text = item.student.toString())//TODO 여기 수정해야함
-                        Body2(text = item.student.toString())//TODO 여기 수정해야함
-
-
+fun FirstClass(viewModel : StudyRoomViewModel,navController : NavController, state : StudyRoomState) {
+    viewModel.getSheetByTime(1)
+    Box(modifier = Modifier.fillMaxSize()) {
+        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습 1")
+        LazyColumn() {
+            items(state.studyRoomList!!.studyRoomList) { item ->
+                DodamStudyRoomItem(
+                    studyRoom = item,
+                    member = item.student.member,
+                    place = item.place.name,
+                    status = item.status,
+                    onClick = {
+                        viewModel
                     }
-                }
+                )
             }
         }
     }
