@@ -214,7 +214,7 @@ fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(72.dp)) // 56 + 16
+            Spacer(modifier = Modifier.height(DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)) // 56 + 16
         }
     }
 }

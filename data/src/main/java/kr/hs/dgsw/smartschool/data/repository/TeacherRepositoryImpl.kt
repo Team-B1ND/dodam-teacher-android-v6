@@ -27,6 +27,9 @@ class TeacherRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getMyInfo(): Teacher =
+        remote.getMyInfo()
+
     override suspend fun getTeacherById(id: Int): Teacher =
         cache.getTeacherById(id) ?: remote.getTeachers().let {
             cache.insertTeachers(it).let {
