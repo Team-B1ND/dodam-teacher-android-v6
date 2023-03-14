@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -21,14 +23,25 @@ class StudyRoomViewModel @Inject constructor(
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
+    private val getStudentsUseCase: GetStudentsUseCase
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(
         StudyRoomState()
     )
 
+    private var totalStudent = 0
     init {
+        getStudents()
         getStudyRoomSheet()
+    }
+
+    private fun getStudents() = intent {
+        getStudentsUseCase().onSuccess {
+            totalStudent = it.size
+        }.onFailure {
+            postSideEffect(StudyRoomSideEffect.ToastError(it))
+        }
     }
 
     fun getStudyRoomSheet() = intent {
@@ -52,7 +65,8 @@ class StudyRoomViewModel @Inject constructor(
                     firstClass = firstClass,
                     secondClass = secondClass,
                     thirdClass = thirdClass,
-                    fourthClass = fourthClass
+                    fourthClass = fourthClass,
+                    totalStudents = totalStudent
                 )
             }
         }.onFailure {
@@ -99,7 +113,7 @@ class StudyRoomViewModel @Inject constructor(
                 loading = true
             )
         }
-        checkStudyRoomUseCase(applyId, isChecked).onSuccess { studyRoomResult ->
+        checkStudyRoomUseCase(applyId, isChecked).onSuccess {
             postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
         }.onFailure {exception ->
             reduce {
@@ -111,15 +125,14 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
-    fun ctrlStudyRoom(applyId : Int, isChecked : Boolean) = intent{
-        //TODO 수정해야함 수정해야함 수정해야함 수정해야함 정확한 Response 방식을 확인하여서 미신청 인원은 어떠헥 처리해야 하는지 알아보기
+    fun ctrlStudyRoom(studentId : Int, request : StudyRoomRequest) = intent{
         reduce {
             state.copy(
                 loading = true
             )
         }
-        checkStudyRoomUseCase(applyId, isChecked).onSuccess { studyRoomResult ->
-            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
+        ctrlStudyRoomUseCase(studentId, request).onSuccess {
+            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청에 성공했어요"))
         }.onFailure {exception ->
             reduce {
                 state.copy(

@@ -110,17 +110,17 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClass} / ${state.totalStudents}", onClick = {
-                navController.navigate("class_1")
+                navController.navigate("class_2")
             })
         }
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         Row() {
             DodamItemCard(title = if(state.isWeekDay == false) "오후 1" else "자습 3", subTitle = "${state.thirdClass} / ${state.totalStudents}", onClick = {
-                navController.navigate("class_1")
+                navController.navigate("class_3")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             DodamItemCard(title = if(state.isWeekDay == false) "오후 2" else "자습 4", subTitle = "${state.fourthClass} / ${state.totalStudents}", onClick = {
-                navController.navigate("class_1")
+                navController.navigate("class_4")
             })
         }
     }
