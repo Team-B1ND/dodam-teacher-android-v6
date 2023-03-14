@@ -6,7 +6,10 @@ data class StudyRoomState(
     val loading: Boolean = true,
     val exception: Throwable? = null,
     val studyRoomList : StudyRoomList? = null,
+
     val isWeekDay : Boolean? = null,
+
+    val totalStudents : Int? = null,
     val firstClass : Int? = null,
     val secondClass : Int? = null,
     val thirdClass : Int? = null,

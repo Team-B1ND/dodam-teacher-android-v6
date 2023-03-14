@@ -18,11 +18,14 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun getAllSheet()
     : StudyRoomList
     {
+        val list = remote.getAllSheet().studyRoomList
+        val otherStudents : MutableList<Student> = cache.getStudents().toMutableList()
+
+        list.forEach { otherStudents.remove(it.student) }
+
         return StudyRoomList (
-            remote.getAllSheet().studyRoomList,
-            remote.getAllSheet().studyRoomList.filterNot {
-                cache.getStudents().contains(it.student)
-            }
+            list,
+            otherStudents
         )
     }
 
@@ -30,11 +33,13 @@ class StudyRoomRepositoryImpl @Inject constructor(
         val list = remote.getAllSheet().studyRoomList.filter {
             it.timeTable.startTime == startTime && it.timeTable.endTime == endTime
         }
+        val otherStudents : MutableList<Student> = cache.getStudents().toMutableList()
+
+        list.forEach { otherStudents.remove(it.student) }
+
         return StudyRoomList(
             list,
-            list.filterNot {
-                cache.getStudents().contains(it.student)
-            }
+            otherStudents
         )
     }
 

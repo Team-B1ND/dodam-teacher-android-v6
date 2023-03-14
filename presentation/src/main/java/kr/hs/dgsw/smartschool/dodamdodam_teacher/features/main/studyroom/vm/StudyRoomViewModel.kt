@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
 import org.orbitmvi.orbit.Container
@@ -31,20 +32,18 @@ class StudyRoomViewModel @Inject constructor(
         getStudyRoomSheet()
     }
 
-    
-
     fun getStudyRoomSheet() = intent {
         reduce {
             state.copy(loading = true)
         }
 
         getAllSheetUseCase().onSuccess { studyRoomResult ->
-            //TODO 수정해야함 수정해야함 수정해야함 수정해야함 수정해야함
             val isWeekDay : Boolean = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY
-            val firstClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "16:30" && it.timeTable.endTime == "17:20" }.size
-            val secondClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "17:30" && it.timeTable.endTime == "18:20" }.size
-            val thirdClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "19:10" && it.timeTable.endTime == "20:00" }.size
-            val fourthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == "20:10" && it.timeTable.endTime == "21:00" }.size
+
+            val firstClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start}.size
+            val secondClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size
+            val thirdClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start}.size
+            val fourthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size
 
             reduce {
                 state.copy(
