@@ -4,7 +4,11 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 
 interface StudyRoomRemoteDataSource {
-    suspend fun getAllSheet() : StudyRoomList
+    suspend fun getAllSheet(
+        year : Int,
+        month : Int,
+        day : Int
+    ) : StudyRoomList
 
     suspend fun checkStudyRoom(id : Int)
 

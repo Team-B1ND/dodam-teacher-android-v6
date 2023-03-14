@@ -12,8 +12,11 @@ class StudyRoomRemoteDataSourceImpl @Inject constructor(
     private val studyRoomService: StudyRoomService
 ) : StudyRoomRemoteDataSource {
     override suspend fun getAllSheet(
+        year : Int,
+        month : Int,
+        day : Int
     ) : StudyRoomList = dodamApiCall {
-        studyRoomService.getAllSheet().data.toModel()
+        studyRoomService.getAllSheet(year, month, day).data.toModel()
     }
 
     override suspend fun checkStudyRoom(

@@ -50,12 +50,12 @@ class StudyRoomViewModel @Inject constructor(
         }
 
         getAllSheetUseCase().onSuccess { studyRoomResult ->
-            val isWeekDay : Boolean = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY
+            val isWeekDay : Boolean = studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY
 
-            val firstClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start}.size
-            val secondClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size
-            val thirdClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start}.size
-            val fourthClass = studyRoomResult.studyRoomList.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size
+            val firstClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start}.size
+            val secondClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size
+            val thirdClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start}.size
+            val fourthClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size
 
             reduce {
                 state.copy(
@@ -89,7 +89,7 @@ class StudyRoomViewModel @Inject constructor(
                 state.copy(
                     loading = false,
                     studyRoomList = studyRoomResult,
-                    isWeekDay = studyRoomResult.studyRoomList.get(0).timeTable.type == TimeTableType.WEEKDAY,
+                    isWeekDay = studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY,
 
                     firstClass = null,
                     secondClass = null,
