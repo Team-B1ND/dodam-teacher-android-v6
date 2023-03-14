@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,11 +28,13 @@ import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamPlaceItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -77,23 +82,19 @@ fun StudyRoomScreen(
                 StudyRoomMain(studyRoomViewModel, tabNavController, studyRoomState)
             }
             composable("first") {
-                studyRoomViewModel.getSheetByTime(1)
                 ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 1)
             }
             composable("second") {
-                studyRoomViewModel.getSheetByTime(2)
                 ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 2)
             }
             composable("third") {
-                studyRoomViewModel.getSheetByTime(3)
                 ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 3)
             }
             composable("fourth") {
-                studyRoomViewModel.getSheetByTime(4)
                 ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 4)
             }
-            composable("study_room"){
-                studyRoomViewModel
+            composable("place"){
+                PlaceScreen(studyRoomViewModel, tabNavController , studyRoomState)
             }
         }
     }
@@ -190,17 +191,18 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             modifier = Modifier.fillMaxSize()
         ){
             composable("apply"){
-                ApplyList(tabType = 0, state = state, viewModel = viewModel)
+                ApplyList(tabType = 0, state = state, viewModel = viewModel, navController = navController)
             }
             composable("un_apply"){
-                ApplyList(tabType = 1, state = state, viewModel = viewModel)
+                ApplyList(tabType = 1, state = state, viewModel = viewModel, navController = navController)
             }
         }
     }
 }
 
+
 @Composable
-fun ApplyList(tabType : Int, state: StudyRoomState, viewModel: StudyRoomViewModel){
+fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState, viewModel: StudyRoomViewModel){
     when(tabType){
         0 -> LazyColumn(
             modifier = Modifier
@@ -230,20 +232,108 @@ fun ApplyList(tabType : Int, state: StudyRoomState, viewModel: StudyRoomViewMode
                     place = "미신청",
                     status = StudyRoomStatus.PENDING,
                     onClick = {
-                        viewModel.ctrlStudyRoom(
-                            item.id,
-                            StudyRoomRequest(
-                                listOf(
-                                    StudyRoomRequest.RequestStudyRoom(
-                                        placeId = 120000,
-                                        timeTableId = 120000
-                                    )
-                                )
-                            )//TODO place랑 timetableId 넣어줘야함
-                        )
+                        navController.navigate("place")
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState) {
+    viewModel.studentId()
+    viewModel.getPlaces()
+    val tabNavController = rememberNavController()
+    var selectedTab by remember { mutableStateOf(1) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DodamColor.Background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "교실을 선택해주세요")
+        DodamTabs(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            DodamTab(
+                text = if(state.isWeekDay == false) "오전 1" else "자습 1",
+                selected = selectedTab == 1,
+                onClick = {
+                    selectedTab = 1
+                    tabNavController.navigate("apply")
+                }
+            )
+            DodamTab(
+                text = if(state.isWeekDay == false) "오전 2" else "자습 2",
+                selected = selectedTab == 1,
+                onClick = {
+                    selectedTab = 1
+                    tabNavController.navigate("apply")
+                }
+            )
+            DodamTab(
+                text = if(state.isWeekDay == false) "오후 1" else "자습 3",
+                selected = selectedTab == 1,
+                onClick = {
+                    selectedTab = 1
+                    tabNavController.navigate("apply")
+                }
+            )
+            DodamTab(
+                text = if(state.isWeekDay == false) "오후 2" else "자습 4",
+                selected = selectedTab == 1,
+                onClick = {
+                    selectedTab = 1
+                    tabNavController.navigate("apply")
+                }
+            )
+        }
+        NavHost(
+            navController = tabNavController,
+            startDestination = "apply",
+            modifier = Modifier.fillMaxSize()
+        ){
+            composable("first"){
+                PlaceList(state = state, viewModel = viewModel)
+            }
+            composable("second"){
+                PlaceList(state = state, viewModel = viewModel)
+            }
+            composable("third"){
+                PlaceList(state = state, viewModel = viewModel)
+            }
+            composable("fourth"){
+                PlaceList(state = state, viewModel = viewModel)
+            }
+        }
+    }
+}
+@Composable
+fun PlaceList(state: StudyRoomState, viewModel: StudyRoomViewModel){
+    LazyVerticalGrid(
+        modifier = Modifier
+            .padding(DodamDimen.ScreenSidePadding),
+        columns = GridCells.Fixed(3)
+    ) {
+        items(state.placeList ?: emptyList()) { item ->
+            DodamPlaceItem(
+                place = item,
+                selected = state.hasStudyRoom ?: false,
+                onClick = {
+                    viewModel.ctrlStudyRoom(
+                        state.selectedStudent!!.id, StudyRoomRequest(
+                            listOf(
+                                StudyRoomRequest.RequestStudyRoom(
+                                    placeId = item.id,
+                                    timeTableId = 23
+                                )
+                            )
+                        )
+                    )
+                }
+            )
         }
     }
 }

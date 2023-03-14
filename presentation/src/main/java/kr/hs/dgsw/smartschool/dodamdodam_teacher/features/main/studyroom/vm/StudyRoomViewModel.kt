@@ -2,8 +2,12 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.selects.select
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
+import kr.hs.dgsw.smartschool.domain.model.place.Place
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
@@ -33,6 +37,7 @@ class StudyRoomViewModel @Inject constructor(
     )
 
     private var totalStudent = 0
+
     init {
         getStudents()
         getStudyRoomSheet()
@@ -52,12 +57,17 @@ class StudyRoomViewModel @Inject constructor(
         }
 
         getAllSheetUseCase().onSuccess { studyRoomResult ->
-            val isWeekDay : Boolean = studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY
+            val isWeekDay: Boolean =
+                studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY
 
-            val firstClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start}.size
-            val secondClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size
-            val thirdClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start}.size
-            val fourthClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if(isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size
+            val firstClass =
+                studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size
+            val secondClass =
+                studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size
+            val thirdClass =
+                studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size
+            val fourthClass =
+                studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size
 
             reduce {
                 state.copy(
@@ -80,7 +90,8 @@ class StudyRoomViewModel @Inject constructor(
             postSideEffect(StudyRoomSideEffect.ToastError(it))
         }
     }
-    fun getSheetByTime(type : Int) = intent{
+
+    fun getSheetByTime(type: Int) = intent {
         reduce {
             state.copy(
                 loading = true
@@ -99,7 +110,7 @@ class StudyRoomViewModel @Inject constructor(
                     fourthClass = null
                 )
             }
-        }.onFailure {exception ->
+        }.onFailure { exception ->
             reduce {
                 state.copy(
                     loading = false,
@@ -109,7 +120,7 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
-    fun checkStudyRoom(applyId : Int, isChecked : Boolean) = intent{
+    fun checkStudyRoom(applyId: Int, isChecked: Boolean) = intent {
         reduce {
             state.copy(
                 loading = true
@@ -117,7 +128,7 @@ class StudyRoomViewModel @Inject constructor(
         }
         checkStudyRoomUseCase(applyId, isChecked).onSuccess {
             postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
-        }.onFailure {exception ->
+        }.onFailure { exception ->
             reduce {
                 state.copy(
                     loading = false,
@@ -127,7 +138,7 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
-    fun ctrlStudyRoom(studentId : Int, request : StudyRoomRequest) = intent{
+    fun ctrlStudyRoom(studentId: Int, request: StudyRoomRequest) = intent {
         reduce {
             state.copy(
                 loading = true
@@ -135,7 +146,7 @@ class StudyRoomViewModel @Inject constructor(
         }
         ctrlStudyRoomUseCase(studentId, request).onSuccess {
             postSideEffect(StudyRoomSideEffect.Toast("자습실 신청에 성공했어요"))
-        }.onFailure {exception ->
+        }.onFailure { exception ->
             reduce {
                 state.copy(
                     loading = false,
@@ -145,5 +156,23 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun getSheetById : StudyRoom.
 
+    fun getPlaces() = intent {
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        getPlacesUseCase().onSuccess {result ->
+            reduce {
+                state.copy(
+                    loading = false,
+                    placeList = result
+                    )
+            }
+        }.onFailure { exception ->
+            postSideEffect(StudyRoomSideEffect.ToastError(exception))
+        }
+    }
 }

@@ -13,5 +13,6 @@ data class StudyRoom(
     val student : Student,
     val status: StudyRoomStatus,
     val teacher : Teacher?
-){
-}
+)
+
+//TODO StudentId, TimeTableId, PlaceId
