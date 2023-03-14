@@ -5,10 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -95,6 +92,9 @@ fun StudyRoomScreen(
                 studyRoomViewModel.getSheetByTime(4)
                 ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 4)
             }
+            composable("study_room"){
+                studyRoomViewModel
+            }
         }
     }
 }
@@ -136,6 +136,7 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
 fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState, type : Int) {
     viewModel.getSheetByTime(type)
     val tabNavController = rememberNavController()
+    var selectedTab by remember { mutableStateOf(1) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -143,16 +144,45 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = if(state.isWeekDay == false) "오전 1" else "자습 1")//TODO 받는 페이지마다 다른 값 넣어야함
-        DodamTabs() {
+        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title =
+        if(state.isWeekDay == false) {
+            when (type){
+                1 -> "오전 1"
+                2 -> "오전 2"
+                3 -> "오후 1"
+                4 -> "오후 2"
+                else -> "오전 1"
+            }
+        } else {
+            when (type){
+                1 -> "자습 1"
+                2 -> "자습 2"
+                3 -> "자습 3"
+                4 -> "자습 4"
+                else -> "자습 1"
+            }
+        }
+        )
+        DodamTabs(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             DodamTab(
                 text = "신청",
-                selected = true,
-                onClick = { tabNavController.navigate("apply") })
+                selected = selectedTab == 1,
+                onClick = {
+                    selectedTab = 1
+                    tabNavController.navigate("apply")
+                }
+            )
             DodamTab(
                 text = "미신청",
-                selected = false,
-                onClick = { tabNavController.navigate("un_apply") })
+                selected = selectedTab == 2,
+                onClick = {
+                    selectedTab = 2
+                    tabNavController.navigate("un_apply")
+                }
+            )
         }
         NavHost(
             navController = tabNavController,

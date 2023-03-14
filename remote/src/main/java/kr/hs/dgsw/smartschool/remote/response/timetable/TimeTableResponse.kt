@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.response.timetable
 
 import com.google.gson.annotations.SerializedName
-import kr.hs.dgsw.smartschool.remote.response.studyroom.TimeTableType
 
 data class TimeTableResponse(
     @field:SerializedName("id") val id: Int,

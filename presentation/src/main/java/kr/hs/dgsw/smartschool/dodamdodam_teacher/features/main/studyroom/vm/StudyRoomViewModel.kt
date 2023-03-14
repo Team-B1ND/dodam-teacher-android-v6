@@ -7,6 +7,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.Stu
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
 import org.orbitmvi.orbit.Container
@@ -23,7 +24,8 @@ class StudyRoomViewModel @Inject constructor(
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase
+    private val getStudentsUseCase: GetStudentsUseCase,
+    private val getPlacesUseCase: GetPlacesUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(

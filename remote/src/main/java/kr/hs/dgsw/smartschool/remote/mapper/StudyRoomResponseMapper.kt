@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
@@ -9,8 +8,7 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
-import kr.hs.dgsw.smartschool.remote.response.studyroom.TimeTableType
-import kr.hs.dgsw.smartschool.remote.response.teacher.TeacherResponse
+import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableType
 
 internal fun StudyRoomResponse.toModel(): StudyRoom =
     StudyRoom(
