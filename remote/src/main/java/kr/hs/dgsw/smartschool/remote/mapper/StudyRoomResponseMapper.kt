@@ -67,7 +67,8 @@ internal fun StudyRoomResponse.toModel(): StudyRoom =
 
 internal fun List<StudyRoomResponse>.toModel(): StudyRoomList =
     StudyRoomList(
-        studyRoomList = this.map { it.toModel() }
+        studyRoomList = this.map { it.toModel() },
+        otherStudents = null
     )
 
 internal fun TimeTableType.toTimeTableType(): kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType =
