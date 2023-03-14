@@ -21,6 +21,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -66,6 +70,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -73,7 +78,7 @@ fun HomeScreen(
     navTabNavigate: ((tab: Int) -> Unit)? = null,
     outUpdateTime: LocalDateTime = LocalDateTime.now()
 ) {
-
+    
     val context = LocalContext.current
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 
@@ -87,6 +92,13 @@ fun HomeScreen(
     }
 
     val scrollState = rememberScrollState()
+
+    val refreshState = rememberPullRefreshState(
+        refreshing = homeState.refreshing,
+        onRefresh = {
+            homeViewModel.getOutRemote()
+        }
+    )
 
     Column(
         modifier = Modifier
@@ -108,113 +120,139 @@ fun HomeScreen(
             )
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState)
+        Box(
+            Modifier
+                .pullRefresh(refreshState)
         ) {
-
-            DodamContentCard(
-                title = stringResource(id = R.string.title_out_approve),
-                modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-                hasLinkIcon = true,
-                onClick = {
-                    navTabNavigate?.let {
-                        it(2)
-                    }
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(scrollState)
             ) {
-                OutApproveCardContent(homeState, outUpdateTime)
-            }
 
-            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
-
-            DodamContentCard(
-                title = stringResource(id = R.string.title_studyroom_check),
-                modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-                hasLinkIcon = true,
-                content = { OutStudyroomCheckCardContent() }
-            )
-
-            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
-
-            Box(modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding)) {
-                DodamBanner(
-                    imageUrls = homeState.banners.map { it.image },
-                ) { page ->
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(homeState.banners[page].url)))
-                }
-            }
-
-            HomeMealCard(navController, homeState)
-
-            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
-
-            val itemCardList = listOf(
-                ItemCardContent(
-                    subTitle = stringResource(id = R.string.label_manage),
-                    title = stringResource(id = R.string.title_point),
-                    icon = {
-                        IcPoint3D(
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    },
-                ),
-                ItemCardContent(
-                    subTitle = stringResource(id = R.string.label_manage),
-                    title = stringResource(id = R.string.title_schedule),
-                    icon = {
-                        IcCalendar3D(
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                ),
-                ItemCardContent(
-                    subTitle = stringResource(id = R.string.label_current),
-                    title = stringResource(id = R.string.label_out),
-                    icon = {
-                        IcSleepingFace3D(
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                ),
-                ItemCardContent(
-                    subTitle = stringResource(id = R.string.label_employ),
-                    title = stringResource(id = R.string.title_itmap),
-                    icon = {
-                        IcItmap3D(
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                ),
-            )
-
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = DodamDimen.ScreenSidePadding),
-                horizontalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
-            ) {
-                items(itemCardList) { item: ItemCardContent ->
-                    DodamItemCard(
-                        title = item.title,
-                        subTitle = item.subTitle,
-                        icon = item.icon,
-                        onClick = {
-                            when (item.title) {
-                                context.getString(R.string.title_point) -> navController.navigate(NavGroup.Feature.POINT)
-                                context.getString(R.string.title_schedule) -> navController.navigate(NavGroup.Feature.SCHEDULE)
-                                context.getString(R.string.title_itmap) -> navController.navigate(NavGroup.Feature.ITMAP)
-                                context.getString(R.string.label_out) -> navController.navigate(NavGroup.Feature.CURRENT_OUT)
-                            }
+                DodamContentCard(
+                    title = stringResource(id = R.string.title_out_approve),
+                    modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+                    hasLinkIcon = true,
+                    onClick = {
+                        navTabNavigate?.let {
+                            it(2)
                         }
-                    )
+                    }
+                ) {
+                    OutApproveCardContent(homeState, outUpdateTime)
                 }
+
+                Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
+                DodamContentCard(
+                    title = stringResource(id = R.string.title_studyroom_check),
+                    modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+                    hasLinkIcon = true,
+                    content = { OutStudyroomCheckCardContent() }
+                )
+
+                Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
+                Box(modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding)) {
+                    DodamBanner(
+                        imageUrls = homeState.banners.map { it.image },
+                    ) { page ->
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(homeState.banners[page].url)
+                            )
+                        )
+                    }
+                }
+
+                HomeMealCard(navController, homeState)
+
+                Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
+                val itemCardList = listOf(
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_manage),
+                        title = stringResource(id = R.string.title_point),
+                        icon = {
+                            IcPoint3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        },
+                    ),
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_manage),
+                        title = stringResource(id = R.string.title_schedule),
+                        icon = {
+                            IcCalendar3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    ),
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_current),
+                        title = stringResource(id = R.string.label_out),
+                        icon = {
+                            IcSleepingFace3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    ),
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_employ),
+                        title = stringResource(id = R.string.title_itmap),
+                        icon = {
+                            IcItmap3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    ),
+                )
+
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = DodamDimen.ScreenSidePadding),
+                    horizontalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
+                ) {
+                    items(itemCardList) { item: ItemCardContent ->
+                        DodamItemCard(
+                            title = item.title,
+                            subTitle = item.subTitle,
+                            icon = item.icon,
+                            onClick = {
+                                when (item.title) {
+                                    context.getString(R.string.title_point) -> navController.navigate(
+                                        NavGroup.Feature.POINT
+                                    )
+                                    context.getString(R.string.title_schedule) -> navController.navigate(
+                                        NavGroup.Feature.SCHEDULE
+                                    )
+                                    context.getString(R.string.title_itmap) -> navController.navigate(
+                                        NavGroup.Feature.ITMAP
+                                    )
+                                    context.getString(R.string.label_out) -> navController.navigate(
+                                        NavGroup.Feature.CURRENT_OUT
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)) // 56 + 16
             }
 
-            Spacer(modifier = Modifier.height(DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)) // 56 + 16
+            PullRefreshIndicator(
+                refreshing = homeState.refreshing,
+                state = refreshState,
+                modifier = Modifier.align(Alignment.TopCenter),
+                contentColor = DodamTheme.color.MainColor400,
+                backgroundColor = DodamTheme.color.Background,
+            )
         }
     }
 }
@@ -230,7 +268,7 @@ private fun OutApproveCardContent(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = outUpdateTime.toSimpleYearDateTime(),
+            text = homeState.refreshTime?.toSimpleYearDateTime() ?: outUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
