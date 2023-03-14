@@ -19,7 +19,6 @@ import javax.inject.Inject
 class StudyRoomViewModel @Inject constructor(
     private val getAllSheetUseCase: GetAllSheetUseCase,
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
-    private val getSheetByIdUseCase: GetSheetByIdUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {

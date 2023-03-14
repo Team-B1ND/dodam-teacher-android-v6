@@ -16,12 +16,6 @@ class StudyRoomRemoteDataSourceImpl @Inject constructor(
         studyRoomService.getAllSheet().data.toModel()
     }
 
-    override suspend fun getSheetById(
-        id : Int
-    ) : StudyRoomList = dodamApiCall {
-        studyRoomService.getSheetById(id).data.toModel()
-    }
-
     override suspend fun checkStudyRoom(
         id : Int
     ) = dodamApiCall {

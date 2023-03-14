@@ -35,6 +35,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.Stud
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -53,7 +54,10 @@ fun StudyRoomScreen(
     studyRoomViewModel.collectSideEffect {
         when (it) {
             is StudyRoomSideEffect.ToastError -> {
-                context.shortToast(it.exception.message ?: context.getString(kr.hs.dgsw.smartschool.dodamdodam_teacher.R.string.content_unknown_exception))
+                context.shortToast(
+                    it.exception.message
+                        ?: context.getString(kr.hs.dgsw.smartschool.dodamdodam_teacher.R.string.content_unknown_exception)
+                )
                 Log.e("StudyRoomScreenError", it.exception.stackTraceToString())
             }
             else -> {}
@@ -72,13 +76,13 @@ fun StudyRoomScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            composable("study_room"){
+            composable("study_room") {
                 studyRoomViewModel.getStudyRoomSheet()
-                StudyRoomMain(studyRoomViewModel,navController, studyRoomState)
+                StudyRoomMain(studyRoomViewModel, navController, studyRoomState)
             }
             composable("class_1") {
                 studyRoomViewModel.getSheetByTime(1)
-                FirstClass(studyRoomViewModel ,navController, studyRoomState)
+                FirstClass(studyRoomViewModel, navController, studyRoomState)
             }
             composable("class_2") {
             }
@@ -89,11 +93,7 @@ fun StudyRoomScreen(
         }
     }
 }
-private data class ItemCardContent(
-    val subTitle: String,
-    val title: String,
-    val icon: @Composable () -> Unit,
-)
+
 @Composable
 fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
     viewModel.getStudyRoomSheet()
@@ -105,21 +105,21 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
 
         Row() {
-            DodamItemCard(title = "자습 1", subTitle = "${state.firstClass} / 180", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오전 1" else "자습 1", subTitle = "${state.firstClass} / ${state.totalStudents}", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "자습 2", subTitle = "${state.secondClass} / 180", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClass} / ${state.totalStudents}", onClick = {
                 navController.navigate("class_1")
             })
         }
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         Row() {
-            DodamItemCard(title = "자습 3", subTitle = "${state.thirdClass} / 180", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오후 1" else "자습 3", subTitle = "${state.thirdClass} / ${state.totalStudents}", onClick = {
                 navController.navigate("class_1")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = "자습 4", subTitle = "${state.fourthClass} / 180", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오후 2" else "자습 4", subTitle = "${state.fourthClass} / ${state.totalStudents}", onClick = {
                 navController.navigate("class_1")
             })
         }
@@ -130,7 +130,7 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
 fun FirstClass(viewModel : StudyRoomViewModel,navController : NavController, state : StudyRoomState) {
     viewModel.getSheetByTime(1)
     Box(modifier = Modifier.fillMaxSize()) {
-        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습 1")
+        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = if(state.isWeekDay == false) "오전 1" else "자습 1")
         LazyColumn() {
             items(state.studyRoomList!!.studyRoomList) { item ->
                 DodamStudyRoomItem(
