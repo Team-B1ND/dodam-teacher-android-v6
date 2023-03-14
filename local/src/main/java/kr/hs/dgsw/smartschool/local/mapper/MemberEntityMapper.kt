@@ -15,7 +15,7 @@ internal fun MemberEntity.toModel(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = joinDate?.yearDateTimeHourToLocalDate(),
+        joinDate = joinDate,
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),

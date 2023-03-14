@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 data class MemberResponse(
     @field:SerializedName("email") val email: String,
     @field:SerializedName("id") val id: String,
-    @field:SerializedName("joinDate") val joinDate: LocalDateTime?,
+    @field:SerializedName("joinDate") val joinDate: String?,
     @field:SerializedName("name") val name: String,
     @field:SerializedName("profileImage") val profileImage: String?,
     @field:SerializedName("role") val role: MemberResponseRole,
