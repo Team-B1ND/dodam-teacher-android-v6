@@ -21,7 +21,7 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 
 @Composable
 internal fun DodamStudyRoomItem(
-    studyRoom: StudyRoom,
+    //studyRoom: StudyRoom,
     member: Member,
     place : String,
     status: StudyRoomStatus,

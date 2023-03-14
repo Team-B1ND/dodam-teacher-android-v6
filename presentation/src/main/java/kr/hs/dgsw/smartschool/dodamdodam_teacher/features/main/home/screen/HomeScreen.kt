@@ -249,7 +249,9 @@ private fun OutApproveCardContent(
 }
 
 @Composable
-private fun OutStudyroomCheckCardContent() {
+private fun OutStudyroomCheckCardContent(
+    //TODO 카드 구성하기
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
