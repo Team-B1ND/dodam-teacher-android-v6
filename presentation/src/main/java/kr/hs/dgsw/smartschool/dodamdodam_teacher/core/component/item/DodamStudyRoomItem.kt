@@ -53,7 +53,7 @@ internal fun DodamStudyRoomItem(
                 text = place,
                 modifier = Modifier.weight(1f)
             )
-        DodamSmallRoundedButton( //TODO Bytton 사이즈 변경
+        DodamSmallRoundedButton( TODO(Bytton 사이즈 변경)
             modifier = Modifier
                 .background(
                     if(status == StudyRoomStatus.CHECKED) DodamColor.Check

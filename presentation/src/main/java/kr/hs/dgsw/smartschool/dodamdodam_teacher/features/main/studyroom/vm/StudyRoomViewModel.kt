@@ -2,12 +2,9 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.selects.select
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.place.Place
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
@@ -26,6 +23,7 @@ import javax.inject.Inject
 class StudyRoomViewModel @Inject constructor(
     private val getAllSheetUseCase: GetAllSheetUseCase,
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
+    private val getSheetByUserIdUseCase: GetSheetByUserIdUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
@@ -120,6 +118,28 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun getSheetById(studentId: Int) = intent {
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        getSheetByUserIdUseCase(studentId).onSuccess { studyRoomResult ->
+            reduce {
+                state.copy(
+
+                )
+            }
+        }.onFailure { exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                    exception = exception
+                )
+            }
+        }
+    }
+
     fun checkStudyRoom(applyId: Int, isChecked: Boolean) = intent {
         reduce {
             state.copy(
@@ -138,14 +158,14 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
-    fun ctrlStudyRoom(studentId: Int, request: StudyRoomRequest) = intent {
+    fun ctrlStudyRoom(student: Student, request: StudyRoomRequest) = intent {
         reduce {
             state.copy(
                 loading = true
             )
         }
-        ctrlStudyRoomUseCase(studentId, request).onSuccess {
-            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청에 성공했어요"))
+        ctrlStudyRoomUseCase(student.id, request).onSuccess {
+            postSideEffect(StudyRoomSideEffect.Toast("${student.member.name} 학생의 자습실 신청에 성공했어요"))
         }.onFailure { exception ->
             reduce {
                 state.copy(
@@ -155,8 +175,6 @@ class StudyRoomViewModel @Inject constructor(
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
-
-    fun getSheetById : StudyRoom.
 
     fun getPlaces() = intent {
         reduce {

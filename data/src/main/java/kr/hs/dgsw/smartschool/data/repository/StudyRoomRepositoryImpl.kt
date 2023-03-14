@@ -50,6 +50,16 @@ class StudyRoomRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getSheetByUserId(studentId: Int): StudyRoomList {
+        val list = remote.getAllSheet(year, month, day).studyRoomList!!.distinct().filter {
+            it.student.id == studentId
+        }
+        return StudyRoomList(
+            studyRoomList = list,
+            null
+        )
+    }
+
     override suspend fun checkStudyRoom(id: Int, isChecked: Boolean) {
         when(isChecked){
             true -> remote.unCheckStudyRoom(id)

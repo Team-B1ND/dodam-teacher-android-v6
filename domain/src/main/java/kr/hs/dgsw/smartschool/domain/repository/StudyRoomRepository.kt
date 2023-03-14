@@ -8,6 +8,8 @@ interface StudyRoomRepository {
     suspend fun getAllSheet(): StudyRoomList
     suspend fun getSheetByTime(startTime : String, endTime : String) : StudyRoomList
 
+    suspend fun getSheetByUserId(studentId: Int) : StudyRoomList
+
     suspend fun checkStudyRoom(id : Int, isChecked : Boolean)
 
     suspend fun ctrlStudyRoom(studentId : Int, studyRoomList: StudyRoomRequest)
