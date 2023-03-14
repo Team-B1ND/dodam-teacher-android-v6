@@ -31,6 +31,8 @@ class StudyRoomViewModel @Inject constructor(
         getStudyRoomSheet()
     }
 
+    
+
     fun getStudyRoomSheet() = intent {
         reduce {
             state.copy(loading = true)
@@ -94,6 +96,25 @@ class StudyRoomViewModel @Inject constructor(
     }
 
     fun checkStudyRoom(applyId : Int, isChecked : Boolean) = intent{
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        checkStudyRoomUseCase(applyId, isChecked).onSuccess { studyRoomResult ->
+            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
+        }.onFailure {exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            postSideEffect(StudyRoomSideEffect.ToastError(exception))
+        }
+    }
+
+    fun ctrlStudyRoom(applyId : Int, isChecked : Boolean) = intent{
+        //TODO 수정해야함 수정해야함 수정해야함 수정해야함 정확한 Response 방식을 확인하여서 미신청 인원은 어떠헥 처리해야 하는지 알아보기
         reduce {
             state.copy(
                 loading = true
