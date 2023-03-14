@@ -12,6 +12,6 @@ data class StudyRoom(
     val place: Place,
     val student : Student,
     val status: StudyRoomStatus,
-    val teacher : Teacher
+    val teacher : Teacher?
 ){
 }

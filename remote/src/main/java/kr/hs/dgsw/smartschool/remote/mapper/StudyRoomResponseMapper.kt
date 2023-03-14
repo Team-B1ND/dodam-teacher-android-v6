@@ -1,10 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
-import kr.hs.dgsw.smartschool.domain.model.meal.Meal
-import kr.hs.dgsw.smartschool.domain.model.meal.MealList
-import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
@@ -15,6 +10,7 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
 import kr.hs.dgsw.smartschool.remote.response.studyroom.TimeTableType
+import kr.hs.dgsw.smartschool.remote.response.teacher.TeacherResponse
 
 internal fun StudyRoomResponse.toModel(): StudyRoom =
     StudyRoom(
@@ -43,26 +39,7 @@ internal fun StudyRoomResponse.toModel(): StudyRoom =
             phone = student.phone
         ),
         status = status.toStudyRoomStatus(),
-        teacher =
-        with(teacher) {
-            Teacher(
-                id = id,
-                member = with(member) {
-                    Member(
-                        email = email,
-                        id = id,
-                        joinDate = joinDate,
-                        name = name,
-                        profileImage = profileImage,
-                        role = role.toMemberRole(),
-                        status = status.toMemberStatus()
-                    )
-                },
-                tel = tel,
-                position = position,
-                phone = phone
-            )
-        }
+        teacher = null
     )
 
 internal fun List<StudyRoomResponse>.toModel(): StudyRoomList =
@@ -79,7 +56,7 @@ internal fun TimeTableType.toTimeTableType(): kr.hs.dgsw.smartschool.domain.mode
     }
 
 internal fun StudyRoomResponseStatus.toStudyRoomStatus(): StudyRoomStatus =
-    when (this.name){
+    when (this.name) {
         StudyRoomResponseStatus.CHECKED.name -> StudyRoomStatus.CHECKED
         StudyRoomResponseStatus.PENDING.name -> StudyRoomStatus.PENDING
         else -> StudyRoomStatus.PENDING

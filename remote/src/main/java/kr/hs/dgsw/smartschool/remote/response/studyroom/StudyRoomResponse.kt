@@ -15,5 +15,5 @@ data class StudyRoomResponse(
     @field:SerializedName("place") val place: PlaceResponse,
     @field:SerializedName("student") val student : StudentResponse,
     @field:SerializedName("status") val status: StudyRoomResponseStatus,
-    @field:SerializedName("teacher") val teacher : TeacherResponse
+    @field:SerializedName("teacher") val teacher : TeacherResponse?
 )

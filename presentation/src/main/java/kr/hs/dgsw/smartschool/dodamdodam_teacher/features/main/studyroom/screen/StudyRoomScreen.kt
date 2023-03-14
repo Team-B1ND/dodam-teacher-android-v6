@@ -72,7 +72,7 @@ fun StudyRoomScreen(
 
         NavHost(
             navController = tabNavController,
-            startDestination = "class_1"
+            startDestination = "study_room",
             modifier = Modifier
                 .fillMaxSize()
         ) {
