@@ -98,7 +98,7 @@ fun StudyRoomScreen(
 @Composable
 fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
     viewModel.getStudyRoomSheet()
-    TODO(카드 다지안 변경하기)
+    //TODO(카드 다지안 변경하기)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -228,6 +228,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                     place = "미신청",
                     status = StudyRoomStatus.PENDING,
                     onClick = {
+                        viewModel.getSheetById(item)
                         navController.navigate("place")
                     }
                 )
@@ -251,7 +252,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습실 신청 관리")
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(45.dp))
         Title3(text = if(state.isWeekDay == false) "오전 1" else "자습 1")
         DodamSelect(
             itemList = state.placeList!!.map {
@@ -270,7 +271,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(45.dp))
         Title3(text = if(state.isWeekDay == false) "오전 2" else "자습 2")
         DodamSelect(
             itemList = state.placeList!!.map {
@@ -289,7 +290,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(45.dp))
         Title3(text = if(state.isWeekDay == false) "오후 1" else "자습 3")
         DodamSelect(
             itemList = state.placeList!!.map {
@@ -308,7 +309,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(45.dp))
         Title3(text = if(state.isWeekDay == false) "오후 2" else "자습 4")
         DodamSelect(
             itemList = state.placeList!!.map {

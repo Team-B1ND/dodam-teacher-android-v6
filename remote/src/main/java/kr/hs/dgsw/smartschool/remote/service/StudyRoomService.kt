@@ -17,12 +17,6 @@ interface StudyRoomService {
         @Query("month") month : Int,
         @Query("day") day : Int,
     ) : Response<List<StudyRoomResponse>>
-
-    @GET(DodamUrl.StudyRoom.STUDYROOM_ID)
-    suspend fun getSheetById(
-        @Path("id") id : Int
-    ) : Response<List<StudyRoomResponse>>
-
     @POST(DodamUrl.StudyRoom.CHECK)
     suspend fun postCheckStudyRoom(
         @Query("id") id : Int

@@ -25,7 +25,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
     {
         val list = remote.getAllSheet(
             year , month , day
-        ).studyRoomList!!.distinct()
+        ).studyRoomList ?: emptyList()
         val otherStudents : MutableList<Student> = cache.getStudents().distinct().toMutableList()
 
         list.forEach { otherStudents.remove(it.student) }
@@ -37,25 +37,27 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSheetByTime(startTime: String, endTime: String): StudyRoomList {
-        val list = remote.getAllSheet(year, month, day).studyRoomList!!.distinct().filter {
+        val list = remote.getAllSheet(year, month, day).studyRoomList ?: emptyList()
+            val newList = list.filter {
             it.timeTable.startTime == startTime && it.timeTable.endTime == endTime
         }
-        val otherStudents : MutableList<Student> = cache.getStudents().distinct().toMutableList()
+        val otherStudents : MutableList<Student> = cache.getStudents().toMutableList()
 
         list.forEach { otherStudents.remove(it.student) }
 
         return StudyRoomList(
-            list,
+            newList,
             otherStudents
         )
     }
 
     override suspend fun getSheetByUserId(studentId: Int): StudyRoomList {
-        val list = remote.getAllSheet(year, month, day).studyRoomList!!.distinct().filter {
+        val list = remote.getAllSheet(year, month, day).studyRoomList ?: emptyList()
+        val newList = list.filter {
             it.student.id == studentId
         }
         return StudyRoomList(
-            studyRoomList = list,
+            studyRoomList = newList,
             null
         )
     }
