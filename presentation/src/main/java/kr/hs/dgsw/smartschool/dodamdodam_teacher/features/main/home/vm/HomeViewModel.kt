@@ -18,12 +18,14 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
+    private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -91,6 +93,33 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getOutRemote() = intent {
+        reduce {
+            state.copy(refreshing = true)
+        }
+
+        getOutsByDateRemoteUseCase(GetOutsByDateRemoteUseCase.Param(LocalDate.now().toString())).onSuccess { out ->
+            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
+            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
+
+            reduce {
+                state.copy(
+                    outgoingCount = outgoingsCnt,
+                    outsleepingCount = outsleepingsCnt,
+                    refreshing = false,
+                    refreshTime = LocalDateTime.now()
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                )
+            }
+            postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
     private fun getBanner() = intent {
         getActiveBannersUseCase(true).onSuccess {
             reduce {
@@ -98,6 +127,14 @@ class HomeViewModel @Inject constructor(
             }
         }.onFailure {
             postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
+    fun updateCurrentTime(time: LocalDateTime) = intent {
+        reduce {
+            state.copy(
+                refreshTime = time
+            )
         }
     }
 }

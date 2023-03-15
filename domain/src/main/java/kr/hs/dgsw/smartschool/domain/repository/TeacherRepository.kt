@@ -8,6 +8,8 @@ interface TeacherRepository {
 
     suspend fun getTeachers(): List<Teacher>
 
+    suspend fun getMyInfo(): Teacher
+
     suspend fun getTeacherById(id: Int): Teacher
 
     suspend fun getTeacherByMemberId(id: String): Teacher
