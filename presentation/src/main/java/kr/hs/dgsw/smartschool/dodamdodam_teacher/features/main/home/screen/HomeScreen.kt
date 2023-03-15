@@ -3,8 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,8 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -149,7 +146,7 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { OutStudyroomCheckCardContent(homeState) }
+                    content = { OutStudyroomCheckCardContent(homeState,navController) }
                 )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -288,10 +285,15 @@ private fun OutApproveCardContent(
 
 @Composable
 private fun OutStudyroomCheckCardContent(
-    state : HomeState
+    state : HomeState,
+    navController: NavController
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                       navController.navigate(NavGroup.Main.STUDYROOM)
+            },
     ) {
         Body3(
             text = LocalDateTime.now().toSimpleYearDateTime(),

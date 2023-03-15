@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
+import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamSelect
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
@@ -25,10 +26,7 @@ import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.components.foundation.Text
-import kr.hs.dgsw.smartschool.components.theme.Body3
-import kr.hs.dgsw.smartschool.components.theme.DodamColor
-import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Title3
+import kr.hs.dgsw.smartschool.components.theme.*
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
@@ -110,17 +108,18 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
         horizontalAlignment = Alignment.CenterHorizontally
         ){
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-
+        //TODO 디자인
         Row() {
             DodamContentCard(
-                title = stringResource(id = R.string.title_studyroom_check),
+                title = if(state.isWeekDay == false) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 hasLinkIcon = true,
-                content = { OutStudyroomCheckCardContent() }
+                content = {
+                    Body2(text = "${state.firstClassCount} / ${state.totalStudentsCount}")
+                    DodamMediumRoundedButton(text = "인증" ,onClick = {
+                    navController.navigate("first")
+                }) }
             )
-            DodamItemCard(title = if(state.isWeekDay == false) "오전 1" else "자습 1", subTitle = "${state.firstClassCount} / ${state.totalStudentsCount}", onClick = {
-                navController.navigate("first")
-            })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClassCount} / ${state.totalStudentsCount}", onClick = {
                 navController.navigate("second")
@@ -346,51 +345,5 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         DodamMaxWidthButton(text = "수정", onClick = {
             viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
         })
-    }
-}
-
-
-@Composable
-private fun CardDetailItem(
-    title: String,
-    content: String,
-    icon: @Composable () -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        icon()
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Body3(text = title, textColor = DodamTheme.color.Gray500)
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = content,
-                color = DodamTheme.color.Black,
-                style = DodamTheme.typography.label1.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-            )
-        }
-    }
-}
-@Composable
-private fun OutStudyroomCheckCardContent(
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Body3(
-            text = LocalDateTime.now().toSimpleYearDateTime(),
-            textColor = DodamTheme.color.Gray500,
-        )
-        Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
-        HomeCardDetailItem(
-            title = stringResource1(id = R.string.text_studyroom_check),
-            content = "50명 / 70명",
-            icon = { IcThinkingFace3D(contentDescription = null, modifier = Modifier.size(
-                CardItemIconSize
-            )) }
-        )
     }
 }
