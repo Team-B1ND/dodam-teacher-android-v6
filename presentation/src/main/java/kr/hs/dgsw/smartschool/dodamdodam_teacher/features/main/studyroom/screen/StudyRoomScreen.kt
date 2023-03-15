@@ -108,33 +108,49 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
         horizontalAlignment = Alignment.CenterHorizontally
         ){
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        //TODO 디자인
-        Row() {
-            DodamContentCard(
-                title = if(state.isWeekDay == false) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
-                modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-                hasLinkIcon = true,
-                content = {
-                    Body2(text = "${state.firstClassCount} / ${state.totalStudentsCount}")
-                    DodamMediumRoundedButton(text = "인증" ,onClick = {
+        DodamContentCard(
+            title = if(state.isWeekDay == true) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
+            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.firstClassCount} / ${state.totalStudentsCount}")
+                DodamMediumRoundedButton(text = "인증" ,onClick = {
                     navController.navigate("first")
                 }) }
-            )
-            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClassCount} / ${state.totalStudentsCount}", onClick = {
-                navController.navigate("second")
-            })
-        }
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        Row() {
-            DodamItemCard(title = if(state.isWeekDay == false) "오후 1" else "자습 3", subTitle = "${state.thirdClassCount} / ${state.totalStudentsCount}", onClick = {
-                navController.navigate("third")
-            })
-            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = if(state.isWeekDay == false) "오후 2" else "자습 4", subTitle = "${state.fourthClassCount} / ${state.totalStudentsCount}", onClick = {
-                navController.navigate("fourth")
-            })
-        }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if(state.isWeekDay == true) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
+            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.secondClassCount} / ${state.totalStudentsCount}")
+                DodamMediumRoundedButton(text = "인증" ,onClick = {
+                    navController.navigate("second")
+                }) }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if(state.isWeekDay == true) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
+            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.thirdClassCount} / ${state.totalStudentsCount}")
+                DodamMediumRoundedButton(text = "인증" ,onClick = {
+                    navController.navigate("third")
+                }) }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if(state.isWeekDay == true) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
+            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.fourthClassCount} / ${state.totalStudentsCount}")
+                DodamMediumRoundedButton(text = "인증" ,onClick = {
+                    navController.navigate("fourth")
+                }) }
+        )
     }
 }
 
