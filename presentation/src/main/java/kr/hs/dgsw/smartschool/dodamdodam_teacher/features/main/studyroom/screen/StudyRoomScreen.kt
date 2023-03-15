@@ -72,7 +72,7 @@ fun StudyRoomScreen(
                     .fillMaxSize()
             ) {
                 composable("main") {
-                    studyRoomViewModel.getStudyRoomSheet()
+                    studyRoomViewModel.getAllStudyRooms()
                     StudyRoomMain(studyRoomViewModel, tabNavController, studyRoomState)
                 }
                 composable("first") {
@@ -96,7 +96,7 @@ fun StudyRoomScreen(
 
 @Composable
 fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
-    viewModel.getStudyRoomSheet()
+    viewModel.getAllStudyRooms()
     //TODO(카드 다지안 변경하기)
     Column(
         modifier = Modifier
