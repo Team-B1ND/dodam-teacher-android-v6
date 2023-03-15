@@ -146,7 +146,7 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                     student = student,
                     timeTableList = timeTableList,
-                    placeList = placeList
+                    appliedPlaceList = placeList
                 )
             }
         }.onFailure { exception ->

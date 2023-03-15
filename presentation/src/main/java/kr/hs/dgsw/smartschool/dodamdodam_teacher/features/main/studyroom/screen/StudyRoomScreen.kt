@@ -268,7 +268,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         Spacer(modifier = Modifier.height(45.dp))
         Title3(text = if(state.isWeekDay == false) "오전 1" else "자습 1")
         DodamSelect(
-            itemList = state.placeList!!.map {
+            itemList = state.placeList.map {
                 it.name
             },
             hint = "교실을 선택해주세요",

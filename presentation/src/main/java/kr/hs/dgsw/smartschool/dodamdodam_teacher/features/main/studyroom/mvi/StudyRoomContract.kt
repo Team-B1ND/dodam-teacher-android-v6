@@ -13,6 +13,7 @@ data class StudyRoomState(
     val placeList : List<Place> = emptyList(),
     val student : Student? = null,
     val timeTableList : List<TimeTable>? = null,
+    val appliedPlaceList : List<Place> = emptyList(),
 
     val isWeekDay : Boolean? = null,
 
