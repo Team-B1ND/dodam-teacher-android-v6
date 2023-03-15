@@ -219,7 +219,8 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                     ctrlAction = {
                         viewModel.getSheetById(item.student)
                         navController.navigate("place")
-                    }
+                    },
+                    classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"
                 )
             }
         }
@@ -228,7 +229,6 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                 .padding(DodamDimen.ScreenSidePadding)
         ) {
             items(state.studyRoomList!!.otherStudents ?: emptyList()) { item ->
-                Log.e("un_apply", item.toString())
                 DodamStudyRoomItem(
                     member = item.member,
                     place = null,
@@ -237,7 +237,8 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                         viewModel.getSheetById(item)
                         navController.navigate("place")
                     },
-                    checkAction = {}
+                    checkAction = {},
+                    classroom = "${item.classroom.grade}학년 ${item.classroom.room}반"
                 )
             }
         }

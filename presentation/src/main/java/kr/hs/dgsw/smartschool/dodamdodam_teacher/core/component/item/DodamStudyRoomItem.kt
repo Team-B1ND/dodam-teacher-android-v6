@@ -7,14 +7,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
+import kr.hs.dgsw.smartschool.components.component.basic.button.DodamIconButton
+import kr.hs.dgsw.smartschool.components.component.basic.button.DodamLargeRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamSmallRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.surface
-import kr.hs.dgsw.smartschool.components.theme.Body1
-import kr.hs.dgsw.smartschool.components.theme.DodamColor
-import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Label1
+import kr.hs.dgsw.smartschool.components.theme.*
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
@@ -23,6 +23,7 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 internal fun DodamStudyRoomItem(
     member: Member,
     place : String?,
+    classroom : String?,
     status: StudyRoomStatus,
     modifier: Modifier = Modifier,
     checkAction : () -> Unit,
@@ -32,9 +33,9 @@ internal fun DodamStudyRoomItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .surface(RoundedCornerShape(100.dp), DodamTheme.color.Background)
-            .height(44.dp)
-            .clickable { ctrlAction() },
+            .height(60.dp)
+            .clickable { ctrlAction() }
+            .background(DodamColor.Background),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar(
@@ -48,26 +49,37 @@ internal fun DodamStudyRoomItem(
         )
 
         Spacer(modifier = Modifier.width(11.dp))
-        Body1(text = member.name)
+        Body1(
+            text = member.name,
+        modifier = Modifier.weight(0.3F))
+        Label3(
+            text = classroom ?: "알 수 없음",
+            modifier = Modifier.weight(1f)
+        )
         Spacer(modifier = Modifier.width(11.dp))
-        Label1(
+        Label2(
             text = place ?: "미신청",
             modifier = Modifier.weight(1f)
         )
         if (!place.isNullOrEmpty()) {
-            DodamSmallRoundedButton(
+            Box(
                 modifier = Modifier
-                    .background(
-                        if (status == StudyRoomStatus.CHECKED) DodamColor.Check
-                        else DodamColor.MainColor
-                    )
-                    .width(50.dp)
-                    .height(30.dp),
-                text = "확인",
-                onClick = {
-                    checkAction()
-                }
-            )
+                    .clickable { checkAction() }
+                    .surface(DodamShape().medium, when(status){
+                        StudyRoomStatus.CHECKED -> DodamColor.Check
+                        StudyRoomStatus.PENDING -> DodamColor.MainColor
+                    })
+                    .padding(10.dp)
+                    .width(40.dp)
+                    .height(20.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Body2(text =
+                when(status){
+                    StudyRoomStatus.CHECKED -> "확인됨"
+                    StudyRoomStatus.PENDING -> "확인"
+                }, textColor = DodamColor.White)
+            }
 
         }
     }
