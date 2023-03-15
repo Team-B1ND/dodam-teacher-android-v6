@@ -15,7 +15,7 @@ internal fun StudentEntity.toModel(): Student =
     Student(
         classroom = Classroom(id = classroomId),
         id = studentId,
-        member = Member(id = memberId, role = MemberRole.STUDENT),
+        member = Member(id = memberId, name = memberName, role = MemberRole.STUDENT,),
         number = number,
         phone = phone,
     )
@@ -29,6 +29,7 @@ internal fun Student.toEntity(): StudentEntity =
     StudentEntity(
         studentId = id,
         memberId = member.id,
+        memberName = member.name,
         classroomId = classroom.id,
         number = number,
         phone = phone,

@@ -11,11 +11,11 @@ data class Member(
     val role: MemberRole,
     val status: MemberStatus,
 ) {
-    constructor(id: String, role: MemberRole) : this(
+    constructor(id: String,name : String, role: MemberRole) : this(
         email = "",
         id = id,
         joinDate = null,
-        name = "",
+        name = name,
         profileImage = null,
         role = role,
         status = MemberStatus.ACTIVE

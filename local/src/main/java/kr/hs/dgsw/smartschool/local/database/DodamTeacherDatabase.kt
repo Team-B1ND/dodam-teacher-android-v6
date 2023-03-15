@@ -39,7 +39,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
         CompanyEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 
@@ -65,7 +65,7 @@ val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
             execSQL("CREATE TABLE ${DodamTable.CLASSROOM} (id INTEGER not null, placeId INTEGER not null, grade INTEGER not null, room INTEGER not null, PRIMARY KEY (id))")
             execSQL("CREATE TABLE ${DodamTable.MEMBER} (id TEXT not null, joinDate TEXT, role TEXT not null, name TEXT not null, profileImage TEXT, email TEXT not null, status TEXT not null, PRIMARY KEY (id))")
             execSQL("CREATE TABLE ${DodamTable.PLACE} (name INTEGER not null, placeTypeId INTEGER not null, id INTEGER not null, placeTypeName TEXT not null, primary key (id))")
-            execSQL("CREATE TABLE ${DodamTable.STUDENT} (studentId INTEGER not null, classroomId INTEGER not null, number INTEGER not null, phone TEXT not null, memberId TEXT not null, primary key (studentId))")
+            execSQL("CREATE TABLE ${DodamTable.STUDENT} (studentId INTEGER not null, classroomId INTEGER not null, number INTEGER not null, phone TEXT not null, memberId TEXT not null, memberName TEXT not null, primary key (studentId))")
             execSQL("CREATE TABLE ${DodamTable.TEACHER} (tel TEXT not null, teacherId INTEGER not null, position TEXT not null, phone TEXT not null, memberId TEXT not null, primary key (teacherId))")
             execSQL("CREATE TABLE ${DodamTable.PARENT} (studentId INTEGER not null, phone TEXT not null, id INTEGER not null, primary key (id))")
             execSQL("CREATE TABLE ${DodamTable.TOKEN} (idx INTEGER not null, token TEXT not null, refreshToken TEXT not null, primary key (idx))")

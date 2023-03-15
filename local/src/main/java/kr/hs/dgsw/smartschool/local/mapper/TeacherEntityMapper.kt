@@ -13,7 +13,7 @@ internal fun List<TeacherEntity>.toModel(): List<Teacher> =
 internal fun TeacherEntity.toModel(): Teacher =
     Teacher(
         id = teacherId,
-        member = Member(id = memberId, role = MemberRole.TEACHER),
+        member = Member(id = memberId, name = memberName, role = MemberRole.TEACHER),
         phone = phone,
         position = position,
         tel = tel,
@@ -28,6 +28,7 @@ internal fun Teacher.toEntity(): TeacherEntity =
     TeacherEntity(
         teacherId = id,
         memberId = member.id,
+        memberName = member.name,
         phone = phone,
         position = position,
         tel = tel,

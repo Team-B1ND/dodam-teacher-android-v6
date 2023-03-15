@@ -10,6 +10,7 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomByIdUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
@@ -29,7 +30,7 @@ class StudyRoomViewModel @Inject constructor(
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getPlacesUseCase: GetPlacesUseCase,
+    private val getPlacesUseCase: GetPlacesUseCase
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(
@@ -103,11 +104,6 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                     studyRoomList = studyRoomResult,
                     isWeekDay = studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY,
-
-                    firstClass = null,
-                    secondClass = null,
-                    thirdClass = null,
-                    fourthClass = null
                 )
             }
         }.onFailure { exception ->
@@ -172,6 +168,24 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun getPlaces() = intent {
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        getPlacesUseCase().onSuccess {result ->
+            reduce {
+                state.copy(
+                    loading = false,
+                    placeList = result
+                )
+            }
+        }.onFailure { exception ->
+            postSideEffect(StudyRoomSideEffect.ToastError(exception))
+        }
+    }
+
     fun checkStudyRoom(applyId: Int, isChecked: Boolean) = intent {
         reduce {
             state.copy(
@@ -204,24 +218,6 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                 )
             }
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
-        }
-    }
-
-    fun getPlaces() = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        getPlacesUseCase().onSuccess {result ->
-            reduce {
-                state.copy(
-                    loading = false,
-                    placeList = result
-                    )
-            }
-        }.onFailure { exception ->
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
