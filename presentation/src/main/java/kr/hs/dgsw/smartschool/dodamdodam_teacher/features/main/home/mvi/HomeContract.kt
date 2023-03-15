@@ -21,6 +21,7 @@ data class HomeState(
     val thirdClassCount : Int = 0,
     val fourthClassCount : Int = 0,
     val allStudentsCount : Int = 0,
+    val isWeekDay : Boolean = true,
 
     val meal: Meal? = null,
 

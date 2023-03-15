@@ -304,22 +304,22 @@ private fun OutStudyroomCheckCardContent(
             verticalAlignment = Alignment.CenterVertically
         ){
             StudyRoomCardDetailItem(
-                title = stringResource(id = R.string.text_studyroom_check), TODO(여기에 맞춰서 교시 넣어야함)
+                title = if(state.isWeekDay) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
                 content = "${state.firstClassCount}명 / ${state.allStudentsCount}명",
                 icon = {  }
             )
             StudyRoomCardDetailItem(
-                title = stringResource(id = R.string.text_studyroom_check),
+                title = if(state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
                 content = "${state.secondClassCount}명 / ${state.allStudentsCount}명",
                 icon = { }
             )
             StudyRoomCardDetailItem(
-                title = stringResource(id = R.string.text_studyroom_check),
+                title = if(state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
                 content = "${state.thirdClassCount}명 / ${state.allStudentsCount}명",
                 icon = { }
             )
             StudyRoomCardDetailItem(
-                title = stringResource(id = R.string.text_studyroom_check),
+                title = if(state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
                 content = "${state.fourthClassCount}명 / ${state.allStudentsCount}명",
                 icon = { }
             )
