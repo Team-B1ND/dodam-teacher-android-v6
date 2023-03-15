@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
@@ -7,6 +8,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.Stu
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
@@ -30,7 +32,8 @@ class StudyRoomViewModel @Inject constructor(
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getPlacesUseCase: GetPlacesUseCase
+    private val getPlacesUseCase: GetPlacesUseCase,
+    private val getClassroomByIdUseCase : GetClassroomByIdUseCase
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(
@@ -42,6 +45,8 @@ class StudyRoomViewModel @Inject constructor(
     init {
         getStudents()
         getStudyRoomSheet()
+        getClassrooms()
+        getPlaces()
     }
 
     private fun getStudents() = intent {
@@ -164,6 +169,55 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                     exception = exception
                 )
+            }
+        }
+    }
+    private fun getClassrooms() = intent{
+        val otherStudents = state.studyRoomList.otherStudents
+        val newList = mutableListOf<Student>()
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        otherStudents!!.forEach {students ->
+            getClassroomByIdUseCase(students.classroom.id).onSuccess{
+                newList.add(
+                    Student(
+                        classroom = it,
+                        id = students.id,
+                        member = students.member,
+                        number = students.number,
+                        phone = students.phone
+                    )
+                )
+                Log.e("",Student(
+                    classroom = it,
+                    id = students.id,
+                    member = students.member,
+                    number = students.number,
+                    phone = students.phone
+                ).toString())
+                reduce {
+                    state.copy(
+                        loading = false,
+                        studyRoomList = StudyRoomList(
+                            studyRoomList = state.studyRoomList.studyRoomList,
+                            otherStudents = newList
+                        )
+                    )
+                }
+            }.onFailure { exception ->
+                reduce {
+                    state.copy(
+                        loading = false,
+                        studyRoomList =  StudyRoomList(
+                            state.studyRoomList.studyRoomList,
+                            newList
+                        )
+                    )
+                }
+                postSideEffect(StudyRoomSideEffect.ToastError(exception))
             }
         }
     }

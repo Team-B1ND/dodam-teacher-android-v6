@@ -11,12 +11,13 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StudyRoomService {
-    @GET(DodamUrl.StudyRoom.STUDYROOM)
+    @GET(DodamUrl.STUDYROOM)
     suspend fun getAllSheet(
         @Query("year") year : Int,
         @Query("month") month : Int,
         @Query("day") day : Int,
     ) : Response<List<StudyRoomResponse>>
+
     @POST(DodamUrl.StudyRoom.CHECK)
     suspend fun postCheckStudyRoom(
         @Path("id") id : Int
