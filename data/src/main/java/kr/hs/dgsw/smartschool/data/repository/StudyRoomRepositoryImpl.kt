@@ -43,7 +43,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
         }
         val otherStudents : MutableList<Student> = cache.getStudents().toMutableList()
 
-        list.forEach { otherStudents.remove(it.student) }
+        newList.forEach { otherStudents.remove(it.student) }
 
         return StudyRoomList(
             newList,

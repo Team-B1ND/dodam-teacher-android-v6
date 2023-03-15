@@ -157,7 +157,6 @@ class StudyRoomViewModel @Inject constructor(
             }
             reduce {
                 state.copy(
-                    loading = false,
                     student = student,
                     timeTableList = timeTableList,
                     placeList = placeList

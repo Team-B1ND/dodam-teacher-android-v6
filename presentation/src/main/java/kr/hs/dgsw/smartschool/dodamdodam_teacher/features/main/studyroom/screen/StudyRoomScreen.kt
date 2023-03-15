@@ -170,7 +170,8 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 onClick = {
                     selectedTab = 1
                     tabNavController.navigate("apply")
-                }
+                },
+                modifier = Modifier.weight(1f)
             )
             DodamTab(
                 text = "미신청",
@@ -178,7 +179,8 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 onClick = {
                     selectedTab = 2
                     tabNavController.navigate("un_apply")
-                }
+                },
+                modifier = Modifier.weight(1f)
             )
         }
         NavHost(
@@ -216,6 +218,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                         )
                     },
                     ctrlAction = {
+                        viewModel.getSheetById(item.student)
                         navController.navigate("place")
                     }
                 )
@@ -240,8 +243,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
         }
     }
 }
-//TODO (ViewModel이랑 연계해서 상태 체크해야함)
-//TODO studentID timeTableList 수정하거나 로직 연결해야함
+//TODO Loading 오류 처리하기 state가 업데이트가 안 되어서 NPE 터짐
 @Composable
 fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState) {
     viewModel.getPlaces()

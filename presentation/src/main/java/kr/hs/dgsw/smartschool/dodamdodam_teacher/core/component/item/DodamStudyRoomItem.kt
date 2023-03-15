@@ -48,7 +48,7 @@ internal fun DodamStudyRoomItem(
         )
 
         Spacer(modifier = Modifier.width(11.dp))
-        Body1(text = member.name ?: "")
+        Body1(text = member.name)
         Spacer(modifier = Modifier.width(11.dp))
         Label1(
             text = place ?: "미신청",

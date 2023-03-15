@@ -19,7 +19,7 @@ interface StudyRoomService {
     ) : Response<List<StudyRoomResponse>>
     @POST(DodamUrl.StudyRoom.CHECK)
     suspend fun postCheckStudyRoom(
-        @Query("id") id : Int
+        @Path("id") id : Int
     ) : Response<Unit>
 
     @POST(DodamUrl.StudyRoom.UNCHECK)
