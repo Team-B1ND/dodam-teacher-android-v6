@@ -16,11 +16,11 @@ data class StudyRoomState(
 
     val isWeekDay : Boolean? = null,
 
-    val totalStudents : Int = 0,
-    val firstClass : Int = 0,
-    val secondClass : Int = 0,
-    val thirdClass : Int = 0,
-    val fourthClass : Int = 0,
+    val totalStudentsCount : Int = 0,
+    val firstClassCount : Int = 0,
+    val secondClassCount : Int = 0,
+    val thirdClassCount : Int = 0,
+    val fourthClassCount : Int = 0,
 )
 
 sealed class StudyRoomSideEffect { data class Toast(val message: String) : StudyRoomSideEffect()

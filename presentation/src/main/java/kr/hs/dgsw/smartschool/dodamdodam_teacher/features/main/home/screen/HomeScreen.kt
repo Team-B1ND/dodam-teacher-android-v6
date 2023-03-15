@@ -149,7 +149,7 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { OutStudyroomCheckCardContent() }
+                    content = { OutStudyroomCheckCardContent(homeState) }
                 )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -288,7 +288,7 @@ private fun OutApproveCardContent(
 
 @Composable
 private fun OutStudyroomCheckCardContent(
-    //TODO 카드 구성하기
+    state : HomeState
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -298,11 +298,30 @@ private fun OutStudyroomCheckCardContent(
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
-        HomeCardDetailItem(
-            title = stringResource(id = R.string.text_studyroom_check),
-            content = "50명 / 70명",
-            icon = { IcThinkingFace3D(contentDescription = null, modifier = Modifier.size(CardItemIconSize)) }
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            StudyRoomCardDetailItem(
+                title = stringResource(id = R.string.text_studyroom_check), TODO(여기에 맞춰서 교시 넣어야함)
+                content = "${state.firstClassCount}명 / ${state.allStudentsCount}명",
+                icon = {  }
+            )
+            StudyRoomCardDetailItem(
+                title = stringResource(id = R.string.text_studyroom_check),
+                content = "${state.secondClassCount}명 / ${state.allStudentsCount}명",
+                icon = { }
+            )
+            StudyRoomCardDetailItem(
+                title = stringResource(id = R.string.text_studyroom_check),
+                content = "${state.thirdClassCount}명 / ${state.allStudentsCount}명",
+                icon = { }
+            )
+            StudyRoomCardDetailItem(
+                title = stringResource(id = R.string.text_studyroom_check),
+                content = "${state.fourthClassCount}명 / ${state.allStudentsCount}명",
+                icon = { }
+            )
+        }
     }
 }
 
@@ -329,6 +348,27 @@ private fun HomeCardDetailItem(
             )
         }
     }
+}
+
+@Composable
+private fun StudyRoomCardDetailItem(
+    title: String,
+    content : String,
+    icon: @Composable () -> Unit,
+) {
+        icon()
+        Spacer(modifier = Modifier.width(8.dp))
+        Column {
+            Body3(text = title, textColor = DodamTheme.color.Gray500)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = content,
+                color = DodamTheme.color.Black,
+                style = DodamTheme.typography.label1.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+            )
+        }
 }
 
 @Composable

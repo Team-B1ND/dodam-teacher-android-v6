@@ -3,15 +3,24 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi
 import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 
 data class HomeState(
     val isOutLoading: Boolean = false,
     val isMealLoading: Boolean = false,
+    val isStudyLoading : Boolean = false,
     val banners: List<Banner> = emptyList(),
     val refreshTime: LocalDateTime? = null,
 
     val outgoingCount: Int = 0,
     val outsleepingCount: Int = 0,
+
+    val firstClassCount : Int = 0,
+    val secondClassCount : Int = 0,
+    val thirdClassCount : Int = 0,
+    val fourthClassCount : Int = 0,
+    val allStudentsCount : Int = 0,
 
     val meal: Meal? = null,
 

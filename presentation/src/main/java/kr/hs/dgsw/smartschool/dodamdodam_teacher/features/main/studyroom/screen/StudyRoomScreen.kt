@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamSelect
+import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
@@ -28,15 +30,19 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import org.orbitmvi.orbit.compose.collectSideEffect
-
+import java.time.LocalDateTime
 @Composable
 fun StudyRoomScreen(
     navController: NavController,
@@ -97,7 +103,6 @@ fun StudyRoomScreen(
 @Composable
 fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
     viewModel.getAllStudyRooms()
-    //TODO(카드 다지안 변경하기)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,21 +112,27 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
 
         Row() {
-            DodamItemCard(title = if(state.isWeekDay == false) "오전 1" else "자습 1", subTitle = "${state.firstClass} / ${state.totalStudents}", onClick = {
+            DodamContentCard(
+                title = stringResource(id = R.string.title_studyroom_check),
+                modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+                hasLinkIcon = true,
+                content = { OutStudyroomCheckCardContent() }
+            )
+            DodamItemCard(title = if(state.isWeekDay == false) "오전 1" else "자습 1", subTitle = "${state.firstClassCount} / ${state.totalStudentsCount}", onClick = {
                 navController.navigate("first")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClass} / ${state.totalStudents}", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오전 2" else "자습 2", subTitle = "${state.secondClassCount} / ${state.totalStudentsCount}", onClick = {
                 navController.navigate("second")
             })
         }
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         Row() {
-            DodamItemCard(title = if(state.isWeekDay == false) "오후 1" else "자습 3", subTitle = "${state.thirdClass} / ${state.totalStudents}", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오후 1" else "자습 3", subTitle = "${state.thirdClassCount} / ${state.totalStudentsCount}", onClick = {
                 navController.navigate("third")
             })
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            DodamItemCard(title = if(state.isWeekDay == false) "오후 2" else "자습 4", subTitle = "${state.fourthClass} / ${state.totalStudents}", onClick = {
+            DodamItemCard(title = if(state.isWeekDay == false) "오후 2" else "자습 4", subTitle = "${state.fourthClassCount} / ${state.totalStudentsCount}", onClick = {
                 navController.navigate("fourth")
             })
         }
@@ -244,7 +255,6 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
         }
     }
 }
-//TODO Loading 오류 처리하기 state가 업데이트가 안 되어서 NPE 터짐
 @Composable
 fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState) {
     val requestList = mutableListOf<StudyRoomRequest.RequestStudyRoom>()
@@ -362,5 +372,25 @@ private fun CardDetailItem(
                 ),
             )
         }
+    }
+}
+@Composable
+private fun OutStudyroomCheckCardContent(
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Body3(
+            text = LocalDateTime.now().toSimpleYearDateTime(),
+            textColor = DodamTheme.color.Gray500,
+        )
+        Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
+        HomeCardDetailItem(
+            title = stringResource1(id = R.string.text_studyroom_check),
+            content = "50명 / 70명",
+            icon = { IcThinkingFace3D(contentDescription = null, modifier = Modifier.size(
+                CardItemIconSize
+            )) }
+        )
     }
 }

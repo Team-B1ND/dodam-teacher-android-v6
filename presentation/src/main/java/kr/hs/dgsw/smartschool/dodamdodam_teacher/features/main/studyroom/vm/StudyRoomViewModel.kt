@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomViewModel @Inject constructor(
-    private val getAllSheetUseCase: GetAllSheetUseCase,
+    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase,
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
     private val getSheetByUserIdUseCase: GetSheetByUserIdUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
@@ -56,7 +56,7 @@ class StudyRoomViewModel @Inject constructor(
         getStudentsUseCase().onSuccess {
             reduce {
                 state.copy(
-                    totalStudents = it.size
+                    totalStudentsCount = it.size
                 )
             }
         }.onFailure {
@@ -69,17 +69,17 @@ class StudyRoomViewModel @Inject constructor(
             state.copy(loading = true)
         }
 
-        getAllSheetUseCase().onSuccess { studyRoomResult ->
+        getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
             val isWeekDay: Boolean =
                 studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY
             reduce {
                 state.copy(
                     studyRoomList = studyRoomResult,
                     isWeekDay = isWeekDay,
-                    firstClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
-                    secondClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
-                    thirdClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
-                    fourthClass = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
+                    firstClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
+                    secondClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
+                    thirdClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
+                    fourthClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
                 )
             }
         }.onFailure {

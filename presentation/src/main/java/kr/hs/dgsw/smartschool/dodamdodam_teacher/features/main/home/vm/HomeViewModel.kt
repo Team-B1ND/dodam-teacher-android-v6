@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
@@ -19,6 +21,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -26,6 +30,8 @@ class HomeViewModel @Inject constructor(
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
+    private val getStudentsUseCase: GetStudentsUseCase,
+    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -39,6 +45,7 @@ class HomeViewModel @Inject constructor(
                 LocalDate.now()
         )
         getBanner()
+        getStudyRooms()
     }
 
     private fun getOutsByDate(date: LocalDateTime) = intent {
@@ -68,6 +75,48 @@ class HomeViewModel @Inject constructor(
                 )
             }
             postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
+    private fun getStudyRooms() = intent {
+        reduce {
+            state.copy(isStudyLoading = true)
+        }
+
+        getStudentsUseCase().onSuccess { it ->
+            reduce {
+                state.copy(
+                    allStudentsCount = it.size,
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    isOutLoading = false,
+                )
+            }
+            postSideEffect(HomeSideEffect.ToastError(it))
+        }
+
+        getAllStudyRoomsUseCase().onSuccess {studyRoomResult ->
+            val isWeekDay: Boolean =
+                studyRoomResult.studyRoomList!!.get(0).timeTable.type == TimeTableType.WEEKDAY
+
+            reduce {
+                state.copy(
+                    isStudyLoading = false,
+                    firstClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
+                    secondClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
+                    thirdClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
+                    fourthClassCount = studyRoomResult.studyRoomList!!.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
+                )
+            }
+        }.onFailure {
+            reduce{
+                state.copy(
+                    isStudyLoading = false
+                )
+            }
         }
     }
 
