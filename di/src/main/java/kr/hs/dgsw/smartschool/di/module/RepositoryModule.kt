@@ -5,19 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.repository.*
-import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
-import kr.hs.dgsw.smartschool.domain.repository.BannerRepository
-import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
-import kr.hs.dgsw.smartschool.domain.repository.ItmapRepository
-import kr.hs.dgsw.smartschool.domain.repository.MealRepository
-import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
-import kr.hs.dgsw.smartschool.domain.repository.OutRepository
-import kr.hs.dgsw.smartschool.domain.repository.PointRepository
-import kr.hs.dgsw.smartschool.domain.repository.ScheduleRepository
-import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
-import kr.hs.dgsw.smartschool.domain.repository.TeacherRepository
-import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
-import kr.hs.dgsw.smartschool.domain.repository.StudyRoomRepository
+import kr.hs.dgsw.smartschool.domain.repository.*
 import javax.inject.Singleton
 
 @Module
@@ -106,5 +94,5 @@ abstract class RepositoryModule {
     @Binds
     abstract fun providesPlaceRepository(
         placeRepositoryImpl: PlaceRepositoryImpl
-    ): PointRepository
+    ): PlaceRepository
 }

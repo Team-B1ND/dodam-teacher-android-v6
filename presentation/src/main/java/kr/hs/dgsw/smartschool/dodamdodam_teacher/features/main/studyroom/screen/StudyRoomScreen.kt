@@ -209,11 +209,14 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                     member = item.student.member,
                     place = item.place.name,
                     status = item.status,
-                    onClick = {
+                    checkAction = {
                         viewModel.checkStudyRoom(
                             item.id,
                             item.status == StudyRoomStatus.CHECKED
                         )
+                    },
+                    ctrlAction = {
+                        navController.navigate("place")
                     }
                 )
             }
@@ -225,12 +228,13 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
             items(state.studyRoomList!!.otherStudents ?: emptyList()) { item ->
                 DodamStudyRoomItem(
                     member = item.member,
-                    place = "미신청",
+                    place = null,
                     status = StudyRoomStatus.PENDING,
-                    onClick = {
+                    ctrlAction = {
                         viewModel.getSheetById(item)
                         navController.navigate("place")
-                    }
+                    },
+                    checkAction = {}
                 )
             }
         }
