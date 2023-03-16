@@ -21,22 +21,16 @@ class StudyRoomRepositoryImpl @Inject constructor(
     val month : Int = LocalDate.now().monthValue
     val day : Int = LocalDate.now().dayOfMonth
     override suspend fun getAllSheet()
-    : StudyRoomList
+    : List<StudyRoom>
     {
         val list = remote.getAllSheet(
             year , month , day
         ).studyRoomList ?: emptyList()
-        val otherStudents : MutableList<Student> = cache.getStudents().distinct().toMutableList()
 
-        list.forEach { otherStudents.remove(it.student) }
-
-        return StudyRoomList (
-            list,
-            otherStudents
-        )
+        return list
     }
 
-    override suspend fun getSheetByTime(startTime: String, endTime: String): StudyRoomList {
+    override suspend fun getSheetByTime(startTime: String, endTime: String):  List<StudyRoom> {
         val list = remote.getAllSheet(year, month, day).studyRoomList ?: emptyList()
             val newList = list.filter {
             it.timeTable.startTime == startTime && it.timeTable.endTime == endTime
@@ -45,21 +39,15 @@ class StudyRoomRepositoryImpl @Inject constructor(
 
         newList.forEach { otherStudents.remove(it.student) }
 
-        return StudyRoomList(
-            newList,
-            otherStudents
-        )
+        return newList
     }
 
-    override suspend fun getSheetByUserId(studentId: Int): StudyRoomList {
+    override suspend fun getSheetByUserId(studentId: Int):  List<StudyRoom> {
         val list = remote.getAllSheet(year, month, day).studyRoomList ?: emptyList()
         val newList = list.filter {
             it.student.id == studentId
         }
-        return StudyRoomList(
-            studyRoomList = newList,
-            null
-        )
+        return newList
     }
 
     override suspend fun checkStudyRoom(id: Int, isChecked: Boolean) {

@@ -9,7 +9,7 @@ import kr.hs.dgsw.smartschool.local.mapper.toModel
 import javax.inject.Inject
 
 class StudentCacheDataSourceImpl @Inject constructor(
-    private val studentDao: StudentDao
+    private val studentDao: StudentDao,
 ) : StudentCacheDataSource {
 
     override suspend fun getStudents(): List<Student> =
