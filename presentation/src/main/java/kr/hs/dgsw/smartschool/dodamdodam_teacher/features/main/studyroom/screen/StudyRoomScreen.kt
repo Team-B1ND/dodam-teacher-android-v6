@@ -285,7 +285,7 @@ fun ApplyList(navController: NavController, tabType: Int, state: StudyRoomState,
                         )
                     },
                     ctrlAction = {
-                        viewModel.addStudentOnState(state.student!!)
+                        viewModel.addStudentOnState(item.student)
                         navController.navigate("place")
                     },
                     classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"

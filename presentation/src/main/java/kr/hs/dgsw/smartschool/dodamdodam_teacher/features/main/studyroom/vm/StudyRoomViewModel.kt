@@ -133,6 +133,11 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
         }.onFailure { exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
@@ -201,6 +206,11 @@ class StudyRoomViewModel @Inject constructor(
             )
         }
         checkStudyRoomUseCase(applyId, isChecked).onSuccess {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
         }.onFailure { exception ->
             reduce {
@@ -221,7 +231,7 @@ class StudyRoomViewModel @Inject constructor(
         ctrlStudyRoomUseCase(student.id, request).onSuccess {
             reduce {
                 state.copy(
-                    loading = true,
+                    loading = false,
                 )
             }
             postSideEffect(StudyRoomSideEffect.Toast("${student.member.name} 학생의 자습실 신청에 성공했어요"))
