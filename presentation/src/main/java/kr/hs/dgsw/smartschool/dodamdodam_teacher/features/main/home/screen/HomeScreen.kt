@@ -78,7 +78,7 @@ fun HomeScreen(
     navTabNavigate: ((tab: Int) -> Unit)? = null,
     outUpdateTime: LocalDateTime = LocalDateTime.now()
 ) {
-    
+
     val context = LocalContext.current
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 

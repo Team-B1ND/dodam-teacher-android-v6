@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.domain.usecase.meal
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
+import java.time.LocalDate
 import javax.inject.Inject
 
 class GetCalorieOfMealUseCase @Inject constructor(

@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.local.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.calorie.CalorieCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 import kr.hs.dgsw.smartschool.local.mapper.toEntity
 import kr.hs.dgsw.smartschool.local.mapper.toModel
+import javax.inject.Inject
 
 class CalorieCacheDataSourceImpl @Inject constructor(
     private val calorieDao: CalorieDao,

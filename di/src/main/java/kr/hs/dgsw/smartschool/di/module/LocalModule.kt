@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
+import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
@@ -24,7 +25,6 @@ import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
-import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 
 @Module
 @InstallIn(SingletonComponent::class)
