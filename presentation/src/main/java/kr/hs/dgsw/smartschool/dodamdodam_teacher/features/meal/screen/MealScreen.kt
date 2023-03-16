@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,7 +55,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.dayOfWeek
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import java.time.LocalDate
 
 @Composable
 fun MealScreen(
@@ -76,6 +76,7 @@ fun MealScreen(
     )
 
     mealViewModel.getMeal(state.currentDate)
+    mealViewModel.getCalorie(state.currentDate)
 
     val scrollState = rememberScrollState()
 
@@ -136,7 +137,6 @@ fun MealScreen(
                     progress = { progress },
                 )
                 Column {
-                    Body2(text = LocalDate.now().toString(), textColor = DodamTheme.color.Gray500)
                     Body1(text = stringResource(id = R.string.label_calorie))
                     Row(
                         verticalAlignment = Alignment.Bottom,
@@ -222,6 +222,9 @@ private fun ChangeDateCard(mealViewModel: MealViewModel, state: MealState) {
 
 private fun handleSideEffect(context: Context, sideEffect: MealSideEffect) {
     when (sideEffect) {
-        is MealSideEffect.ToastError -> context.shortToast(sideEffect.exception?.message ?: context.getString(R.string.content_unknown_exception))
+        is MealSideEffect.ToastError -> {
+            Log.e("MealLog", sideEffect.exception.stackTraceToString())
+            context.shortToast(sideEffect.exception.message ?: context.getString(R.string.content_unknown_exception))
+        }
     }
 }

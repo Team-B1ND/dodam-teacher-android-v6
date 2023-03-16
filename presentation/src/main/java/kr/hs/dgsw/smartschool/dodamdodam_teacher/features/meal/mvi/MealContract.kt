@@ -14,5 +14,5 @@ data class MealState(
 )
 
 sealed class MealSideEffect {
-    data class ToastError(val exception: Throwable?) : MealSideEffect()
+    data class ToastError(val exception: Throwable) : MealSideEffect()
 }

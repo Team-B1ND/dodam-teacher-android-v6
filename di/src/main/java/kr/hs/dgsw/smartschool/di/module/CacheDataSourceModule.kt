@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.banner.BannerCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.calorie.CalorieCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.itmap.ItmapCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
@@ -17,6 +18,7 @@ import kr.hs.dgsw.smartschool.data.datasource.teacher.TeacherCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
 import kr.hs.dgsw.smartschool.local.datasource.AuthCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.BannerCacheDataSourceImpl
+import kr.hs.dgsw.smartschool.local.datasource.CalorieCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.ClassroomCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.ItmapCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
@@ -97,4 +99,10 @@ abstract class CacheDataSourceModule {
     abstract fun provideItmapCacheDataSource(
         itmapCacheDataSourceImpl: ItmapCacheDataSourceImpl,
     ): ItmapCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideCalorieCacheDataSource(
+        calorieCacheDataSourceImpl: CalorieCacheDataSourceImpl,
+    ): CalorieCacheDataSource
 }
