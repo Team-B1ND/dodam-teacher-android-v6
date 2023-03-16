@@ -8,5 +8,5 @@ interface MealRepository {
 
     suspend fun getMeal(date: LocalDate): Meal
 
-    suspend fun getCalorieOfMeal(): Calorie
+    suspend fun getCalorieOfMeal(date: LocalDate): Calorie
 }

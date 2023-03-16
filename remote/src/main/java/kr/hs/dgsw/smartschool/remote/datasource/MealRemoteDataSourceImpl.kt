@@ -4,7 +4,6 @@ import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
-import kr.hs.dgsw.smartschool.remote.mapper.toCalorieModel
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
@@ -36,7 +35,7 @@ class MealRemoteDataSourceImpl @Inject constructor(
         ).data.toModel()
     }
 
-    override suspend fun getCalorieOfMeal(): Calorie = dodamApiCall {
-        mealService.getCalorieOfMeal().data.toCalorieModel()
+    override suspend fun getCalorieOfMeal(month: Int, year: Int): List<Calorie> = dodamApiCall {
+        mealService.getCalorieOfMeal(month = month, year = year).data.toModel()
     }
 }

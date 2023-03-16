@@ -24,6 +24,7 @@ import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
+import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -120,4 +121,10 @@ object LocalModule {
     fun provideItmapDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): ItmapDao = dodamTeacherDatabase.itmapDao()
+
+    @Provides
+    @Singleton
+    fun provideCalorieDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): CalorieDao = dodamTeacherDatabase.calorieDao()
 }

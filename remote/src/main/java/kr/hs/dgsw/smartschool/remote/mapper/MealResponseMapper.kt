@@ -4,6 +4,7 @@ import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.meal.Calorie
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
+import kr.hs.dgsw.smartschool.remote.response.meal.CalorieResponse
 import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
 
 internal fun MealResponse.toModel(): Meal =
@@ -20,7 +21,19 @@ internal fun List<MealResponse>.toModel(): MealList =
         mealList = this.map { it.toModel() }
     )
 
-internal fun String?.toCalorieModel(): Calorie =
+internal fun List<CalorieResponse>.toModel(): List<Calorie> =
+    this.map {
+        it.toModel()
+    }
+
+internal fun CalorieResponse.toModel(): Calorie =
     Calorie(
-        calorie = this?.lowercase()?.replace("kcal", "")?.toDouble() ?: 0.0
+        date = date.yearDateToLocalDate(),
+        breakfast = getMealCalorie(breakfast),
+        lunch = getMealCalorie(lunch),
+        dinner = getMealCalorie(dinner),
+        exists = exists
     )
+
+private fun getMealCalorie(meal: String): Double =
+    meal.lowercase().replace("kcal", "").toDouble()
