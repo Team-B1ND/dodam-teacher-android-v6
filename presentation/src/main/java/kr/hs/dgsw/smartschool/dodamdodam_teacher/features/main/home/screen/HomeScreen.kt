@@ -298,25 +298,25 @@ private fun OutStudyroomCheckCardContent(
         ){
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
-                content = "${state.firstClassCount}명 / ${state.allStudentsCount}명",
+                content = "${state.firstClassCount}/${state.allStudentsCount}",
                 icon = {  }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
-                content = "${state.secondClassCount}명 / ${state.allStudentsCount}명",
+                content = "${state.secondClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
-                content = "${state.thirdClassCount}명 / ${state.allStudentsCount}명",
+                content = "${state.thirdClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
-                content = "${state.fourthClassCount}명 / ${state.allStudentsCount}명",
+                content = "${state.fourthClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
         }

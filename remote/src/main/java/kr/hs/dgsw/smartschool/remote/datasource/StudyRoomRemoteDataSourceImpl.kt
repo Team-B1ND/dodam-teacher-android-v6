@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
+import android.util.Log
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
@@ -37,6 +38,11 @@ class StudyRoomRemoteDataSourceImpl @Inject constructor(
     override suspend fun ctrlStudyRoom(
         studentId : Int, studyRoomList: StudyRoomRequest
     ) = dodamApiCall {
+        Log.e("ctrlStudyRoom",StudyRoomCtrlRequest(
+            studentId = studentId,
+            studyRoomList = studyRoomList.studyRoomList.map {
+                RequestItem(it.placeId,it.timeTableId)
+            }).toString())
         studyRoomService.postStudyRoomCtrl(
             StudyRoomCtrlRequest(
             studentId = studentId,

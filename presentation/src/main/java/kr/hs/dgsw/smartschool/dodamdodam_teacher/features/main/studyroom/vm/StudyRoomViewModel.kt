@@ -54,10 +54,16 @@ class StudyRoomViewModel @Inject constructor(
         getStudentsUseCase().onSuccess {
             reduce {
                 state.copy(
+                    loading = false,
                     totalStudentsCount = it.size
                 )
             }
         }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.ToastError(it))
         }
     }
@@ -72,6 +78,7 @@ class StudyRoomViewModel @Inject constructor(
                 studyRoomResult.get(0).timeTable.type == TimeTableType.WEEKDAY
             reduce {
                 state.copy(
+                    loading = false,
                     studyRoomList = studyRoomResult,
                     isWeekDay = isWeekDay,
                     firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
@@ -81,6 +88,11 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.ToastError(it))
         }
     }
@@ -150,7 +162,7 @@ class StudyRoomViewModel @Inject constructor(
     fun addStudentOnState(student: Student) = intent {
         reduce {
             state.copy(
-                loading = true,
+                loading = false,
                 student = student
             )
         }
@@ -165,10 +177,16 @@ class StudyRoomViewModel @Inject constructor(
         getPlacesUseCase().onSuccess {result ->
             reduce {
                 state.copy(
+                    loading = false,
                     placeList = result
                 )
             }
         }.onFailure { exception ->
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
@@ -198,6 +216,11 @@ class StudyRoomViewModel @Inject constructor(
             )
         }
         ctrlStudyRoomUseCase(student.id, request).onSuccess {
+            reduce {
+                state.copy(
+                    loading = true,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.Toast("${student.member.name} 학생의 자습실 신청에 성공했어요"))
         }.onFailure { exception ->
             reduce {
