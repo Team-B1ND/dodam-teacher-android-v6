@@ -43,14 +43,7 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCa
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
 import kr.hs.dgsw.smartschool.components.foundation.Text
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
-import kr.hs.dgsw.smartschool.components.theme.Body3
-import kr.hs.dgsw.smartschool.components.theme.DodamColor
-import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.IcBreakfast3D
-import kr.hs.dgsw.smartschool.components.theme.IcDinner3D
-import kr.hs.dgsw.smartschool.components.theme.IcItmap3D
-import kr.hs.dgsw.smartschool.components.theme.IcLunch3D
-import kr.hs.dgsw.smartschool.components.theme.IcPoint3D
+import kr.hs.dgsw.smartschool.components.theme.*
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
@@ -363,12 +356,9 @@ private fun StudyRoomCardDetailItem(
         Column {
             Body3(text = title, textColor = DodamTheme.color.Gray500)
             Spacer(modifier = Modifier.height(2.dp))
-            Text(
+            Body2(
                 text = content,
-                color = DodamTheme.color.Black,
-                style = DodamTheme.typography.label1.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
+                textColor = DodamTheme.color.Black,
             )
         }
 }

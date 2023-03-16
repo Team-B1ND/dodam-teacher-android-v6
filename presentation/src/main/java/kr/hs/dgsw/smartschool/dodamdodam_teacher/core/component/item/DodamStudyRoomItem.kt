@@ -51,15 +51,16 @@ internal fun DodamStudyRoomItem(
         Spacer(modifier = Modifier.width(11.dp))
         Body1(
             text = member.name,
-        modifier = Modifier.weight(0.3F))
+        )
+        Spacer(modifier = Modifier.width(5.dp))
         Label3(
             text = classroom ?: "알 수 없음",
-            modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.width(11.dp))
         Label2(
             text = place ?: "미신청",
-            modifier = Modifier.weight(1f)
+            textColor = DodamColor.MainColor,
+            modifier = Modifier.weight(0.8f)
         )
         if (!place.isNullOrEmpty()) {
             Box(
@@ -81,6 +82,20 @@ internal fun DodamStudyRoomItem(
                 }, textColor = DodamColor.White)
             }
 
+        }else{
+            Box(
+                modifier = Modifier
+                    .clickable { checkAction() }
+                    .surface(DodamShape().medium,
+                        DodamColor.MainColor)
+                    .padding(10.dp)
+                    .width(40.dp)
+                    .height(20.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Body2(text = "신청"
+                    , textColor = DodamColor.White)
+            }
         }
     }
 }

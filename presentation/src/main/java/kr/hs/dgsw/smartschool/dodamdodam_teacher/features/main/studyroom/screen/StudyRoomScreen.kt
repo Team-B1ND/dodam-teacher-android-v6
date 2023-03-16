@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +40,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
+import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDateTime
 @Composable
@@ -110,46 +112,43 @@ fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamContentCard(
             title = if(state.isWeekDay == true) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
-            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable { navController.navigate("first") },
             hasLinkIcon = true,
             content = {
-                Body2(text = "${state.firstClassCount} / ${state.totalStudentsCount}")
-                DodamMediumRoundedButton(text = "인증" ,onClick = {
-                    navController.navigate("first")
-                }) }
+                Body2(text = "${state.firstClassCount} / ${state.totalStudentsCount}") }
         )
         Spacer(modifier = Modifier.height(11.dp))
         DodamContentCard(
             title = if(state.isWeekDay == true) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
-            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable { navController.navigate("second") },
             hasLinkIcon = true,
             content = {
-                Body2(text = "${state.secondClassCount} / ${state.totalStudentsCount}")
-                DodamMediumRoundedButton(text = "인증" ,onClick = {
-                    navController.navigate("second")
-                }) }
+                Body2(text = "${state.secondClassCount} / ${state.totalStudentsCount}")}
         )
         Spacer(modifier = Modifier.height(11.dp))
         DodamContentCard(
             title = if(state.isWeekDay == true) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
-            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-            hasLinkIcon = true,
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable { navController.navigate("third") }       ,
+                    hasLinkIcon = true,
             content = {
-                Body2(text = "${state.thirdClassCount} / ${state.totalStudentsCount}")
-                DodamMediumRoundedButton(text = "인증" ,onClick = {
-                    navController.navigate("third")
-                }) }
+                Body2(text = "${state.thirdClassCount} / ${state.totalStudentsCount}")}
         )
         Spacer(modifier = Modifier.height(11.dp))
         DodamContentCard(
             title = if(state.isWeekDay == true) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
-            modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable { navController.navigate("fourth") },
             hasLinkIcon = true,
             content = {
                 Body2(text = "${state.fourthClassCount} / ${state.totalStudentsCount}")
-                DodamMediumRoundedButton(text = "인증" ,onClick = {
-                    navController.navigate("fourth")
-                }) }
+                      },
         )
     }
 }
@@ -169,19 +168,19 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         DodamAppBar(onStartIconClick = { navController.popBackStack() }, title =
         if(state.isWeekDay == false) {
             when (type){
-                1 -> "오전 1"
-                2 -> "오전 2"
-                3 -> "오후 1"
-                4 -> "오후 2"
-                else -> "오전 1"
+                1 -> stringResource(id = R.string.forenoon_1)
+                2 -> stringResource(id = R.string.forenoon_2)
+                3 -> stringResource(id = R.string.afternoon_1)
+                4 -> stringResource(id = R.string.afternoon_2)
+                else -> stringResource(id = R.string.forenoon_1)
             }
         } else {
             when (type){
-                1 -> "자습 1"
-                2 -> "자습 2"
-                3 -> "자습 3"
-                4 -> "자습 4"
-                else -> "자습 1"
+                1 -> stringResource(id = R.string.class_8)
+                2 -> stringResource(id = R.string.class_9)
+                3 -> stringResource(id = R.string.class_10)
+                4 -> stringResource(id = R.string.class_11)
+                else -> stringResource(id = R.string.class_8)
             }
         }
         )
@@ -231,7 +230,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
             modifier = Modifier
                 .padding(DodamDimen.ScreenSidePadding)
         ) {
-            items(state.studyRoomList!!.studyRoomList ?: emptyList()) { item ->
+            items(state.studyRoomList) { item ->
                 DodamStudyRoomItem(
                     member = item.student.member,
                     place = item.place.name,
@@ -254,7 +253,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
             modifier = Modifier
                 .padding(DodamDimen.ScreenSidePadding)
         ) {
-            items(state.studyRoomList!!.otherStudents ?: emptyList()) { item ->
+            items(state.otherStudents) { item ->
                 DodamStudyRoomItem(
                     member = item.member,
                     place = null,
@@ -263,7 +262,10 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                         viewModel.getSheetById(item)
                         navController.navigate("place")
                     },
-                    checkAction = {},
+                    checkAction = {
+                        viewModel.getSheetById(item)
+                        navController.navigate("place")
+                    },
                     classroom = "${item.classroom.grade}학년 ${item.classroom.room}반"
                 )
             }
@@ -276,8 +278,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DodamColor.Background)
-            .padding(horizontal = DodamDimen.ScreenSidePadding),
+            .background(DodamColor.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습실 신청 관리")
@@ -293,7 +294,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                     if(place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestStudyRoom(
-                                timeTableId = state.timeTableList!![0].id,
+                                timeTableId = state.timeTableList[0].id,
                                 placeId = place.id
                             )
                         )
@@ -312,7 +313,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                     if(place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestStudyRoom(
-                                timeTableId = state.timeTableList!![1].id,
+                                timeTableId = state.timeTableList[1].id,
                                 placeId = place.id
                             )
                         )
@@ -331,7 +332,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                     if(place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestStudyRoom(
-                                timeTableId = state.timeTableList!![2].id,
+                                timeTableId = state.timeTableList[2].id,
                                 placeId = place.id
                             )
                         )
@@ -350,14 +351,14 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                     if(place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestStudyRoom(
-                                timeTableId =state.timeTableList!![3].id,
+                                timeTableId = state.timeTableList[3].id,
                                 placeId = place.id
                             )
                         )
                 }
             }
         )
-        Spacer(modifier = Modifier.height(45.dp))
+        Spacer(modifier = Modifier.height(45.dp).padding(DodamDimen.ScreenSidePadding))
         DodamMaxWidthButton(text = "수정", onClick = {
             viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
         })

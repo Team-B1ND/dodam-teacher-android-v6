@@ -125,7 +125,7 @@ class StudyRoomViewModel @Inject constructor(
     //자습실 신청 관리할 때, 현재 유저의 정보를 불러오기 위해 사용합니다.
     //student,
     fun getSheetById(student: Student) = intent {
-        val timeTableList = mutableListOf<TimeTable?>()
+        val timeTableList = mutableListOf<TimeTable>()
         val placeList = mutableListOf<Place?>()
         reduce {
             state.copy(
@@ -138,21 +138,25 @@ class StudyRoomViewModel @Inject constructor(
                     if (state.isWeekDay!!) TimeSet.WeekEnd.first_start
                     else TimeSet.WeekDay.first_start -> {
                         timeTableList.add(0,it.timeTable)
+                        Log.e("timeTable", it.timeTable.id.toString())
                         placeList.add(0, it.place)
                     }
                     if (state.isWeekDay!!) TimeSet.WeekEnd.second_start
                     else TimeSet.WeekDay.second_start -> {
                         timeTableList.add(1,it.timeTable)
+                        Log.e("timeTable", it.timeTable.id.toString())
                         placeList.add(1, it.place)
                     }
                     if (state.isWeekDay!!) TimeSet.WeekEnd.third_start
                     else TimeSet.WeekDay.third_start -> {
                         timeTableList.add(2,it.timeTable)
+                        Log.e("timeTable", it.timeTable.id.toString())
                         placeList.add(2, it.place)
                     }
                     if (state.isWeekDay!!) TimeSet.WeekEnd.fourth_start
                     else TimeSet.WeekDay.fourth_start -> {
                         timeTableList.add(3,it.timeTable)
+                        Log.e("timeTable", it.timeTable.id.toString())
                         placeList.add(3, it.place)
                     }
                 }

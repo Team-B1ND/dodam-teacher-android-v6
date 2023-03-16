@@ -17,7 +17,7 @@ class GetStudentsWithClassroomUseCase @Inject constructor(
                 member = it.member,
                 number = it.number,
                 phone = it.phone,
-                classroom = classroomRepository.getClassroomByStudentId(it.id)
+                classroom = classroomRepository.getClassroomById(it.classroom.id)
             )
         }
     }
