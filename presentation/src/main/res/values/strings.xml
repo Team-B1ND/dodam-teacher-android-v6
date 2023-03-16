@@ -75,7 +75,7 @@
     <string name="label_all">전체</string>
     <string name="label_school">학교</string>
     <string name="label_dormitory">기숙사</string>
-    <string name="label_calorie">오늘 삼시세끼 칼로리는?</string>
+    <string name="label_calorie">삼시세끼 칼로리는?</string>
     <string name="label_kcal">Kcal</string>
     <string name="label_outgoing">외출</string>
     <string name="label_outsleeping">외박</string>

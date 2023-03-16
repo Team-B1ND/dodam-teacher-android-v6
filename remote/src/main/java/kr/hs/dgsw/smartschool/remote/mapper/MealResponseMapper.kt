@@ -29,11 +29,11 @@ internal fun List<CalorieResponse>.toModel(): List<Calorie> =
 internal fun CalorieResponse.toModel(): Calorie =
     Calorie(
         date = date.yearDateToLocalDate(),
-        breakfast = getMealCalorie(breakfast),
-        lunch = getMealCalorie(lunch),
-        dinner = getMealCalorie(dinner),
+        breakfast = getMealCalorie(breakfast ?: "0.0"),
+        lunch = getMealCalorie(lunch ?: "0.0"),
+        dinner = getMealCalorie(dinner ?: "0.0"),
         exists = exists
     )
 
 private fun getMealCalorie(meal: String): Double =
-    meal.lowercase().replace("kcal", "").toDouble()
+    meal.lowercase().replace(" kcal", "").toDouble()
