@@ -234,7 +234,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                         )
                     },
                     ctrlAction = {
-                        viewModel.getTimeTable(item.student)
+                        viewModel.addStudentOnState(state.student!!)
                         navController.navigate("place")
                     },
                     classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"
@@ -266,7 +266,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
 }
 @Composable
 fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState) {
-    val requestList = mutableListOf<StudyRoomRequest.RequestStudyRoom>()
+    val requestList = mutableListOf<StudyRoomRequest.RequestItem>()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -274,8 +274,9 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습실 신청 관리")
-        Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) "오전 1" else "자습 1")
+        Spacer(modifier = Modifier.height(60.dp))
+        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.forenoon_1) else stringResource(id = R.string.class_8))
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
@@ -285,7 +286,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 state.placeList.forEach{place ->
                     if(place.name == placeName)
                         requestList.add(
-                            StudyRoomRequest.RequestStudyRoom(
+                            StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[0].id,
                                 placeId = place.id
                             )
@@ -294,7 +295,8 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) "오전 2" else "자습 2")
+        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.forenoon_2) else stringResource(id = R.string.class_9))
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
@@ -304,7 +306,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 state.placeList.forEach{place ->
                     if(place.name == placeName)
                         requestList.add(
-                            StudyRoomRequest.RequestStudyRoom(
+                            StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[1].id,
                                 placeId = place.id
                             )
@@ -313,7 +315,8 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) "오후 1" else "자습 3")
+        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.afternoon_1) else stringResource(id = R.string.class_10))
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
@@ -323,7 +326,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 state.placeList.forEach{place ->
                     if(place.name == placeName)
                         requestList.add(
-                            StudyRoomRequest.RequestStudyRoom(
+                            StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[2].id,
                                 placeId = place.id
                             )
@@ -332,7 +335,8 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) "오후 2" else "자습 4")
+        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.afternoon_2) else stringResource(id = R.string.class_11))
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
@@ -342,7 +346,7 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 state.placeList.forEach{place ->
                     if(place.name == placeName)
                         requestList.add(
-                            StudyRoomRequest.RequestStudyRoom(
+                            StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[3].id,
                                 placeId = place.id
                             )
@@ -350,7 +354,6 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        Spacer(modifier = Modifier.fillMaxHeight(1F))
         DodamMaxWidthButton(text = "수정", onClick = {
             viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
         },

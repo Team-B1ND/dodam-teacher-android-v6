@@ -285,7 +285,7 @@ private fun OutStudyroomCheckCardContent(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                       navController.navigate(NavGroup.Main.STUDYROOM)
+                navController.navigate(NavGroup.Main.STUDYROOM)
             },
     ) {
         Body3(
@@ -301,16 +301,19 @@ private fun OutStudyroomCheckCardContent(
                 content = "${state.firstClassCount}명 / ${state.allStudentsCount}명",
                 icon = {  }
             )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
                 content = "${state.secondClassCount}명 / ${state.allStudentsCount}명",
                 icon = { }
             )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
                 content = "${state.thirdClassCount}명 / ${state.allStudentsCount}명",
                 icon = { }
             )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if(state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
                 content = "${state.fourthClassCount}명 / ${state.allStudentsCount}명",

@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.data.repository
 
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.student.StudentCacheDataSource
+import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
@@ -11,9 +12,9 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 class StudyRoomRepositoryImpl @Inject constructor(
-    override val remote: TimeTableRemoteDataSource,
+    override val remote: StudyRoomRemoteDataSource,
     override val cache : StudentCacheDataSource
-) : BaseRepository<TimeTableRemoteDataSource, Any>,StudyRoomRepository {
+) : BaseRepository<StudyRoomRemoteDataSource, Any>,StudyRoomRepository {
 
     val year: Int = LocalDate.now().year
     val month : Int = LocalDate.now().monthValue

@@ -5,6 +5,8 @@ import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSourc
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
+import kr.hs.dgsw.smartschool.remote.request.studyroom.RequestItem
+import kr.hs.dgsw.smartschool.remote.request.studyroom.StudyRoomCtrlRequest
 import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
@@ -35,6 +37,12 @@ class StudyRoomRemoteDataSourceImpl @Inject constructor(
     override suspend fun ctrlStudyRoom(
         studentId : Int, studyRoomList: StudyRoomRequest
     ) = dodamApiCall {
-        studyRoomService.postStudyRoomCtrl(studentId, studyRoomList).data
+        studyRoomService.postStudyRoomCtrl(
+            StudyRoomCtrlRequest(
+            studentId = studentId,
+                studyRoomList = studyRoomList.studyRoomList.map {
+                    RequestItem(it.placeId,it.timeTableId)
+                }
+        )).data
     }
 }
