@@ -76,7 +76,7 @@ fun StudyRoomScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = DodamColor.FeatureColor.MyInfoColor)
+                .background(color = DodamColor.White)
         ) {
 
             NavHost(
