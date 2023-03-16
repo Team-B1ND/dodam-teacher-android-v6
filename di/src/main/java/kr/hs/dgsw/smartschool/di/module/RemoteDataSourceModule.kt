@@ -15,9 +15,21 @@ import kr.hs.dgsw.smartschool.data.datasource.place.PlaceRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
-import kr.hs.dgsw.smartschool.data.datasource.token.TokenRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSource
-import kr.hs.dgsw.smartschool.remote.datasource.*
+import kr.hs.dgsw.smartschool.data.datasource.token.TokenRemoteDataSource
+import kr.hs.dgsw.smartschool.remote.datasource.AuthRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.BannerRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.ClassroomRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.ItmapRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.MemberRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.PlaceRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.PointRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.ScheduleRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.StudyRoomRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.TimeTableRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.TokenRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module

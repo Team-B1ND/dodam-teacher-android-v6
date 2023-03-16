@@ -6,13 +6,13 @@ import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 
 data class StudyRoom(
-    val id : Int,
-    val date : String,
-    val timeTable : TimeTable,
+    val id: Int,
+    val date: String,
+    val timeTable: TimeTable,
     val place: Place,
-    val student : Student,
+    val student: Student,
     val status: StudyRoomStatus,
-    val teacher : Teacher?
+    val teacher: Teacher?
 )
 
-//TODO StudentId, TimeTableId, PlaceId
+// TODO StudentId, TimeTableId, PlaceId

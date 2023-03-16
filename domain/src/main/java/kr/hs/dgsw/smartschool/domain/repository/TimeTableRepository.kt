@@ -1,8 +1,5 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 
 interface TimeTableRepository {

@@ -111,6 +111,6 @@ dependencies {
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
 
-    //glide
+    // glide
     implementation(Libraries.GLIDE_LANDSCAPIST)
 }

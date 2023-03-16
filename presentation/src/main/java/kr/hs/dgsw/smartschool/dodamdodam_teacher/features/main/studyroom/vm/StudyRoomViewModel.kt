@@ -12,7 +12,10 @@ import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsWithClassroomUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CtrlStudyRoomUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetSheetByTimeUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -46,7 +49,7 @@ class StudyRoomViewModel @Inject constructor(
     }
 
     private fun getStudents() = intent {
-        reduce{
+        reduce {
             state.copy(
                 loading = true
             )
@@ -118,7 +121,7 @@ class StudyRoomViewModel @Inject constructor(
             )
         }
         getStudentsWithClassroomUseCase().onSuccess { studentResult ->
-            val newList : MutableList<Student> = studentResult.toMutableList()
+            val newList: MutableList<Student> = studentResult.toMutableList()
             state.studyRoomList.forEach {
                 newList.remove(it.student)
             }
@@ -133,8 +136,8 @@ class StudyRoomViewModel @Inject constructor(
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
     }
-    //자습실 신청 관리할 때, 현재 유저의 정보를 불러오기 위해 사용합니다.
-    //student,
+    // 자습실 신청 관리할 때, 현재 유저의 정보를 불러오기 위해 사용합니다.
+    // student,
     private fun getTimeTable() = intent {
         reduce {
             state.copy(
@@ -142,7 +145,7 @@ class StudyRoomViewModel @Inject constructor(
             )
         }
         getTimeTablesUseCase().onSuccess { timeTableList ->
-            Log.e("getTimeTables",timeTableList.toString())
+            Log.e("getTimeTables", timeTableList.toString())
             reduce {
                 state.copy(
                     loading = false,
@@ -174,7 +177,7 @@ class StudyRoomViewModel @Inject constructor(
                 loading = true
             )
         }
-        getPlacesUseCase().onSuccess {result ->
+        getPlacesUseCase().onSuccess { result ->
             reduce {
                 state.copy(
                     loading = false,

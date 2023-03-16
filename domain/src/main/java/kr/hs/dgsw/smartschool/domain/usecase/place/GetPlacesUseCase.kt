@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.domain.usecase.place
 
 import kr.hs.dgsw.smartschool.domain.repository.PlaceRepository
-import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class GetPlacesUseCase @Inject constructor(

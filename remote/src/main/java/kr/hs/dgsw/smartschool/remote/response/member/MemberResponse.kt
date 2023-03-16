@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.remote.response.member
 
 import com.google.gson.annotations.SerializedName
 import kr.hs.dgsw.smartschool.remote.response.student.StudentResponse
-import java.time.LocalDateTime
 
 data class MemberResponse(
     @field:SerializedName("email") val email: String,

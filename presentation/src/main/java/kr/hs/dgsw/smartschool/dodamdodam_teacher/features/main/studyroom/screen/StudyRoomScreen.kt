@@ -3,10 +3,20 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,14 +33,16 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamConten
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
-import kr.hs.dgsw.smartschool.components.theme.*
+import kr.hs.dgsw.smartschool.components.theme.Body2
+import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
@@ -97,93 +109,97 @@ fun StudyRoomScreen(
 }
 
 @Composable
-fun StudyRoomMain(viewModel : StudyRoomViewModel , navController : NavController, state : StudyRoomState){
-        Column(
+fun StudyRoomMain(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DodamColor.Background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
+        DodamContentCard(
+            title = if (state.isWeekDay == true) stringResource(id = R.string.class_8) else stringResource(
+                id = R.string.forenoon_1
+            ),
             modifier = Modifier
-                .fillMaxSize()
-                .background(DodamColor.Background),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-            DodamContentCard(
-                title = if (state.isWeekDay == true) stringResource(id = R.string.class_8) else stringResource(
-                    id = R.string.forenoon_1
-                ),
-                modifier = Modifier
-                    .padding(horizontal = DodamDimen.ScreenSidePadding)
-                    .clickable {
-                        viewModel.getSheetByTime(1)
-                        navController.navigate("first") },
-                hasLinkIcon = true,
-                content = {
-                    Body2(text = "${state.firstClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-                }
-            )
-            Spacer(modifier = Modifier.height(11.dp))
-            DodamContentCard(
-                title = if (state.isWeekDay == true) stringResource(id = R.string.class_9) else stringResource(
-                    id = R.string.forenoon_2
-                ),
-                modifier = Modifier
-                    .padding(horizontal = DodamDimen.ScreenSidePadding)
-                    .clickable {
-                        viewModel.getSheetByTime(2)
-                        navController.navigate("second") },
-                hasLinkIcon = true,
-                content = {
-                    Body2(text = "${state.secondClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-                }
-            )
-            Spacer(modifier = Modifier.height(11.dp))
-            DodamContentCard(
-                title = if (state.isWeekDay == true) stringResource(id = R.string.class_10) else stringResource(
-                    id = R.string.afternoon_1
-                ),
-                modifier = Modifier
-                    .padding(horizontal = DodamDimen.ScreenSidePadding)
-                    .clickable { viewModel.getSheetByTime(3)
-                        navController.navigate("third") },
-                hasLinkIcon = true,
-                content = {
-                    Body2(text = "${state.thirdClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-                }
-            )
-            Spacer(modifier = Modifier.height(11.dp))
-            DodamContentCard(
-                title = if (state.isWeekDay == true) stringResource(id = R.string.class_11) else stringResource(
-                    id = R.string.afternoon_2
-                ),
-                modifier = Modifier
-                    .padding(horizontal = DodamDimen.ScreenSidePadding)
-                    .clickable {
-                        viewModel.getSheetByTime(4)
-                        navController.navigate("fourth") },
-                hasLinkIcon = true,
-                content = {
-                    Body2(text = "${state.fourthClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable {
+                    viewModel.getSheetByTime(1)
+                    navController.navigate("first")
                 },
-            )
-        }
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.firstClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
+            }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if (state.isWeekDay == true) stringResource(id = R.string.class_9) else stringResource(
+                id = R.string.forenoon_2
+            ),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable {
+                    viewModel.getSheetByTime(2)
+                    navController.navigate("second")
+                },
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.secondClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
+            }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if (state.isWeekDay == true) stringResource(id = R.string.class_10) else stringResource(
+                id = R.string.afternoon_1
+            ),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable {
+                    viewModel.getSheetByTime(3)
+                    navController.navigate("third")
+                },
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.thirdClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
+            }
+        )
+        Spacer(modifier = Modifier.height(11.dp))
+        DodamContentCard(
+            title = if (state.isWeekDay == true) stringResource(id = R.string.class_11) else stringResource(
+                id = R.string.afternoon_2
+            ),
+            modifier = Modifier
+                .padding(horizontal = DodamDimen.ScreenSidePadding)
+                .clickable {
+                    viewModel.getSheetByTime(4)
+                    navController.navigate("fourth")
+                },
+            hasLinkIcon = true,
+            content = {
+                Body2(text = "${state.fourthClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
+            },
+        )
+    }
 }
 
 @Composable
-fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState, type : Int) {
+fun ApplyScreen(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState, type: Int) {
     val tabNavController = rememberNavController()
     var selectedTab by remember { mutableStateOf(1) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DodamColor.Background)
-        ,
+            .background(DodamColor.Background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DodamAppBar(
             onStartIconClick = {
                 viewModel.getAllStudyRooms()
                 navController.popBackStack()
-
-                               }, title =
+            },
+            title =
             if (state.isWeekDay == false) {
                 when (type) {
                     1 -> stringResource(id = R.string.forenoon_1)
@@ -250,10 +266,9 @@ fun ApplyScreen(viewModel : StudyRoomViewModel, navController : NavController, s
     }
 }
 
-
 @Composable
-fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState, viewModel: StudyRoomViewModel){
-    when(tabType){
+fun ApplyList(navController: NavController, tabType: Int, state: StudyRoomState, viewModel: StudyRoomViewModel) {
+    when (tabType) {
         0 -> LazyColumn(
             modifier = Modifier
                 .padding(DodamDimen.ScreenSidePadding)
@@ -301,7 +316,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
     }
 }
 @Composable
-fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, state : StudyRoomState) {
+fun PlaceScreen(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState) {
     val requestList = mutableListOf<StudyRoomRequest.RequestItem>()
     Column(
         modifier = Modifier
@@ -311,16 +326,16 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
     ) {
         DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습실 신청 관리")
         Spacer(modifier = Modifier.height(60.dp))
-        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.forenoon_1) else stringResource(id = R.string.class_8))
+        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.forenoon_1) else stringResource(id = R.string.class_8))
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
             },
             hint = "교실을 선택해주세요",
-            onItemClickListener = {placeName ->
-                state.placeList.forEach{place ->
-                    if(place.name == placeName)
+            onItemClickListener = { placeName ->
+                state.placeList.forEach { place ->
+                    if (place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[0].id,
@@ -331,16 +346,16 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.forenoon_2) else stringResource(id = R.string.class_9))
+        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.forenoon_2) else stringResource(id = R.string.class_9))
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
             },
             hint = "교실을 선택해주세요",
-            onItemClickListener = {placeName ->
-                state.placeList.forEach{place ->
-                    if(place.name == placeName)
+            onItemClickListener = { placeName ->
+                state.placeList.forEach { place ->
+                    if (place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[1].id,
@@ -351,16 +366,16 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.afternoon_1) else stringResource(id = R.string.class_10))
+        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.afternoon_1) else stringResource(id = R.string.class_10))
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
             },
             hint = "교실을 선택해주세요",
-            onItemClickListener = {placeName ->
-                state.placeList.forEach{place ->
-                    if(place.name == placeName)
+            onItemClickListener = { placeName ->
+                state.placeList.forEach { place ->
+                    if (place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[2].id,
@@ -371,16 +386,16 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
             }
         )
         Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if(state.isWeekDay == false) stringResource(id = R.string.afternoon_2) else stringResource(id = R.string.class_11))
+        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.afternoon_2) else stringResource(id = R.string.class_11))
         Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
         DodamSelect(
             itemList = state.placeList.map {
                 it.name
             },
             hint = "교실을 선택해주세요",
-            onItemClickListener = {placeName ->
-                state.placeList.forEach{place ->
-                    if(place.name == placeName)
+            onItemClickListener = { placeName ->
+                state.placeList.forEach { place ->
+                    if (place.name == placeName)
                         requestList.add(
                             StudyRoomRequest.RequestItem(
                                 timeTableId = state.timeTableList[3].id,
@@ -390,10 +405,12 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        DodamMaxWidthButton(text = "수정", onClick = {
-            viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
-            navController.popBackStack()
-        },
-           modifier = Modifier.padding(DodamDimen.ScreenSidePadding))
+        DodamMaxWidthButton(
+            text = "수정", onClick = {
+                viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
+                navController.popBackStack()
+            },
+            modifier = Modifier.padding(DodamDimen.ScreenSidePadding)
+        )
     }
 }

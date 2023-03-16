@@ -11,7 +11,19 @@ import kr.hs.dgsw.smartschool.di.qualifier.AuthRetrofit
 import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
 import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
-import kr.hs.dgsw.smartschool.remote.service.*
+import kr.hs.dgsw.smartschool.remote.service.AuthService
+import kr.hs.dgsw.smartschool.remote.service.BannerService
+import kr.hs.dgsw.smartschool.remote.service.ClassroomService
+import kr.hs.dgsw.smartschool.remote.service.ItmapService
+import kr.hs.dgsw.smartschool.remote.service.MealService
+import kr.hs.dgsw.smartschool.remote.service.MemberService
+import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.PlaceService
+import kr.hs.dgsw.smartschool.remote.service.PointService
+import kr.hs.dgsw.smartschool.remote.service.ScheduleService
+import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
+import kr.hs.dgsw.smartschool.remote.service.TimeTableService
+import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -140,5 +152,4 @@ class NetworkModule {
     @Provides
     fun providesTimeTableService(@BasicRetrofit retrofit: Retrofit): TimeTableService =
         retrofit.create(TimeTableService::class.java)
-
 }

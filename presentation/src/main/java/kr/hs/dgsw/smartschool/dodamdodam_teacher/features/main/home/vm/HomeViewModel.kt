@@ -11,6 +11,9 @@ import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -20,9 +23,6 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -98,7 +98,7 @@ class HomeViewModel @Inject constructor(
             postSideEffect(HomeSideEffect.ToastError(it))
         }
 
-        getAllStudyRoomsUseCase().onSuccess {studyRoomResult ->
+        getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
             val isWeekDay: Boolean =
                 studyRoomResult[0].timeTable.type == TimeTableType.WEEKDAY
 
@@ -113,7 +113,7 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }.onFailure {
-            reduce{
+            reduce {
                 state.copy(
                     isStudyLoading = false
                 )

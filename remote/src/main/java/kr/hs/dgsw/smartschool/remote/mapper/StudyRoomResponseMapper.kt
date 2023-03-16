@@ -8,7 +8,6 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
-import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableType
 
 internal fun StudyRoomResponse.toModel(): StudyRoom =
     StudyRoom(

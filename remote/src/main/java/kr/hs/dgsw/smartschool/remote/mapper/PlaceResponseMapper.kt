@@ -10,7 +10,7 @@ internal fun PlaceResponse.toModel(): Place =
         type = type.toModel(),
     )
 
-internal fun List<PlaceResponse>.toModel(): List<Place>{
+internal fun List<PlaceResponse>.toModel(): List<Place> {
     return this.map {
         it.toModel()
     }

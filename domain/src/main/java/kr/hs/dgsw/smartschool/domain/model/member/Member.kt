@@ -1,7 +1,5 @@
 package kr.hs.dgsw.smartschool.domain.model.member
 
-import java.time.LocalDateTime
-
 data class Member(
     val email: String,
     val id: String,
@@ -11,7 +9,7 @@ data class Member(
     val role: MemberRole,
     val status: MemberStatus,
 ) {
-    constructor(id: String,name : String, role: MemberRole) : this(
+    constructor(id: String, name: String, role: MemberRole) : this(
         email = "",
         id = id,
         joinDate = null,

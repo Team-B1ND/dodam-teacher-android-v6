@@ -82,7 +82,7 @@ fun LoginScreen(
             }
             is LoginSideEffect.ToastLoginErrorMessage -> {
                 Toast.makeText(context, it.errMsg, Toast.LENGTH_SHORT).show()
-                Log.e("login",it.errMsg)
+                Log.e("login", it.errMsg)
             }
         }
     }

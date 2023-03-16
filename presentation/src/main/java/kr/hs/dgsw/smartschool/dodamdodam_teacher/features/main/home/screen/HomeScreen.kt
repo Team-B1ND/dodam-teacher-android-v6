@@ -3,7 +3,9 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -43,14 +47,21 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCa
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
 import kr.hs.dgsw.smartschool.components.foundation.Text
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
-import kr.hs.dgsw.smartschool.components.theme.*
+import kr.hs.dgsw.smartschool.components.theme.Body2
+import kr.hs.dgsw.smartschool.components.theme.Body3
+import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.theme.DodamTheme
+import kr.hs.dgsw.smartschool.components.theme.IcBreakfast3D
+import kr.hs.dgsw.smartschool.components.theme.IcDinner3D
+import kr.hs.dgsw.smartschool.components.theme.IcItmap3D
+import kr.hs.dgsw.smartschool.components.theme.IcLunch3D
+import kr.hs.dgsw.smartschool.components.theme.IcPoint3D
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
@@ -68,7 +79,7 @@ fun HomeScreen(
     navTabNavigate: ((tab: Int) -> Unit)? = null,
     outUpdateTime: LocalDateTime = LocalDateTime.now()
 ) {
-    
+
     val context = LocalContext.current
     val homeState = homeViewModel.container.stateFlow.collectAsState().value
 
@@ -139,7 +150,7 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { OutStudyroomCheckCardContent(homeState,navController) }
+                    content = { OutStudyroomCheckCardContent(homeState, navController) }
                 )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -278,7 +289,7 @@ private fun OutApproveCardContent(
 
 @Composable
 private fun OutStudyroomCheckCardContent(
-    state : HomeState,
+    state: HomeState,
     navController: NavController
 ) {
     Column(
@@ -295,27 +306,27 @@ private fun OutStudyroomCheckCardContent(
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
         Row(
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             StudyRoomCardDetailItem(
-                title = if(state.isWeekDay) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
+                title = if (state.isWeekDay) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
                 content = "${state.firstClassCount}/${state.allStudentsCount}",
-                icon = {  }
+                icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if(state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
+                title = if (state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
                 content = "${state.secondClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if(state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
+                title = if (state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
                 content = "${state.thirdClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if(state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
+                title = if (state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
                 content = "${state.fourthClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
@@ -351,19 +362,19 @@ private fun HomeCardDetailItem(
 @Composable
 private fun StudyRoomCardDetailItem(
     title: String,
-    content : String,
+    content: String,
     icon: @Composable () -> Unit,
 ) {
-        icon()
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Body3(text = title, textColor = DodamTheme.color.Gray500)
-            Spacer(modifier = Modifier.height(2.dp))
-            Body2(
-                text = content,
-                textColor = DodamTheme.color.Black,
-            )
-        }
+    icon()
+    Spacer(modifier = Modifier.width(8.dp))
+    Column {
+        Body3(text = title, textColor = DodamTheme.color.Gray500)
+        Spacer(modifier = Modifier.height(2.dp))
+        Body2(
+            text = content,
+            textColor = DodamTheme.color.Black,
+        )
+    }
 }
 
 @Composable

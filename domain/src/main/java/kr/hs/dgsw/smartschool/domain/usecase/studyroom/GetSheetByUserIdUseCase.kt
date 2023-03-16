@@ -5,8 +5,8 @@ import javax.inject.Inject
 
 class GetSheetByUserIdUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-){
-    suspend operator fun invoke(studentId : Int) = kotlin.runCatching {
+) {
+    suspend operator fun invoke(studentId: Int) = kotlin.runCatching {
         studyRoomRepository.getSheetByUserId(studentId)
     }
 }

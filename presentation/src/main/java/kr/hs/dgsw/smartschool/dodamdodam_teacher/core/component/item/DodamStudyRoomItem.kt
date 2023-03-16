@@ -2,19 +2,27 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamIconButton
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamLargeRoundedButton
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamSmallRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.surface
-import kr.hs.dgsw.smartschool.components.theme.*
+import kr.hs.dgsw.smartschool.components.theme.Body1
+import kr.hs.dgsw.smartschool.components.theme.Body2
+import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.theme.DodamShape
+import kr.hs.dgsw.smartschool.components.theme.DodamTheme
+import kr.hs.dgsw.smartschool.components.theme.Label2
+import kr.hs.dgsw.smartschool.components.theme.Label3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
@@ -22,11 +30,11 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 @Composable
 internal fun DodamStudyRoomItem(
     member: Member,
-    place : String?,
-    classroom : String?,
+    place: String?,
+    classroom: String?,
     status: StudyRoomStatus,
     modifier: Modifier = Modifier,
-    checkAction : () -> Unit,
+    checkAction: () -> Unit,
     ctrlAction: () -> Unit
 ) {
 
@@ -66,35 +74,41 @@ internal fun DodamStudyRoomItem(
             Box(
                 modifier = Modifier
                     .clickable { checkAction() }
-                    .surface(DodamShape().medium, when(status){
-                        StudyRoomStatus.CHECKED -> DodamColor.Check
-                        StudyRoomStatus.PENDING -> DodamColor.MainColor
-                    })
+                    .surface(
+                        DodamShape().medium,
+                        when (status) {
+                            StudyRoomStatus.CHECKED -> DodamColor.Check
+                            StudyRoomStatus.PENDING -> DodamColor.MainColor
+                        }
+                    )
                     .padding(10.dp)
                     .width(40.dp)
                     .height(20.dp),
                 contentAlignment = Alignment.Center
-            ){
-                Body2(text =
-                when(status){
-                    StudyRoomStatus.CHECKED -> "확인됨"
-                    StudyRoomStatus.PENDING -> "확인"
-                }, textColor = DodamColor.White)
+            ) {
+                Body2(
+                    text =
+                    when (status) {
+                        StudyRoomStatus.CHECKED -> "확인됨"
+                        StudyRoomStatus.PENDING -> "확인"
+                    },
+                    textColor = DodamColor.White
+                )
             }
-
-        }else{
+        } else {
             Box(
                 modifier = Modifier
                     .clickable { checkAction() }
-                    .surface(DodamShape().medium,
-                        DodamColor.MainColor)
+                    .surface(
+                        DodamShape().medium,
+                        DodamColor.MainColor
+                    )
                     .padding(10.dp)
                     .width(40.dp)
                     .height(20.dp),
                 contentAlignment = Alignment.Center
-            ){
-                Body2(text = "신청"
-                    , textColor = DodamColor.White)
+            ) {
+                Body2(text = "신청", textColor = DodamColor.White)
             }
         }
     }

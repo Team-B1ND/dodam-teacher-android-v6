@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetAllStudyRoomsUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-){
+) {
     suspend operator fun invoke() = kotlin.runCatching {
         studyRoomRepository.getAllSheet()
     }

@@ -5,11 +5,11 @@ import javax.inject.Inject
 
 class GetSheetByTimeUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-){
-    suspend operator fun invoke(type : Int) = kotlin.runCatching {
+) {
+    suspend operator fun invoke(type: Int) = kotlin.runCatching {
         var startTime = ""
         var endTime = ""
-        when(type){
+        when (type) {
             1 -> {
                 startTime = "16:30"
                 endTime = "17:20"
