@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
+import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.remote.mapper.toModel

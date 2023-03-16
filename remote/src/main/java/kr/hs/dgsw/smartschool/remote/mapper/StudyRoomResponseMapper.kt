@@ -5,7 +5,7 @@ import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponse
 import kr.hs.dgsw.smartschool.remote.response.studyroom.StudyRoomResponseStatus
 import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableType
@@ -45,13 +45,6 @@ internal fun List<StudyRoomResponse>.toModel(): StudyRoomList =
         studyRoomList = this.map { it.toModel() },
         otherStudents = null
     )
-
-internal fun TimeTableType.toTimeTableType(): kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType =
-    when (this.name) {
-        TimeTableType.WEEKDAY.name -> kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType.WEEKDAY
-        TimeTableType.WEEKEND.name -> kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType.WEEKEND
-        else -> kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType.WEEKDAY
-    }
 
 internal fun StudyRoomResponseStatus.toStudyRoomStatus(): StudyRoomStatus =
     when (this.name) {

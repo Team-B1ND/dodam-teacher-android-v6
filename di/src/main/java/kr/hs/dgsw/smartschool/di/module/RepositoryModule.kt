@@ -95,4 +95,10 @@ abstract class RepositoryModule {
     abstract fun providesPlaceRepository(
         placeRepositoryImpl: PlaceRepositoryImpl
     ): PlaceRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesTimeTableRepository(
+        timeTableRepositoryImpl: TimeTableRepositoryImpl
+    ): TimeTableRepository
 }

@@ -136,5 +136,9 @@ class NetworkModule {
     @Provides
     fun providesPlaceService(@BasicRetrofit retrofit: Retrofit): PlaceService =
         retrofit.create(PlaceService::class.java)
+    @Singleton
+    @Provides
+    fun providesTimeTableService(@BasicRetrofit retrofit: Retrofit): TimeTableService =
+        retrofit.create(TimeTableService::class.java)
 
 }

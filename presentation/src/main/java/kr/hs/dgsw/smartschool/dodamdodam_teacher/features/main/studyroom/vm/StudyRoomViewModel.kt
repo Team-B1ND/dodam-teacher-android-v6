@@ -6,16 +6,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsWithClassroomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.*
+import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -28,7 +26,7 @@ import javax.inject.Inject
 class StudyRoomViewModel @Inject constructor(
     private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase,
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
-    private val getSheetByUserIdUseCase: GetSheetByUserIdUseCase,
+    private val getTimeTablesUseCase: GetTimeTablesUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
     private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
@@ -41,6 +39,7 @@ class StudyRoomViewModel @Inject constructor(
     )
 
     init {
+        getTimeTable()
         getPlaces()
         getStudents()
         getAllStudyRooms()
@@ -124,50 +123,18 @@ class StudyRoomViewModel @Inject constructor(
     }
     //자습실 신청 관리할 때, 현재 유저의 정보를 불러오기 위해 사용합니다.
     //student,
-    fun getSheetById(student: Student) = intent {
-        val timeTableList = mutableListOf<TimeTable>()
-        val placeList = mutableListOf<Place?>()
+    private fun getTimeTable() = intent {
         reduce {
             state.copy(
                 loading = true
             )
         }
-        getSheetByUserIdUseCase(student.id).onSuccess { studyRoomResult ->
-            studyRoomResult.forEach {
-                when(it.timeTable.startTime) {
-                    if (state.isWeekDay!!) TimeSet.WeekEnd.first_start
-                    else TimeSet.WeekDay.first_start -> {
-                        timeTableList.add(0,it.timeTable)
-                        Log.e("timeTable", it.timeTable.id.toString())
-                        placeList.add(0, it.place)
-                    }
-                    if (state.isWeekDay!!) TimeSet.WeekEnd.second_start
-                    else TimeSet.WeekDay.second_start -> {
-                        timeTableList.add(1,it.timeTable)
-                        Log.e("timeTable", it.timeTable.id.toString())
-                        placeList.add(1, it.place)
-                    }
-                    if (state.isWeekDay!!) TimeSet.WeekEnd.third_start
-                    else TimeSet.WeekDay.third_start -> {
-                        timeTableList.add(2,it.timeTable)
-                        Log.e("timeTable", it.timeTable.id.toString())
-                        placeList.add(2, it.place)
-                    }
-                    if (state.isWeekDay!!) TimeSet.WeekEnd.fourth_start
-                    else TimeSet.WeekDay.fourth_start -> {
-                        timeTableList.add(3,it.timeTable)
-                        Log.e("timeTable", it.timeTable.id.toString())
-                        placeList.add(3, it.place)
-                    }
-                }
-
-            }
+        getTimeTablesUseCase().onSuccess { timeTableList ->
+            Log.e("getTimeTables",timeTableList.toString())
             reduce {
                 state.copy(
                     loading = false,
-                    student = student,
                     timeTableList = timeTableList,
-                    appliedPlaceList = placeList
                 )
             }
         }.onFailure { exception ->
@@ -177,6 +144,15 @@ class StudyRoomViewModel @Inject constructor(
                     exception = exception
                 )
             }
+        }
+    }
+
+    fun addStudentOnState(student: Student) = intent {
+        reduce {
+            state.copy(
+                loading = true,
+                student = student
+            )
         }
     }
 

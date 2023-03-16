@@ -14,8 +14,9 @@ import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.place.PlaceRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleRemoteDataSource
-import kr.hs.dgsw.smartschool.data.datasource.token.TokenRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
+import kr.hs.dgsw.smartschool.data.datasource.token.TokenRemoteDataSource
+import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.datasource.*
 import javax.inject.Singleton
 
@@ -94,4 +95,10 @@ abstract class RemoteDataSourceModule {
     abstract fun providesPlaceRemoteDataSource(
         placeRemoteDataSourceImpl: PlaceRemoteDataSourceImpl
     ): PlaceRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesTimeTableRemoteDataSource(
+        timeTableRemoteDataSourceImpl: TimeTableRemoteDataSourceImpl
+    ): TimeTableRemoteDataSource
 }

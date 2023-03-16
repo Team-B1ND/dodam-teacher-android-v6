@@ -4,7 +4,7 @@ import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 
 data class StudyRoomState(
     val loading: Boolean = true,
@@ -15,7 +15,6 @@ data class StudyRoomState(
     val placeList : List<Place> = emptyList(),
     val student : Student? = null,
     val timeTableList : List<TimeTable> = emptyList(),
-    val appliedPlaceList : List<Place?> = emptyList(),
 
     val isWeekDay : Boolean? = null,
 

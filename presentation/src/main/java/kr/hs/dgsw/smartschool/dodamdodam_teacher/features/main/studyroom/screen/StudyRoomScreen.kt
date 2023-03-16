@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -19,30 +18,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamSelect
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
-import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCard
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
-import kr.hs.dgsw.smartschool.components.foundation.Text
 import kr.hs.dgsw.smartschool.components.theme.*
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
 import org.orbitmvi.orbit.compose.collectSideEffect
-import java.time.LocalDateTime
+
 @Composable
 fun StudyRoomScreen(
     navController: NavController,
@@ -242,7 +234,7 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                         )
                     },
                     ctrlAction = {
-                        viewModel.getSheetById(item.student)
+                        viewModel.getTimeTable(item.student)
                         navController.navigate("place")
                     },
                     classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"
@@ -259,11 +251,11 @@ fun ApplyList(navController: NavController, tabType : Int, state: StudyRoomState
                     place = null,
                     status = StudyRoomStatus.PENDING,
                     ctrlAction = {
-                        viewModel.getSheetById(item)
+                        viewModel.addStudentOnState(item)
                         navController.navigate("place")
                     },
                     checkAction = {
-                        viewModel.getSheetById(item)
+                        viewModel.addStudentOnState(item)
                         navController.navigate("place")
                     },
                     classroom = "${item.classroom.grade}학년 ${item.classroom.room}반"
@@ -358,9 +350,10 @@ fun PlaceScreen(viewModel : StudyRoomViewModel, navController : NavController, s
                 }
             }
         )
-        Spacer(modifier = Modifier.height(45.dp).padding(DodamDimen.ScreenSidePadding))
+        Spacer(modifier = Modifier.fillMaxHeight(1F))
         DodamMaxWidthButton(text = "수정", onClick = {
             viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
-        })
+        },
+           modifier = Modifier.padding(DodamDimen.ScreenSidePadding))
     }
 }

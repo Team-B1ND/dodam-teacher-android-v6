@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeSet
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase

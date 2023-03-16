@@ -3,7 +3,7 @@ package kr.hs.dgsw.smartschool.domain.model.studyroom
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
-import kr.hs.dgsw.smartschool.domain.model.studyroom.timetable.TimeTable
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 
 data class StudyRoom(
     val id : Int,

@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.domain.model.studyroom.timetable
+package kr.hs.dgsw.smartschool.domain.model.timetable
 
 object TimeSet {
 
