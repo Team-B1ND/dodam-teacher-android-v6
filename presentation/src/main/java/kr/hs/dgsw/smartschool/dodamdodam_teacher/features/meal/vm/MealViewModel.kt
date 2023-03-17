@@ -22,10 +22,6 @@ class MealViewModel @Inject constructor(
 
     override val container = container<MealState, MealSideEffect>(MealState())
 
-    init {
-        getCalorie()
-    }
-
     fun getMeal(date: LocalDate) = intent {
         reduce {
             state.copy(
@@ -49,18 +45,18 @@ class MealViewModel @Inject constructor(
             }
     }
 
-    private fun getCalorie() = intent {
+    fun getCalorie(date: LocalDate) = intent {
         reduce {
             state.copy(
                 getCalorieLoading = true,
             )
         }
-        getCalorieOfMealUseCase()
+        getCalorieOfMealUseCase(date)
             .onSuccess {
                 reduce {
                     state.copy(
                         getCalorieLoading = false,
-                        calorie = it.calorie.toString()
+                        calorie = "%.1f".format(it.dinner + it.lunch + it.breakfast)
                     )
                 }
             }
@@ -71,6 +67,7 @@ class MealViewModel @Inject constructor(
                         calorie = ""
                     )
                 }
+                postSideEffect(MealSideEffect.ToastError(it))
             }
     }
 

@@ -6,6 +6,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
+import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
@@ -19,6 +20,7 @@ import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
 import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
+import kr.hs.dgsw.smartschool.local.entity.calorie.CalorieEntity
 import kr.hs.dgsw.smartschool.local.entity.classroom.ClassroomEntity
 import kr.hs.dgsw.smartschool.local.entity.itmap.CompanyEntity
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
@@ -37,7 +39,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class,
+        CompanyEntity::class, CalorieEntity::class,
     ],
     version = 8,
     exportSchema = false
@@ -57,6 +59,8 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun bannerDao(): BannerDao
     abstract fun scheduleDao(): ScheduleDao
     abstract fun itmapDao(): ItmapDao
+
+    abstract fun calorieDao(): CalorieDao
 }
 
 val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
