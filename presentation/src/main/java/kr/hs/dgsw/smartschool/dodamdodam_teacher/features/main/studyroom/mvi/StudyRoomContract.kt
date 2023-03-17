@@ -7,7 +7,9 @@ import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 
 data class StudyRoomState(
     val loading: Boolean = true,
+    val listLoading : Boolean = true,
     val exception: Throwable? = null,
+    val refreshing : Boolean = false,
 
     val studyRoomList: List<StudyRoom> = emptyList(),
     val otherStudents: List<Student> = emptyList(),
@@ -15,7 +17,9 @@ data class StudyRoomState(
     val student: Student? = null,
     val timeTableList: List<TimeTable> = emptyList(),
 
-    val isWeekDay: Boolean? = null,
+    val classType : Int = 0,
+
+    val isWeekDay: Boolean = true,
 
     val totalStudentsCount: Int = 0,
     val firstClassCount: Int = 0,

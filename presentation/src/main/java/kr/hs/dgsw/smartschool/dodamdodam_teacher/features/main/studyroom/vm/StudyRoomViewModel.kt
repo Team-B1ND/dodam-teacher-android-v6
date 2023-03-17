@@ -73,27 +73,24 @@ class StudyRoomViewModel @Inject constructor(
 
     fun getAllStudyRooms() = intent {
         reduce {
-            state.copy(loading = true)
+            state.copy(listLoading = true)
         }
 
         getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
-            val isWeekDay: Boolean =
-                studyRoomResult.get(0).timeTable.type == TimeTableType.WEEKDAY
             reduce {
                 state.copy(
-                    loading = false,
+                    listLoading = false,
                     studyRoomList = studyRoomResult,
-                    isWeekDay = isWeekDay,
-                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
-                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
-                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
-                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
+                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
+                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
+                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
+                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
                 )
             }
         }.onFailure {
             reduce {
                 state.copy(
-                    loading = false,
+                    listLoading = false,
                 )
             }
             postSideEffect(StudyRoomSideEffect.ToastError(it))
@@ -112,9 +109,13 @@ class StudyRoomViewModel @Inject constructor(
                     studyRoomList = studyRoomResult,
                 )
             }
+            getOtherStudents()
         }.onFailure { exception ->
             postSideEffect(StudyRoomSideEffect.ToastError(exception))
         }
+    }
+
+    private fun getOtherStudents() = intent {
         reduce {
             state.copy(
                 loading = true
@@ -154,6 +155,7 @@ class StudyRoomViewModel @Inject constructor(
             reduce {
                 state.copy(
                     loading = false,
+                    isWeekDay = timeTableList[0].type == TimeTableType.WEEKDAY,
                     timeTableList = timeTableList,
                 )
             }

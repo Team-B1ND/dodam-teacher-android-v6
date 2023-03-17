@@ -14,6 +14,7 @@ import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -31,7 +32,8 @@ class HomeViewModel @Inject constructor(
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase
+    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase,
+    private val getTimeTablesUseCase: GetTimeTablesUseCase
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -89,6 +91,7 @@ class HomeViewModel @Inject constructor(
                     allStudentsCount = it.size,
                 )
             }
+            getTimeTables()
         }.onFailure {
             reduce {
                 state.copy(
@@ -97,21 +100,41 @@ class HomeViewModel @Inject constructor(
             }
             postSideEffect(HomeSideEffect.ToastError(it))
         }
+    }
 
+    private fun getAllStudyRooms() = intent{
         getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
-            val isWeekDay: Boolean =
-                studyRoomResult[0].timeTable.type == TimeTableType.WEEKDAY
-
             reduce {
                 state.copy(
                     isStudyLoading = false,
-                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
-                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
-                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
-                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
-                    isWeekDay = isWeekDay
+                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
+                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
+                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
+                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
                 )
             }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    isStudyLoading = false
+                )
+            }
+        }
+    }
+
+    private fun getTimeTables() = intent{
+        reduce{
+            state.copy(
+                isStudyLoading = true,
+            )
+        }
+        getTimeTablesUseCase().onSuccess { result ->
+            reduce {
+                state.copy(
+                    isWeekDay = result[0].type == TimeTableType.WEEKDAY
+                )
+            }
+            getAllStudyRooms()
         }.onFailure {
             reduce {
                 state.copy(

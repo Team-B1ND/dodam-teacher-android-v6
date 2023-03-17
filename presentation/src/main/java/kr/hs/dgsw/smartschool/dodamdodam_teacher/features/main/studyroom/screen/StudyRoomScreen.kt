@@ -3,14 +3,13 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
 import kr.hs.dgsw.smartschool.components.component.basic.input.DodamSelect
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
@@ -35,6 +35,7 @@ import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
 import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
+import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
@@ -57,6 +58,7 @@ fun StudyRoomScreen(
     val studyRoomState = studyRoomViewModel.container.stateFlow.collectAsState().value
 
     val tabNavController = rememberNavController()
+
 
     studyRoomViewModel.collectSideEffect {
         when (it) {
@@ -187,132 +189,150 @@ fun StudyRoomMain(viewModel: StudyRoomViewModel, navController: NavController, s
 fun ApplyScreen(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState, type: Int) {
     val tabNavController = rememberNavController()
     var selectedTab by remember { mutableStateOf(1) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DodamColor.Background),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        DodamAppBar(
-            onStartIconClick = {
-                viewModel.getAllStudyRooms()
-                navController.popBackStack()
-            },
-            title =
-            if (state.isWeekDay == false) {
-                when (type) {
-                    1 -> stringResource(id = R.string.forenoon_1)
-                    2 -> stringResource(id = R.string.forenoon_2)
-                    3 -> stringResource(id = R.string.afternoon_1)
-                    4 -> stringResource(id = R.string.afternoon_2)
-                    else -> stringResource(id = R.string.forenoon_1)
-                }
-            } else {
-                when (type) {
-                    1 -> stringResource(id = R.string.class_8)
-                    2 -> stringResource(id = R.string.class_9)
-                    3 -> stringResource(id = R.string.class_10)
-                    4 -> stringResource(id = R.string.class_11)
-                    else -> stringResource(id = R.string.class_8)
-                }
-            }
-        )
-        DodamTabs(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
+                .background(DodamColor.Background),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DodamTab(
-                text = "신청",
-                selected = selectedTab == 1,
-                onClick = {
-                    selectedTab = 1
-                    tabNavController.navigate("apply")
+            DodamAppBar(
+                onStartIconClick = {
+                    viewModel.getAllStudyRooms()
+                    navController.popBackStack()
                 },
-                modifier = Modifier.weight(1f)
+                title =
+                if (state.isWeekDay == false) {
+                    when (type) {
+                        1 -> stringResource(id = R.string.forenoon_1)
+                        2 -> stringResource(id = R.string.forenoon_2)
+                        3 -> stringResource(id = R.string.afternoon_1)
+                        4 -> stringResource(id = R.string.afternoon_2)
+                        else -> stringResource(id = R.string.forenoon_1)
+                    }
+                } else {
+                    when (type) {
+                        1 -> stringResource(id = R.string.class_8)
+                        2 -> stringResource(id = R.string.class_9)
+                        3 -> stringResource(id = R.string.class_10)
+                        4 -> stringResource(id = R.string.class_11)
+                        else -> stringResource(id = R.string.class_8)
+                    }
+                }
             )
-            DodamTab(
-                text = "미신청",
-                selected = selectedTab == 2,
-                onClick = {
-                    selectedTab = 2
-                    tabNavController.navigate("un_apply")
-                },
-                modifier = Modifier.weight(1f)
-            )
-        }
-        NavHost(
-            navController = tabNavController,
-            startDestination = "apply",
-            modifier = Modifier.fillMaxSize()
-        ) {
-            composable("apply") {
-                ApplyList(
-                    tabType = 0,
-                    state = state,
-                    viewModel = viewModel,
-                    navController = navController
+            DodamTabs(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                DodamTab(
+                    text = "신청",
+                    selected = selectedTab == 1,
+                    onClick = {
+                        selectedTab = 1
+                        tabNavController.navigate("apply")
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+                DodamTab(
+                    text = "미신청",
+                    selected = selectedTab == 2,
+                    onClick = {
+                        selectedTab = 2
+                        tabNavController.navigate("un_apply")
+                    },
+                    modifier = Modifier.weight(1f)
                 )
             }
-            composable("un_apply") {
-                ApplyList(
-                    tabType = 1,
-                    state = state,
-                    viewModel = viewModel,
-                    navController = navController
-                )
+            NavHost(
+                navController = tabNavController,
+                startDestination = "apply",
+                modifier = Modifier.fillMaxSize()
+            ) {
+                composable("apply") {
+                    ApplyList(
+                        tabType = 0,
+                        state = state,
+                        viewModel = viewModel,
+                        navController = navController
+                    )
+                }
+                composable("un_apply") {
+                    ApplyList(
+                        tabType = 1,
+                        state = state,
+                        viewModel = viewModel,
+                        navController = navController
+                    )
+                }
             }
         }
-    }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ApplyList(navController: NavController, tabType: Int, state: StudyRoomState, viewModel: StudyRoomViewModel) {
-    when (tabType) {
-        0 -> LazyColumn(
-            modifier = Modifier
-                .padding(DodamDimen.ScreenSidePadding)
-        ) {
-            items(state.studyRoomList) { item ->
-                DodamStudyRoomItem(
-                    member = item.student.member,
-                    place = item.place.name,
-                    status = item.status,
-                    checkAction = {
-                        viewModel.checkStudyRoom(
-                            item.id,
-                            item.status == StudyRoomStatus.CHECKED
-                        )
-                    },
-                    ctrlAction = {
-                        viewModel.addStudentOnState(item.student)
-                        navController.navigate("place")
-                    },
-                    classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"
-                )
+    val refreshState = rememberPullRefreshState(
+        refreshing = state.refreshing,
+        onRefresh = {
+            viewModel.getSheetByTime(state.classType)
+        }
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(refreshState)
+    ) {
+        when (tabType) {
+            0 -> LazyColumn(
+                modifier = Modifier
+                    .padding(DodamDimen.ScreenSidePadding)
+            ) {
+                items(state.studyRoomList) { item ->
+                    DodamStudyRoomItem(
+                        member = item.student.member,
+                        place = item.place.name,
+                        status = item.status,
+                        checkAction = {
+                            viewModel.checkStudyRoom(
+                                item.id,
+                                item.status == StudyRoomStatus.CHECKED
+                            )
+                        },
+                        ctrlAction = {
+                            viewModel.addStudentOnState(item.student)
+                            navController.navigate("place")
+                        },
+                        classroom = "${item.student.classroom.grade}학년 ${item.student.classroom.room}반"
+                    )
+                }
+            }
+            1 -> LazyColumn(
+                modifier = Modifier
+                    .padding(DodamDimen.ScreenSidePadding)
+            ) {
+                items(state.otherStudents) { item ->
+                    DodamStudyRoomItem(
+                        member = item.member,
+                        place = null,
+                        status = StudyRoomStatus.PENDING,
+                        ctrlAction = {
+                            viewModel.addStudentOnState(item)
+                            navController.navigate("place")
+                        },
+                        checkAction = {
+                            viewModel.addStudentOnState(item)
+                            navController.navigate("place")
+                        },
+                        classroom = "${item.classroom.grade}학년 ${item.classroom.room}반"
+                    )
+                }
             }
         }
-        1 -> LazyColumn(
-            modifier = Modifier
-                .padding(DodamDimen.ScreenSidePadding)
-        ) {
-            items(state.otherStudents) { item ->
-                DodamStudyRoomItem(
-                    member = item.member,
-                    place = null,
-                    status = StudyRoomStatus.PENDING,
-                    ctrlAction = {
-                        viewModel.addStudentOnState(item)
-                        navController.navigate("place")
-                    },
-                    checkAction = {
-                        viewModel.addStudentOnState(item)
-                        navController.navigate("place")
-                    },
-                    classroom = "${item.classroom.grade}학년 ${item.classroom.room}반"
-                )
-            }
-        }
+        PullRefreshIndicator(
+            refreshing = state.refreshing,
+            state = refreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+            contentColor = DodamTheme.color.MainColor400
+        )
     }
 }
 @Composable
