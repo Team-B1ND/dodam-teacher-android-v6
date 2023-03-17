@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
+import kr.hs.dgsw.smartschool.local.dao.CalorieDao
 import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
@@ -120,4 +121,10 @@ object LocalModule {
     fun provideItmapDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): ItmapDao = dodamTeacherDatabase.itmapDao()
+
+    @Provides
+    @Singleton
+    fun provideCalorieDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): CalorieDao = dodamTeacherDatabase.calorieDao()
 }

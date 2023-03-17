@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.service
 
 import kr.hs.dgsw.smartschool.remote.response.Response
+import kr.hs.dgsw.smartschool.remote.response.meal.CalorieResponse
 import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import retrofit2.http.GET
@@ -22,5 +23,8 @@ interface MealService {
     ): Response<List<MealResponse>>
 
     @GET(DodamUrl.Meal.CALORIE)
-    suspend fun getCalorieOfMeal(): Response<String?>
+    suspend fun getCalorieOfMeal(
+        @Query("year") year: Int,
+        @Query("month") month: Int,
+    ): Response<List<CalorieResponse>>
 }

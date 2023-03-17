@@ -17,3 +17,6 @@ fun String.yearDateTimeToLocalDate(): LocalDateTime {
 fun String.yearDateTimeHourToLocalDate(): LocalDateTime {
     return LocalDateTime.parse(this)
 }
+
+fun toLocalDate(year: Int, month: Int, day: Int): LocalDate =
+    "$year-%02d-%02d".format(month, day).yearDateToLocalDate()

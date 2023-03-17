@@ -10,5 +10,5 @@ interface MealRemoteDataSource {
 
     suspend fun getMealOfMonth(month: Int, year: Int): MealList
 
-    suspend fun getCalorieOfMeal(): Calorie
+    suspend fun getCalorieOfMeal(month: Int, year: Int): List<Calorie>
 }
