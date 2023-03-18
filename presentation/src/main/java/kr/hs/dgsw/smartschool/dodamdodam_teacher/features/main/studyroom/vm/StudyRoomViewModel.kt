@@ -103,9 +103,11 @@ class StudyRoomViewModel @Inject constructor(
                 loading = true
             )
         }
-        getSheetByTimeUseCase(type).onSuccess { studyRoomResult ->
+        getSheetByTimeUseCase(type,state.isWeekDay).onSuccess { studyRoomResult ->
+            Log.e(type.toString(),studyRoomResult.toString())
             reduce {
                 state.copy(
+                    classType = type,
                     studyRoomList = studyRoomResult,
                 )
             }
@@ -123,9 +125,13 @@ class StudyRoomViewModel @Inject constructor(
         }
         getStudentsWithClassroomUseCase().onSuccess { studentResult ->
             val newList: MutableList<Student> = studentResult.toMutableList()
-            state.studyRoomList.forEach {
-                newList.remove(it.student)
-            }
+            val appliedList: List<Student> =
+            state.studyRoomList.map {
+                    it.student
+            }.toMutableList()
+
+            newList.removeAll(appliedList)
+
 
             reduce {
                 state.copy(
@@ -213,6 +219,7 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                 )
             }
+            getSheetByTime(state.classType)
             postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
         }.onFailure { exception ->
             reduce {
@@ -236,6 +243,7 @@ class StudyRoomViewModel @Inject constructor(
                     loading = false,
                 )
             }
+            getSheetByTime(state.classType)
             postSideEffect(StudyRoomSideEffect.Toast("${student.member.name} 학생의 자습실 신청에 성공했어요"))
         }.onFailure { exception ->
             reduce {

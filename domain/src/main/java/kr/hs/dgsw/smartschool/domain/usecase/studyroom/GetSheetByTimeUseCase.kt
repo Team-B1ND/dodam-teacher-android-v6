@@ -1,30 +1,53 @@
 package kr.hs.dgsw.smartschool.domain.usecase.studyroom
 
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
 class GetSheetByTimeUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
 ) {
-    suspend operator fun invoke(type: Int) = kotlin.runCatching {
+    suspend operator fun invoke(type: Int,isWeekDay : Boolean) = kotlin.runCatching {
         var startTime = ""
         var endTime = ""
-        when (type) {
-            1 -> {
-                startTime = "16:30"
-                endTime = "17:20"
+        if(isWeekDay) {
+            when (type) {
+                1 -> {
+                    startTime = TimeSet.WeekDay.first_start
+                    endTime = TimeSet.WeekDay.first_end
+                }
+                2 -> {
+                    startTime = TimeSet.WeekDay.second_start
+                    endTime = TimeSet.WeekDay.second_end
+                }
+                3 -> {
+                    startTime = TimeSet.WeekDay.third_start
+                    endTime = TimeSet.WeekDay.third_end
+                }
+                4 -> {
+                    startTime = TimeSet.WeekDay.fourth_start
+                    endTime = TimeSet.WeekDay.fourth_end
+                }
             }
-            2 -> {
-                startTime = "17:30"
-                endTime = "18:20"
-            }
-            3 -> {
-                startTime = "19:10"
-                endTime = "20:00"
-            }
-            4 -> {
-                startTime = "20:10"
-                endTime = "21:00"
+        }
+        else {
+            when (type) {
+                1 -> {
+                    startTime = TimeSet.WeekEnd.first_start
+                    endTime = TimeSet.WeekEnd.first_end
+                }
+                2 -> {
+                    startTime = TimeSet.WeekEnd.second_start
+                    endTime = TimeSet.WeekEnd.second_end
+                }
+                3 -> {
+                    startTime = TimeSet.WeekEnd.third_start
+                    endTime = TimeSet.WeekEnd.third_end
+                }
+                4 -> {
+                    startTime =TimeSet.WeekEnd.fourth_start
+                    endTime = TimeSet.WeekEnd.fourth_end
+                }
             }
         }
         studyRoomRepository.getSheetByTime(startTime, endTime)
