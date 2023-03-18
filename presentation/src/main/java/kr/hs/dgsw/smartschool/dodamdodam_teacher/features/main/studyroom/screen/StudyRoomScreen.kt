@@ -2,8 +2,14 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
@@ -11,68 +17,51 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
-import kr.hs.dgsw.smartschool.components.component.basic.input.DodamSelect
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
-import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
-import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTab
-import kr.hs.dgsw.smartschool.components.component.set.tab.DodamTabs
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Title3
+import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamStudyRoomItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
+import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun StudyRoomScreen(
     navController: NavController,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
+    viewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val studyRoomState = studyRoomViewModel.container.stateFlow.collectAsState().value
+    val state = viewModel.collectAsState().value
 
-    val tabNavController = rememberNavController()
-
-
-    studyRoomViewModel.collectSideEffect {
+    viewModel.collectSideEffect {
         when (it) {
             is StudyRoomSideEffect.ToastError -> {
                 context.shortToast(
-                    it.exception.message
-                        ?: context.getString(kr.hs.dgsw.smartschool.dodamdodam_teacher.R.string.content_unknown_exception)
+                    it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
                 Log.e("StudyRoomScreenError", it.exception.stackTraceToString())
             }
-            else -> {}
         }
     }
-    if (studyRoomState.loading)
+    if (state.loading)
         LoadInFullScreen()
     else {
         Column(
@@ -80,191 +69,143 @@ fun StudyRoomScreen(
                 .fillMaxSize()
                 .background(color = DodamColor.White)
         ) {
+            Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultMainScreenTitleSpace))
 
-            NavHost(
-                navController = tabNavController,
-                startDestination = "main",
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                composable("main") {
-                    StudyRoomMain(studyRoomViewModel, tabNavController, studyRoomState)
-                }
-                composable("first") {
-                    ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 1)
-                }
-                composable("second") {
-                    ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 2)
-                }
-                composable("third") {
-                    ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 3)
-                }
-                composable("fourth") {
-                    ApplyScreen(studyRoomViewModel, tabNavController, studyRoomState, 4)
-                }
-                composable("place") {
-                    PlaceScreen(studyRoomViewModel, tabNavController, studyRoomState)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun StudyRoomMain(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DodamColor.Background),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        DodamContentCard(
-            title = if (state.isWeekDay == true) stringResource(id = R.string.class_8) else stringResource(
-                id = R.string.forenoon_1
-            ),
-            modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding)
-                .clickable {
-                    viewModel.getSheetByTime(1)
-                    navController.navigate("first")
-                },
-            hasLinkIcon = true,
-            content = {
-                Body2(text = "${state.firstClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-            }
-        )
-        Spacer(modifier = Modifier.height(11.dp))
-        DodamContentCard(
-            title = if (state.isWeekDay == true) stringResource(id = R.string.class_9) else stringResource(
-                id = R.string.forenoon_2
-            ),
-            modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding)
-                .clickable {
-                    viewModel.getSheetByTime(2)
-                    navController.navigate("second")
-                },
-            hasLinkIcon = true,
-            content = {
-                Body2(text = "${state.secondClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-            }
-        )
-        Spacer(modifier = Modifier.height(11.dp))
-        DodamContentCard(
-            title = if (state.isWeekDay == true) stringResource(id = R.string.class_10) else stringResource(
-                id = R.string.afternoon_1
-            ),
-            modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding)
-                .clickable {
-                    viewModel.getSheetByTime(3)
-                    navController.navigate("third")
-                },
-            hasLinkIcon = true,
-            content = {
-                Body2(text = "${state.thirdClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-            }
-        )
-        Spacer(modifier = Modifier.height(11.dp))
-        DodamContentCard(
-            title = if (state.isWeekDay == true) stringResource(id = R.string.class_11) else stringResource(
-                id = R.string.afternoon_2
-            ),
-            modifier = Modifier
-                .padding(horizontal = DodamDimen.ScreenSidePadding)
-                .clickable {
-                    viewModel.getSheetByTime(4)
-                    navController.navigate("fourth")
-                },
-            hasLinkIcon = true,
-            content = {
-                Body2(text = "${state.fourthClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)")
-            },
-        )
-    }
-}
-
-@Composable
-fun ApplyScreen(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState, type: Int) {
-    val tabNavController = rememberNavController()
-    var selectedTab by remember { mutableStateOf(1) }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DodamColor.Background),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            DodamAppBar(
-                onStartIconClick = {
-                    viewModel.getAllStudyRooms()
-                    navController.popBackStack()
-                },
-                title =
-                if (state.isWeekDay == false) {
-                    when (type) {
-                        1 -> stringResource(id = R.string.forenoon_1)
-                        2 -> stringResource(id = R.string.forenoon_2)
-                        3 -> stringResource(id = R.string.afternoon_1)
-                        4 -> stringResource(id = R.string.afternoon_2)
-                        else -> stringResource(id = R.string.forenoon_1)
-                    }
-                } else {
-                    when (type) {
-                        1 -> stringResource(id = R.string.class_8)
-                        2 -> stringResource(id = R.string.class_9)
-                        3 -> stringResource(id = R.string.class_10)
-                        4 -> stringResource(id = R.string.class_11)
-                        else -> stringResource(id = R.string.class_8)
-                    }
-                }
+            Title1(
+                text = stringResource(id = R.string.title_studyroom_check),
+                modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
             )
-            DodamTabs(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                DodamTab(
-                    text = "신청",
-                    selected = selectedTab == 1,
-                    onClick = {
-                        selectedTab = 1
-                        tabNavController.navigate("apply")
+
+            Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+
+            val pageList = if (state.isWeekDay) {
+                listOf(
+                    StudroomPage(
+                        1,
+                        context.getString(R.string.label_class_8),
+                        "${state.firstClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)"
+                    ) {
+                        viewModel.getSheetByTime(1)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "1"
+                                )
+                        )
                     },
-                    modifier = Modifier.weight(1f)
-                )
-                DodamTab(
-                    text = "미신청",
-                    selected = selectedTab == 2,
-                    onClick = {
-                        selectedTab = 2
-                        tabNavController.navigate("un_apply")
+                    StudroomPage(
+                        2,
+                        context.getString(R.string.label_class_9),
+                        "${state.secondClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)"
+                    ) {
+                        viewModel.getSheetByTime(2)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "2"
+                                )
+                        )
                     },
-                    modifier = Modifier.weight(1f)
+                    StudroomPage(
+                        3,
+                        context.getString(R.string.label_class_10),
+                        "${state.thirdClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)"
+                    ) {
+                        viewModel.getSheetByTime(3)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "3"
+                                )
+                        )
+                    },
+                    StudroomPage(
+                        4,
+                        context.getString(R.string.label_class_11),
+                        "${state.fourthClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)"
+                    ) {
+                        viewModel.getSheetByTime(4)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "4"
+                                )
+                        )
+                    },
                 )
-            }
-            NavHost(
-                navController = tabNavController,
-                startDestination = "apply",
-                modifier = Modifier.fillMaxSize()
-            ) {
-                composable("apply") {
-                    ApplyList(
-                        tabType = 0,
-                        state = state,
-                        viewModel = viewModel,
-                        navController = navController
+            } else {
+                listOf(
+                    StudroomPage(1, context.getString(R.string.label_forenoon_1), "${state.firstClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)") {
+                        viewModel.getSheetByTime(1)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "1"
+                                )
+                        )
+                    },
+                    StudroomPage(2, context.getString(R.string.label_forenoon_2), "${state.secondClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)") {
+                        viewModel.getSheetByTime(2)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "2"
+                                )
+                        )
+                    },
+                    StudroomPage(3, context.getString(R.string.label_afternoon_1), "${state.thirdClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)") {
+                        viewModel.getSheetByTime(3)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "3"
+                                )
+                        )
+                    },
+                    StudroomPage(4, context.getString(R.string.label_afternoon_2), "${state.fourthClassCount}명 (신청자) / ${state.totalStudentsCount}명 (전체 인원)") {
+                        viewModel.getSheetByTime(4)
+                        navController.navigate(
+                            NavGroup.Studyroom.STUDYROOM_APPLY
+                                .replace(
+                                    oldValue = "{type}",
+                                    newValue = "4"
+                                )
                     )
                 }
-                composable("un_apply") {
-                    ApplyList(
-                        tabType = 1,
-                        state = state,
-                        viewModel = viewModel,
-                        navController = navController
+                )
+            }
+
+            LazyColumn(
+                modifier = Modifier
+                    .padding(horizontal = DodamDimen.ScreenSidePadding),
+                verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
+                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
+            ) {
+                items(pageList) { page ->
+                    DodamContentCard(
+                        title = page.title,
+                        modifier = Modifier
+                            .dodamClickable {
+                                page.onClick()
+                                viewModel.getSheetByTime(page.idx)
+                            },
+                        hasLinkIcon = true,
+                        content = {
+                            Body2(text = page.content)
+                        },
+                        background = DodamTheme.color.Background
                     )
                 }
             }
         }
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -335,102 +276,11 @@ fun ApplyList(navController: NavController, tabType: Int, state: StudyRoomState,
         )
     }
 }
-@Composable
-fun PlaceScreen(viewModel: StudyRoomViewModel, navController: NavController, state: StudyRoomState) {
-    val requestList = mutableListOf<StudyRoomRequest.RequestItem>()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DodamColor.White),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        DodamAppBar(onStartIconClick = { navController.popBackStack() }, title = "자습실 신청 관리")
-        Spacer(modifier = Modifier.height(60.dp))
-        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.forenoon_1) else stringResource(id = R.string.class_8))
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        DodamSelect(
-            itemList = state.placeList.map {
-                it.name
-            },
-            hint = "교실을 선택해주세요",
-            onItemClickListener = { placeName ->
-                state.placeList.forEach { place ->
-                    if (place.name == placeName)
-                        requestList.add(
-                            StudyRoomRequest.RequestItem(
-                                timeTableId = state.timeTableList[0].id,
-                                placeId = place.id
-                            )
-                        )
-                }
-            }
-        )
-        Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.forenoon_2) else stringResource(id = R.string.class_9))
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        DodamSelect(
-            itemList = state.placeList.map {
-                it.name
-            },
-            hint = "교실을 선택해주세요",
-            onItemClickListener = { placeName ->
-                state.placeList.forEach { place ->
-                    if (place.name == placeName)
-                        requestList.add(
-                            StudyRoomRequest.RequestItem(
-                                timeTableId = state.timeTableList[1].id,
-                                placeId = place.id
-                            )
-                        )
-                }
-            }
-        )
-        Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.afternoon_1) else stringResource(id = R.string.class_10))
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        DodamSelect(
-            itemList = state.placeList.map {
-                it.name
-            },
-            hint = "교실을 선택해주세요",
-            onItemClickListener = { placeName ->
-                state.placeList.forEach { place ->
-                    if (place.name == placeName)
-                        requestList.add(
-                            StudyRoomRequest.RequestItem(
-                                timeTableId = state.timeTableList[2].id,
-                                placeId = place.id
-                            )
-                        )
-                }
-            }
-        )
-        Spacer(modifier = Modifier.height(45.dp))
-        Title3(text = if (state.isWeekDay == false) stringResource(id = R.string.afternoon_2) else stringResource(id = R.string.class_11))
-        Spacer(modifier = Modifier.height(DodamDimen.CardSidePadding))
-        DodamSelect(
-            itemList = state.placeList.map {
-                it.name
-            },
-            hint = "교실을 선택해주세요",
-            onItemClickListener = { placeName ->
-                state.placeList.forEach { place ->
-                    if (place.name == placeName)
-                        requestList.add(
-                            StudyRoomRequest.RequestItem(
-                                timeTableId = state.timeTableList[3].id,
-                                placeId = place.id
-                            )
-                        )
-                }
-            }
-        )
-        DodamMaxWidthButton(
-            text = "수정", onClick = {
-                viewModel.ctrlStudyRoom(state.student!!, StudyRoomRequest(requestList))
-                navController.popBackStack()
-            },
-            modifier = Modifier.padding(DodamDimen.ScreenSidePadding)
-        )
-    }
-}
+
+data class StudroomPage(
+    val idx: Int,
+    val title: String,
+    val content: String,
+    val onClick: () -> Unit,
+)
+

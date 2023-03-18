@@ -14,6 +14,9 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.screen.ApplyScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.place.screen.PlaceScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.place.screen.StudyRoomMainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.CurrentOutScreen
@@ -73,6 +76,31 @@ fun NavigationGraph(
 
         composable(NavGroup.Feature.CURRENT_OUT) {
             CurrentOutScreen(navController = navController)
+        }
+
+        composable(NavGroup.Studyroom.STUDYROOM_MAIN) {
+            StudyRoomMainScreen(navController = navController)
+        }
+
+        composable(
+            route = NavGroup.Studyroom.STUDYROOM_APPLY,
+            arguments = listOf(
+                navArgument("type") {
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->
+            val type = entry.arguments?.getString("type")
+            type?.let {
+                ApplyScreen(
+                    navController = navController,
+                    type = it.toInt()
+                )
+            }
+        }
+
+        composable(NavGroup.Studyroom.STUDYROOM_PLACE) {
+            PlaceScreen(navController = navController)
         }
 
         composable(

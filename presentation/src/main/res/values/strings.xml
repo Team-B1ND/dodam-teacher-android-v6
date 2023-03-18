@@ -88,6 +88,16 @@
     <string name="label_open_source">오픈소스 라이선스</string>
     <string name="label_private_term">개인정보 취급 방침</string>
     <string name="label_service_term">서비스 운영 정책</string>
+    <string name="label_class_8">8교시</string>
+    <string name="label_class_9">9교시</string>
+    <string name="label_class_10">10교시</string>
+    <string name="label_class_11">11교시</string>
+    <string name="label_forenoon_1">오전 1</string>
+    <string name="label_forenoon_2">오전 2</string>
+    <string name="label_afternoon_1">오후 1</string>
+    <string name="label_afternoon_2">오후 2</string>
+    <string name="label_apply">신청</string>
+    <string name="label_unapply">미신청</string>
 
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>
@@ -101,14 +111,4 @@
     <string name="url_version_info">https://play.google.com/store/apps/details?id=kr.hs.dgsw.smartschool.dodamdodam_teacher</string>
 
     <string name="content_unknown_exception">알 수 없는 오류가 발생했어요</string>
-
-    <string name="class_8">8교시</string>
-    <string name="class_9">9교시</string>
-    <string name="class_10">10교시</string>
-    <string name="class_11">11교시</string>
-
-    <string name="forenoon_1">오전 1</string>
-    <string name="forenoon_2">오전 2</string>
-    <string name="afternoon_1">오후 1</string>
-    <string name="afternoon_2">오후 2</string>
 </resources>

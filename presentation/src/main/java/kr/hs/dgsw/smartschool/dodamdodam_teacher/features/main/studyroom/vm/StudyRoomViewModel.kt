@@ -220,7 +220,6 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
             getSheetByTime(state.classType)
-            postSideEffect(StudyRoomSideEffect.Toast("자습실 신청 확인에 성공했어요"))
         }.onFailure { exception ->
             reduce {
                 state.copy(
@@ -244,7 +243,6 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
             getSheetByTime(state.classType)
-            postSideEffect(StudyRoomSideEffect.Toast("${student.member.name} 학생의 자습실 신청에 성공했어요"))
         }.onFailure { exception ->
             reduce {
                 state.copy(

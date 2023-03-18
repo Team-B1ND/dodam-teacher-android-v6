@@ -5,7 +5,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +46,6 @@ import kr.hs.dgsw.smartschool.components.component.organization.card.DodamItemCa
 import kr.hs.dgsw.smartschool.components.component.set.banner.DodamBanner
 import kr.hs.dgsw.smartschool.components.foundation.Text
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
-import kr.hs.dgsw.smartschool.components.theme.Body2
 import kr.hs.dgsw.smartschool.components.theme.Body3
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
@@ -150,7 +148,12 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { OutStudyroomCheckCardContent(homeState, navController) }
+                    content = { StudyroomCheckCardContent(homeState) },
+                    onClick = {
+                        navTabNavigate?.let {
+                            it(1)
+                        }
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -288,16 +291,12 @@ private fun OutApproveCardContent(
 }
 
 @Composable
-private fun OutStudyroomCheckCardContent(
+private fun StudyroomCheckCardContent(
     state: HomeState,
-    navController: NavController
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                navController.navigate(NavGroup.Main.STUDYROOM)
-            },
     ) {
         Body3(
             text = LocalDateTime.now().toSimpleYearDateTime(),
@@ -308,25 +307,25 @@ private fun OutStudyroomCheckCardContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.class_8) else stringResource(id = R.string.forenoon_1),
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_8) else stringResource(id = R.string.label_forenoon_1),
                 content = "${state.firstClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.class_9) else stringResource(id = R.string.forenoon_2),
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_9) else stringResource(id = R.string.label_forenoon_2),
                 content = "${state.secondClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.class_10) else stringResource(id = R.string.afternoon_1),
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_10) else stringResource(id = R.string.label_afternoon_1),
                 content = "${state.thirdClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.class_11) else stringResource(id = R.string.afternoon_2),
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_11) else stringResource(id = R.string.label_afternoon_2),
                 content = "${state.fourthClassCount}/${state.allStudentsCount}",
                 icon = { }
             )
@@ -366,13 +365,15 @@ private fun StudyRoomCardDetailItem(
     icon: @Composable () -> Unit,
 ) {
     icon()
-    Spacer(modifier = Modifier.width(8.dp))
     Column {
         Body3(text = title, textColor = DodamTheme.color.Gray500)
         Spacer(modifier = Modifier.height(2.dp))
-        Body2(
+        Text(
             text = content,
-            textColor = DodamTheme.color.Black,
+            color = DodamTheme.color.Black,
+            style = DodamTheme.typography.label1.copy(
+                fontWeight = FontWeight.SemiBold
+            ),
         )
     }
 }

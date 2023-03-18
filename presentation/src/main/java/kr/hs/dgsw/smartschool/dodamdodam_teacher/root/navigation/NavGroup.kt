@@ -23,4 +23,10 @@ sealed class NavGroup(val group: String) {
         const val ITMAP_DETAIL = "itmapDetail/{companyId}"
         const val CURRENT_OUT = "currentOut"
     }
+
+    object Studyroom : NavGroup("studyroom") {
+        const val STUDYROOM_MAIN = "studyroom_main"
+        const val STUDYROOM_APPLY = "studyroom_apply/{type}"
+        const val STUDYROOM_PLACE = "studyroom_place"
+    }
 }
