@@ -5,15 +5,24 @@ import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableRemoteDataSourc
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 import kr.hs.dgsw.smartschool.domain.repository.TimeTableRepository
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableCacheDataSource
 
 class TimeTableRepositoryImpl @Inject constructor(
     override val remote: TimeTableRemoteDataSource,
-) : BaseRepository<TimeTableRemoteDataSource, Any>, TimeTableRepository {
+    override val cache: TimeTableCacheDataSource,
+) : BaseRepository<TimeTableRemoteDataSource, TimeTableCacheDataSource>, TimeTableRepository {
 
-    override val cache: Any
-        get() = TODO("Not yet implemented")
+    override suspend fun setTimeTables(): List<TimeTable> =
+        remote.getTimeTables().apply {
+            cache.deleteTimeTables()
+            cache.insertTimeTables(this)
+        }
 
-    override suspend fun getTimeTables(): List<TimeTable> {
-        return remote.getTimeTables()
-    }
+    override suspend fun getTimeTables(): List<TimeTable> =
+        cache.getTimeTables().ifEmpty {
+            cache.getTimeTables().apply {
+                cache.deleteTimeTables()
+                cache.insertTimeTables(this)
+            }
+        }
 }

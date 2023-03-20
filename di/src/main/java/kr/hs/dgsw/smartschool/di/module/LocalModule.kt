@@ -26,6 +26,7 @@ import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
 import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
+import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -134,4 +135,10 @@ object LocalModule {
     fun provideStudyRoomDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): StudyRoomDao = dodamTeacherDatabase.studyRoomDao()
+
+    @Provides
+    @Singleton
+    fun provideTimeTableDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): TimeTableDao = dodamTeacherDatabase.timeTableDao()
 }

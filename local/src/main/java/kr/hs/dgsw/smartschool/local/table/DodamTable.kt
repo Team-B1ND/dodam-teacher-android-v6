@@ -19,4 +19,5 @@ object DodamTable {
     const val ITMAP = "itmap_table"
     const val CALORIE = "calorie_table"
     const val STUDYROOM = "studyroom_table"
+    const val TIMETABLE = "timetable_table"
 }

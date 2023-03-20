@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
-@Entity(tableName = DodamTable.SCHEDULE)
+@Entity(tableName = DodamTable.STUDYROOM)
 data class StudyRoomEntity(
     @PrimaryKey val id: Int,
     val date: String,
