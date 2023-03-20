@@ -6,4 +6,12 @@ data class TimeTable(
     val type: TimeTableType,
     val startTime: String,
     val endTime: String
-)
+) {
+    constructor(id: Int) : this(
+        id = id,
+        name = "",
+        type = TimeTableType.WEEKDAY,
+        startTime = "",
+        endTime = "",
+    )
+}

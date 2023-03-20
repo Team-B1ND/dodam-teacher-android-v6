@@ -1,8 +1,14 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
+import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableResponse
-import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableType
+import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableResponseType
+
+internal fun List<TimeTableResponse>.toModel(): List<TimeTable> =
+    this.map {
+        it.toModel()
+    }
 
 internal fun TimeTableResponse.toModel(): TimeTable =
     TimeTable(
@@ -13,14 +19,9 @@ internal fun TimeTableResponse.toModel(): TimeTable =
         endTime = endTime
     )
 
-internal fun List<TimeTableResponse>.toModel(): List<TimeTable> =
-    this.map {
-        it.toModel()
-    }
-
-internal fun TimeTableType.toTimeTableType(): kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType =
+internal fun TimeTableResponseType.toTimeTableType(): TimeTableType =
     when (this.name) {
-        TimeTableType.WEEKDAY.name -> kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType.WEEKDAY
-        TimeTableType.WEEKEND.name -> kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType.WEEKEND
-        else -> kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType.WEEKDAY
+        TimeTableResponseType.WEEKDAY.name -> TimeTableType.WEEKDAY
+        TimeTableResponseType.WEEKEND.name -> TimeTableType.WEEKEND
+        else -> TimeTableType.WEEKDAY
     }

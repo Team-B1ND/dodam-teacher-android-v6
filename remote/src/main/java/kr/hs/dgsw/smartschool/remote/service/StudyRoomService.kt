@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface StudyRoomService {
     @GET(DodamUrl.StudyRoom.DATE)
-    suspend fun getAllSheet(
+    suspend fun getStudyRooms(
         @Query("year") year: Int,
         @Query("month") month: Int,
         @Query("day") day: Int,

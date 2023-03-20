@@ -18,4 +18,14 @@ data class Member(
         role = role,
         status = MemberStatus.ACTIVE
     )
+
+    constructor() : this(
+        email = "",
+        id = "",
+        joinDate = null,
+        name = "",
+        profileImage = null,
+        role = MemberRole.STUDENT,
+        status = MemberStatus.ACTIVE
+    )
 }

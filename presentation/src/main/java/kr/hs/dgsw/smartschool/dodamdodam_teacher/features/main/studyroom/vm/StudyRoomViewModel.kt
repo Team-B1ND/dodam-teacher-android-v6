@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
@@ -14,8 +13,7 @@ import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsWithClassroomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CtrlStudyRoomUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetSheetByTimeUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -27,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomViewModel @Inject constructor(
-    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase,
+    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
     private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
     private val getTimeTablesUseCase: GetTimeTablesUseCase,
     private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
@@ -76,7 +74,7 @@ class StudyRoomViewModel @Inject constructor(
             state.copy(listLoading = true)
         }
 
-        getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
+        getStudyRoomsUseCase().onSuccess { studyRoomResult ->
             reduce {
                 state.copy(
                     listLoading = false,

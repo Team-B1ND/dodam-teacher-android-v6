@@ -1,25 +1,24 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import android.util.Log
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomList
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.request.studyroom.RequestItem
 import kr.hs.dgsw.smartschool.remote.request.studyroom.StudyRoomCtrlRequest
 import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
 
 class StudyRoomRemoteDataSourceImpl @Inject constructor(
     private val studyRoomService: StudyRoomService
 ) : StudyRoomRemoteDataSource {
-    override suspend fun getAllSheet(
+    override suspend fun getStudyRooms(
         year: Int,
         month: Int,
         day: Int
-    ): StudyRoomList = dodamApiCall {
-        studyRoomService.getAllSheet(year, month, day).data.toModel()
+    ): List<StudyRoom> = dodamApiCall {
+        studyRoomService.getStudyRooms(year, month, day).data.toModel()
     }
 
     override suspend fun checkStudyRoom(
@@ -36,21 +35,12 @@ class StudyRoomRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun ctrlStudyRoom(
         studentId: Int,
-        studyRoomList: StudyRoomRequest
+        studyRoomList: List<StudyRoomItem>
     ) = dodamApiCall {
-        Log.e(
-            "ctrlStudyRoom",
-            StudyRoomCtrlRequest(
-                studentId = studentId,
-                studyRoomList = studyRoomList.studyRoomList.map {
-                    RequestItem(it.placeId, it.timeTableId)
-                }
-            ).toString()
-        )
         studyRoomService.postStudyRoomCtrl(
             StudyRoomCtrlRequest(
                 studentId = studentId,
-                studyRoomList = studyRoomList.studyRoomList.map {
+                studyRoomList = studyRoomList.map {
                     RequestItem(it.placeId, it.timeTableId)
                 }
             )

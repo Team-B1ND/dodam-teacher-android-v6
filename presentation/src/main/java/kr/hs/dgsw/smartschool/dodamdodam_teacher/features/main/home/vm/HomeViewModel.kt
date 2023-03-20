@@ -13,7 +13,7 @@ import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetAllStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getAllStudyRoomsUseCase: GetAllStudyRoomsUseCase,
+    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
     private val getTimeTablesUseCase: GetTimeTablesUseCase
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
@@ -103,7 +103,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getAllStudyRooms() = intent{
-        getAllStudyRoomsUseCase().onSuccess { studyRoomResult ->
+        getStudyRoomsUseCase().onSuccess { studyRoomResult ->
             reduce {
                 state.copy(
                     isStudyLoading = false,

@@ -21,7 +21,6 @@ import kr.hs.dgsw.smartschool.components.theme.Title3
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm.StudyRoomViewModel
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomRequest
 import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable

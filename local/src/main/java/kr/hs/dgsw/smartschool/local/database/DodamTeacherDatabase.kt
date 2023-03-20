@@ -16,6 +16,7 @@ import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
+import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
@@ -59,8 +60,8 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun bannerDao(): BannerDao
     abstract fun scheduleDao(): ScheduleDao
     abstract fun itmapDao(): ItmapDao
-
     abstract fun calorieDao(): CalorieDao
+    abstract fun studyRoomDao(): StudyRoomDao
 }
 
 val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {

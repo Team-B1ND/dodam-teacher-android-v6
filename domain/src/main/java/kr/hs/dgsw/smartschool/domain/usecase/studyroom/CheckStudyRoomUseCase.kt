@@ -6,7 +6,7 @@ import javax.inject.Inject
 class CheckStudyRoomUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
 ) {
-    suspend operator fun invoke(studyRoomApplyId: Int, isChecked: Boolean) = kotlin.runCatching {
-        studyRoomRepository.checkStudyRoom(studyRoomApplyId, isChecked)
+    suspend operator fun invoke(id: Int) = kotlin.runCatching {
+        studyRoomRepository.checkStudyRoom(id)
     }
 }
