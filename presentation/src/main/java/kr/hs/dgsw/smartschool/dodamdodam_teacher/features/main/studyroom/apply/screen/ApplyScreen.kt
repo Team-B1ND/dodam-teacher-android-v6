@@ -35,6 +35,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplySideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplyState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.vm.ApplyViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.Member
@@ -106,6 +107,7 @@ fun ApplyScreen(
                     type = ButtonType.SecondaryVariant,
                 ) {
                     viewModel.updateSelectedItem(null)
+                    navController.navigate(NavGroup.Studyroom.STUDYROOM_CTRL)
                 }
             },
             onDismiss = {
@@ -174,14 +176,14 @@ fun ApplyScreen(
                             .dodamClickable(rippleEnable = false) {
                                 viewModel.updateSelectedItem(applyItem)
                             },
-                        backgroundColor = if (applyItem.studyRoom?.status == StudyRoomStatus.PENDING)
-                            DodamTheme.color.Background
+                        backgroundColor = if (applyItem.studyRoom?.status == StudyRoomStatus.CHECKED)
+                            DodamTheme.color.MainColor400
                         else
-                            DodamTheme.color.MainColor400,
-                        textColor =  if (applyItem.studyRoom?.status == StudyRoomStatus.PENDING)
-                            DodamTheme.color.Black
+                            DodamTheme.color.Background,
+                        textColor =  if (applyItem.studyRoom?.status == StudyRoomStatus.CHECKED)
+                            DodamTheme.color.White
                         else
-                            DodamTheme.color.White,
+                            DodamTheme.color.Black,
                     )
                 }
             }

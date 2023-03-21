@@ -15,6 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeS
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.screen.ApplyScreen
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.control.screen.ControlStudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.CurrentOutScreen
@@ -108,6 +109,10 @@ fun NavigationGraph(
                     navController = navController
                 )
             }
+        }
+
+        composable(NavGroup.Studyroom.STUDYROOM_CTRL) {
+            ControlStudyRoomScreen(navController = navController)
         }
     }
 }
