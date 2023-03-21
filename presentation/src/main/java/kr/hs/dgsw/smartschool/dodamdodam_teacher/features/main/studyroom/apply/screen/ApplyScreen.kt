@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.screen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import java.time.LocalDate
+import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
+import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.basic.surface
+import kr.hs.dgsw.smartschool.components.component.organization.prompt.DodamPrompt
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
+import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
@@ -67,6 +72,46 @@ fun ApplyScreen(
     ).toList().reversed()
 
     val applyTypeList = listOf(stringResource(id = R.string.label_apply), stringResource(id = R.string.label_unapply))
+    
+    if (state.currentSelectedItem != null)
+        DodamPrompt(
+            title = "${state.currentSelectedItem.member.name}님의 자습실 정보",
+            description = if (state.currentSelectedItem.studyRoom == null)
+                stringResource(id = R.string.desc_not_apply_studyroom)
+            else
+                "${getStudyRoomName(context, type)} ${state.currentSelectedItem.studyRoom.place.name} 신청",
+            primaryButton = {
+                if (state.currentSelectedItem.studyRoom != null) {
+                    DodamMediumRoundedButton(
+                        text = if (state.currentSelectedItem.studyRoom.teacher == null)
+                            stringResource(id = R.string.label_check)
+                        else
+                            stringResource(id = R.string.label_cancel_check),
+                        type = if (state.currentSelectedItem.studyRoom.teacher == null)
+                            ButtonType.PrimaryVariant
+                        else
+                            ButtonType.Danger
+                    ) {
+                        if (state.currentSelectedItem.studyRoom.teacher == null)
+                            viewModel.checkStudyRoom(state.currentSelectedItem.studyRoom.id)
+                        else
+                            viewModel.unCheckStudyRoom(state.currentSelectedItem.studyRoom.id)
+                        viewModel.updateSelectedItem(null)
+                    }
+                }
+            },
+            secondaryButton = {
+                DodamMediumRoundedButton(
+                    text = stringResource(id = R.string.label_modify),
+                    type = ButtonType.SecondaryVariant,
+                ) {
+                    viewModel.updateSelectedItem(null)
+                }
+            },
+            onDismiss = {
+                viewModel.updateSelectedItem(null)
+            }
+        )
 
     if (state.loading)
         LoadInFullScreen()
@@ -78,27 +123,9 @@ fun ApplyScreen(
         ) {
             DodamAppBar(
                 onStartIconClick = {
-                    //viewModel.getAllStudyRooms()
                     navController.popBackStack()
                 },
-                title =
-                if (LocalDate.now().dayOfWeek.value in 6..7) {
-                    when (type) {
-                        1 -> stringResource(id = R.string.label_forenoon_1)
-                        2 -> stringResource(id = R.string.label_forenoon_2)
-                        3 -> stringResource(id = R.string.label_afternoon_1)
-                        4 -> stringResource(id = R.string.label_afternoon_2)
-                        else -> stringResource(id = R.string.label_forenoon_1)
-                    }
-                } else {
-                    when (type) {
-                        1 -> stringResource(id = R.string.label_class_8)
-                        2 -> stringResource(id = R.string.label_class_9)
-                        3 -> stringResource(id = R.string.label_class_10)
-                        4 -> stringResource(id = R.string.label_class_11)
-                        else -> stringResource(id = R.string.label_class_8)
-                    }
-                }
+                title = getStudyRoomName(context, type)
             )
             Column(
                 modifier = Modifier
@@ -138,18 +165,23 @@ fun ApplyScreen(
                     .padding(horizontal = DodamDimen.ScreenSidePadding)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
-                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
+                contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding)
             ) {
                 items(filteredApplyItemList) { applyItem ->
                     DodamConfirmedStudentItem(
                         member = applyItem.member,
-                        modifier = Modifier.surface(
-                            shape = RoundedCornerShape(100.dp),
-                            backgroundColor = if (applyItem.studyRoom == null || applyItem.studyRoom.status == StudyRoomStatus.PENDING)
-                                DodamTheme.color.Background
-                            else
-                                DodamTheme.color.MainColor400
-                        )
+                        modifier = Modifier
+                            .dodamClickable(rippleEnable = false) {
+                                viewModel.updateSelectedItem(applyItem)
+                            },
+                        backgroundColor = if (applyItem.studyRoom?.teacher == null)
+                            DodamTheme.color.Background
+                        else
+                            DodamTheme.color.MainColor400,
+                        textColor =  if (applyItem.studyRoom?.teacher == null)
+                            DodamTheme.color.Black
+                        else
+                            DodamTheme.color.White,
                     )
                 }
             }
@@ -190,6 +222,26 @@ private fun getFilteredStudyRoomList(type: Int, state: ApplyState): List<ApplySt
     } else {
         applyList.filter {
             (it.classroom.grade == state.currentGrade) && (it.classroom.room == state.currentClassroom)
+        }
+    }
+}
+
+private fun getStudyRoomName(context: Context, type: Int): String {
+    return if (LocalDate.now().dayOfWeek.value in 6..7) {
+        when (type) {
+            1 -> context.getString(R.string.label_forenoon_1)
+            2 -> context.getString(R.string.label_forenoon_2)
+            3 -> context.getString(R.string.label_afternoon_1)
+            4 -> context.getString(R.string.label_afternoon_2)
+            else -> context.getString(R.string.label_forenoon_1)
+        }
+    } else {
+        when (type) {
+            1 -> context.getString(R.string.label_class_8)
+            2 -> context.getString(R.string.label_class_9)
+            3 -> context.getString(R.string.label_class_10)
+            4 -> context.getString(R.string.label_class_11)
+            else -> context.getString(R.string.label_class_8)
         }
     }
 }

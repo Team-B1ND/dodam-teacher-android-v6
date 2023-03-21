@@ -9,6 +9,7 @@ data class ApplyState(
     val currentGrade: Int = 0,
     val currentClassroom: Int = 0,
     val currentApplyType: Int = 0,
+    val currentSelectedItem: ApplyItem? = null,
 
     val classrooms: List<Classroom> = emptyList(),
     val members: List<Member> = emptyList(),

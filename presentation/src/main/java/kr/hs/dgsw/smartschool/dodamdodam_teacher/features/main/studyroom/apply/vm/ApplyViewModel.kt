@@ -12,7 +12,9 @@ import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.UnCheckStudyRoomUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -26,6 +28,8 @@ class ApplyViewModel @Inject constructor(
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
+    private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
+    private val unCheckStudyRoomUseCase: UnCheckStudyRoomUseCase,
 ) : ContainerHost<ApplyState, ApplySideEffect>, ViewModel() {
 
     override val container: Container<ApplyState, ApplySideEffect> = container(ApplyState())
@@ -57,6 +61,54 @@ class ApplyViewModel @Inject constructor(
             reduce {
                 state.copy(
                     loading = false
+                )
+            }
+            postSideEffect(ApplySideEffect.ShowException(it))
+        }
+    }
+
+    fun checkStudyRoom(id: Int) = intent {
+        reduce {
+            state.copy(
+                loading = true,
+            )
+        }
+        checkStudyRoomUseCase(id).onSuccess {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            val today = LocalDate.now()
+            setStudyRooms(today.year, today.monthValue, today.dayOfMonth)
+        }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            postSideEffect(ApplySideEffect.ShowException(it))
+        }
+    }
+
+    fun unCheckStudyRoom(id: Int) = intent {
+        reduce {
+            state.copy(
+                loading = true,
+            )
+        }
+        unCheckStudyRoomUseCase(id).onSuccess {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            val today = LocalDate.now()
+            setStudyRooms(today.year, today.monthValue, today.dayOfMonth)
+        }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false,
                 )
             }
             postSideEffect(ApplySideEffect.ShowException(it))
@@ -125,6 +177,14 @@ class ApplyViewModel @Inject constructor(
         reduce {
             state.copy(
                 currentApplyType = applyType
+            )
+        }
+    }
+
+    fun updateSelectedItem(selectedItem: ApplyState.ApplyItem?) = intent {
+        reduce {
+            state.copy(
+                currentSelectedItem = selectedItem
             )
         }
     }

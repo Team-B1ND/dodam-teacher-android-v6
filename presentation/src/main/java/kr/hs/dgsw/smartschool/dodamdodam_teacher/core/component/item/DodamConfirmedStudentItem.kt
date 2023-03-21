@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kr.hs.dgsw.smartschool.components.component.basic.avatar.Avatar
 import kr.hs.dgsw.smartschool.components.component.basic.surface
@@ -23,12 +24,14 @@ import kr.hs.dgsw.smartschool.domain.model.member.Member
 internal fun DodamConfirmedStudentItem(
     member: Member,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = DodamTheme.color.Background,
+    textColor: Color = DodamTheme.color.Black,
 ) {
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .surface(RoundedCornerShape(100.dp), DodamTheme.color.Background)
+            .surface(RoundedCornerShape(100.dp), backgroundColor)
             .height(44.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -46,7 +49,9 @@ internal fun DodamConfirmedStudentItem(
 
         Label1(
             text = member.name,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f),
+            textColor = textColor,
         )
     }
 }
