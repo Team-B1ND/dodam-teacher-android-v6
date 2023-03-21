@@ -83,16 +83,16 @@ fun ApplyScreen(
             primaryButton = {
                 if (state.currentSelectedItem.studyRoom != null) {
                     DodamMediumRoundedButton(
-                        text = if (state.currentSelectedItem.studyRoom.teacher == null)
+                        text = if (state.currentSelectedItem.studyRoom.status == StudyRoomStatus.PENDING)
                             stringResource(id = R.string.label_check)
                         else
                             stringResource(id = R.string.label_cancel_check),
-                        type = if (state.currentSelectedItem.studyRoom.teacher == null)
+                        type = if (state.currentSelectedItem.studyRoom.status == StudyRoomStatus.PENDING)
                             ButtonType.PrimaryVariant
                         else
                             ButtonType.Danger
                     ) {
-                        if (state.currentSelectedItem.studyRoom.teacher == null)
+                        if (state.currentSelectedItem.studyRoom.status == StudyRoomStatus.PENDING)
                             viewModel.checkStudyRoom(state.currentSelectedItem.studyRoom.id)
                         else
                             viewModel.unCheckStudyRoom(state.currentSelectedItem.studyRoom.id)
@@ -174,11 +174,11 @@ fun ApplyScreen(
                             .dodamClickable(rippleEnable = false) {
                                 viewModel.updateSelectedItem(applyItem)
                             },
-                        backgroundColor = if (applyItem.studyRoom?.teacher == null)
+                        backgroundColor = if (applyItem.studyRoom?.status == StudyRoomStatus.PENDING)
                             DodamTheme.color.Background
                         else
                             DodamTheme.color.MainColor400,
-                        textColor =  if (applyItem.studyRoom?.teacher == null)
+                        textColor =  if (applyItem.studyRoom?.status == StudyRoomStatus.PENDING)
                             DodamTheme.color.Black
                         else
                             DodamTheme.color.White,
