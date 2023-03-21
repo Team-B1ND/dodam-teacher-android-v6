@@ -187,12 +187,4 @@ class HomeViewModel @Inject constructor(
             postSideEffect(HomeSideEffect.ToastError(it))
         }
     }
-
-    fun updateCurrentTime(time: LocalDateTime) = intent {
-        reduce {
-            state.copy(
-                outRefreshTime = time
-            )
-        }
-    }
 }

@@ -31,6 +31,8 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.m
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplyState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.vm.ApplyViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
+import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -80,7 +82,7 @@ fun ApplyScreen(
                     navController.popBackStack()
                 },
                 title =
-                if (LocalDate.now().dayOfWeek.value in 1..5) {
+                if (LocalDate.now().dayOfWeek.value in 6..7) {
                     when (type) {
                         1 -> stringResource(id = R.string.label_forenoon_1)
                         2 -> stringResource(id = R.string.label_forenoon_2)
@@ -129,7 +131,7 @@ fun ApplyScreen(
                 )
             }
 
-            val filteredApplyItemList = getFilteredStudyRoomList(state)
+            val filteredApplyItemList = getFilteredStudyRoomList(type, state)
 
             LazyColumn(
                 modifier = Modifier
@@ -154,15 +156,26 @@ fun ApplyScreen(
         }
 }
 
-private fun getFilteredStudyRoomList(state: ApplyState): List<ApplyState.ApplyItem> {
-    val applyList = if (state.currentApplyType == 0)
+private fun getFilteredStudyRoomList(type: Int, state: ApplyState): List<ApplyState.ApplyItem> {
+    val applyList = if (state.currentApplyType == 0) {
         state.applyItemList.filter {
-            it.studyRoom != null
+            type == it.studyRoom?.timeTable?.id?.let { timeId -> if (timeId > 4) timeId - 4 else timeId }
         }
-    else
-        state.applyItemList.filter {
-            it.studyRoom == null
+    } else {
+        val typeList = state.applyItemList.filter {
+            type == it.studyRoom?.timeTable?.id?.let { timeId -> if (timeId > 4) timeId - 4 else timeId }
         }
+        state.students.filter { !typeList.map { applyItem -> applyItem.student.id }.contains(it.id) }.map { student ->
+            val member = state.members.find { student.member.id == it.id }
+            val classroom = state.classrooms.find { student.classroom.id == it.id }
+
+            ApplyState.ApplyItem(
+                student = student,
+                member = member ?: Member(),
+                classroom = classroom ?: Classroom(-1),
+            )
+        }
+    }
 
     return if (state.currentGrade == 0 && state.currentClassroom == 0) {
         applyList

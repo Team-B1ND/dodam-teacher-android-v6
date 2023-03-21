@@ -131,29 +131,23 @@ class ApplyViewModel @Inject constructor(
 
     private fun makeApplyItemList() = intent {
         val applyItemList = emptyList<ApplyState.ApplyItem>().toMutableList()
-        state.students.forEach { student ->
-            state.members.forEach { member ->
-                state.classrooms.forEach { classroom ->
-                    var appliedStudyRoom: StudyRoom? = null
-                    state.studyRooms?.forEach { studyRoom ->
-                        if (studyRoom.studentId == student.id)
-                            appliedStudyRoom = studyRoom
-                    }
-                    if (student.member.id == member.id) {
-                        if (classroom.id == student.classroom.id) {
-                            applyItemList.add(
-                                ApplyState.ApplyItem(
-                                    student = student,
-                                    member = member,
-                                    studyRoom = appliedStudyRoom,
-                                    classroom = classroom,
-                                )
-                            )
-                        }
-                    }
-                }
+        state.studyRooms?.forEach { studyRoom ->
+            val student = state.students.find { it.id == studyRoom.studentId }
+            val member = state.members.find { it.id == student?.member?.id }
+            val classroom = state.classrooms.find { it.id == student?.classroom?.id }
+
+            if (student != null && member != null && classroom != null) {
+                applyItemList.add(
+                    ApplyState.ApplyItem(
+                        student = student,
+                        member = member,
+                        studyRoom = studyRoom,
+                        classroom = classroom,
+                    )
+                )
             }
         }
+
         reduce {
             state.copy(
                 applyItemList = applyItemList
