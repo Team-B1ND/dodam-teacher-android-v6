@@ -25,8 +25,6 @@ sealed class NavGroup(val group: String) {
     }
 
     object Studyroom : NavGroup("studyroom") {
-        const val STUDYROOM_MAIN = "studyroom_main"
         const val STUDYROOM_APPLY = "studyroom_apply/{type}"
-        const val STUDYROOM_PLACE = "studyroom_place"
     }
 }

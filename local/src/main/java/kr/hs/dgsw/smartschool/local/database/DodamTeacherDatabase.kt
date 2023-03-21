@@ -32,7 +32,9 @@ import kr.hs.dgsw.smartschool.local.entity.parent.ParentEntity
 import kr.hs.dgsw.smartschool.local.entity.place.PlaceEntity
 import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
 import kr.hs.dgsw.smartschool.local.entity.student.StudentEntity
+import kr.hs.dgsw.smartschool.local.entity.studyroom.StudyRoomEntity
 import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
+import kr.hs.dgsw.smartschool.local.entity.timetable.TimeTableEntity
 import kr.hs.dgsw.smartschool.local.entity.token.TokenEntity
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
@@ -41,9 +43,9 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class, CalorieEntity::class, StudyRoomDao::class, TimeTableDao::class
+        CompanyEntity::class, CalorieEntity::class, StudyRoomEntity::class, TimeTableEntity::class
     ],
-    version = 9,
+    version = 10,
     exportSchema = false
 )
 

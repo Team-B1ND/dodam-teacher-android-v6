@@ -1,18 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
-import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
-import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
-import kr.hs.dgsw.smartschool.domain.usecase.place.GetPlacesUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsWithClassroomUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CtrlStudyRoomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
@@ -21,233 +14,55 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomViewModel @Inject constructor(
-    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
-    private val getSheetByTimeUseCase: GetSheetByTimeUseCase,
     private val getTimeTablesUseCase: GetTimeTablesUseCase,
-    private val checkStudyRoomUseCase: CheckStudyRoomUseCase,
-    private val ctrlStudyRoomUseCase: CtrlStudyRoomUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getPlacesUseCase: GetPlacesUseCase,
-    private val getStudentsWithClassroomUseCase: GetStudentsWithClassroomUseCase
+    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
-    override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(
-        StudyRoomState()
-    )
+    override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(StudyRoomState())
 
     init {
         getTimeTable()
-        getPlaces()
         getStudents()
-        getAllStudyRooms()
+        getStudyRooms()
+    }
+
+    private fun getTimeTable() = intent {
+        getTimeTablesUseCase().onSuccess {
+            reduce {
+                state.copy(
+                    timeTables = it
+                )
+            }
+        }.onFailure {
+            postSideEffect(StudyRoomSideEffect.ShowException(it))
+        }
     }
 
     private fun getStudents() = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
         getStudentsUseCase().onSuccess {
             reduce {
                 state.copy(
-                    loading = false,
-                    totalStudentsCount = it.size
+                    students = it
                 )
             }
         }.onFailure {
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(it))
+            postSideEffect(StudyRoomSideEffect.ShowException(it))
         }
     }
 
-    fun getAllStudyRooms() = intent {
-        reduce {
-            state.copy(listLoading = true)
-        }
-
-        getStudyRoomsUseCase().onSuccess { studyRoomResult ->
+    private fun getStudyRooms() = intent {
+        getStudyRoomsUseCase().onSuccess {
             reduce {
                 state.copy(
-                    listLoading = false,
-                    studyRoomList = studyRoomResult,
-                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
-                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
-                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
-                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
+                    studyRooms = it
                 )
             }
         }.onFailure {
-            reduce {
-                state.copy(
-                    listLoading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(it))
-        }
-    }
-
-    fun getSheetByTime(type: Int) = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        getSheetByTimeUseCase(type,state.isWeekDay).onSuccess { studyRoomResult ->
-            Log.e(type.toString(),studyRoomResult.toString())
-            reduce {
-                state.copy(
-                    classType = type,
-                    studyRoomList = studyRoomResult,
-                )
-            }
-            getOtherStudents()
-        }.onFailure { exception ->
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
-        }
-    }
-
-    private fun getOtherStudents() = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        getStudentsWithClassroomUseCase().onSuccess { studentResult ->
-            val newList: MutableList<Student> = studentResult.toMutableList()
-            val appliedList: List<Student> =
-            state.studyRoomList.map {
-                    it.student
-            }.toMutableList()
-
-            newList.removeAll(appliedList)
-
-
-            reduce {
-                state.copy(
-                    loading = false,
-                    otherStudents = newList,
-                )
-            }
-        }.onFailure { exception ->
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
-        }
-    }
-    // 자습실 신청 관리할 때, 현재 유저의 정보를 불러오기 위해 사용합니다.
-    // student,
-    private fun getTimeTable() = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        getTimeTablesUseCase().onSuccess { timeTableList ->
-            Log.e("getTimeTables", timeTableList.toString())
-            reduce {
-                state.copy(
-                    loading = false,
-                    isWeekDay = timeTableList[0].type == TimeTableType.WEEKDAY,
-                    timeTableList = timeTableList,
-                )
-            }
-        }.onFailure { exception ->
-            reduce {
-                state.copy(
-                    loading = false,
-                    exception = exception
-                )
-            }
-        }
-    }
-
-    fun addStudentOnState(student: Student) = intent {
-        reduce {
-            state.copy(
-                loading = false,
-                student = student
-            )
-        }
-    }
-
-    private fun getPlaces() = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        getPlacesUseCase().onSuccess { result ->
-            reduce {
-                state.copy(
-                    loading = false,
-                    placeList = result
-                )
-            }
-        }.onFailure { exception ->
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
-        }
-    }
-
-    fun checkStudyRoom(applyId: Int, isChecked: Boolean) = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        checkStudyRoomUseCase(applyId, isChecked).onSuccess {
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            getSheetByTime(state.classType)
-        }.onFailure { exception ->
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
-        }
-    }
-
-    fun ctrlStudyRoom(student: Student, request: StudyRoomRequest) = intent {
-        reduce {
-            state.copy(
-                loading = true
-            )
-        }
-        ctrlStudyRoomUseCase(student.id, request).onSuccess {
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            getSheetByTime(state.classType)
-        }.onFailure { exception ->
-            reduce {
-                state.copy(
-                    loading = false,
-                )
-            }
-            postSideEffect(StudyRoomSideEffect.ToastError(exception))
+            postSideEffect(StudyRoomSideEffect.ShowException(it))
         }
     }
 }

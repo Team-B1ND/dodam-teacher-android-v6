@@ -75,7 +75,8 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel(),
     navTabNavigate: ((tab: Int) -> Unit)? = null,
-    outUpdateTime: LocalDateTime = LocalDateTime.now()
+    outUpdateTime: LocalDateTime = LocalDateTime.now(),
+    studyRoomUpdateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 
     val context = LocalContext.current
@@ -96,6 +97,7 @@ fun HomeScreen(
         refreshing = homeState.refreshing,
         onRefresh = {
             homeViewModel.getOutRemote()
+            homeViewModel.getStudyRoomRemote()
         }
     )
 
@@ -148,7 +150,7 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { StudyroomCheckCardContent(homeState) },
+                    content = { StudyroomCheckCardContent(homeState, studyRoomUpdateTime) },
                     onClick = {
                         navTabNavigate?.let {
                             it(1)
@@ -272,7 +274,7 @@ private fun OutApproveCardContent(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = homeState.refreshTime?.toSimpleYearDateTime() ?: outUpdateTime.toSimpleYearDateTime(),
+            text = homeState.outRefreshTime?.toSimpleYearDateTime() ?: outUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
@@ -293,13 +295,20 @@ private fun OutApproveCardContent(
 @Composable
 private fun StudyroomCheckCardContent(
     state: HomeState,
+    studyRoomUpdateTime: LocalDateTime,
 ) {
+
+    val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1  || it.timeTable.id == 5 }.size
+    val secondClassCount = state.studyRooms.filter { it.timeTable.id == 2 || it.timeTable.id == 6 }.size
+    val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3  || it.timeTable.id == 7 }.size
+    val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4  || it.timeTable.id == 8 }.size
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         Body3(
-            text = LocalDateTime.now().toSimpleYearDateTime(),
+            text = state.studyRoomRefreshTime?.toSimpleYearDateTime() ?: studyRoomUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
@@ -308,25 +317,25 @@ private fun StudyroomCheckCardContent(
         ) {
             StudyRoomCardDetailItem(
                 title = if (state.isWeekDay) stringResource(id = R.string.label_class_8) else stringResource(id = R.string.label_forenoon_1),
-                content = "${state.firstClassCount}/${state.allStudentsCount}",
+                content = "$firstClassCount/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if (state.isWeekDay) stringResource(id = R.string.label_class_9) else stringResource(id = R.string.label_forenoon_2),
-                content = "${state.secondClassCount}/${state.allStudentsCount}",
+                content = "$secondClassCount/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if (state.isWeekDay) stringResource(id = R.string.label_class_10) else stringResource(id = R.string.label_afternoon_1),
-                content = "${state.thirdClassCount}/${state.allStudentsCount}",
+                content = "$thirdClassCount/${state.allStudentsCount}",
                 icon = { }
             )
             Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
             StudyRoomCardDetailItem(
                 title = if (state.isWeekDay) stringResource(id = R.string.label_class_11) else stringResource(id = R.string.label_afternoon_2),
-                content = "${state.fourthClassCount}/${state.allStudentsCount}",
+                content = "$fourthClassCount/${state.allStudentsCount}",
                 icon = { }
             )
         }

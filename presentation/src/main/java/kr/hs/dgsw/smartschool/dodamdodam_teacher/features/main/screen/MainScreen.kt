@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -15,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavBar
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavTab
@@ -31,7 +30,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
-import java.time.LocalDateTime
 
 @Composable
 fun MainScreen(
@@ -41,7 +39,14 @@ fun MainScreen(
 
     val state = mainViewModel.collectAsState().value
 
-    if (state.setClassroomLoading && state.setMembersLoading && state.setStudentsLoading && state.setTeachersLoading)
+    if (
+        state.setClassroomLoading &&
+        state.setMembersLoading &&
+        state.setStudentsLoading &&
+        state.setTeachersLoading &&
+        state.setTimeTablesLoading &&
+        state.setStudyRoomsLoading
+    )
         LoadInFullScreen()
     else
         Box(
@@ -62,7 +67,8 @@ fun MainScreen(
                         HomeScreen(
                             navController = navController,
                             navTabNavigate = { mainViewModel.updateSelectedTab(it) },
-                            outUpdateTime = state.getOutTime ?: LocalDateTime.now()
+                            outUpdateTime = state.getOutTime ?: LocalDateTime.now(),
+                            studyRoomUpdateTime = state.getStudyRoomTime ?: LocalDateTime.now(),
                         )
                     }
                     1 -> {

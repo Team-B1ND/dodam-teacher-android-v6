@@ -17,6 +17,8 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -24,6 +26,8 @@ class MainViewModel @Inject constructor(
     private val setMembersUseCase: SetMembersUseCase,
     private val setStudentsUseCase: SetStudentsUseCase,
     private val setTeachersUseCase: SetTeachersUseCase,
+    private val setTimeTablesUseCase: SetTimeTablesUseCase,
+    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
 ) : ContainerHost<MainState, MainSideEffect>, ViewModel() {
 
@@ -35,6 +39,60 @@ class MainViewModel @Inject constructor(
         setTeachers()
         setStudents()
         setOuts()
+        setStudyRooms()
+        setTimeTables()
+    }
+
+    private fun setStudyRooms() = intent {
+        reduce {
+            state.copy(
+                setStudyRoomsLoading = true
+            )
+        }
+
+        val today = LocalDate.now()
+        setStudyRoomsUseCase(
+            SetStudyRoomsUseCase.Param(
+                year = today.year,
+                month = today.monthValue,
+                day = today.dayOfMonth,
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    getStudyRoomTime = LocalDateTime.now(),
+                    setStudyRoomsLoading = false
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    setStudyRoomsLoading = false
+                )
+            }
+        }
+    }
+
+    private fun setTimeTables() = intent {
+        reduce {
+            state.copy(
+                setTimeTablesLoading = true
+            )
+        }
+
+        setTimeTablesUseCase().onSuccess {
+            reduce {
+                state.copy(
+                    setTimeTablesLoading = false
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    setTimeTablesLoading = false
+                )
+            }
+        }
     }
 
     private fun setOuts() = intent {

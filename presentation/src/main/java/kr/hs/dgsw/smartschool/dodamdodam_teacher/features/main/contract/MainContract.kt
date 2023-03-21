@@ -8,7 +8,10 @@ data class MainState(
     val setStudentsLoading: Boolean = true,
     val setTeachersLoading: Boolean = true,
     val setOutsLoading: Boolean = true,
+    val setTimeTablesLoading: Boolean = true,
+    val setStudyRoomsLoading: Boolean = true,
 
+    val getStudyRoomTime: LocalDateTime? = null,
     val getOutTime: LocalDateTime? = null,
     val selectedTab: Int = 0,
 )

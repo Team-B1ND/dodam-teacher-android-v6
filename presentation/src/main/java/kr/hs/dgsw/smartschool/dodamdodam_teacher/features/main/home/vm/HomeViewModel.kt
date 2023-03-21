@@ -6,8 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-import kr.hs.dgsw.smartschool.domain.model.timetable.TimeSet
-import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTableType
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
@@ -24,6 +22,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -33,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
-    private val getTimeTablesUseCase: GetTimeTablesUseCase
+    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -47,6 +46,7 @@ class HomeViewModel @Inject constructor(
                 LocalDate.now()
         )
         getBanner()
+        getStudents()
         getStudyRooms()
     }
 
@@ -80,67 +80,27 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getStudyRooms() = intent {
-        reduce {
-            state.copy(isStudyLoading = true)
-        }
-
-        getStudentsUseCase().onSuccess { it ->
+    private fun getStudents() = intent {
+        getStudentsUseCase().onSuccess {
             reduce {
                 state.copy(
                     allStudentsCount = it.size,
                 )
             }
-            getTimeTables()
         }.onFailure {
-            reduce {
-                state.copy(
-                    isOutLoading = false,
-                )
-            }
             postSideEffect(HomeSideEffect.ToastError(it))
         }
     }
 
-    private fun getAllStudyRooms() = intent{
-        getStudyRoomsUseCase().onSuccess { studyRoomResult ->
+    private fun getStudyRooms() = intent {
+        getStudyRoomsUseCase().onSuccess {
             reduce {
                 state.copy(
-                    isStudyLoading = false,
-                    firstClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.first_start else TimeSet.WeekEnd.first_start }.size,
-                    secondClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.second_start else TimeSet.WeekEnd.second_start }.size,
-                    thirdClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.third_start else TimeSet.WeekEnd.third_start }.size,
-                    fourthClassCount = studyRoomResult.filter { it.timeTable.startTime == if (state.isWeekDay) TimeSet.WeekDay.fourth_start else TimeSet.WeekEnd.fourth_start }.size,
+                    studyRooms = it
                 )
             }
         }.onFailure {
-            reduce {
-                state.copy(
-                    isStudyLoading = false
-                )
-            }
-        }
-    }
-
-    private fun getTimeTables() = intent{
-        reduce{
-            state.copy(
-                isStudyLoading = true,
-            )
-        }
-        getTimeTablesUseCase().onSuccess { result ->
-            reduce {
-                state.copy(
-                    isWeekDay = result[0].type == TimeTableType.WEEKDAY
-                )
-            }
-            getAllStudyRooms()
-        }.onFailure {
-            reduce {
-                state.copy(
-                    isStudyLoading = false
-                )
-            }
+            postSideEffect(HomeSideEffect.ToastError(it))
         }
     }
 
@@ -180,7 +140,32 @@ class HomeViewModel @Inject constructor(
                     outgoingCount = outgoingsCnt,
                     outsleepingCount = outsleepingsCnt,
                     refreshing = false,
-                    refreshTime = LocalDateTime.now()
+                    outRefreshTime = LocalDateTime.now()
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                )
+            }
+            postSideEffect(HomeSideEffect.ToastError(it))
+        }
+    }
+
+    fun getStudyRoomRemote() = intent {
+        reduce {
+            state.copy(refreshing = true)
+        }
+
+        val today = LocalDate.now()
+        setStudyRoomsUseCase(SetStudyRoomsUseCase.Param(today.year, today.monthValue, today.dayOfMonth)).onSuccess {
+
+            reduce {
+                state.copy(
+                    studyRooms = it,
+                    refreshing = false,
+                    studyRoomRefreshTime = LocalDateTime.now()
                 )
             }
         }.onFailure {
@@ -206,7 +191,7 @@ class HomeViewModel @Inject constructor(
     fun updateCurrentTime(time: LocalDateTime) = intent {
         reduce {
             state.copy(
-                refreshTime = time
+                outRefreshTime = time
             )
         }
     }

@@ -15,8 +15,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeS
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen.MainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.screen.ApplyScreen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.place.screen.PlaceScreen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.place.screen.StudyRoomMainScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.meal.screen.MealScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.CurrentOutScreen
@@ -78,10 +76,6 @@ fun NavigationGraph(
             CurrentOutScreen(navController = navController)
         }
 
-        composable(NavGroup.Studyroom.STUDYROOM_MAIN) {
-            StudyRoomMainScreen(navController = navController)
-        }
-
         composable(
             route = NavGroup.Studyroom.STUDYROOM_APPLY,
             arguments = listOf(
@@ -97,10 +91,6 @@ fun NavigationGraph(
                     type = it.toInt()
                 )
             }
-        }
-
-        composable(NavGroup.Studyroom.STUDYROOM_PLACE) {
-            PlaceScreen(navController = navController)
         }
 
         composable(
