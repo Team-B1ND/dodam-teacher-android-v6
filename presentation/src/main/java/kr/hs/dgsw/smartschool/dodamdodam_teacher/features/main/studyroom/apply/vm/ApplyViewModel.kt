@@ -11,6 +11,7 @@ import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
@@ -61,6 +62,34 @@ class ApplyViewModel @Inject constructor(
             reduce {
                 state.copy(
                     loading = false
+                )
+            }
+            postSideEffect(ApplySideEffect.ShowException(it))
+        }
+    }
+
+    fun getStudyRoomRefresh() = intent {
+        reduce {
+            state.copy(
+                refreshing = true,
+            )
+        }
+
+        val today = LocalDate.now()
+
+        setStudyRoomsUseCase(SetStudyRoomsUseCase.Param(today.year, today.monthValue, today.dayOfMonth)).onSuccess {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                    studyRooms = it,
+                )
+            }
+            if (state.members.isNotEmpty() && state.students.isNotEmpty() && state.classrooms.isNotEmpty())
+                makeApplyItemList()
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
                 )
             }
             postSideEffect(ApplySideEffect.ShowException(it))

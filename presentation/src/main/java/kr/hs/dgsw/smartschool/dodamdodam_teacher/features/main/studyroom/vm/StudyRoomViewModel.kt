@@ -2,11 +2,14 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
 import javax.inject.Inject
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplySideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.mvi.StudyRoomState
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.GetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -20,6 +23,7 @@ class StudyRoomViewModel @Inject constructor(
     private val getTimeTablesUseCase: GetTimeTablesUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
+    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
 ) : ContainerHost<StudyRoomState, StudyRoomSideEffect>, ViewModel() {
 
     override val container: Container<StudyRoomState, StudyRoomSideEffect> = container(StudyRoomState())
@@ -38,6 +42,32 @@ class StudyRoomViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(StudyRoomSideEffect.ShowException(it))
+        }
+    }
+
+    fun getStudyRoomRefresh() = intent {
+        reduce {
+            state.copy(
+                refreshing = true,
+            )
+        }
+
+        val today = LocalDate.now()
+
+        setStudyRoomsUseCase(SetStudyRoomsUseCase.Param(today.year, today.monthValue, today.dayOfMonth)).onSuccess {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                    studyRooms = it
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                )
+            }
             postSideEffect(StudyRoomSideEffect.ShowException(it))
         }
     }

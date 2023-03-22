@@ -7,7 +7,9 @@ import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 data class StudyRoomState(
     val students: List<Student> = emptyList(),
     val studyRooms: List<StudyRoom> = emptyList(),
-    val timeTables: List<TimeTable> = emptyList()
+    val timeTables: List<TimeTable> = emptyList(),
+
+    val refreshing: Boolean = false,
 )
 
 sealed class StudyRoomSideEffect {

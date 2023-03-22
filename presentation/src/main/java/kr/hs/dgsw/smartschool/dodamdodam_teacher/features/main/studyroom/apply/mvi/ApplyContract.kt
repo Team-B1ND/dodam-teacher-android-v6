@@ -19,6 +19,7 @@ data class ApplyState(
     val applyItemList: List<ApplyItem> = emptyList(),
 
     val loading: Boolean = false,
+    val refreshing: Boolean = false,
 ) {
     data class ApplyItem(
         val student: Student,
