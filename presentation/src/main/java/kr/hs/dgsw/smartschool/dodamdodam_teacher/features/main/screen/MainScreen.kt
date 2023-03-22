@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavBar
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavTab
@@ -30,6 +29,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScr
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import java.time.LocalDateTime
 
 @Composable
 fun MainScreen(

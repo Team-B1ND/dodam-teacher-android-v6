@@ -2,8 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
-import java.time.LocalDateTime
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
+import java.time.LocalDateTime
 
 data class HomeState(
     val isOutLoading: Boolean = false,

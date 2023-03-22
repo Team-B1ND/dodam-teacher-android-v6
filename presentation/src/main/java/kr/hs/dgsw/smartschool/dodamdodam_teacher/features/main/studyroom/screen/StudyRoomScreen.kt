@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.components.component.organization.card.DodamContentCard
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.Body2
@@ -39,6 +38,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -82,11 +82,10 @@ fun StudyRoomScreen(
         Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
 
         val wholeSize = state.students.size
-        val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1  || it.timeTable.id == 5 }.size
+        val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1 || it.timeTable.id == 5 }.size
         val secondClassCount = state.studyRooms.filter { it.timeTable.id == 2 || it.timeTable.id == 6 }.size
-        val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3  || it.timeTable.id == 7 }.size
-        val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4  || it.timeTable.id == 8 }.size
-
+        val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3 || it.timeTable.id == 7 }.size
+        val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4 || it.timeTable.id == 8 }.size
 
         val pageList = if (LocalDate.now().dayOfWeek.value in 1..5) {
             listOf(
@@ -179,8 +178,8 @@ fun StudyRoomScreen(
                                 oldValue = "{type}",
                                 newValue = "4"
                             )
-                )
-            }
+                    )
+                }
             )
         }
 
@@ -221,7 +220,6 @@ fun StudyRoomScreen(
             )
         }
     }
-
 }
 
 data class StudyroomPage(
@@ -230,4 +228,3 @@ data class StudyroomPage(
     val content: String,
     val onClick: () -> Unit,
 )
-

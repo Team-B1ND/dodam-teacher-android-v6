@@ -298,10 +298,10 @@ private fun StudyroomCheckCardContent(
     studyRoomUpdateTime: LocalDateTime,
 ) {
 
-    val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1  || it.timeTable.id == 5 }.size
+    val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1 || it.timeTable.id == 5 }.size
     val secondClassCount = state.studyRooms.filter { it.timeTable.id == 2 || it.timeTable.id == 6 }.size
-    val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3  || it.timeTable.id == 7 }.size
-    val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4  || it.timeTable.id == 8 }.size
+    val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3 || it.timeTable.id == 7 }.size
+    val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4 || it.timeTable.id == 8 }.size
 
     Column(
         modifier = Modifier

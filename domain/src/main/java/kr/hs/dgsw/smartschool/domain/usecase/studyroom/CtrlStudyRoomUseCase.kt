@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.domain.usecase.studyroom
 
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
 import kr.hs.dgsw.smartschool.domain.repository.StudyRoomRepository
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
 
 class CtrlStudyRoomUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,

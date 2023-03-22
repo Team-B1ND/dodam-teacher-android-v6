@@ -1,12 +1,12 @@
 package kr.hs.dgsw.smartschool.local.datasource
 
-import javax.inject.Inject
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableCacheDataSource
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.mapper.toTimeTableEntity
 import kr.hs.dgsw.smartschool.local.mapper.toTimeTableEntityList
 import kr.hs.dgsw.smartschool.local.mapper.toTimeTableList
+import javax.inject.Inject
 
 class TimeTableCacheDataSourceImpl @Inject constructor(
     private val timeTableDao: TimeTableDao

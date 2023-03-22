@@ -1,9 +1,9 @@
 package kr.hs.dgsw.smartschool.domain.model.studyroom
 
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
+import java.time.LocalDate
 
 data class StudyRoom(
     val id: Int,

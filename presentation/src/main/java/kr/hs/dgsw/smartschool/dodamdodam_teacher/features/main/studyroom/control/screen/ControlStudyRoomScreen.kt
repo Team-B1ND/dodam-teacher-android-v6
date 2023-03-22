@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMaxWidthButton
-import kr.hs.dgsw.smartschool.components.component.basic.input.area.DodamSelectArea
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.Label1
@@ -36,7 +34,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
-import kr.hs.dgsw.smartschool.domain.model.timetable.TimeTable
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -123,7 +120,6 @@ fun ControlStudyRoomScreen(
                 viewModel.ctrlStudyRoom(studentId, state.selectedStudyRoom.toList().map { it.second })
             }
         }
-
 }
 
 @Composable

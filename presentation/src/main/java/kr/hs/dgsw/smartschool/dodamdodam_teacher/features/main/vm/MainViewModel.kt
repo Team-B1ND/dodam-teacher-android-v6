@@ -8,7 +8,9 @@ import kr.hs.dgsw.smartschool.domain.usecase.classroom.SetClassroomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.SetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.SetStudentsUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.teacher.SetTeachersUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -17,8 +19,6 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

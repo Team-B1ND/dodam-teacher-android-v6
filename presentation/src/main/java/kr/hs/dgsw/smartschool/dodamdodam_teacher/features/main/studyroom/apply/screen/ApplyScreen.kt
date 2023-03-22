@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -21,20 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.time.LocalDate
 import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
-import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.organization.prompt.DodamPrompt
 import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item.DodamConfirmedStudentItem
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
@@ -48,6 +43,7 @@ import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomStatus
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -86,7 +82,7 @@ fun ApplyScreen(
     ).toList().reversed()
 
     val applyTypeList = listOf(stringResource(id = R.string.label_apply), stringResource(id = R.string.label_unapply))
-    
+
     if (state.currentSelectedItem != null)
         DodamPrompt(
             title = "${state.currentSelectedItem.member.name}님의 자습실 정보",
@@ -221,7 +217,6 @@ fun ApplyScreen(
                 )
             }
         }
-
 }
 
 private fun getFilteredStudyRoomList(type: Int, state: ApplyState): List<ApplyState.ApplyItem> {

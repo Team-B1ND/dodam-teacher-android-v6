@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.remote.response.studyroom
 import com.google.gson.annotations.SerializedName
 import kr.hs.dgsw.smartschool.remote.response.place.PlaceResponse
 import kr.hs.dgsw.smartschool.remote.response.student.StudentIdResponse
-import kr.hs.dgsw.smartschool.remote.response.student.StudentResponse
 import kr.hs.dgsw.smartschool.remote.response.teacher.TeacherResponse
 import kr.hs.dgsw.smartschool.remote.response.timetable.TimeTableResponse
 

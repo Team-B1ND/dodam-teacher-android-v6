@@ -1,14 +1,14 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomRemoteDataSource
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
+import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.request.studyroom.RequestItem
 import kr.hs.dgsw.smartschool.remote.request.studyroom.StudyRoomCtrlRequest
 import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoomItem
 
 class StudyRoomRemoteDataSourceImpl @Inject constructor(
     private val studyRoomService: StudyRoomService

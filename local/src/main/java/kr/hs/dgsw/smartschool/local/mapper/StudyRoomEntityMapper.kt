@@ -40,7 +40,7 @@ internal fun StudyRoom.toStudyRoomEntity(): StudyRoomEntity =
         teacherId = teacher?.id
     )
 
-internal fun String.toStudyRoomStatus() = when(this) {
+internal fun String.toStudyRoomStatus() = when (this) {
     StudyRoomStatus.CHECKED.name -> StudyRoomStatus.CHECKED
     StudyRoomStatus.PENDING.name -> StudyRoomStatus.PENDING
     else -> StudyRoomStatus.PENDING

@@ -10,7 +10,6 @@ data class ControlStudyRoomState(
     val getMyInfoLoading: Boolean = false,
     val ctrlStudyRoomLoading: Boolean = false,
 
-
     val myInfo: Teacher? = null,
     val places: List<Place> = emptyList(),
     val timeTables: List<TimeTable> = emptyList(),

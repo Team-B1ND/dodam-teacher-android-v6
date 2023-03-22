@@ -18,7 +18,7 @@ internal fun TimeTableEntity.toTimeTable(): TimeTable =
         endTime = endTime,
     )
 
-internal fun String.toTimeTableType(): TimeTableType = when(this) {
+internal fun String.toTimeTableType(): TimeTableType = when (this) {
     TimeTableType.WEEKDAY.name -> TimeTableType.WEEKDAY
     TimeTableType.WEEKEND.name -> TimeTableType.WEEKEND
     else -> TimeTableType.WEEKDAY
