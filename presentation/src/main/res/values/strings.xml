@@ -53,7 +53,9 @@
     <string name="desc_check_term">약관에 동의해주세요</string>
     <string name="desc_logout_main">로그아웃하시겠습니까?</string>
     <string name="desc_logout_sub">로그인 화면으로 돌아갑니다</string>
-    <string name="desc_not_apply_studyroom">아직 자습실을 신청하지 않았습니다</string>
+    <string name="desc_not_apply_studyroom">아직 자습실을 신청하지 않았어요</string>
+    <string name="desc_hint_select_place">장소를 선택해주세요</string>
+    <string name="desc_success_ctrl_studyroom">자습실 변경에 성공했어요</string>
 
     <string name="label_logout">로그아웃</string>
     <string name="label_login">로그인</string>

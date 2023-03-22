@@ -49,7 +49,6 @@ fun ApplyScreen(
     viewModel: ApplyViewModel = hiltViewModel(),
     type: Int,
 ) {
-
     val state = viewModel.collectAsState().value
     val context = LocalContext.current
 
@@ -107,7 +106,7 @@ fun ApplyScreen(
                     type = ButtonType.SecondaryVariant,
                 ) {
                     viewModel.updateSelectedItem(null)
-                    navController.navigate(NavGroup.Studyroom.STUDYROOM_CTRL)
+                    navController.navigate(NavGroup.Studyroom.STUDYROOM_CTRL.replace("{studentId}", state.currentSelectedItem.student.id.toString()))
                 }
             },
             onDismiss = {

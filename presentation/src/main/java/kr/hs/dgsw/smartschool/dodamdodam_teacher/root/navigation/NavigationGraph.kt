@@ -111,8 +111,21 @@ fun NavigationGraph(
             }
         }
 
-        composable(NavGroup.Studyroom.STUDYROOM_CTRL) {
-            ControlStudyRoomScreen(navController = navController)
+        composable(
+            route = NavGroup.Studyroom.STUDYROOM_CTRL,
+            arguments = listOf(
+                navArgument("studentId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->
+            val studentId = entry.arguments?.getString("studentId")
+            studentId?.let {
+                ControlStudyRoomScreen(
+                    studentId = it.toInt(),
+                    navController = navController,
+                )
+            }
         }
     }
 }
