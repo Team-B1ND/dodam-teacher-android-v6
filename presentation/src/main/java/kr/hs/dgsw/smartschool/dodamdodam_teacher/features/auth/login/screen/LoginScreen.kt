@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.auth.login.screen
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -81,6 +82,7 @@ fun LoginScreen(
             }
             is LoginSideEffect.ToastLoginErrorMessage -> {
                 Toast.makeText(context, it.errMsg, Toast.LENGTH_SHORT).show()
+                Log.e("login", it.errMsg)
             }
         }
     }

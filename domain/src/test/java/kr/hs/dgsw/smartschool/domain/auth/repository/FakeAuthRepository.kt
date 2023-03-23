@@ -24,7 +24,7 @@ class FakeAuthRepository : AuthRepository {
         pw: String,
         tel: String,
     ) {
-        members.add(Member(email, id, LocalDateTime.now(), name, null, MemberRole.TEACHER, MemberStatus.ACTIVE))
+        members.add(Member(email, id, LocalDateTime.now().toString(), name, null, MemberRole.TEACHER, MemberStatus.ACTIVE))
         accounts.add(FakeAccount(id, pw))
     }
 

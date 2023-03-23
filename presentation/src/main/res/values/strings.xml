@@ -26,12 +26,6 @@
     <string name="hint_tel">내선 전화 (1~20)</string>
     <string name="hint_position">직책 (1~20)</string>
 
-    <string name="label_logout">로그아웃</string>
-    <string name="label_login">로그인</string>
-    <string name="label_join">회원가입</string>
-    <string name="label_next">다음</string>
-    <string name="label_give">발급</string>
-
     <string name="desc_id_login">5~20 글자 사이로 입력해주세요</string>
     <string name="desc_pw_login">7~20 글자 사이로 입력해주세요</string>
     <string name="desc_navigate_join">도담도담 계정이 없어요</string>
@@ -59,7 +53,15 @@
     <string name="desc_check_term">약관에 동의해주세요</string>
     <string name="desc_logout_main">로그아웃하시겠습니까?</string>
     <string name="desc_logout_sub">로그인 화면으로 돌아갑니다</string>
+    <string name="desc_not_apply_studyroom">아직 자습실을 신청하지 않았어요</string>
+    <string name="desc_hint_select_place">장소를 선택해주세요</string>
+    <string name="desc_success_ctrl_studyroom">자습실 변경에 성공했어요</string>
 
+    <string name="label_logout">로그아웃</string>
+    <string name="label_login">로그인</string>
+    <string name="label_join">회원가입</string>
+    <string name="label_next">다음</string>
+    <string name="label_give">발급</string>
     <string name="label_home">홈</string>
     <string name="label_studyroom">자습실</string>
     <string name="label_out">외출/외박</string>
@@ -88,6 +90,19 @@
     <string name="label_open_source">오픈소스 라이선스</string>
     <string name="label_private_term">개인정보 취급 방침</string>
     <string name="label_service_term">서비스 운영 정책</string>
+    <string name="label_class_8">8교시</string>
+    <string name="label_class_9">9교시</string>
+    <string name="label_class_10">10교시</string>
+    <string name="label_class_11">11교시</string>
+    <string name="label_forenoon_1">오전 1</string>
+    <string name="label_forenoon_2">오전 2</string>
+    <string name="label_afternoon_1">오후 1</string>
+    <string name="label_afternoon_2">오후 2</string>
+    <string name="label_apply">신청</string>
+    <string name="label_unapply">미신청</string>
+    <string name="label_check">체크</string>
+    <string name="label_cancel_check">체크 취소</string>
+    <string name="label_modify">수정</string>
 
     <string name="text_check_terms">필수 약관에 동의해주세요</string>
     <string name="text_private_term">> 개인정보 취급 방침</string>

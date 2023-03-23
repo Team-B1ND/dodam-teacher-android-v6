@@ -60,7 +60,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcThinkingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm.HomeViewModel
@@ -76,7 +75,8 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel(),
     navTabNavigate: ((tab: Int) -> Unit)? = null,
-    outUpdateTime: LocalDateTime = LocalDateTime.now()
+    outUpdateTime: LocalDateTime = LocalDateTime.now(),
+    studyRoomUpdateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 
     val context = LocalContext.current
@@ -97,6 +97,7 @@ fun HomeScreen(
         refreshing = homeState.refreshing,
         onRefresh = {
             homeViewModel.getOutRemote()
+            homeViewModel.getStudyRoomRemote()
         }
     )
 
@@ -149,7 +150,12 @@ fun HomeScreen(
                     title = stringResource(id = R.string.title_studyroom_check),
                     modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                     hasLinkIcon = true,
-                    content = { OutStudyroomCheckCardContent() }
+                    content = { StudyroomCheckCardContent(homeState, studyRoomUpdateTime) },
+                    onClick = {
+                        navTabNavigate?.let {
+                            it(1)
+                        }
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
@@ -268,7 +274,7 @@ private fun OutApproveCardContent(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Body3(
-            text = homeState.refreshTime?.toSimpleYearDateTime() ?: outUpdateTime.toSimpleYearDateTime(),
+            text = homeState.outRefreshTime?.toSimpleYearDateTime() ?: outUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
@@ -287,20 +293,52 @@ private fun OutApproveCardContent(
 }
 
 @Composable
-private fun OutStudyroomCheckCardContent() {
+private fun StudyroomCheckCardContent(
+    state: HomeState,
+    studyRoomUpdateTime: LocalDateTime,
+) {
+
+    val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1 || it.timeTable.id == 5 }.size
+    val secondClassCount = state.studyRooms.filter { it.timeTable.id == 2 || it.timeTable.id == 6 }.size
+    val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3 || it.timeTable.id == 7 }.size
+    val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4 || it.timeTable.id == 8 }.size
+
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         Body3(
-            text = LocalDateTime.now().toSimpleYearDateTime(),
+            text = state.studyRoomRefreshTime?.toSimpleYearDateTime() ?: studyRoomUpdateTime.toSimpleYearDateTime(),
             textColor = DodamTheme.color.Gray500,
         )
         Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
-        HomeCardDetailItem(
-            title = stringResource(id = R.string.text_studyroom_check),
-            content = "50명 / 70명",
-            icon = { IcThinkingFace3D(contentDescription = null, modifier = Modifier.size(CardItemIconSize)) }
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            StudyRoomCardDetailItem(
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_8) else stringResource(id = R.string.label_forenoon_1),
+                content = "$firstClassCount/${state.allStudentsCount}",
+                icon = { }
+            )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
+            StudyRoomCardDetailItem(
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_9) else stringResource(id = R.string.label_forenoon_2),
+                content = "$secondClassCount/${state.allStudentsCount}",
+                icon = { }
+            )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
+            StudyRoomCardDetailItem(
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_10) else stringResource(id = R.string.label_afternoon_1),
+                content = "$thirdClassCount/${state.allStudentsCount}",
+                icon = { }
+            )
+            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
+            StudyRoomCardDetailItem(
+                title = if (state.isWeekDay) stringResource(id = R.string.label_class_11) else stringResource(id = R.string.label_afternoon_2),
+                content = "$fourthClassCount/${state.allStudentsCount}",
+                icon = { }
+            )
+        }
     }
 }
 
@@ -326,6 +364,26 @@ private fun HomeCardDetailItem(
                 ),
             )
         }
+    }
+}
+
+@Composable
+private fun StudyRoomCardDetailItem(
+    title: String,
+    content: String,
+    icon: @Composable () -> Unit,
+) {
+    icon()
+    Column {
+        Body3(text = title, textColor = DodamTheme.color.Gray500)
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = content,
+            color = DodamTheme.color.Black,
+            style = DodamTheme.typography.label1.copy(
+                fontWeight = FontWeight.SemiBold
+            ),
+        )
     }
 }
 

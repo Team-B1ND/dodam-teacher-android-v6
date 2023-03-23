@@ -8,4 +8,12 @@ data class Teacher(
     val phone: String,
     val position: String,
     val tel: String,
-)
+) {
+    constructor(id: Int) : this(
+        id = id,
+        member = Member(),
+        phone = "",
+        position = "",
+        tel = "",
+    )
+}

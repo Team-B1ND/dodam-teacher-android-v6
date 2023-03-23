@@ -18,8 +18,11 @@ import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.OutService
+import kr.hs.dgsw.smartschool.remote.service.PlaceService
 import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.service.ScheduleService
+import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
+import kr.hs.dgsw.smartschool.remote.service.TimeTableService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import okhttp3.OkHttpClient
@@ -98,6 +101,11 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
+        retrofit.create(BannerService::class.java)
+
+    @Singleton
+    @Provides
     fun providesOutService(@BasicRetrofit retrofit: Retrofit): OutService =
         retrofit.create(OutService::class.java)
 
@@ -105,11 +113,6 @@ class NetworkModule {
     @Provides
     fun providesTokenService(@AuthRetrofit retrofit: Retrofit): TokenService =
         retrofit.create(TokenService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesBannerService(@BasicRetrofit retrofit: Retrofit): BannerService =
-        retrofit.create(BannerService::class.java)
 
     @Singleton
     @Provides
@@ -135,4 +138,18 @@ class NetworkModule {
     @Provides
     fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
         retrofit.create(ItmapService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesStudyRoomService(@BasicRetrofit retrofit: Retrofit): StudyRoomService =
+        retrofit.create(StudyRoomService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesPlaceService(@BasicRetrofit retrofit: Retrofit): PlaceService =
+        retrofit.create(PlaceService::class.java)
+    @Singleton
+    @Provides
+    fun providesTimeTableService(@BasicRetrofit retrofit: Retrofit): TimeTableService =
+        retrofit.create(TimeTableService::class.java)
 }

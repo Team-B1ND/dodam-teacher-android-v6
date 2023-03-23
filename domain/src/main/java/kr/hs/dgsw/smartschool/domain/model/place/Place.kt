@@ -18,4 +18,13 @@ data class Place(
             name = ""
         )
     )
+
+    constructor(id: Int) : this(
+        id = id,
+        name = "",
+        type = PlaceType(
+            id = -1,
+            name = "",
+        )
+    )
 }

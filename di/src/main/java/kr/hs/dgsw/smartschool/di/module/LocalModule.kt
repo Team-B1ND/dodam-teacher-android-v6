@@ -19,7 +19,9 @@ import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
+import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
+import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
@@ -127,4 +129,16 @@ object LocalModule {
     fun provideCalorieDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): CalorieDao = dodamTeacherDatabase.calorieDao()
+
+    @Provides
+    @Singleton
+    fun provideStudyRoomDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): StudyRoomDao = dodamTeacherDatabase.studyRoomDao()
+
+    @Provides
+    @Singleton
+    fun provideTimeTableDao(
+        dodamTeacherDatabase: DodamTeacherDatabase
+    ): TimeTableDao = dodamTeacherDatabase.timeTableDao()
 }

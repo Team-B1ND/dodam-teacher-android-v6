@@ -16,7 +16,9 @@ import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
+import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
+import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
 import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
@@ -30,7 +32,9 @@ import kr.hs.dgsw.smartschool.local.entity.parent.ParentEntity
 import kr.hs.dgsw.smartschool.local.entity.place.PlaceEntity
 import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
 import kr.hs.dgsw.smartschool.local.entity.student.StudentEntity
+import kr.hs.dgsw.smartschool.local.entity.studyroom.StudyRoomEntity
 import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
+import kr.hs.dgsw.smartschool.local.entity.timetable.TimeTableEntity
 import kr.hs.dgsw.smartschool.local.entity.token.TokenEntity
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 
@@ -39,9 +43,9 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         MealEntity::class, ClassroomEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class, CalorieEntity::class,
+        CompanyEntity::class, CalorieEntity::class, StudyRoomEntity::class, TimeTableEntity::class
     ],
-    version = 8,
+    version = 10,
     exportSchema = false
 )
 
@@ -59,8 +63,9 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun bannerDao(): BannerDao
     abstract fun scheduleDao(): ScheduleDao
     abstract fun itmapDao(): ItmapDao
-
     abstract fun calorieDao(): CalorieDao
+    abstract fun studyRoomDao(): StudyRoomDao
+    abstract fun timeTableDao(): TimeTableDao
 }
 
 val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
@@ -69,7 +74,7 @@ val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
             execSQL("CREATE TABLE ${DodamTable.CLASSROOM} (id INTEGER not null, placeId INTEGER not null, grade INTEGER not null, room INTEGER not null, PRIMARY KEY (id))")
             execSQL("CREATE TABLE ${DodamTable.MEMBER} (id TEXT not null, joinDate TEXT, role TEXT not null, name TEXT not null, profileImage TEXT, email TEXT not null, status TEXT not null, PRIMARY KEY (id))")
             execSQL("CREATE TABLE ${DodamTable.PLACE} (name INTEGER not null, placeTypeId INTEGER not null, id INTEGER not null, placeTypeName TEXT not null, primary key (id))")
-            execSQL("CREATE TABLE ${DodamTable.STUDENT} (studentId INTEGER not null, classroomId INTEGER not null, number INTEGER not null, phone TEXT not null, memberId TEXT not null, primary key (studentId))")
+            execSQL("CREATE TABLE ${DodamTable.STUDENT} (studentId INTEGER not null, classroomId INTEGER not null, number INTEGER not null, phone TEXT not null, memberId TEXT not null, memberName TEXT not null, primary key (studentId))")
             execSQL("CREATE TABLE ${DodamTable.TEACHER} (tel TEXT not null, teacherId INTEGER not null, position TEXT not null, phone TEXT not null, memberId TEXT not null, primary key (teacherId))")
             execSQL("CREATE TABLE ${DodamTable.PARENT} (studentId INTEGER not null, phone TEXT not null, id INTEGER not null, primary key (id))")
             execSQL("CREATE TABLE ${DodamTable.TOKEN} (idx INTEGER not null, token TEXT not null, refreshToken TEXT not null, primary key (idx))")
