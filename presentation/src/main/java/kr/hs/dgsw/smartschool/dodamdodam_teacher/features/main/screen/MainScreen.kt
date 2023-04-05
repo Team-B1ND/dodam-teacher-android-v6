@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.screen
 
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavArgs
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import kr.hs.dgsw.smartschool.components.component.basic.surface
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavBar
 import kr.hs.dgsw.smartschool.components.component.set.navtab.DodamNavTab
@@ -28,18 +25,17 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcBurger
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcLocation
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcOut
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
-import org.orbitmvi.orbit.compose.collectAsState
-import java.time.LocalDateTime
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
+import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDateTime
 
 @Composable
 fun MainScreen(

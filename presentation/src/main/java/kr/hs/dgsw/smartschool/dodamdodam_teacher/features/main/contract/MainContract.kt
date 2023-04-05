@@ -17,5 +17,5 @@ data class MainState(
 )
 
 sealed class MainSideEffect {
-    data class ShowException(val exception: Throwable): MainSideEffect()
+    data class ShowException(val exception: Throwable) : MainSideEffect()
 }
