@@ -145,3 +145,13 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
 
 gradle.properties
+
+.idea/inspectionProfiles/Project_Default.xml
+
+remote/src/main/java/kr/hs/dgsw/smartschool/remote/url/
+
+.idea/other.xml
+
+presentation/src/main/res/values/client_id.xml
+
+.idea/deploymentTargetDropDown.xml
