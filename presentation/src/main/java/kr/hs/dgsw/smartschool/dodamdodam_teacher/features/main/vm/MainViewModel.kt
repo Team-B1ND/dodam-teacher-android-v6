@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
@@ -19,6 +20,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -65,6 +67,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setStudyRoomsLoading = false
@@ -87,6 +90,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setTimeTablesLoading = false
@@ -112,6 +116,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setOutsLoading = false
@@ -134,6 +139,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setClassroomLoading = false
@@ -156,6 +162,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setMembersLoading = false
@@ -178,6 +185,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setStudentsLoading = false
@@ -200,6 +208,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setTeachersLoading = false

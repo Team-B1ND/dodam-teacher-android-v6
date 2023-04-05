@@ -110,6 +110,7 @@
     <string name="text_outgoing_application">외출 미승인</string>
     <string name="text_outsleeping_application">외박 미승인</string>
     <string name="text_studyroom_check">자습실 미신청 / 미확인</string>
+    <string name="text_session">세션이 만료되었습니다.</string>
 
     <string name="url_personal_info">https://dodam.b1nd.com/detailed-information/personal-information</string>
     <string name="url_service_info">https://dodam.b1nd.com/detailed-information/service-policy</string>

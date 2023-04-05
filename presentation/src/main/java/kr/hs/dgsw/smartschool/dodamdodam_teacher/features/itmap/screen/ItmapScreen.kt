@@ -73,6 +73,13 @@ fun ItmapScreen(
     itmapViewModel.collectSideEffect {
         when (it) {
             is ItmapSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Feature.ITMAP) {
+                            inclusive = true
+                        }
+                    }
+                }
                 Log.e("ItmapLog", it.exception.stackTraceToString())
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
             }

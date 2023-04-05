@@ -12,6 +12,8 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
+import okhttp3.Protocol
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 class TokenInterceptor @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
@@ -36,7 +38,8 @@ class TokenInterceptor @Inject constructor(
         }
 
         val request: Request = chain.request().newBuilder()
-            .addHeader(TOKEN_HEADER, "Bearer ${token.token}")
+            //.addHeader(TOKEN_HEADER, "Bearer ${token.token}")
+            .addHeader(TOKEN_HEADER, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJJZCI6ImFkbWluIiwiYWNjZXNzTGV2ZWwiOjQsImFwaUtleUFjY2Vzc0xldmVsIjowLCJpYXQiOjE2Nzc1Njg1ODIsImV4cCI6MTY3ODAwMDU4MiwiaXNzIjoiZG9kYW0uY29tIiwic3ViIjoidG9rZW4ifQ.HndrLi_Wj-bz8Fis39Jks7rRA84hoWMlA-rHTmhb9y4")
             .build()
 
         var response = chain.proceed(request)
@@ -45,7 +48,8 @@ class TokenInterceptor @Inject constructor(
             runBlocking(Dispatchers.IO) {
                 fetchTokenUseCase().onSuccess {
                     val refreshRequest: Request = chain.request().newBuilder()
-                        .addHeader(TOKEN_HEADER, "Bearer ${it.token}")
+                        //.addHeader(TOKEN_HEADER, "Bearer ${it.token}")
+                        .addHeader(TOKEN_HEADER, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJJZCI6ImFkbWluIiwiYWNjZXNzTGV2ZWwiOjQsImFwaUtleUFjY2Vzc0xldmVsIjowLCJpYXQiOjE2Nzc1Njg1ODIsImV4cCI6MTY3ODAwMDU4MiwiaXNzIjoiZG9kYW0uY29tIiwic3ViIjoidG9rZW4ifQ.HndrLi_Wj-bz8Fis39Jks7rRA84hoWMlA-rHTmhb9y4")
                         .build()
                     response = chain.proceed(refreshRequest)
 
@@ -54,7 +58,13 @@ class TokenInterceptor @Inject constructor(
                         runBlocking(Dispatchers.IO) {
                             val account = authCacheDataSource.getAccount()
                             if (account.id == null && account.pw == null) {
-                                throw ExpiredRefreshTokenException()
+                                response = Response.Builder()
+                                    .request(request)
+                                    .protocol(Protocol.HTTP_1_1)
+                                    .code(TOKEN_ERROR)
+                                    .message("세션이 만료되었습니다.")
+                                    .body("세션이 만료되었습니다.".toResponseBody())
+                                    .build()
                             } else {
                                 loginUseCase(
                                     LoginUseCase.Param(
@@ -72,13 +82,25 @@ class TokenInterceptor @Inject constructor(
                                         throw ExpiredRefreshTokenException()
                                     }
                                 }.onFailure {
-                                    throw ExpiredRefreshTokenException()
+                                    response = Response.Builder()
+                                        .request(request)
+                                        .protocol(Protocol.HTTP_1_1)
+                                        .code(TOKEN_ERROR)
+                                        .message("세션이 만료되었습니다.")
+                                        .body("{\"status\":401,\"message\":\"세션이 만료되었습니다.\"}".toResponseBody())
+                                        .build()
                                 }
                             }
                         }
                     }
                 }.onFailure {
-                    throw ExpiredRefreshTokenException()
+                    response = Response.Builder()
+                        .request(request)
+                        .protocol(Protocol.HTTP_1_1)
+                        .code(TOKEN_ERROR)
+                        .message("세션이 만료되었습니다.")
+                        .body("{\"status\":401,\"message\":\"세션이 만료되었습니다.\"}".toResponseBody())
+                        .build()
                 }
             }
         }

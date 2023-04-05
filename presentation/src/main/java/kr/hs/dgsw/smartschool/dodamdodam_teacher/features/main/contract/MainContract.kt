@@ -16,4 +16,6 @@ data class MainState(
     val selectedTab: Int = 0,
 )
 
-sealed class MainSideEffect
+sealed class MainSideEffect {
+    data class ShowException(val exception: Throwable): MainSideEffect()
+}

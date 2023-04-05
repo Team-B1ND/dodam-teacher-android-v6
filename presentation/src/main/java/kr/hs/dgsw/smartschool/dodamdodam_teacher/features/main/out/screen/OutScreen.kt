@@ -40,6 +40,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
@@ -59,6 +60,13 @@ fun OutScreen(
     outViewModel.collectSideEffect {
         when (it) {
             is OutSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Main.OUT) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )
