@@ -61,6 +61,13 @@ fun EtcScreen(
     etcViewModel.collectSideEffect {
         when (it) {
             is EtcSideEffect.ShowException -> {
+                if (it.throwable.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Main.ETC) {
+                            inclusive = true
+                        }
+                    }
+                }
                 Log.e("EtcLog", it.throwable.stackTraceToString())
                 Toast.makeText(context, it.throwable.message, Toast.LENGTH_SHORT).show()
             }

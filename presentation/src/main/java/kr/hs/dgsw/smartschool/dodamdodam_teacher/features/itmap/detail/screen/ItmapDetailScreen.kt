@@ -36,6 +36,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.detail.mvi.ItmapDetailSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.itmap.detail.vm.ItmapDetailViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.itmap.CompanyUser
 import org.orbitmvi.orbit.compose.collectAsState
@@ -56,6 +57,13 @@ fun ItmapDetailScreen(
     itmapDetailViewModel.collectSideEffect {
         when (it) {
             is ItmapDetailSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Feature.ITMAP_DETAIL) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
             }
         }

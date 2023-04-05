@@ -32,7 +32,6 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                // TODO message가 null일 경우 아무것도 하지 않기로 수정 필요
                 postSideEffect(MainSideEffect.ToastGetEnableAutoLoginErrorMessage(it))
             }
         }

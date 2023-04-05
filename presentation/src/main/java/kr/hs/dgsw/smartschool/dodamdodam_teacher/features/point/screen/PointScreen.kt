@@ -25,6 +25,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.Firs
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.SecondPage
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.screen.page.ThirdPage
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
@@ -47,6 +48,13 @@ fun PointScreen(
     pointViewModel.collectSideEffect {
         when (it) {
             is PointSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Feature.POINT) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
                 Log.e("PointErrorLog", it.exception.stackTraceToString())
                 navController.popBackStack()

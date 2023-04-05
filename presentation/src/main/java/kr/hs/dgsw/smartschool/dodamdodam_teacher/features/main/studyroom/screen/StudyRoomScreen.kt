@@ -51,7 +51,15 @@ fun StudyRoomScreen(
 
     viewModel.collectSideEffect {
         when (it) {
+
             is StudyRoomSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Main.STUDYROOM) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )

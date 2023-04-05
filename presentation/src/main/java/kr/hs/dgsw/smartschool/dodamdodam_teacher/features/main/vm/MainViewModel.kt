@@ -14,6 +14,7 @@ import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import java.time.LocalDate
@@ -65,6 +66,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setStudyRoomsLoading = false
@@ -87,6 +89,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setTimeTablesLoading = false
@@ -112,6 +115,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setOutsLoading = false
@@ -134,6 +138,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setClassroomLoading = false
@@ -156,6 +161,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setMembersLoading = false
@@ -178,6 +184,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setStudentsLoading = false
@@ -200,6 +207,7 @@ class MainViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            postSideEffect(MainSideEffect.ShowException(it))
             reduce {
                 state.copy(
                     setTeachersLoading = false

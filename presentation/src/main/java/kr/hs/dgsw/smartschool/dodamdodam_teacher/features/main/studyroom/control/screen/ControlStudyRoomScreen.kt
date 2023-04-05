@@ -30,6 +30,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.DodamTeacherSelectArea
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.control.mvi.ControlStudyRoomSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.control.vm.ControlStudyRoomViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
@@ -53,6 +54,13 @@ fun ControlStudyRoomScreen(
     viewModel.collectSideEffect {
         when (it) {
             is ControlStudyRoomSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Studyroom.STUDYROOM_CTRL) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
                 Log.e("ControlStudyRoomScreen", it.exception.stackTraceToString())
             }

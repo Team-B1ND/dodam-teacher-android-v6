@@ -58,6 +58,13 @@ fun ApplyScreen(
     viewModel.collectSideEffect {
         when (it) {
             is ApplySideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Studyroom.STUDYROOM_APPLY) {
+                            inclusive = true
+                        }
+                    }
+                }
                 context.shortToast(
                     it.exception.message ?: context.getString(R.string.content_unknown_exception)
                 )

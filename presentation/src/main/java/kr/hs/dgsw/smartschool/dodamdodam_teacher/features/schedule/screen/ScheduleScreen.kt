@@ -31,6 +31,7 @@ import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.mvi.ScheduleSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.schedule.vm.ScheduleViewModel
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -46,6 +47,13 @@ fun ScheduleScreen(
     scheduleViewModel.collectSideEffect {
         when (it) {
             is ScheduleSideEffect.ShowException -> {
+                if (it.exception.message == context.getString(R.string.text_session)) {
+                    navController.navigate(NavGroup.Auth.LOGIN) {
+                        popUpTo(NavGroup.Feature.SCHEDULE) {
+                            inclusive = true
+                        }
+                    }
+                }
                 Log.e("ScheduleLog", it.exception.stackTraceToString())
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
             }
