@@ -1,8 +1,8 @@
-package kr.hs.dgsw.smartschool.remote.response.evening_study
+package kr.hs.dgsw.smartschool.remote.response.night_study
 
 import com.google.gson.annotations.SerializedName
 
-data class EveningStudyResponse(
+data class NightStudyResponse(
     @field:SerializedName("id") val id: Int,
     @field:SerializedName("content") val content: String,
     @field:SerializedName("allowCheck") val allowCheck: AllowCheckResponse,

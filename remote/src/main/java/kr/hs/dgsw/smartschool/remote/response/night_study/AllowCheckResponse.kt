@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.remote.response.evening_study
+package kr.hs.dgsw.smartschool.remote.response.night_study
 
 enum class AllowCheckResponse {
     ALLOWED,

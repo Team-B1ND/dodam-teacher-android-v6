@@ -1,7 +1,7 @@
-package kr.hs.dgsw.smartschool.remote.request.evening_study
+package kr.hs.dgsw.smartschool.remote.request.night_study
 
 import com.google.gson.annotations.SerializedName
 
-data class EveningStudyIdRequest(
+data class NightStudyIdRequest(
     @field:SerializedName("id") val id: Int,
 )
