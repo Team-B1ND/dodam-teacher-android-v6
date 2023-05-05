@@ -6,7 +6,7 @@ data class NightStudyResponse(
     @field:SerializedName("id") val id: Int,
     @field:SerializedName("content") val content: String,
     @field:SerializedName("allowCheck") val allowCheck: AllowCheckResponse,
-    @field:SerializedName("reason") val reason: String,
+    @field:SerializedName("reason") val reason: String?,
     @field:SerializedName("student") val student: EveningStudyStudentResponse,
     @field:SerializedName("place") val place: String,
     @field:SerializedName("startAt") val startAt: String,
