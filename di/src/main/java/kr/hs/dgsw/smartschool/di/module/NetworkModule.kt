@@ -17,6 +17,7 @@ import kr.hs.dgsw.smartschool.remote.service.ClassroomService
 import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
+import kr.hs.dgsw.smartschool.remote.service.NightStudyService
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.PlaceService
 import kr.hs.dgsw.smartschool.remote.service.PointService
@@ -152,4 +153,9 @@ class NetworkModule {
     @Provides
     fun providesTimeTableService(@BasicRetrofit retrofit: Retrofit): TimeTableService =
         retrofit.create(TimeTableService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideNightStudyService(@BasicRetrofit retrofit: Retrofit): NightStudyService =
+        retrofit.create(NightStudyService::class.java)
 }
