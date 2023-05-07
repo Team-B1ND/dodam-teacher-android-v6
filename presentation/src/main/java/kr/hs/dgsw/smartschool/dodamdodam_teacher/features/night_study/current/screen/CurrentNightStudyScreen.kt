@@ -41,7 +41,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.mv
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.vm.CurrentNightStudyViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.format.DateTimeFormatter

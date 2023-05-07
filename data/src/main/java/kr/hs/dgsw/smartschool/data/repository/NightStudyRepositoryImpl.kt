@@ -2,7 +2,7 @@ package kr.hs.dgsw.smartschool.data.repository
 
 import kr.hs.dgsw.smartschool.data.base.DataSourceRepository
 import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.repository.NightStudyRepository
 import javax.inject.Inject
 

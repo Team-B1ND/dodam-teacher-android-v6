@@ -1,9 +1,9 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.domain.model.evening_study.AllowCheck
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudyStudent
+import kr.hs.dgsw.smartschool.domain.model.night_study.AllowCheck
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudyStudent
 import kr.hs.dgsw.smartschool.remote.response.night_study.AllowCheckResponse
 import kr.hs.dgsw.smartschool.remote.response.night_study.EveningStudyStudentResponse
 import kr.hs.dgsw.smartschool.remote.response.night_study.NightStudyResponse

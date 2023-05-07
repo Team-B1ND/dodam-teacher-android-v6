@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.domain.model.evening_study
+package kr.hs.dgsw.smartschool.domain.model.night_study
 
 import java.time.LocalDateTime
 

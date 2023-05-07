@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.data.datasource.night_study
 
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 
 interface NightStudyRemoteDataSource {
 

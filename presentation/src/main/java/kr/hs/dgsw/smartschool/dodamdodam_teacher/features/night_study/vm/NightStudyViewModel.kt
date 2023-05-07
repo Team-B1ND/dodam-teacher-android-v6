@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightStudySideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightStudyState
-import kr.hs.dgsw.smartschool.domain.model.evening_study.AllowCheck
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
+import kr.hs.dgsw.smartschool.domain.model.night_study.AllowCheck
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
