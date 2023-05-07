@@ -30,7 +30,6 @@ import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
-import kr.hs.dgsw.smartschool.components.theme.Title1
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
@@ -143,7 +142,7 @@ fun NightStudyScreen(
                 .fillMaxSize()
                 .background(color = DodamColor.White)
         ) {
-            
+
             DodamAppBar(
                 title = stringResource(id = R.string.title_night_study_approve),
                 onStartIconClick = {
