@@ -1,13 +1,12 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.evening_study.AllowCheck
 import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudyStudent
 import kr.hs.dgsw.smartschool.remote.response.night_study.AllowCheckResponse
-import kr.hs.dgsw.smartschool.remote.response.night_study.NightStudyResponse
 import kr.hs.dgsw.smartschool.remote.response.night_study.EveningStudyStudentResponse
+import kr.hs.dgsw.smartschool.remote.response.night_study.NightStudyResponse
 
 internal fun List<NightStudyResponse>.toModel(): List<NightStudy> =
     this.map {
@@ -37,7 +36,7 @@ internal fun EveningStudyStudentResponse.toModel(): NightStudyStudent =
     )
 
 internal fun AllowCheckResponse.toAllowCheck(): AllowCheck =
-    when(this.name) {
+    when (this.name) {
         AllowCheck.ALLOWED.name -> AllowCheck.ALLOWED
         AllowCheck.PENDING.name -> AllowCheck.PENDING
         AllowCheck.DENIED.name -> AllowCheck.DENIED

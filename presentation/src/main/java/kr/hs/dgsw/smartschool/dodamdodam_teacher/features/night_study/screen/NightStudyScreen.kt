@@ -41,7 +41,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightS
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.vm.NightStudyViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -128,8 +127,8 @@ fun NightStudyScreen(
                         
                         학습 계획 : ${it.content}
                         
-                        ${it.reason?.let { reason -> 
-                            "휴대폰 사용 이유 : $reason"
+                        ${it.reason?.let { reason ->
+                        "휴대폰 사용 이유 : $reason"
                     }}
                     """.trimIndent(),
                     onDismiss = {
@@ -193,8 +192,8 @@ fun NightStudyScreen(
                     ) {
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.students.find {
-                                it.number == nightStudy.student.number
-                                        && it.member.name == nightStudy.student.name
+                                it.number == nightStudy.student.number &&
+                                    it.member.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,

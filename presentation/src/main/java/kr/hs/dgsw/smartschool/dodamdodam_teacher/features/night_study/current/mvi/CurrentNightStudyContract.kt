@@ -5,7 +5,6 @@ import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 
-
 data class CurrentNightStudyState(
     val currentGrade: Int = 0,
     val currentClassroom: Int = 0,

@@ -184,8 +184,8 @@ fun CurrentNightStudyScreen(
                     ) {
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.students.find {
-                                it.number == nightStudy.student.number
-                                        && it.member.name == nightStudy.student.name
+                                it.number == nightStudy.student.number &&
+                                    it.member.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,

@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
-import kr.hs.dgsw.smartschool.domain.model.evening_study.NightStudy
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.request.night_study.NightStudyIdRequest
 import kr.hs.dgsw.smartschool.remote.service.NightStudyService
