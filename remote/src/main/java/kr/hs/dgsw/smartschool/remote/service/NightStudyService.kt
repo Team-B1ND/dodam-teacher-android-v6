@@ -27,4 +27,7 @@ interface NightStudyService {
     suspend fun denyNightStudy(
         @Body nightStudyIdRequest: NightStudyIdRequest
     )
+
+    @GET(DodamUrl.NightStudy.NIGHT_PENDING)
+    suspend fun getPendingNightStudy(): Response<List<NightStudyResponse>>
 }

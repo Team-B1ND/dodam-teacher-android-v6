@@ -21,4 +21,7 @@ class NightStudyRepositoryImpl @Inject constructor(
 
     override suspend fun denyNightStudy(id: Int) =
         datasource.denyNightStudy(id)
+
+    override suspend fun getPendingNightStudy(): List<NightStudy> =
+        datasource.getPendingNightStudy()
 }

@@ -11,4 +11,6 @@ interface NightStudyRepository {
     suspend fun allowNightStudy(id: Int)
 
     suspend fun denyNightStudy(id: Int)
+
+    suspend fun getPendingNightStudy(): List<NightStudy>
 }
