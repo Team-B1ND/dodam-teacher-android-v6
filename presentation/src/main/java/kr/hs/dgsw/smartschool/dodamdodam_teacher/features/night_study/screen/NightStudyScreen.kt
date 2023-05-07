@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import kr.hs.dgsw.smartschool.components.component.basic.button.ButtonType
 import kr.hs.dgsw.smartschool.components.component.basic.button.DodamMediumRoundedButton
 import kr.hs.dgsw.smartschool.components.component.organization.prompt.DodamPrompt
+import kr.hs.dgsw.smartschool.components.component.set.appbar.DodamAppBar
 import kr.hs.dgsw.smartschool.components.modifier.dodamClickable
 import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
@@ -142,12 +143,12 @@ fun NightStudyScreen(
                 .fillMaxSize()
                 .background(color = DodamColor.White)
         ) {
-
-            Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultMainScreenTitleSpace))
-
-            Title1(
-                text = stringResource(id = R.string.title_night_study_approve),
-                modifier = Modifier.padding(start = DodamDimen.ScreenSidePadding),
+            
+            DodamAppBar(
+                title = stringResource(id = R.string.title_night_study_approve),
+                onStartIconClick = {
+                    navController.popBackStack()
+                }
             )
 
             Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
