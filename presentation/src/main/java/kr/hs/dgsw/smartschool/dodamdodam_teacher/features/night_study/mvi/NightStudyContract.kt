@@ -1,9 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
-import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
+import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 
 data class NightStudyState(
     val currentGrade: Int = 0,
