@@ -10,5 +10,5 @@ interface NightStudyRemoteDataSource {
 
     suspend fun allowNightStudy(id: Int)
 
-    suspend fun cancelNightStudy(id: Int)
+    suspend fun denyNightStudy(id: Int)
 }

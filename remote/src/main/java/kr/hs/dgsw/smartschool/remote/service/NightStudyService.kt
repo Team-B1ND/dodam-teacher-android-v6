@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface NightStudyService {
     @GET(DodamUrl.NightStudy.NIGHT_DATE)
     suspend fun getNightStudyByDate(
-        @Query("DATE") date: String
+        @Query("date") date: String
     ): Response<List<NightStudyResponse>>
 
     @GET(DodamUrl.NightStudy.NIGHT_STUDY)
@@ -24,7 +24,7 @@ interface NightStudyService {
     )
 
     @PATCH(DodamUrl.NightStudy.NIGHT_DENY)
-    suspend fun cancelNightStudy(
+    suspend fun denyNightStudy(
         @Body nightStudyIdRequest: NightStudyIdRequest
     )
 }

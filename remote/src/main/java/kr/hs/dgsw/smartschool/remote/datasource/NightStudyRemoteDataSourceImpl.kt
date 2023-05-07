@@ -23,8 +23,8 @@ class NightStudyRemoteDataSourceImpl @Inject constructor(
         eveningStudyService.allowNightStudy(id.toNightStudyIdRequest())
     }
 
-    override suspend fun cancelNightStudy(id: Int) {
-        eveningStudyService.cancelNightStudy(id.toNightStudyIdRequest())
+    override suspend fun denyNightStudy(id: Int) {
+        eveningStudyService.denyNightStudy(id.toNightStudyIdRequest())
     }
 
     private fun Int.toNightStudyIdRequest(): NightStudyIdRequest =
