@@ -12,5 +12,5 @@ data class NightStudy(
     val startAt: LocalDateTime,
     val endAt: LocalDateTime,
     val createdAt: LocalDateTime,
-    val phone: Boolean,
+    val isPhone: Boolean,
 )

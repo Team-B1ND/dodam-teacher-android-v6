@@ -25,7 +25,7 @@ internal fun NightStudyResponse.toModel(): NightStudy =
         startAt = startAt.yearDateTimeToLocalDate(),
         endAt = endAt.yearDateTimeToLocalDate(),
         createdAt = createdAt.yearDateTimeToLocalDate(),
-        phone = phone,
+        isPhone = isPhone,
     )
 
 internal fun EveningStudyStudentResponse.toModel(): NightStudyStudent =

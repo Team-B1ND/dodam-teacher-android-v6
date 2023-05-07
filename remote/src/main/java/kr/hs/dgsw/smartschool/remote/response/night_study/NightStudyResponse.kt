@@ -12,5 +12,5 @@ data class NightStudyResponse(
     @field:SerializedName("startAt") val startAt: String,
     @field:SerializedName("endAt") val endAt: String,
     @field:SerializedName("createdAt") val createdAt: String,
-    @field:SerializedName("phone") val phone: Boolean,
+    @field:SerializedName("isPhone") val isPhone: Boolean,
 )
