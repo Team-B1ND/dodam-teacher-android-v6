@@ -10,6 +10,7 @@ import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomRemoteDataSourc
 import kr.hs.dgsw.smartschool.data.datasource.itmap.ItmapRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberRemoteDataSource
+import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.place.PlaceRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
@@ -23,6 +24,7 @@ import kr.hs.dgsw.smartschool.remote.datasource.ClassroomRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.ItmapRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.MealRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.MemberRemoteDataSourceImpl
+import kr.hs.dgsw.smartschool.remote.datasource.NightStudyRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.OutRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.PlaceRemoteDataSourceImpl
 import kr.hs.dgsw.smartschool.remote.datasource.PointRemoteDataSourceImpl
@@ -113,4 +115,10 @@ abstract class RemoteDataSourceModule {
     abstract fun providesTimeTableRemoteDataSource(
         timeTableRemoteDataSourceImpl: TimeTableRemoteDataSourceImpl
     ): TimeTableRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindNightStudyRemoteDataSource(
+        nightStudyRemoteDataSourceImpl: NightStudyRemoteDataSourceImpl
+    ): NightStudyRemoteDataSource
 }

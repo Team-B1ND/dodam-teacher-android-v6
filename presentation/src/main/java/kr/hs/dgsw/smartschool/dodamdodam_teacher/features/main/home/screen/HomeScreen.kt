@@ -59,6 +59,8 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.common.DodamTeacherDimens
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcCalendar3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcGrinningFace3D
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcMonocleFace3D
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcPencil3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcSleepingFace3D
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
@@ -186,14 +188,34 @@ fun HomeScreen(
 
                 val itemCardList = listOf(
                     ItemCardContent(
-                        subTitle = stringResource(id = R.string.label_manage),
-                        title = stringResource(id = R.string.title_point),
+                        subTitle = stringResource(id = R.string.label_current),
+                        title = stringResource(id = R.string.label_out),
                         icon = {
-                            IcPoint3D(
+                            IcSleepingFace3D(
                                 contentDescription = null,
                                 modifier = Modifier.size(32.dp)
                             )
-                        },
+                        }
+                    ),
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_manage),
+                        title = stringResource(id = R.string.label_night_study_allow),
+                        icon = {
+                            IcPencil3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    ),
+                    ItemCardContent(
+                        subTitle = stringResource(id = R.string.label_current),
+                        title = stringResource(id = R.string.label_night_study_current),
+                        icon = {
+                            IcMonocleFace3D(
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
                     ),
                     ItemCardContent(
                         subTitle = stringResource(id = R.string.label_manage),
@@ -206,14 +228,14 @@ fun HomeScreen(
                         }
                     ),
                     ItemCardContent(
-                        subTitle = stringResource(id = R.string.label_current),
-                        title = stringResource(id = R.string.label_out),
+                        subTitle = stringResource(id = R.string.label_manage),
+                        title = stringResource(id = R.string.title_point),
                         icon = {
-                            IcSleepingFace3D(
+                            IcPoint3D(
                                 contentDescription = null,
                                 modifier = Modifier.size(32.dp)
                             )
-                        }
+                        },
                     ),
                     ItemCardContent(
                         subTitle = stringResource(id = R.string.label_employ),
@@ -249,6 +271,12 @@ fun HomeScreen(
                                     )
                                     context.getString(R.string.label_out) -> navController.navigate(
                                         NavGroup.Feature.CURRENT_OUT
+                                    )
+                                    context.getString(R.string.label_night_study_allow) -> navController.navigate(
+                                        NavGroup.Feature.NIGHT_STUDY
+                                    )
+                                    context.getString(R.string.label_night_study_current) -> navController.navigate(
+                                        NavGroup.Feature.CURRENT_NIGHT_STUDY
                                     )
                                 }
                             }
