@@ -119,9 +119,7 @@ fun CurrentNightStudyScreen(
                         
                         학습 계획 : ${it.content}
                         
-                        ${it.reason?.let { reason ->
-                        "휴대폰 사용 이유 : $reason"
-                    }}
+                        ${if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X"}
                     """.trimIndent(),
                     onDismiss = {
                         currentNightStudyViewModel.updateShowPrompt(false)
