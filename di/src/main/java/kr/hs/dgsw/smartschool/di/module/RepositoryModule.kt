@@ -10,6 +10,7 @@ import kr.hs.dgsw.smartschool.data.repository.ClassroomRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.ItmapRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MealRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.MemberRepositoryImpl
+import kr.hs.dgsw.smartschool.data.repository.NightStudyRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.OutRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PlaceRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PointRepositoryImpl
@@ -25,6 +26,7 @@ import kr.hs.dgsw.smartschool.domain.repository.ClassroomRepository
 import kr.hs.dgsw.smartschool.domain.repository.ItmapRepository
 import kr.hs.dgsw.smartschool.domain.repository.MealRepository
 import kr.hs.dgsw.smartschool.domain.repository.MemberRepository
+import kr.hs.dgsw.smartschool.domain.repository.NightStudyRepository
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import kr.hs.dgsw.smartschool.domain.repository.PlaceRepository
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
@@ -129,4 +131,10 @@ abstract class RepositoryModule {
     abstract fun providesTimeTableRepository(
         timeTableRepositoryImpl: TimeTableRepositoryImpl
     ): TimeTableRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindNightStudyRepository(
+        nightStudyRepositoryImpl: NightStudyRepositoryImpl
+    ): NightStudyRepository
 }

@@ -118,3 +118,31 @@ fun IcCalendar3D(
         tint = tint
     )
 }
+
+@Composable
+fun IcPencil3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_pencil_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
+
+@Composable
+fun IcMonocleFace3D(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    tint: Color? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_monocle_face_3d),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        tint = tint
+    )
+}
