@@ -109,20 +109,11 @@ fun CurrentNightStudyScreen(
                             currentNightStudyViewModel.updateShowPrompt(false)
                         }
                     },
-                    description = """
-                        
-                        시작 날짜 : ${it.startAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}
-                        
-                        종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}
-                        
-                        심자 장소 : ${it.place}
-                        
-                        학습 계획 : ${it.content}
-                        
-                        ${it.reason?.let { reason ->
-                        "휴대폰 사용 이유 : $reason"
-                    }}
-                    """.trimIndent(),
+                    description = "\n시작 날짜 : ${it.startAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
+                        "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
+                        " 심자 장소 : ${it.place}\n\n" +
+                        "학습 계획 : ${it.content}\n\n" +
+                        if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
                     onDismiss = {
                         currentNightStudyViewModel.updateShowPrompt(false)
                     }
