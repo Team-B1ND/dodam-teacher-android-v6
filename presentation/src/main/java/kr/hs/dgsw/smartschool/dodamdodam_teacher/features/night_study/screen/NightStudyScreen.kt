@@ -118,10 +118,10 @@ fun NightStudyScreen(
                         }
                     },
                     description = "\n시작 날짜 : ${it.startAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                            "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                            " 심자 장소 : ${it.place}\n\n" +
-                            "학습 계획 : ${it.content}\n\n" +
-                            if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
+                        "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
+                        " 심자 장소 : ${it.place}\n\n" +
+                        "학습 계획 : ${it.content}\n\n" +
+                        if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
                     onDismiss = {
                         nightStudyViewModel.updateShowPrompt(false)
                     }
