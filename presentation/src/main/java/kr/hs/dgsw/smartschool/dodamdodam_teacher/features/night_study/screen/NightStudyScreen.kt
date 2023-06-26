@@ -2,8 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.screen
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
