@@ -30,6 +30,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.select.SelectBar
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm.PointViewModel
+import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 
 @Composable
@@ -43,24 +44,37 @@ fun ColumnScope.ThirdPage(
     SelectBar(
         modifier = Modifier
             .padding(horizontal = DodamDimen.ScreenSidePadding),
-        categoryList = listOf(stringResource(id = R.string.label_bonus), stringResource(id = R.string.label_minus)),
+        categoryList = listOf(
+            stringResource(id = R.string.label_bonus),
+            stringResource(id = R.string.label_minus)
+        ),
         selectIdx = state.currentPointType,
     ) { idx ->
         viewModel.updateCurrentPointType(idx)
     }
 
     LazyColumn(
-        contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding),
+        contentPadding = PaddingValues(
+            top = DodamDimen.ScreenSidePadding * 2,
+            bottom = DodamDimen.ScreenSidePadding
+        ),
         modifier = Modifier
             .padding(horizontal = DodamDimen.ScreenSidePadding)
             .weight(1f),
         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
     ) {
         items(
-            if (state.currentPointType == 0)
-                state.bonusReason
-            else
-                state.minusReason
+            if (state.currentPlace == 0) {
+                if (state.currentPointType == 0)
+                    state.bonusReason.filter { it.place == PointPlace.DORMITORY }
+                else
+                    state.minusReason.filter { it.place == PointPlace.DORMITORY }
+            } else {
+                if (state.currentPointType == 0)
+                    state.bonusReason.filter { it.place == PointPlace.SCHOOL }
+                else
+                    state.minusReason.filter { it.place == PointPlace.SCHOOL }
+            }
         ) { pointReason ->
             Row(
                 modifier = Modifier
@@ -107,8 +121,14 @@ fun ColumnScope.ThirdPage(
             else -> ""
         }
         PointInfoItem(title = stringResource(id = R.string.label_point_type), content = type)
-        PointInfoItem(title = stringResource(id = R.string.label_point_score), content = state.currentSelectedReason?.score?.toString() ?: "")
-        PointInfoItem(title = stringResource(id = R.string.label_point_reason), content = state.currentSelectedReason?.reason ?: "")
+        PointInfoItem(
+            title = stringResource(id = R.string.label_point_score),
+            content = state.currentSelectedReason?.score?.toString() ?: ""
+        )
+        PointInfoItem(
+            title = stringResource(id = R.string.label_point_reason),
+            content = state.currentSelectedReason?.reason ?: ""
+        )
         Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
     }
 }
