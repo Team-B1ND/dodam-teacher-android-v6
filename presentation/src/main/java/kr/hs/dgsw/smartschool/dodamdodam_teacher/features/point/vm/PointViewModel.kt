@@ -1,7 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
@@ -66,12 +68,17 @@ class PointViewModel @Inject constructor(
 
     private fun getMembers() = intent {
         getMembersUseCase().onSuccess {
+            Log.d("TAG", "getMembers: $it")
             reduce {
                 state.copy(
-                    members = it.filter { it.role == MemberRole.STUDENT }
+                    members = it.filter {
+                        Log.d("TAG", "getMembers: ${it.role == MemberRole.STUDENT}")
+                        it.role == MemberRole.STUDENT
+                    }
                 )
             }
-            if (state.students.isNotEmpty() && state.classrooms.isNotEmpty())
+            delay(1000)
+            if (state.students.isNotEmpty())
                 makePointStudents()
         }.onFailure {
             postSideEffect(PointSideEffect.ShowException(it))
@@ -198,24 +205,23 @@ class PointViewModel @Inject constructor(
     private fun makePointStudents() = intent {
         reduce {
             val list = emptyList<PointState.PointStudent>().toMutableList()
+            Log.d("TAG", "makePointStudents: ${state.members}")
+            Log.d("TAG", "makePointStudents: ${state.students}")
             state.students.map { student ->
                 state.members.forEach { member ->
-                    state.classrooms.forEach { classroom ->
-                        if (student.member.id == member.id) {
-                            if (student.classroom.id == classroom.id) {
-                                list.add(
-                                    PointState.PointStudent(
-                                        id = member.id,
-                                        name = member.name,
-                                        grade = classroom.grade,
-                                        room = classroom.room,
-                                        isChecked = false,
-                                        studentId = student.id,
-                                        profileImage = member.profileImage ?: ""
-                                    )
-                                )
-                            }
-                        }
+                    Log.d("TAG", "makePointStudents: ${student.member.id} == ${member.id}")
+                    if (student.member.id == member.id) {
+                        list.add(
+                            PointState.PointStudent(
+                                id = member.id,
+                                name = member.name,
+                                grade = 0,
+                                room = 0,
+                                isChecked = false,
+                                studentId = student.id,
+                                profileImage = member.profileImage ?: ""
+                            )
+                        )
                     }
                 }
             }

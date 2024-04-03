@@ -6,6 +6,6 @@ data class PointReasonResponse(
     @field:SerializedName("id") val id: Int,
     @field:SerializedName("reason") val reason: String,
     @field:SerializedName("score") val score: Int,
-    @field:SerializedName("type") val type: PointResponseType,
-    @field:SerializedName("place") val place: PointPlaceResponse,
+    @field:SerializedName("scoreType") val type: PointResponseType,
+    @field:SerializedName("pointType") val place: PointPlaceResponse,
 )

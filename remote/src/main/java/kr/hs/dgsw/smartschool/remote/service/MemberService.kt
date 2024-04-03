@@ -10,13 +10,13 @@ import retrofit2.http.GET
 
 interface MemberService {
 
-    @GET(DodamUrl.Member.GET_MEMBERS)
-    suspend fun getMembers(): Response<AllMemberResponse>
+    @GET(DodamUrl.Member.MEMBERS)
+    suspend fun getMembers(): Response<List<MemberResponse>>
 
     @GET(DodamUrl.Member.GET_MY)
     suspend fun getMyInfo(): Response<MemberResponse>
 
-    @GET(DodamUrl.Member.STUDENT_SORT)
+    @GET(DodamUrl.Member.MEMBERS)
     suspend fun getSortedStudents(): Response<List<MemberResponse>>
 
     @GET(DodamUrl.Member.MEMBERS)
