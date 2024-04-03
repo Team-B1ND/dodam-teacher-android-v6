@@ -8,7 +8,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightS
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.AllowNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase

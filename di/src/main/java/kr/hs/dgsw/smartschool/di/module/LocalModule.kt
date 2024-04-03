@@ -22,6 +22,7 @@ import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
+import kr.hs.dgsw.smartschool.local.database.MIGRATION_2_TO_3
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
 
@@ -40,6 +41,7 @@ object LocalModule {
             DodamTable.DATABASE
         )
         .addMigrations(MIGRATION_1_TO_2)
+        .addMigrations(MIGRATION_2_TO_3)
         .fallbackToDestructiveMigration()
         .build()
 
