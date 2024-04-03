@@ -7,7 +7,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutStat
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
@@ -24,7 +23,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentOutViewModel @Inject constructor(
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
@@ -145,15 +143,15 @@ class CurrentOutViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentOutSideEffect.ShowException(it))
-        }
+//        getClassroomsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    classrooms = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentOutSideEffect.ShowException(it))
+//        }
     }
 
     private fun getStudents() = intent {

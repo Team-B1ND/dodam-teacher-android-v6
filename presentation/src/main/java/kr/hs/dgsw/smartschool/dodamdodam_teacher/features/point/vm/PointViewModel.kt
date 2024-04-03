@@ -8,7 +8,6 @@ import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GetPointReasonUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GivePointUseCase
@@ -24,7 +23,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PointViewModel @Inject constructor(
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getPointReasonUseCase: GetPointReasonUseCase,
@@ -50,18 +48,6 @@ class PointViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty()) {
-                makePointStudents()
-            }
-        }.onFailure {
-            postSideEffect(PointSideEffect.ShowException(it))
-        }
     }
 
     private fun getStudents() = intent {

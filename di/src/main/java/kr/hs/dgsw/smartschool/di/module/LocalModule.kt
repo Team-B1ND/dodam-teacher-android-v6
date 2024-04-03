@@ -10,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.CalorieDao
-import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
 import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
@@ -25,6 +24,7 @@ import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.database.DodamTeacherDatabase
 import kr.hs.dgsw.smartschool.local.database.MIGRATION_1_TO_2
+import kr.hs.dgsw.smartschool.local.database.MIGRATION_2_TO_3
 import kr.hs.dgsw.smartschool.local.table.DodamTable
 import javax.inject.Singleton
 
@@ -43,6 +43,7 @@ object LocalModule {
             DodamTable.DATABASE
         )
         .addMigrations(MIGRATION_1_TO_2)
+        .addMigrations(MIGRATION_2_TO_3)
         .fallbackToDestructiveMigration()
         .build()
 
@@ -51,12 +52,6 @@ object LocalModule {
     fun provideMealDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): MealDao = dodamTeacherDatabase.mealDao()
-
-    @Provides
-    @Singleton
-    fun provideClassroomDao(
-        dodamTeacherDatabase: DodamTeacherDatabase
-    ): ClassroomDao = dodamTeacherDatabase.classroomDao()
 
     @Provides
     @Singleton

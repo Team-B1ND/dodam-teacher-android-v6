@@ -6,7 +6,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.mv
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.mvi.CurrentNightStudyState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetNightStudyUseCase
@@ -23,7 +22,6 @@ import javax.inject.Inject
 class CurrentNightStudyViewModel @Inject constructor(
     private val getNightStudyUseCase: GetNightStudyUseCase,
     private val denyNightStudyUseCase: DenyNightStudyUseCase,
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
 ) : ContainerHost<CurrentNightStudyState, CurrentNightStudySideEffect>, ViewModel() {
@@ -111,15 +109,15 @@ class CurrentNightStudyViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentNightStudySideEffect.ShowException(it))
-        }
+//        getClassroomsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    classrooms = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentNightStudySideEffect.ShowException(it))
+//        }
     }
 
     private fun getStudents() = intent {
