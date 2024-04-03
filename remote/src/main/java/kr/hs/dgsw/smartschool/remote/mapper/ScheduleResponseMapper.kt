@@ -14,7 +14,7 @@ internal fun ScheduleResponse.toModel(): Schedule =
         id = id,
         name = name,
         place = place ?: "장소 없음",
-        startDate = startDate.yearDateToLocalDate(),
-        endDate = endDate.yearDateToLocalDate(),
-        target = target ?: "기타",
+        startDate = date[0].yearDateToLocalDate(),
+        endDate = date[date.lastIndex].yearDateToLocalDate(),
+        target = targetGrades.joinToString("\n")
     )
