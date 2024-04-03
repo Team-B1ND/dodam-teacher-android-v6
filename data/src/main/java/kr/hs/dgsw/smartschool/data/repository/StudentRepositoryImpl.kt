@@ -19,11 +19,8 @@ class StudentRepositoryImpl @Inject constructor(
     override suspend fun setStudents(): List<Student> =
         remote.getStudents()
 
-    override suspend fun getStudents(): List<Student> {
-        val e = remote.getStudents()
-        Log.d("TAG", "getStudents:$e")
-        return e
-    }
+    override suspend fun getStudents(): List<Student> =
+        remote.getStudents()
 
     override suspend fun getStudentById(id: Int): Student =
         remote.getStudents().let { students ->
