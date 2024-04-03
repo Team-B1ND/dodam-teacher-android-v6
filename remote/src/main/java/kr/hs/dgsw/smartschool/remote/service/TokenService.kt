@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface TokenService {
 
-    @POST(DodamUrl.Token.TOKEN)
+    @POST(DodamUrl.Auth.REISSUE)
     suspend fun getToken(
         @Body token: String,
     ): Response<String>
