@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
@@ -31,6 +32,10 @@ fun ColumnScope.FirstPage(
     val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
+
+    LaunchedEffect(key1 = state) {
+        Log.d("TAG", "FirstPage: ${state.pointStudents}")
+    }
 
     SelectBar(
         modifier = Modifier
@@ -58,12 +63,13 @@ fun ColumnScope.FirstPage(
         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding),
         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
     ) {
-        items(getStudentList(state)) { pointStudent ->
+        items(state.pointStudents) { pointStudent ->
             CheckStudentItem(
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 pointStudent = pointStudent,
                 pointViewModel = viewModel
             )
+//            PointState.PointStudent()
         }
     }
 }

@@ -22,7 +22,8 @@ class PointRemoteDataSourceImpl @Inject constructor(
     ): List<Point> = dodamApiCall {
         pointService.getPoint(
             studentId,
-            pointType.name,
+//            pointType.name,
+            "DORMITORY"
         ).data.toModel()
     }
 
@@ -48,7 +49,8 @@ class PointRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getReason(pointType: PointType): List<PointReason> = dodamApiCall {
         pointService.getReason(
-            pointType.name
+//            pointType.name,
+            "DORMITORY"
         ).data.toPointReasonList()
     }
 }

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.data.repository
 
+import android.util.Log
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberRemoteDataSource
 import kr.hs.dgsw.smartschool.data.datasource.student.StudentCacheDataSource
@@ -18,8 +19,11 @@ class StudentRepositoryImpl @Inject constructor(
     override suspend fun setStudents(): List<Student> =
         remote.getStudents()
 
-    override suspend fun getStudents(): List<Student> =
-        remote.getStudents()
+    override suspend fun getStudents(): List<Student> {
+        val e =remote.getStudents()
+        Log.d("TAG", "getStudents:$e")
+        return e
+    }
 
     override suspend fun getStudentById(id: Int): Student =
         remote.getStudents().let { students ->
