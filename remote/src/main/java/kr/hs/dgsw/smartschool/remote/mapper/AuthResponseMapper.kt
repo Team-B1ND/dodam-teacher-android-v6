@@ -20,11 +20,13 @@ internal fun MemberResponse.toMember(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = createdAt,
+        createdAt = createdAt,
+        modifiedAt = modifiedAt,
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),
-        status = status.toMemberStatus()
+        status = status.toMemberStatus(),
+        phone = phone
     )
 
 internal fun MemberResponseRole.toMemberRole(): MemberRole =
