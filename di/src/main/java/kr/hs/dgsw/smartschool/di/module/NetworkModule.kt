@@ -13,7 +13,6 @@ import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.BannerService
-import kr.hs.dgsw.smartschool.remote.service.ClassroomService
 import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
@@ -30,7 +29,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -119,11 +117,6 @@ class NetworkModule {
     @Provides
     fun providesPointService(@BasicRetrofit retrofit: Retrofit): PointService =
         retrofit.create(PointService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
-        retrofit.create(ClassroomService::class.java)
 
     @Singleton
     @Provides

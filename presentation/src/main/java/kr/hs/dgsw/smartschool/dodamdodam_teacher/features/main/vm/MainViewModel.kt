@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainState
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.SetClassroomUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.SetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.SetStudentsUseCase
@@ -23,7 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val setClassroomUseCase: SetClassroomUseCase,
     private val setMembersUseCase: SetMembersUseCase,
     private val setStudentsUseCase: SetStudentsUseCase,
     private val setTeachersUseCase: SetTeachersUseCase,
@@ -125,26 +123,26 @@ class MainViewModel @Inject constructor(
     }
 
     private fun setClassroom() = intent {
-        reduce {
-            state.copy(
-                setClassroomLoading = true
-            )
-        }
-
-        setClassroomUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    setClassroomLoading = false
-                )
-            }
-        }.onFailure {
-            postSideEffect(MainSideEffect.ShowException(it))
-            reduce {
-                state.copy(
-                    setClassroomLoading = false
-                )
-            }
-        }
+//        reduce {
+//            state.copy(
+//                setClassroomLoading = true
+//            )
+//        }
+//
+//        setClassroomUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    setClassroomLoading = false
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(MainSideEffect.ShowException(it))
+//            reduce {
+//                state.copy(
+//                    setClassroomLoading = false
+//                )
+//            }
+//        }
     }
 
     private fun setMembers() = intent {

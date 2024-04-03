@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplySideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.apply.mvi.ApplyState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.studyroom.CheckStudyRoomUseCase
@@ -22,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ApplyViewModel @Inject constructor(
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
@@ -142,17 +140,17 @@ class ApplyViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-            if (state.studyRooms != null && state.students.isNotEmpty() && state.members.isNotEmpty())
-                makeApplyItemList()
-        }.onFailure {
-            postSideEffect(ApplySideEffect.ShowException(it))
-        }
+//        getClassroomsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    classrooms = it
+//                )
+//            }
+//            if (state.studyRooms != null && state.students.isNotEmpty() && state.members.isNotEmpty())
+//                makeApplyItemList()
+//        }.onFailure {
+//            postSideEffect(ApplySideEffect.ShowException(it))
+//        }
     }
 
     private fun getStudents() = intent {

@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface ClassroomService {
 
-    @GET("DodamUrl.Classroom.GET_CLASSROOMS")
+    @GET(DodamUrl.Classroom.GET_CLASSROOMS)
     suspend fun getClassrooms(): Response<List<ClassroomResponse>>
 }
