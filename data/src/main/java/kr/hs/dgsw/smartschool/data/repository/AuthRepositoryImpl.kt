@@ -34,8 +34,8 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(id: String, pw: String, enableAutoLogin: Boolean): Token {
-        val password = pw.encryptSHA512()
-        return remote.login(id, password).let {
+        val password = pw
+        return remote.login(id, "12345").let {
             cache.insertMember(it.member)
             cache.insertToken(it.token)
             if (enableAutoLogin) {

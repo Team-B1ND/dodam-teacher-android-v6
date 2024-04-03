@@ -18,9 +18,9 @@ interface MemberService {
     @GET(DodamUrl.Member.STUDENT_SORT)
     suspend fun getSortedStudents(): Response<List<StudentResponse>>
 
-    @GET(DodamUrl.Member.MEMBERS_STUDENT)
+    @GET(DodamUrl.Member.MEMBERS)
     suspend fun getStudents(): Response<List<StudentResponse>>
 
-    @GET(DodamUrl.Member.MEMBERS_TEACHER)
+    @GET(DodamUrl.Member.MEMBERS)
     suspend fun getTeachers(): Response<List<TeacherResponse>>
 }

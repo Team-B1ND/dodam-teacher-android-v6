@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">도담도담 T</string>
-
+    <string name="naver_map_sdk_client_id" translatable="false">0</string>
     <string name="title_login">로그인</string>
     <string name="title_out_approve">외출/외박 승인</string>
     <string name="title_studyroom_check">자습실 확인</string>
