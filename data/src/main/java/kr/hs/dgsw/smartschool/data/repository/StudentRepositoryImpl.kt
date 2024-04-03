@@ -16,32 +16,18 @@ class StudentRepositoryImpl @Inject constructor(
     private val NOT_FOUND_STUDENT_MESSAGE = "해당 학생을 찾을 수 없어요"
 
     override suspend fun setStudents(): List<Student> =
-        remote.getStudents().apply {
-            updateStudents(this)
-        }
+        remote.getStudents()
 
     override suspend fun getStudents(): List<Student> =
-        cache.getStudents().ifEmpty {
-            remote.getStudents().apply {
-                updateStudents(this)
-            }
-        }
+        remote.getStudents()
 
     override suspend fun getStudentById(id: Int): Student =
-        cache.getStudentById(id) ?: remote.getStudents().let { students ->
-            updateStudents(students)
+        remote.getStudents().let { students ->
             students.find { it.id == id } ?: throw UnknownException(NOT_FOUND_STUDENT_MESSAGE)
         }
 
     override suspend fun getStudentByMemberId(id: String): Student =
-        cache.getStudentByMemberId(id) ?: remote.getStudents().let { students ->
-            updateStudents(students)
+        remote.getStudents().let { students ->
             students.find { it.member.id == id } ?: throw UnknownException(NOT_FOUND_STUDENT_MESSAGE)
         }
-
-    private suspend fun updateStudents(students: List<Student>) {
-        cache.deleteAllStudent().apply {
-            cache.insertStudents(students)
-        }
-    }
 }

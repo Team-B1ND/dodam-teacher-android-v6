@@ -20,7 +20,7 @@ internal fun MemberResponse.toMember(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = joinDate,
+        joinDate = createdAt,
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),

@@ -16,31 +16,21 @@ class TeacherRepositoryImpl @Inject constructor(
     private val NOT_FOUND_TEACHER_MESSAGE = "해당 선생님을 찾을 수 없어요"
 
     override suspend fun setTeachers(): List<Teacher> =
-        remote.getTeachers().apply {
-            cache.insertTeachers(this)
-        }
+        remote.getTeachers()
 
     override suspend fun getTeachers(): List<Teacher> =
-        cache.getTeachers().ifEmpty {
-            remote.getTeachers().apply {
-                cache.insertTeachers(this)
-            }
-        }
+        remote.getTeachers()
 
     override suspend fun getMyInfo(): Teacher =
         remote.getMyInfo()
 
     override suspend fun getTeacherById(id: Int): Teacher =
-        cache.getTeacherById(id) ?: remote.getTeachers().let {
-            cache.insertTeachers(it).let {
-                cache.getTeacherById(id) ?: throw UnknownException(NOT_FOUND_TEACHER_MESSAGE)
-            }
+        remote.getTeachers().first {
+            it.id == id
         }
 
     override suspend fun getTeacherByMemberId(id: String): Teacher =
-        cache.getTeacherByMemberId(id) ?: remote.getTeachers().let {
-            cache.insertTeachers(it).let {
-                cache.getTeacherByMemberId(id) ?: throw UnknownException(NOT_FOUND_TEACHER_MESSAGE)
-            }
+        remote.getTeachers().first {
+            it.member.id == id
         }
 }
