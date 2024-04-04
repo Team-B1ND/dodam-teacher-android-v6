@@ -28,7 +28,7 @@ class AuthRepositoryImpl @Inject constructor(
             name = name,
             phone = phone,
             position = position,
-            pw = pw.encryptSHA512(),
+            pw = pw,
             tel = tel
         )
     }
