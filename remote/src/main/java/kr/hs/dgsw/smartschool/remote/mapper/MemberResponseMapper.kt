@@ -5,6 +5,7 @@ import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
+import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.remote.response.member.AllMemberResponse
 import kr.hs.dgsw.smartschool.remote.response.member.MemberResponse
 
@@ -19,15 +20,20 @@ internal fun MemberResponse.toModel(): Teacher =
         id = 0,
         member = this.toMember(),
         phone = phone,
-        position = "",
-        tel = "010-0000-0000",
+        position = this.teacher?.position?: "",
+        tel = this.teacher?.position?: "",
     )
 
 internal fun MemberResponse.toModelStudent(): Student =
     Student(
-        classroom = Classroom(0),
-        id = 0,
+        classroom = Classroom(
+            id = 0,
+            grade = this.student?.grade?: 0,
+            place = Place(0),
+            room = this.student?.room?: 0
+        ),
+        id = this.student?.id?: 0,
         member = this.toMember(),
         phone = phone,
-        number = 0
+        number = this.student?.number?: 0
     )
