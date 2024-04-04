@@ -8,12 +8,14 @@ data class Meal(
     val breakfast: String,
     val lunch: String,
     val dinner: String,
+    val calorie: Double,
 ) {
     constructor(date: LocalDate) : this(
         date,
         false,
         "조식이 없는 날이에요.",
         "중식이 없는 날이에요.",
-        "석식이 없는 날이에요."
+        "석식이 없는 날이에요.",
+        0.0
     )
 }

@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class MealResponse(
     @field:SerializedName("breakfast")
-    val breakfast: String?,
+    val breakfast: MenuResponse?,
 
     @field:SerializedName("lunch")
-    val lunch: String?,
+    val lunch: MenuResponse?,
 
     @field:SerializedName("dinner")
-    val dinner: String?,
+    val dinner: MenuResponse?,
 
     @field:SerializedName("date")
     val date: String,

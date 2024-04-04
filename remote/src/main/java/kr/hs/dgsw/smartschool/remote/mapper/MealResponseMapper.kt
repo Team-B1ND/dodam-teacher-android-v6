@@ -6,14 +6,34 @@ import kr.hs.dgsw.smartschool.domain.model.meal.Meal
 import kr.hs.dgsw.smartschool.domain.model.meal.MealList
 import kr.hs.dgsw.smartschool.remote.response.meal.CalorieResponse
 import kr.hs.dgsw.smartschool.remote.response.meal.MealResponse
+import kotlin.math.roundToInt
 
 internal fun MealResponse.toModel(): Meal =
     Meal(
         date = date.yearDateToLocalDate(),
         exists = exists,
-        breakfast = breakfast ?: "조식이 없는 날이에요.",
-        lunch = lunch ?: "중식이 없는 날이에요.",
-        dinner = dinner ?: "석식이 없는 날이에요."
+        breakfast = breakfast?.details?.mapIndexed { index, menuDetailResponse ->
+            if (index == breakfast.details.lastIndex) {
+                menuDetailResponse.name
+            } else {
+                "${menuDetailResponse.name} , "
+            }
+        }?.joinToString("") ?: "조식이 없는 날이에요.",
+        lunch = lunch?.details?.mapIndexed { index, menuDetailResponse ->
+            if (index == lunch.details.lastIndex) {
+                menuDetailResponse.name
+            } else {
+                "${menuDetailResponse.name} , "
+            }
+        }?.joinToString("") ?: "중식이 없는 날이에요.",
+        dinner = dinner?.details?.mapIndexed { index, menuDetailResponse ->
+            if (index == dinner.details.lastIndex) {
+                menuDetailResponse.name
+            } else {
+                "${menuDetailResponse.name} , "
+            }
+        }?.joinToString("") ?: "석식이 없는 날이에요.",
+        calorie = ((breakfast?.calorie?: 0.0) + (lunch?.calorie?: 0.0) + (dinner?.calorie?: 0.0)).roundToInt().toDouble()
     )
 
 internal fun List<MealResponse>.toModel(): MealList =
