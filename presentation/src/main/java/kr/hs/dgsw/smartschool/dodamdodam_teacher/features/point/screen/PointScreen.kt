@@ -114,6 +114,7 @@ fun PointScreen(
                         3 -> {
                             if (state.currentSelectedReason != null)
                                 pointViewModel.givePoint(
+                                    id = state.currentSelectedReason.id,
                                     place = when (state.currentPlace) {
                                         0 -> PointPlace.DORMITORY
                                         1 -> PointPlace.SCHOOL

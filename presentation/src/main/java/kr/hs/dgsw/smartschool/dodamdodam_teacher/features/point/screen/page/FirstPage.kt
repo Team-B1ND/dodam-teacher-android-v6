@@ -63,7 +63,7 @@ fun ColumnScope.FirstPage(
         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamDimen.ScreenSidePadding),
         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding)
     ) {
-        items(state.pointStudents) { pointStudent ->
+        items(getStudentList(state)) { pointStudent ->
             CheckStudentItem(
                 modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
                 pointStudent = pointStudent,
