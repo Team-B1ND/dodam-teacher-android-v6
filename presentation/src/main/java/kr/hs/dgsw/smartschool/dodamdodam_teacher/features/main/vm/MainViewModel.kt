@@ -7,7 +7,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainStat
 import kr.hs.dgsw.smartschool.domain.usecase.member.SetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.SetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.teacher.SetTeachersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
@@ -26,7 +25,6 @@ class MainViewModel @Inject constructor(
     private val setStudentsUseCase: SetStudentsUseCase,
     private val setTeachersUseCase: SetTeachersUseCase,
     private val setTimeTablesUseCase: SetTimeTablesUseCase,
-    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
 ) : ContainerHost<MainState, MainSideEffect>, ViewModel() {
 
@@ -38,39 +36,7 @@ class MainViewModel @Inject constructor(
         setTeachers()
         setStudents()
         setOuts()
-        setStudyRooms()
         setTimeTables()
-    }
-
-    private fun setStudyRooms() = intent {
-        reduce {
-            state.copy(
-                setStudyRoomsLoading = true
-            )
-        }
-
-        val today = LocalDate.now()
-        setStudyRoomsUseCase(
-            SetStudyRoomsUseCase.Param(
-                year = today.year,
-                month = today.monthValue,
-                day = today.dayOfMonth,
-            )
-        ).onSuccess {
-            reduce {
-                state.copy(
-                    getStudyRoomTime = LocalDateTime.now(),
-                    setStudyRoomsLoading = false
-                )
-            }
-        }.onFailure {
-            postSideEffect(MainSideEffect.ShowException(it))
-            reduce {
-                state.copy(
-                    setStudyRoomsLoading = false
-                )
-            }
-        }
     }
 
     private fun setTimeTables() = intent {

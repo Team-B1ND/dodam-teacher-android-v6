@@ -11,8 +11,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -30,8 +28,6 @@ class HomeViewModel @Inject constructor(
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
-    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
-    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
@@ -46,7 +42,6 @@ class HomeViewModel @Inject constructor(
         )
         getBanner()
         getStudents()
-        getStudyRooms()
     }
 
     private fun getOutsByDate(date: LocalDateTime) = intent {
@@ -91,18 +86,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getStudyRooms() = intent {
-        getStudyRoomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    studyRooms = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(HomeSideEffect.ToastError(it))
-        }
-    }
-
     private fun getMeal(date: LocalDate) = intent {
         reduce {
             state.copy(isMealLoading = true)
@@ -140,31 +123,6 @@ class HomeViewModel @Inject constructor(
                     outsleepingCount = outsleepingsCnt,
                     refreshing = false,
                     outRefreshTime = LocalDateTime.now()
-                )
-            }
-        }.onFailure {
-            reduce {
-                state.copy(
-                    refreshing = false,
-                )
-            }
-            postSideEffect(HomeSideEffect.ToastError(it))
-        }
-    }
-
-    fun getStudyRoomRemote() = intent {
-        reduce {
-            state.copy(refreshing = true)
-        }
-
-        val today = LocalDate.now()
-        setStudyRoomsUseCase(SetStudyRoomsUseCase.Param(today.year, today.monthValue, today.dayOfMonth)).onSuccess {
-
-            reduce {
-                state.copy(
-                    studyRooms = it,
-                    refreshing = false,
-                    studyRoomRefreshTime = LocalDateTime.now()
                 )
             }
         }.onFailure {

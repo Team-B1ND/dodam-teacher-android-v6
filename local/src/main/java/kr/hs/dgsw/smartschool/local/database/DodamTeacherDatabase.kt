@@ -15,14 +15,12 @@ import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
-import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
 import kr.hs.dgsw.smartschool.local.entity.banner.BannerEntity
 import kr.hs.dgsw.smartschool.local.entity.calorie.CalorieEntity
-import kr.hs.dgsw.smartschool.local.entity.classroom.ClassroomEntity
 import kr.hs.dgsw.smartschool.local.entity.itmap.CompanyEntity
 import kr.hs.dgsw.smartschool.local.entity.meal.MealEntity
 import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
@@ -31,7 +29,6 @@ import kr.hs.dgsw.smartschool.local.entity.parent.ParentEntity
 import kr.hs.dgsw.smartschool.local.entity.place.PlaceEntity
 import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
 import kr.hs.dgsw.smartschool.local.entity.student.StudentEntity
-import kr.hs.dgsw.smartschool.local.entity.studyroom.StudyRoomEntity
 import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
 import kr.hs.dgsw.smartschool.local.entity.timetable.TimeTableEntity
 import kr.hs.dgsw.smartschool.local.entity.token.TokenEntity
@@ -42,9 +39,9 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         MealEntity::class, MemberEntity::class, PlaceEntity::class,
         StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class, CalorieEntity::class, StudyRoomEntity::class, TimeTableEntity::class
+        CompanyEntity::class, CalorieEntity::class, TimeTableEntity::class
     ],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 
@@ -62,7 +59,6 @@ abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun scheduleDao(): ScheduleDao
     abstract fun itmapDao(): ItmapDao
     abstract fun calorieDao(): CalorieDao
-    abstract fun studyRoomDao(): StudyRoomDao
     abstract fun timeTableDao(): TimeTableDao
 }
 
@@ -81,7 +77,7 @@ val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
     }
 }
 
-val MIGRATION_2_TO_3: Migration = object : Migration(2, 3) {
+val MIGRATION_11_TO_12: Migration = object : Migration(11, 12) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.run {
             execSQL("CREATE TABLE ${DodamTable.CLASSROOM} (id INTEGER not null, placeId INTEGER not null, grade INTEGER not null, room INTEGER not null, PRIMARY KEY (id))")

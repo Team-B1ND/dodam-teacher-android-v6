@@ -15,7 +15,6 @@ import kr.hs.dgsw.smartschool.data.repository.PlaceRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PointRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.ScheduleRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.StudentRepositoryImpl
-import kr.hs.dgsw.smartschool.data.repository.StudyRoomRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TeacherRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TimeTableRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TokenRepositoryImpl
@@ -30,7 +29,6 @@ import kr.hs.dgsw.smartschool.domain.repository.PlaceRepository
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 import kr.hs.dgsw.smartschool.domain.repository.ScheduleRepository
 import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
-import kr.hs.dgsw.smartschool.domain.repository.StudyRoomRepository
 import kr.hs.dgsw.smartschool.domain.repository.TeacherRepository
 import kr.hs.dgsw.smartschool.domain.repository.TimeTableRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
@@ -75,12 +73,6 @@ abstract class RepositoryModule {
     abstract fun providesPointRepository(
         pointRepositoryImpl: PointRepositoryImpl
     ): PointRepository
-
-    @Singleton
-    @Binds
-    abstract fun providesStudyRoomRepository(
-        studyRoomRepositoryImpl: StudyRoomRepositoryImpl
-    ): StudyRoomRepository
 
     @Singleton
     @Binds
