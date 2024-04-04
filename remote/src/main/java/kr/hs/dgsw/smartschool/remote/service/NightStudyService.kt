@@ -7,14 +7,15 @@ import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NightStudyService {
-    @GET(DodamUrl.NightStudy.NIGHT_DATE)
-    suspend fun getNightStudyByDate(
-        @Query("date") date: String
-    ): Response<List<NightStudyResponse>>
-
+//    @GET(DodamUrl.NightStudy.NIGHT_DATE)
+//    suspend fun getNightStudyByDate(
+//        @Query("date") date: String
+//    ): Response<List<NightStudyResponse>>
+//
     @GET(DodamUrl.NightStudy.NIGHT_STUDY)
     suspend fun getNightStudy(): Response<List<NightStudyResponse>>
 
@@ -23,11 +24,13 @@ interface NightStudyService {
         @Body nightStudyIdRequest: NightStudyIdRequest
     )
 
-    @PATCH(DodamUrl.NightStudy.NIGHT_DENY)
+    @PATCH(DodamUrl.NightStudy.NIGHT_CANCEL)
     suspend fun denyNightStudy(
         @Body nightStudyIdRequest: NightStudyIdRequest
     )
 
     @GET(DodamUrl.NightStudy.NIGHT_PENDING)
     suspend fun getPendingNightStudy(): Response<List<NightStudyResponse>>
+
+//    @Path("id") id: Int
 }

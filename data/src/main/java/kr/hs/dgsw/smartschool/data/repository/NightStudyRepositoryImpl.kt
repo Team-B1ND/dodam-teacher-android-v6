@@ -10,9 +10,9 @@ class NightStudyRepositoryImpl @Inject constructor(
     override val datasource: NightStudyRemoteDataSource
 ) : DataSourceRepository<NightStudyRemoteDataSource>, NightStudyRepository {
 
-    override suspend fun getNightStudyByDate(date: String): List<NightStudy> =
-        datasource.getNightStudyByDate(date)
-
+//    override suspend fun getNightStudyByDate(date: String): List<NightStudy> =
+//        datasource.getNightStudyByDate(date)
+//
     override suspend fun getNightStudy(): List<NightStudy> =
         datasource.getNightStudy()
 
