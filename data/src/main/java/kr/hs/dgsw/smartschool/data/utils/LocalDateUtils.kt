@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.data.utils
 
+import java.lang.Exception
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,7 +11,16 @@ fun String.yearDateToLocalDate(): LocalDate {
 }
 
 fun String.yearDateTimeToLocalDate(): LocalDateTime {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    try {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return LocalDateTime.parse(this, formatter)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return LocalDateTime.now()
+}
+fun String.yearDateTimeToLocalDateT(): LocalDateTime {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
     return LocalDateTime.parse(this, formatter)
 }
 
