@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetNightStudyByDateUseCase @Inject constructor(
     private val nightStudyRepository: NightStudyRepository
 ) {
-    suspend operator fun invoke(date: String) = kotlin.runCatching {
-        nightStudyRepository.getNightStudyByDate(date)
-    }
+//    suspend operator fun invoke(date: String) = kotlin.runCatching {
+//        nightStudyRepository.getNightStudyByDate(date)
+//    }
 }

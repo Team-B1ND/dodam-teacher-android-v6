@@ -11,10 +11,10 @@ class NightStudyRemoteDataSourceImpl @Inject constructor(
     private val nightStudyService: NightStudyService
 ) : NightStudyRemoteDataSource {
 
-    override suspend fun getNightStudyByDate(date: String) = dodamApiCall {
-        nightStudyService.getNightStudyByDate(date).data.toModel()
-    }
-
+//    override suspend fun getNightStudyByDate(date: String) = dodamApiCall {
+//        nightStudyService.getNightStudyByDate(date).data.toModel()
+//    }
+//
     override suspend fun getNightStudy() = dodamApiCall {
         nightStudyService.getNightStudy().data.toModel()
     }
