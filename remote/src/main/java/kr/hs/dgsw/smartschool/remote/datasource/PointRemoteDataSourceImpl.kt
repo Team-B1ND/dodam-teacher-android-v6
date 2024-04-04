@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kr.hs.dgsw.smartschool.data.datasource.point.PointRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
@@ -8,6 +10,7 @@ import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.mapper.toPointReasonList
 import kr.hs.dgsw.smartschool.remote.request.point.GivePointRequest
+import kr.hs.dgsw.smartschool.remote.request.point.MakeReasonPointRequest
 import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
@@ -18,16 +21,16 @@ class PointRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getPoint(
         studentId: Int,
-        pointType: PointType,
+        pointType: PointPlace,
     ): List<Point> = dodamApiCall {
         pointService.getPoint(
             studentId,
-//            pointType.name,
-            "DORMITORY"
+            pointType.name,
         ).data.toModel()
     }
 
     override suspend fun givePoint(
+        id: Int,
         givenDate: String,
         place: PointPlace,
         reason: String,
@@ -38,19 +41,32 @@ class PointRemoteDataSourceImpl @Inject constructor(
         pointService.givePoint(
             GivePointRequest(
                 givenDate = givenDate,
-                place = place.name,
-                reason = reason,
-                score = score,
+                reasonId = id,
                 studentId = studentId,
-                type = type.name
             )
         )
     }
 
-    override suspend fun getReason(pointType: PointType): List<PointReason> = dodamApiCall {
-        pointService.getReason(
-//            pointType.name,
-            "DORMITORY"
-        ).data.toPointReasonList()
+    override suspend fun getReason(type: PointPlace): List<PointReason> = dodamApiCall {
+        val reasons: MutableList<PointReason> = mutableListOf()
+        coroutineScope {
+            val job1 = async {
+                reasons.addAll(pointService.getReason(
+                    PointPlace.DORMITORY.name,
+                ).data.toPointReasonList())
+            }
+
+            val job2 = async {
+                reasons.addAll(pointService.getReason(
+                    PointPlace.SCHOOL.name,
+                ).data.toPointReasonList())
+
+            }
+            job1.await()
+            job2.await()
+        }
+
+
+        return@dodamApiCall reasons
     }
 }

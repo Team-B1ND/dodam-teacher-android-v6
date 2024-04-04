@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.service
 
 import kr.hs.dgsw.smartschool.remote.request.point.GivePointRequest
+import kr.hs.dgsw.smartschool.remote.request.point.MakeReasonPointRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
 import kr.hs.dgsw.smartschool.remote.response.point.PointReasonResponse
 import kr.hs.dgsw.smartschool.remote.response.point.PointResponse
@@ -24,8 +25,13 @@ interface PointService {
         @Body givePointRequest: GivePointRequest
     ): Response<Unit>
 
-    @GET(DodamUrl.Point.GET_REASON)
+    @GET(DodamUrl.Point.REASON)
     suspend fun getReason(
         @Query("type") type: String,
+    ): Response<List<PointReasonResponse>>
+
+    @POST(DodamUrl.Point.REASON)
+    suspend fun makeReason(
+        @Body makeReasonPointRequest: MakeReasonPointRequest
     ): Response<List<PointReasonResponse>>
 }

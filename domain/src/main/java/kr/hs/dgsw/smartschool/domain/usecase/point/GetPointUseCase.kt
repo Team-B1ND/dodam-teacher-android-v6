@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.domain.usecase.point
 
+import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 import javax.inject.Inject
@@ -17,6 +18,6 @@ class GetPointUseCase @Inject constructor(
 
     data class Param(
         val studentId: Int,
-        val type: PointType,
+        val type: PointPlace,
     )
 }

@@ -11,6 +11,7 @@ class GivePointUseCase @Inject constructor(
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
         pointRepository.givePoint(
+            id = param.id,
             givenDate = param.givenDate,
             place = param.place,
             reason = param.reason,
@@ -21,6 +22,7 @@ class GivePointUseCase @Inject constructor(
     }
 
     data class Param(
+        val id: Int,
         val givenDate: String,
         val place: PointPlace,
         val reason: String,

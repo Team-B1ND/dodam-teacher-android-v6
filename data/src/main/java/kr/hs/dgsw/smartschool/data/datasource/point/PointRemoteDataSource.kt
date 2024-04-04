@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.data.datasource.point
 
+import com.google.gson.annotations.SerializedName
 import kr.hs.dgsw.smartschool.domain.model.point.Point
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
@@ -9,10 +10,11 @@ interface PointRemoteDataSource {
 
     suspend fun getPoint(
         studentId: Int,
-        pointType: PointType,
+        pointType: PointPlace,
     ): List<Point>
 
     suspend fun givePoint(
+        id: Int,
         givenDate: String,
         place: PointPlace,
         reason: String,
@@ -21,5 +23,5 @@ interface PointRemoteDataSource {
         type: PointType,
     )
 
-    suspend fun getReason(pointType: PointType): List<PointReason>
+    suspend fun getReason(type: PointPlace): List<PointReason>
 }
