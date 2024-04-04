@@ -13,7 +13,6 @@ import kr.hs.dgsw.smartschool.data.datasource.member.MemberCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.student.StudentCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.teacher.TeacherCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
@@ -26,7 +25,6 @@ import kr.hs.dgsw.smartschool.local.datasource.MemberCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.ScheduleCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.StudentCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.StudyRoomCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TeacherCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TimeTableCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TokenCacheDataSourceImpl
@@ -101,12 +99,6 @@ abstract class CacheDataSourceModule {
     abstract fun provideCalorieCacheDataSource(
         calorieCacheDataSourceImpl: CalorieCacheDataSourceImpl,
     ): CalorieCacheDataSource
-
-    @Singleton
-    @Binds
-    abstract fun provideStudyRoomCacheDataSource(
-        studyRoomCacheDataSourceImpl: StudyRoomCacheDataSourceImpl,
-    ): StudyRoomCacheDataSource
 
     @Singleton
     @Binds

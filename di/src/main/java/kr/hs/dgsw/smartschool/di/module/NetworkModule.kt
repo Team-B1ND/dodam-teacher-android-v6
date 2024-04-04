@@ -21,7 +21,6 @@ import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.PlaceService
 import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.service.ScheduleService
-import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.service.TimeTableService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
@@ -132,11 +131,6 @@ class NetworkModule {
     @Provides
     fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
         retrofit.create(ItmapService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesStudyRoomService(@BasicRetrofit retrofit: Retrofit): StudyRoomService =
-        retrofit.create(StudyRoomService::class.java)
 
     @Singleton
     @Provides
