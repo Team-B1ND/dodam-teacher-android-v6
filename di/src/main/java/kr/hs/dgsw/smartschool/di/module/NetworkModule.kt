@@ -13,7 +13,6 @@ import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.BannerService
-import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.NightStudyService
@@ -126,11 +125,6 @@ class NetworkModule {
     @Provides
     fun providesScheduleService(@BasicRetrofit retrofit: Retrofit): ScheduleService =
         retrofit.create(ScheduleService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
-        retrofit.create(ItmapService::class.java)
 
     @Singleton
     @Provides

@@ -236,16 +236,6 @@ fun HomeScreen(
                             )
                         },
                     ),
-                    ItemCardContent(
-                        subTitle = stringResource(id = R.string.label_employ),
-                        title = stringResource(id = R.string.title_itmap),
-                        icon = {
-                            IcItmap3D(
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                    ),
                 )
 
                 LazyRow(
@@ -264,9 +254,6 @@ fun HomeScreen(
                                     )
                                     context.getString(R.string.title_schedule) -> navController.navigate(
                                         NavGroup.Feature.SCHEDULE
-                                    )
-                                    context.getString(R.string.title_itmap) -> navController.navigate(
-                                        NavGroup.Feature.ITMAP
                                     )
                                     context.getString(R.string.label_out) -> navController.navigate(
                                         NavGroup.Feature.CURRENT_OUT
