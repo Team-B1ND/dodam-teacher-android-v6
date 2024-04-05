@@ -21,16 +21,16 @@ interface NightStudyService {
 
     @PATCH(DodamUrl.NightStudy.NIGHT_ALLOW)
     suspend fun allowNightStudy(
-        @Body nightStudyIdRequest: NightStudyIdRequest
+        @Path("id") id: Int
     )
 
     @PATCH(DodamUrl.NightStudy.NIGHT_CANCEL)
     suspend fun denyNightStudy(
-        @Body nightStudyIdRequest: NightStudyIdRequest
+        @Path("id") id: Int,
+        @Body reason: NightStudyIdRequest
     )
 
     @GET(DodamUrl.NightStudy.NIGHT_PENDING)
     suspend fun getPendingNightStudy(): Response<List<NightStudyResponse>>
 
-//    @Path("id") id: Int
 }
