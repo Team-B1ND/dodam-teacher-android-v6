@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
+import android.util.Log
 import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.request.night_study.NightStudyIdRequest
@@ -20,19 +21,19 @@ class NightStudyRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun allowNightStudy(id: Int) = dodamApiCall {
-        nightStudyService.allowNightStudy(id.toNightStudyIdRequest())
+        nightStudyService.allowNightStudy(id)
     }
 
     override suspend fun denyNightStudy(id: Int) = dodamApiCall {
-        nightStudyService.denyNightStudy(id.toNightStudyIdRequest())
+        nightStudyService.denyNightStudy(id, "null".toNightStudyIdRequest())
     }
 
     override suspend fun getPendingNightStudy() = dodamApiCall {
         nightStudyService.getPendingNightStudy().data.toModel()
     }
 
-    private fun Int.toNightStudyIdRequest(): NightStudyIdRequest =
+    private fun String.toNightStudyIdRequest(): NightStudyIdRequest =
         NightStudyIdRequest(
-            id = this
+            rejectReason = this
         )
 }

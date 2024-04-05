@@ -11,7 +11,7 @@ import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.AllowNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetNightStudyUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetPendingNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NightStudyViewModel @Inject constructor(
-    private val getNightStudyUseCase: GetNightStudyUseCase,
+    private val getPendingNightStudyUseCase: GetPendingNightStudyUseCase,
     private val allowNightStudyUseCase: AllowNightStudyUseCase,
     private val denyNightStudyUseCase: DenyNightStudyUseCase,
     private val getMembersUseCase: GetMembersUseCase,
@@ -47,7 +47,7 @@ class NightStudyViewModel @Inject constructor(
             )
         }
 
-        getNightStudyUseCase()
+        getPendingNightStudyUseCase()
             .onSuccess {
                 Log.d("TAG", "성공: ${it} ")
                 reduce {
@@ -121,7 +121,7 @@ class NightStudyViewModel @Inject constructor(
             )
         }
 
-        getNightStudyUseCase()
+        getPendingNightStudyUseCase()
             .onSuccess {
                 Log.d("TAG", "getOutsRefresh: 성공")
                 reduce {
