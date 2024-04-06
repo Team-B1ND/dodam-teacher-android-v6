@@ -90,6 +90,20 @@ fun NightStudyScreen(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
+    val convertedRoom = roomList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+
+    val converterGrade = gradeList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
         onRefresh = {
@@ -165,7 +179,7 @@ fun NightStudyScreen(
                             selectIdx = state.currentGrade,
                             categoryList = gradeList,
                             onSelectedItem = { idx ->
-                                nightStudyViewModel.updateGrade(idx)
+                                nightStudyViewModel.updateGrade(converterGrade[idx])
                             }
                         )
 
@@ -173,7 +187,7 @@ fun NightStudyScreen(
                             categoryList = roomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
-                                nightStudyViewModel.updateClassroom(idx)
+                                nightStudyViewModel.updateClassroom(convertedRoom[idx])
                             }
                         )
                     }
