@@ -15,25 +15,19 @@ internal fun AllMemberResponse.toMemberData(): MemberData =
         teachers = teachers.toModel()
     )
 
-internal fun MemberResponse.toModel(): Teacher =
-    Teacher(
-        id = 0,
-        member = this.toMember(),
-        phone = phone,
-        position = this.teacher?.position?: "",
-        tel = this.teacher?.position?: "",
-    )
+//internal fun MemberResponse.toModel(): Teacher =
+//    Teacher(
+//        id = 0,
+//        member = this.toMember(),
+//        phone = phone,
+//        position = this.teacher?.position?: "",
+//        tel = this.teacher?.position?: "",
+//    )
 
-internal fun MemberResponse.toModelStudent(): Student =
-    Student(
-        classroom = Classroom(
-            id = 0,
-            grade = this.student?.grade?: 0,
-            place = Place(0),
-            room = this.student?.room?: 0
-        ),
-        id = this.student?.id?: 0,
-        member = this.toMember(),
-        phone = phone,
-        number = this.student?.number?: 0
-    )
+//internal fun MemberResponse.toModelStudent(): Student =
+//    Student(
+//        id = this.student?.id?: 0,
+//        member = this.toMember(),
+//        phone = phone,
+//        number = this.student?.number?: 0
+//    )

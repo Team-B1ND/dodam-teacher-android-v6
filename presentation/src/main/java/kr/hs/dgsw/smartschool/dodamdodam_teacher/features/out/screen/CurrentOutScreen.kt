@@ -178,12 +178,12 @@ fun CurrentOutScreen(
                         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = 56.dp + DodamDimen.ScreenSidePadding)
                     ) {
                         items(outList) { outItem ->
-                            val findStudent = state.students.find {
-                                it.id == outItem.studentId
+                            val findStudent = state.members.find {
+                                it.student?.id == outItem.studentId
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.member?.id ?: "",
+                                findMemberId = findStudent?.id ?: "",
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     currentOutViewModel.updateOutItem(outItem)
                                     currentOutViewModel.updateShowPrompt(showPrompt = true)
@@ -228,36 +228,36 @@ private fun getFilteredOutList(state: CurrentOutState): List<OutItem> {
 }
 
 private fun OutItem.getOutItemRoomInfo(state: CurrentOutState): Int {
-    val student = state.students.find {
-        studentId == it.id
+    val student = state.members.find {
+        studentId == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
-        student.classroom.id == it.id
+        student.student?.id == it.id
     } ?: return 0
 
     return classroom.room
 }
 
 private fun OutItem.getOutItemGradeInfo(state: CurrentOutState): Int {
-    val student = state.students.find {
-        studentId == it.id
+    val student = state.members.find {
+        studentId == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
-        student.classroom.id == it.id
+        student.student?.id == it.id
     } ?: return 0
 
     return classroom.grade
 }
 
 private fun OutItem.getOutItemNameInfo(state: CurrentOutState): String {
-    val student = state.students.find {
-        studentId == it.id
+    val student = state.members.find {
+        studentId == it.student?.id
     } ?: return ""
 
     val member = state.members.find {
-        student.member.id == it.id
+        student.id == it.id
     } ?: return ""
 
     return member.name

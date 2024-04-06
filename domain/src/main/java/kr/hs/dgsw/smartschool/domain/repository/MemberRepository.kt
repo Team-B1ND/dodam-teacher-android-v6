@@ -10,7 +10,9 @@ interface MemberRepository {
 
     suspend fun getMemberById(id: String): Member
 
-    suspend fun getMemberByTeacherId(id: Int): Member
+    suspend fun getMemberInfo(): Member
 
-    suspend fun getMemberByStudentId(id: Int): Member
+//    suspend fun getMemberByTeacherId(id: Int): Member
+//
+//    suspend fun getMemberByStudentId(id: Int): Member
 }

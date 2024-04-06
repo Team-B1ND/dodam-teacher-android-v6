@@ -16,12 +16,12 @@ interface MemberService {
     @GET(DodamUrl.Member.GET_MY)
     suspend fun getMyInfo(): Response<MemberResponse>
 
-    @GET(DodamUrl.Member.MEMBERS)
-    suspend fun getSortedStudents(): Response<List<MemberResponse>>
-
-    @GET(DodamUrl.Member.MEMBERS)
-    suspend fun getStudents(): Response<List<MemberResponse>>
-
-    @GET(DodamUrl.Member.MEMBERS)
-    suspend fun getTeachers(): Response<List<MemberResponse>>
+//    @GET(DodamUrl.Member.MEMBERS)
+//    suspend fun getSortedStudents(): Response<List<MemberResponse>>
+//
+//    @GET(DodamUrl.Member.MEMBERS)
+//    suspend fun getStudents(): Response<List<MemberResponse>>
+//
+//    @GET(DodamUrl.Member.MEMBERS)
+//    suspend fun getTeachers(): Response<List<MemberResponse>>
 }

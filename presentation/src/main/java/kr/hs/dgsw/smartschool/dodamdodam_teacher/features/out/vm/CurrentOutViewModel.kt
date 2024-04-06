@@ -11,7 +11,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -25,7 +24,6 @@ import javax.inject.Inject
 class CurrentOutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
     private val cancelAllowOutgoingUseCase: CancelAllowOutgoingUseCase,
     private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
 
@@ -155,15 +153,15 @@ class CurrentOutViewModel @Inject constructor(
     }
 
     private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentOutSideEffect.ShowException(it))
-        }
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentOutSideEffect.ShowException(it))
+//        }
     }
 
     private fun getMembers() = intent {

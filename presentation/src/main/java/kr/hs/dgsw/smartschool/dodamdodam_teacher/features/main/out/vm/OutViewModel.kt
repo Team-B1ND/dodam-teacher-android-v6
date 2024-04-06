@@ -14,7 +14,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -28,7 +27,7 @@ import javax.inject.Inject
 class OutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
+    private val getStudentsUseCase: GetMembersUseCase,
     private val allowOutgoingUseCase: AllowOutgoingUseCase,
     private val denyOutgoingUseCase: DenyOutgoingUseCase,
     private val allowOutsleepingUseCase: AllowOutsleepingUseCase,

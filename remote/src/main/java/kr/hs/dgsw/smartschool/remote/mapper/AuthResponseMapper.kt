@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.data.auth.LoginData
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
@@ -9,6 +11,7 @@ import kr.hs.dgsw.smartschool.remote.response.auth.LoginResponse
 import kr.hs.dgsw.smartschool.remote.response.member.MemberResponse
 import kr.hs.dgsw.smartschool.remote.response.member.MemberResponseRole
 import kr.hs.dgsw.smartschool.remote.response.member.MemberResponseStatus
+import kr.hs.dgsw.smartschool.remote.response.student.StudentResponse
 
 internal fun LoginResponse.toLoginData(): LoginData =
     LoginData(
@@ -20,12 +23,18 @@ internal fun MemberResponse.toMember(): Member =
     Member(
         email = email,
         id = id,
-        joinDate = null,
         name = name,
         profileImage = profileImage,
         role = role.toMemberRole(),
         status = status.toMemberStatus(),
+        phone = phone,
+        student = student?.toModel(),
+        teacher = teacher?.toModel(),
+        createdAt = createdAt?.yearDateTimeToLocalDate().toString(),
+        modifiedAt =  modifiedAt?.yearDateTimeToLocalDate().toString(),
     )
+
+
 
 internal fun MemberResponseRole.toMemberRole(): MemberRole =
     when (this.name) {

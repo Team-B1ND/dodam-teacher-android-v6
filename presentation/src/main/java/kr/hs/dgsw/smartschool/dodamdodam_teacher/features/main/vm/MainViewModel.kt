@@ -6,8 +6,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSide
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainState
 import kr.hs.dgsw.smartschool.domain.usecase.member.SetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.SetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.teacher.SetTeachersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.timetable.SetTimeTablesUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -22,8 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val setMembersUseCase: SetMembersUseCase,
-    private val setStudentsUseCase: SetStudentsUseCase,
-    private val setTeachersUseCase: SetTeachersUseCase,
     private val setTimeTablesUseCase: SetTimeTablesUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
 ) : ContainerHost<MainState, MainSideEffect>, ViewModel() {
@@ -33,8 +29,8 @@ class MainViewModel @Inject constructor(
     init {
         setClassroom()
         setMembers()
-        setTeachers()
-        setStudents()
+//        setTeachers()
+//        setStudents()
         setOuts()
         setTimeTables()
     }
@@ -134,51 +130,51 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun setStudents() = intent {
-        reduce {
-            state.copy(
-                setStudentsLoading = true
-            )
-        }
+//    private fun setStudents() = intent {
+//        reduce {
+//            state.copy(
+//                setStudentsLoading = true
+//            )
+//        }
+//
+//        setStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    setStudentsLoading = false
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(MainSideEffect.ShowException(it))
+//            reduce {
+//                state.copy(
+//                    setStudentsLoading = false
+//                )
+//            }
+//        }
+//    }
 
-        setStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    setStudentsLoading = false
-                )
-            }
-        }.onFailure {
-            postSideEffect(MainSideEffect.ShowException(it))
-            reduce {
-                state.copy(
-                    setStudentsLoading = false
-                )
-            }
-        }
-    }
-
-    private fun setTeachers() = intent {
-        reduce {
-            state.copy(
-                setTeachersLoading = true
-            )
-        }
-
-        setTeachersUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    setTeachersLoading = false
-                )
-            }
-        }.onFailure {
-            postSideEffect(MainSideEffect.ShowException(it))
-            reduce {
-                state.copy(
-                    setTeachersLoading = false
-                )
-            }
-        }
-    }
+//    private fun setTeachers() = intent {
+//        reduce {
+//            state.copy(
+//                setTeachersLoading = true
+//            )
+//        }
+//
+//        setTeachersUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    setTeachersLoading = false
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(MainSideEffect.ShowException(it))
+//            reduce {
+//                state.copy(
+//                    setTeachersLoading = false
+//                )
+//            }
+//        }
+//    }
 
     fun updateSelectedTab(tab: Int) = intent {
         reduce {

@@ -2,8 +2,11 @@ package kr.hs.dgsw.smartschool.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kr.hs.dgsw.smartschool.local.converter.StudentConverter
+import kr.hs.dgsw.smartschool.local.converter.TeacherConverter
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.CalorieDao
@@ -14,8 +17,6 @@ import kr.hs.dgsw.smartschool.local.dao.OutDao
 import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
-import kr.hs.dgsw.smartschool.local.dao.StudentDao
-import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
 import kr.hs.dgsw.smartschool.local.entity.account.AccountEntity
@@ -28,8 +29,6 @@ import kr.hs.dgsw.smartschool.local.entity.out.OutEntity
 import kr.hs.dgsw.smartschool.local.entity.parent.ParentEntity
 import kr.hs.dgsw.smartschool.local.entity.place.PlaceEntity
 import kr.hs.dgsw.smartschool.local.entity.schedule.ScheduleEntity
-import kr.hs.dgsw.smartschool.local.entity.student.StudentEntity
-import kr.hs.dgsw.smartschool.local.entity.teacher.TeacherEntity
 import kr.hs.dgsw.smartschool.local.entity.timetable.TimeTableEntity
 import kr.hs.dgsw.smartschool.local.entity.token.TokenEntity
 import kr.hs.dgsw.smartschool.local.table.DodamTable
@@ -37,19 +36,18 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
 @Database(
     entities = [
         MealEntity::class, MemberEntity::class, PlaceEntity::class,
-        StudentEntity::class, TeacherEntity::class, ParentEntity::class, TokenEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class, CalorieEntity::class, TimeTableEntity::class
+        CompanyEntity::class, CalorieEntity::class, TimeTableEntity::class, ParentEntity::class,
+        TokenEntity::class
     ],
     version = 14,
     exportSchema = false
 )
+@TypeConverters(StudentConverter::class, TeacherConverter::class)
 
 abstract class DodamTeacherDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun memberDao(): MemberDao
-    abstract fun studentDao(): StudentDao
-    abstract fun teacherDao(): TeacherDao
     abstract fun parentDao(): ParentDao
     abstract fun placeDao(): PlaceDao
     abstract fun tokenDao(): TokenDao

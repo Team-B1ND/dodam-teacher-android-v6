@@ -9,11 +9,11 @@ interface MemberRemoteDataSource {
 
     suspend fun getMembers(): List<Member>
 
-    suspend fun getMyInfo(): Teacher
+    suspend fun getMyInfo(): Member
 
-    suspend fun getSortedStudents(): List<Student>
-
-    suspend fun getStudents(): List<Student>
-
-    suspend fun getTeachers(): List<Teacher>
+//    suspend fun getSortedStudents(): List<Student>
+//
+//    suspend fun getStudents(): List<Student>
+//
+//    suspend fun getTeachers(): List<Teacher>
 }
