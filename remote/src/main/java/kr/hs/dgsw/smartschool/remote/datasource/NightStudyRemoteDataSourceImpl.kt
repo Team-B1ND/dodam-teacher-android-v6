@@ -1,9 +1,9 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import android.util.Log
 import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
-import kr.hs.dgsw.smartschool.remote.request.night_study.NightStudyIdRequest
+import kr.hs.dgsw.smartschool.remote.request.reject.RejectReasonRequest
+import kr.hs.dgsw.smartschool.remote.request.reject.toNightStudyIdRequest
 import kr.hs.dgsw.smartschool.remote.service.NightStudyService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
@@ -32,8 +32,5 @@ class NightStudyRemoteDataSourceImpl @Inject constructor(
         nightStudyService.getPendingNightStudy().data.toModel()
     }
 
-    private fun String.toNightStudyIdRequest(): NightStudyIdRequest =
-        NightStudyIdRequest(
-            rejectReason = this
-        )
+
 }

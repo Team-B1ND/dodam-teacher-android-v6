@@ -11,6 +11,8 @@ interface OutRemoteDataSource {
 
     suspend fun getOutSleepingByDate(data: String): List<Out>
 
+    suspend fun getOutSleepingValidByDate(): List<Out>
+
     suspend fun getOutgoing(id: Int): OutItem
 
     suspend fun deleteOutgoing(id: Int)
@@ -27,7 +29,7 @@ interface OutRemoteDataSource {
 
     suspend fun allowOutsleeping(ids: List<Int>)
 
-    suspend fun cancelAllowOutsleeping(ids: List<Int>)
+    suspend fun cancelAllowOutsleeping(id: Int)
 
     suspend fun denyOutsleeping(ids: List<Int>)
 }

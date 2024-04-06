@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.service
 
-import kr.hs.dgsw.smartschool.remote.request.night_study.NightStudyIdRequest
+import kr.hs.dgsw.smartschool.remote.request.reject.RejectReasonRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
 import kr.hs.dgsw.smartschool.remote.response.night_study.NightStudyResponse
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
@@ -8,7 +8,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface NightStudyService {
 //    @GET(DodamUrl.NightStudy.NIGHT_DATE)
@@ -27,7 +26,7 @@ interface NightStudyService {
     @PATCH(DodamUrl.NightStudy.NIGHT_CANCEL)
     suspend fun denyNightStudy(
         @Path("id") id: Int,
-        @Body reason: NightStudyIdRequest
+        @Body reason: RejectReasonRequest
     )
 
     @GET(DodamUrl.NightStudy.NIGHT_PENDING)

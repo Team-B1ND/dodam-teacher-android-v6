@@ -104,7 +104,6 @@ fun CurrentNightStudyScreen(
             else -> grade.substring(0, 1).toInt()
         }
     }
-    Log.d("TAG", "room: $convertedRoom")
 
 
     val refreshState = rememberPullRefreshState(
@@ -181,7 +180,6 @@ fun CurrentNightStudyScreen(
                             categoryList = roomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
-                                Log.d("TAG", "CurrentNightStudyScreen: ${convertedRoom[idx]}")
 
                                 currentNightStudyViewModel.updateClassroom(convertedRoom[idx])
                             }

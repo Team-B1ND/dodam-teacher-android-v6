@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
@@ -42,6 +44,7 @@ class OutViewModel @Inject constructor(
         getOutsRemote()
         getMembers()
         getStudents()
+        getOutSleepingRemote()
     }
 
     fun getOutsRemote() = intent {
@@ -60,6 +63,30 @@ class OutViewModel @Inject constructor(
                 state.copy(
                     getOutsLoading = false,
                     outGoings = it,
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun getOutSleepingRemote() = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+
+        getOutsByDateRemoteUseCase.getOutSleepingValid(
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
                     outSleepings = it,
                 )
             }
