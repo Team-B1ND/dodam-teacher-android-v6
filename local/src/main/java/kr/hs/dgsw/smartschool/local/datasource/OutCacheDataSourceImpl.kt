@@ -13,23 +13,7 @@ class OutCacheDataSourceImpl @Inject constructor(
     private val outDao: OutDao,
 ) : OutCacheDataSource {
 
-    override suspend fun getAllOut(): Out {
 
-        val outgoings = emptyList<OutItem>().toMutableList()
-        val outsleepings = emptyList<OutItem>().toMutableList()
-
-        outDao.getAllOut().map {
-            if (it.type == OutType.OUTGOING.name)
-                outgoings.add(it.toModel())
-            else
-                outsleepings.add(it.toModel())
-        }
-
-        return Out(
-            outgoings = outgoings,
-            outsleepings = outsleepings
-        )
-    }
 
     override suspend fun getOutById(id: Int): OutItem? =
         outDao.getOutById(id)?.toModel()

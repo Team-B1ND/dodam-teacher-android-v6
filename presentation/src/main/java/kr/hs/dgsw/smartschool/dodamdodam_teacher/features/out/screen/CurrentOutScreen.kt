@@ -42,9 +42,12 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutStat
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.vm.CurrentOutViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -55,6 +58,10 @@ fun CurrentOutScreen(
 
     val state = currentOutViewModel.collectAsState().value
     val context = LocalContext.current
+
+    val getDate = getNextDay()
+
+    Log.d("TAG", "$getDate: ")
 
     currentOutViewModel.collectSideEffect {
         when (it) {
@@ -109,7 +116,7 @@ fun CurrentOutScreen(
                             currentOutViewModel.updateShowPrompt(false)
                         }
                     },
-                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
+                    description = "\n시작 날짜 : ${it.startOutDate} \n\n복귀 날짜 : ${it.endOutDate} \n\n사유 : ${it.reason}",
                     onDismiss = {
                         currentOutViewModel.updateShowPrompt(false)
                     }
@@ -179,7 +186,7 @@ fun CurrentOutScreen(
                     ) {
                         items(outList) { outItem ->
                             val findStudent = state.members.find {
-                                it.student?.id == outItem.studentId
+                                it.student?.id == outItem.id
                             }
                             DodamStudentItem(
                                 members = state.members,
@@ -204,8 +211,8 @@ fun CurrentOutScreen(
     }
 }
 
-private fun getFilteredOutList(state: CurrentOutState): List<OutItem> {
-    val outList: List<OutItem> = if (state.currentOutType == 0)
+private fun getFilteredOutList(state: CurrentOutState): List<Out> {
+    val outList: List<Out> = if (state.currentOutType == 0)
         state.outGoings
     else
         state.outSleepings
@@ -227,9 +234,9 @@ private fun getFilteredOutList(state: CurrentOutState): List<OutItem> {
     }
 }
 
-private fun OutItem.getOutItemRoomInfo(state: CurrentOutState): Int {
+private fun Out.getOutItemRoomInfo(state: CurrentOutState): Int {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
@@ -239,9 +246,9 @@ private fun OutItem.getOutItemRoomInfo(state: CurrentOutState): Int {
     return classroom.room
 }
 
-private fun OutItem.getOutItemGradeInfo(state: CurrentOutState): Int {
+private fun Out.getOutItemGradeInfo(state: CurrentOutState): Int {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
@@ -251,9 +258,9 @@ private fun OutItem.getOutItemGradeInfo(state: CurrentOutState): Int {
     return classroom.grade
 }
 
-private fun OutItem.getOutItemNameInfo(state: CurrentOutState): String {
+private fun Out.getOutItemNameInfo(state: CurrentOutState): String {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id  == it.student?.id
     } ?: return ""
 
     val member = state.members.find {
@@ -267,4 +274,11 @@ private fun getOutType(context: Context, outType: Int): String = when (outType) 
     0 -> context.getString(R.string.label_outgoing)
     1 -> context.getString(R.string.label_outsleeping)
     else -> ""
+}
+
+fun getNextDay(): String {
+    val currentDate = LocalDate.now()
+    val nextDay = currentDate.plusDays(1)
+
+    return nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 }

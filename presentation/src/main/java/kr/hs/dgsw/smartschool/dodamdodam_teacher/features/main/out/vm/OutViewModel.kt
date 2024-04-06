@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 //import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
@@ -58,8 +59,8 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it.outgoings.getNotAllowedOutItems(),
-                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
+                    outGoings = it,
+                    outSleepings = it,
                 )
             }
         }.onFailure {
@@ -87,8 +88,8 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     refreshing = false,
-                    outGoings = it.outgoings.getNotAllowedOutItems(),
-                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
+                    outGoings = it,
+                    outSleepings = it,
                 )
             }
         }.onFailure {
@@ -257,7 +258,7 @@ class OutViewModel @Inject constructor(
         }
     }
 
-    fun updateOutItem(outItem: OutItem) = intent {
+    fun updateOutItem(outItem: Out) = intent {
         reduce {
             state.copy(
                 currentSelectedOutItem = outItem

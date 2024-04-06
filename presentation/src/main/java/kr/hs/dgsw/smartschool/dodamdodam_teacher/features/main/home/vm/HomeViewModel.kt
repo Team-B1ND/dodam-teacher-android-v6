@@ -49,29 +49,34 @@ class HomeViewModel @Inject constructor(
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
+        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { outGoing ->
+            getOutsByDateLocalUseCase.GetOutSleeping(GetOutsByDateLocalUseCase.Param(date))
+                .onSuccess { outSleeping ->
 
-            out.outgoings.forEach {
-                Log.d("HomeLog", it.status.name)
-            }
+                    val outgoingCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
+                    val outsleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
 
-            reduce {
-                state.copy(
-                    isOutLoading = false,
-                    outgoingCount = outgoingsCnt,
-                    outsleepingCount = outsleepingsCnt,
-                )
-            }
-        }.onFailure {
-            reduce {
-                state.copy(
-                    isOutLoading = false,
-                )
-            }
-            postSideEffect(HomeSideEffect.ToastError(it))
+                    outGoing.forEach {
+                        Log.d("HomeLog", it.status.name)
+                    }
+
+                    reduce {
+                        state.copy(
+                            isOutLoading = false,
+                            outgoingCount = outgoingCnt,
+                            outsleepingCount = outsleepingCnt,
+                        )
+                    }
+                }
         }
+            .onFailure {
+                reduce {
+                    state.copy(
+                        isOutLoading = false,
+                    )
+                }
+                postSideEffect(HomeSideEffect.ToastError(it))
+            }
     }
 
     private fun getStudents() = intent {
@@ -113,14 +118,16 @@ class HomeViewModel @Inject constructor(
             state.copy(refreshing = true)
         }
 
-        getOutsByDateRemoteUseCase(GetOutsByDateRemoteUseCase.Param(LocalDate.now().toString())).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
+        getOutsByDateRemoteUseCase(
+            GetOutsByDateRemoteUseCase.Param(
+                LocalDate.now().toString()
+            )
+        ).onSuccess { out ->
+            val outgoingsCnt = out.filter { it.status == OutStatus.PENDING }.size
 
             reduce {
                 state.copy(
                     outgoingCount = outgoingsCnt,
-                    outsleepingCount = outsleepingsCnt,
                     refreshing = false,
                     outRefreshTime = LocalDateTime.now()
                 )

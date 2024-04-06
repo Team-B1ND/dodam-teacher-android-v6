@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
@@ -31,6 +33,7 @@ class CurrentOutViewModel @Inject constructor(
 
     override val container: Container<CurrentOutState, CurrentOutSideEffect> = container(CurrentOutState())
 
+    private val getDate = getNextDay()
     init {
         getClassrooms()
         getOutsRemote()
@@ -47,14 +50,14 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = LocalDate.now().toString()
+                date = getDate
             )
         ).onSuccess {
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it.outgoings.getAllowedOutItem(),
-                    outSleepings = it.outsleepings.getAllowedOutItem(),
+                    outGoings = it,
+                    outSleepings = it,
                 )
             }
         }.onFailure {
@@ -76,14 +79,14 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = LocalDate.now().toString()
+                date = getDate
             )
         ).onSuccess {
             reduce {
                 state.copy(
                     refreshing = false,
-                    outGoings = it.outgoings.getAllowedOutItem(),
-                    outSleepings = it.outsleepings.getAllowedOutItem(),
+                    outGoings = it,
+                    outSleepings = it,
                 )
             }
         }.onFailure {
@@ -208,7 +211,7 @@ class CurrentOutViewModel @Inject constructor(
         }
     }
 
-    fun updateOutItem(outItem: OutItem) = intent {
+    fun updateOutItem(outItem: Out) = intent {
         reduce {
             state.copy(
                 currentSelectedOutItem = outItem

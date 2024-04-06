@@ -2,10 +2,14 @@ package kr.hs.dgsw.smartschool.data.datasource.out
 
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.OutSleeping
+import kr.hs.dgsw.smartschool.domain.model.out.Outgoing
 
 interface OutRemoteDataSource {
 
-    suspend fun getOutsByDate(date: String): Out
+    suspend fun getOutgoingByDate(date: String): List<Out>
+
+    suspend fun getOutSleepingByDate(data: String): List<Out>
 
     suspend fun getOutgoing(id: Int): OutItem
 
