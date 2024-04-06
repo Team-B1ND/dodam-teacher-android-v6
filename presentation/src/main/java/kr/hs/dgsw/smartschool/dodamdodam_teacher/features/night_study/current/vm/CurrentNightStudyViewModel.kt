@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.mvi.CurrentNightStudySideEffect
@@ -151,6 +152,7 @@ class CurrentNightStudyViewModel @Inject constructor(
     }
 
     fun updateGrade(grade: Int) = intent {
+        Log.d("TAG", "updateGrade: $grade")
         reduce {
             state.copy(
                 currentGrade = grade
@@ -159,6 +161,7 @@ class CurrentNightStudyViewModel @Inject constructor(
     }
 
     fun updateClassroom(classroom: Int) = intent {
+        Log.d("TAG", "updateClassroom: $classroom")
         reduce {
             state.copy(
                 currentClassroom = classroom

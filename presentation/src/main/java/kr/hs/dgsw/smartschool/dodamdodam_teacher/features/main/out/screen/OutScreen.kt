@@ -204,7 +204,7 @@ fun OutScreen(
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.id ?: "",
+                                findMemberId = findStudent?.id?.toInt() ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     outViewModel.updateOutItem(outItem)
                                     outViewModel.updateShowPrompt(showPrompt = true)

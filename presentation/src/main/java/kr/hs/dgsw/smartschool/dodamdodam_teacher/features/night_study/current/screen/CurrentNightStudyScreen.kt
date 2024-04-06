@@ -90,6 +90,23 @@ fun CurrentNightStudyScreen(
             stringResource(id = R.string.label_all)
         ).toList().reversed()
 
+
+    val convertedRoom = roomList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+
+    val converterGrade = gradeList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+    Log.d("TAG", "room: $convertedRoom")
+
+
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
         onRefresh = {
@@ -156,7 +173,7 @@ fun CurrentNightStudyScreen(
                             selectIdx = state.currentGrade,
                             categoryList = gradeList,
                             onSelectedItem = { idx ->
-                                currentNightStudyViewModel.updateGrade(idx)
+                                currentNightStudyViewModel.updateGrade(converterGrade[idx])
                             }
                         )
 
@@ -164,7 +181,9 @@ fun CurrentNightStudyScreen(
                             categoryList = roomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
-                                currentNightStudyViewModel.updateClassroom(idx)
+                                Log.d("TAG", "CurrentNightStudyScreen: ${convertedRoom[idx]}")
+
+                                currentNightStudyViewModel.updateClassroom(convertedRoom[idx])
                             }
                         )
                     }
@@ -182,17 +201,13 @@ fun CurrentNightStudyScreen(
                         )
                     ) {
                         items(nightStudies) { nightStudy ->
-                            val findStudent = state.students.find {
-                                Log.d(
-                                    "TAG",
-                                    "CurrentNightStudyScreen: $it\nNightStidy: $nightStudy"
-                                )
-                                it.number == nightStudy.student.number &&
-                                        it.name == nightStudy.student.name
+                            val findStudent = state.members.find {
+                                it.student?.number == nightStudy.student.number &&
+                                        it.student?.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.id.toString() ?: "",
+                                findMemberId = findStudent?.student?.id ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     currentNightStudyViewModel.updateNightStudy(nightStudy)
                                     currentNightStudyViewModel.updateShowPrompt(showPrompt = true)
@@ -214,7 +229,6 @@ fun CurrentNightStudyScreen(
 }
 
 private fun getFilteredNightStudies(state: CurrentNightStudyState): List<NightStudy> {
-
     return if (state.currentGrade == 0 && state.currentClassroom == 0) {
         state.nightStudies
     } else if (state.currentGrade == 0) {
