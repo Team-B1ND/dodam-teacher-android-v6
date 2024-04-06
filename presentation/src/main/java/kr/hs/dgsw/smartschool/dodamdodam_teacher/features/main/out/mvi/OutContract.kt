@@ -16,7 +16,7 @@ data class OutState(
     val outSleepings: List<OutItem> = emptyList(),
     val classrooms: List<Classroom> = emptyList(),
     val members: List<Member> = emptyList(),
-    val students: List<Student> = emptyList(),
+    val students: List<Member> = emptyList(),
 
     val getOutsLoading: Boolean = false,
     val showPrompt: Boolean = false,

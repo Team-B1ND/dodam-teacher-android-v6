@@ -12,7 +12,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.AllowNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetPendingNightStudyUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -27,7 +26,6 @@ class NightStudyViewModel @Inject constructor(
     private val allowNightStudyUseCase: AllowNightStudyUseCase,
     private val denyNightStudyUseCase: DenyNightStudyUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
 ) : ContainerHost<NightStudyState, NightStudySideEffect>, ViewModel() {
 
     override val container: Container<NightStudyState, NightStudySideEffect> =
@@ -155,15 +153,15 @@ class NightStudyViewModel @Inject constructor(
     }
 
     private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(NightStudySideEffect.ShowException(it))
-        }
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(NightStudySideEffect.ShowException(it))
+//        }
     }
 
     private fun getMembers() = intent {

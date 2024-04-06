@@ -81,11 +81,12 @@ fun NightStudyScreen(
         }
     }
 
-    val gradeList = state.classrooms.asSequence().map { it.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val gradeList = state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+
+    val roomList = state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
@@ -187,13 +188,13 @@ fun NightStudyScreen(
                         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
                     ) {
                         items(nightStudies) { nightStudy ->
-                            val findStudent = state.students.find {
-                                it.number == nightStudy.student.number &&
-                                    it.member.name == nightStudy.student.name
+                            val findStudent = state.members.find {
+                                it.student?.number == nightStudy.student.number &&
+                                    it.student?.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.member?.id ?: "",
+                                findMemberId = findStudent?.id ?: "",
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     nightStudyViewModel.updateNightStudy(nightStudy)
                                     nightStudyViewModel.updateShowPrompt(showPrompt = true)

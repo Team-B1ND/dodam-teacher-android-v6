@@ -8,9 +8,9 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeStat
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
+    private val getStudentsUseCase: GetMembersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())

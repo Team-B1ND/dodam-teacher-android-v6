@@ -12,9 +12,10 @@ internal fun List<StudentResponse>.toModel(): List<Student> =
 
 internal fun StudentResponse.toModel(): Student =
     Student(
-        classroom = Classroom(0),
         id = id,
-        member = Member(),
+        name = name,
+        grade = grade,
+        room = room,
         number = number,
-        phone = "",
+
     )

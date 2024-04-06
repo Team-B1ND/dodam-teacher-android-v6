@@ -15,7 +15,6 @@ import kr.hs.dgsw.smartschool.domain.model.point.PointType
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GetPointReasonUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GivePointUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -28,7 +27,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PointViewModel @Inject constructor(
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
     private val getPointReasonUseCase: GetPointReasonUseCase,
     private val givePointUseCase: GivePointUseCase,
 ) : ContainerHost<PointState, PointSideEffect>, ViewModel() {
@@ -73,17 +71,17 @@ class PointViewModel @Inject constructor(
     }
 
     private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty())
-                makePointStudents()
-        }.onFailure {
-            postSideEffect(PointSideEffect.ShowException(it))
-        }
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty())
+//                makePointStudents()
+//        }.onFailure {
+//            postSideEffect(PointSideEffect.ShowException(it))
+//        }
     }
 
     private fun getMembers() = intent {
@@ -234,11 +232,10 @@ class PointViewModel @Inject constructor(
     private fun makePointStudents() = intent {
         reduce {
             val list = emptyList<PointState.PointStudent>().toMutableList()
-            state.students.map { student ->
                 state.members.forEach { member ->
                     state.classrooms.forEach { classroom ->
-                        if (student.member.id == member.id) {
-                            if (student.classroom.grade == classroom.grade && student.classroom.room == classroom.room) {
+                        if (member.student != null){
+                            if (member.student?.grade == classroom.grade && member.student?.room == classroom.room) {
                                 list.add(
                                     PointState.PointStudent(
                                         id = member.id,
@@ -246,7 +243,7 @@ class PointViewModel @Inject constructor(
                                         grade = classroom.grade,
                                         room = classroom.room,
                                         isChecked = false,
-                                        studentId = student.id,
+                                        studentId = member.student?.id ?: 0,
                                         profileImage = member.profileImage ?: ""
                                     )
                                 )
@@ -254,7 +251,7 @@ class PointViewModel @Inject constructor(
                         }
                     }
                 }
-            }
+
             state.copy(
                 pointStudents = list
             )

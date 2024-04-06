@@ -70,6 +70,7 @@ fun CurrentNightStudyScreen(
                 )
                 Log.e("CurrentNightStudyErrorLog", it.exception.stackTraceToString())
             }
+
             is CurrentNightStudySideEffect.SuccessControl -> {
                 context.shortToast(message = it.message)
                 currentNightStudyViewModel.getCurrentNightStudy()
@@ -77,13 +78,17 @@ fun CurrentNightStudyScreen(
         }
     }
 
-    val gradeList = state.classrooms.asSequence().map { it.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val gradeList =
+        state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending()
+            .map { "${it}학년" }.plus(
+            stringResource(id = R.string.label_all)
+        ).toList().reversed()
 
-    val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val roomList =
+        state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending()
+            .map { "${it}반" }.plus(
+            stringResource(id = R.string.label_all)
+        ).toList().reversed()
 
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
@@ -110,10 +115,10 @@ fun CurrentNightStudyScreen(
                         }
                     },
                     description = "\n시작 날짜 : ${it.startAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                        "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                        " 심자 장소 : ${it.place}\n\n" +
-                        "학습 계획 : ${it.content}\n\n" +
-                        if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
+                            "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
+                            " 심자 장소 : ${it.place}\n\n" +
+                            "학습 계획 : ${it.content}\n\n" +
+                            if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
                     onDismiss = {
                         currentNightStudyViewModel.updateShowPrompt(false)
                     }
@@ -171,16 +176,23 @@ fun CurrentNightStudyScreen(
                             .padding(horizontal = DodamDimen.ScreenSidePadding)
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(DodamDimen.ScreenSidePadding),
-                        contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
+                        contentPadding = PaddingValues(
+                            top = DodamDimen.ScreenSidePadding * 2,
+                            bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding
+                        )
                     ) {
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.students.find {
+                                Log.d(
+                                    "TAG",
+                                    "CurrentNightStudyScreen: $it\nNightStidy: $nightStudy"
+                                )
                                 it.number == nightStudy.student.number &&
-                                    it.member.name == nightStudy.student.name
+                                        it.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.member?.id ?: "",
+                                findMemberId = findStudent?.id.toString() ?: "",
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     currentNightStudyViewModel.updateNightStudy(nightStudy)
                                     currentNightStudyViewModel.updateShowPrompt(showPrompt = true)
