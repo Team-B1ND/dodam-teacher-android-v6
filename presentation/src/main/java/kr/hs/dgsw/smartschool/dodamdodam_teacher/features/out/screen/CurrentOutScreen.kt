@@ -183,7 +183,7 @@ fun CurrentOutScreen(
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.id ?: "",
+                                findMemberId = findStudent?.student?.id ?:null,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     currentOutViewModel.updateOutItem(outItem)
                                     currentOutViewModel.updateShowPrompt(showPrompt = true)

@@ -189,12 +189,19 @@ fun NightStudyScreen(
                     ) {
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.members.find {
+
+
                                 it.student?.number == nightStudy.student.number &&
                                     it.student?.name == nightStudy.student.name
+
                             }
+                            Log.d("TAG", "nightStudies: $nightStudies")
+                            Log.d("TAG", "member: $findStudent")
+
+
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.id ?: "",
+                                findMemberId = findStudent?.student?.id ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     nightStudyViewModel.updateNightStudy(nightStudy)
                                     nightStudyViewModel.updateShowPrompt(showPrompt = true)
