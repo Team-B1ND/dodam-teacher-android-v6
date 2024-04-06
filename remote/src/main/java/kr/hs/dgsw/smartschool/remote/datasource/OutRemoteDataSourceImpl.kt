@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutSleeping
 import kr.hs.dgsw.smartschool.domain.model.out.OutType
@@ -9,6 +10,7 @@ import kr.hs.dgsw.smartschool.remote.mapper.toModel
 import kr.hs.dgsw.smartschool.remote.mapper.toOut
 import kr.hs.dgsw.smartschool.remote.mapper.toOutItem
 import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
+import kr.hs.dgsw.smartschool.remote.request.reject.toNightStudyIdRequest
 import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
@@ -26,6 +28,10 @@ class OutRemoteDataSourceImpl @Inject constructor(
     override suspend fun getOutSleepingByDate(data: String) = dodamApiCall {
 
         outService.getOutSleepingByDate(data).data.toModel()
+    }
+
+    override suspend fun getOutSleepingValidByDate() = dodamApiCall {
+        outService.getOutSleepingValidByDate().data.toModel()
     }
 
 
@@ -53,6 +59,8 @@ class OutRemoteDataSourceImpl @Inject constructor(
         outService.getOutsleeping(id).data.toOutItem(OutType.OUTSLEEPING)
     }
 
+
+
     override suspend fun deleteOutsleeping(id: Int) = dodamApiCall {
         outService.deleteOutsleeping(id).data
     }
@@ -61,8 +69,8 @@ class OutRemoteDataSourceImpl @Inject constructor(
         outService.allowOutsleeping(ids.toOutIdRequest()).data
     }
 
-    override suspend fun cancelAllowOutsleeping(ids: List<Int>) = dodamApiCall {
-        outService.cancelAllowOutsleeping(ids.toOutIdRequest()).data
+    override suspend fun cancelAllowOutsleeping(id: Int) = dodamApiCall {
+        outService.cancelAllowOutsleeping(id,).data
     }
 
     override suspend fun denyOutsleeping(ids: List<Int>) = dodamApiCall {

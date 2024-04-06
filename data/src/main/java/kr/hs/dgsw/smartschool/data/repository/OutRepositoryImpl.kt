@@ -18,9 +18,11 @@ class OutRepositoryImpl @Inject constructor(
     override suspend fun getOutgoingByDate(date: String): List<Out> =
         remote.getOutgoingByDate(date)
 
-    override suspend fun getOutSleepingByDate(data: String): List<Out> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getOutSleepingByDate(date: String): List<Out> =
+        remote.getOutSleepingByDate(date)
+
+    override suspend fun getOutSleepingValid(): List<Out> =
+        remote.getOutSleepingValidByDate()
 
 
     /* 날짜 변경 시 필수로 호출되는 함수 */
@@ -58,6 +60,8 @@ class OutRepositoryImpl @Inject constructor(
 
     override suspend fun getOutsleepingById(id: Int): OutItem =
         cache.getOutById(id) ?: remote.getOutsleeping(id)
+
+
 
     override suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem> {
         val outgoings = emptyList<OutItem>().toMutableList()
@@ -101,8 +105,8 @@ class OutRepositoryImpl @Inject constructor(
             cache.deleteOutById(id)
         }
 
-    override suspend fun cancelAllowOutgoing(ids: List<Int>) =
-        remote.cancelAllowOutgoing(ids)
+    override suspend fun cancelAllowOutgoing(id: Int) =
+        remote.deleteOutsleeping(id)
 
     override suspend fun denyOutgoing(ids: List<Int>) =
         remote.denyOutgoing(ids)
@@ -116,8 +120,8 @@ class OutRepositoryImpl @Inject constructor(
     override suspend fun allowOutsleeping(ids: List<Int>) =
         remote.allowOutsleeping(ids)
 
-    override suspend fun cancelAllowOutsleeping(ids: List<Int>) =
-        remote.cancelAllowOutsleeping(ids)
+    override suspend fun cancelAllowOutsleeping(id: Int) =
+        remote.cancelAllowOutsleeping(id)
 
     override suspend fun denyOutsleeping(ids: List<Int>) =
         remote.denyOutsleeping(ids)

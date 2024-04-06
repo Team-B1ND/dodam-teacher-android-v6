@@ -16,6 +16,8 @@ interface OutRepository {
 
     suspend fun getOutsleepingById(id: Int): OutItem
 
+    suspend fun getOutSleepingValid(): List<Out>
+
     suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem>
 
     suspend fun getOutsleepingsByDate(date: LocalDateTime): List<OutItem>
@@ -28,7 +30,7 @@ interface OutRepository {
 
     suspend fun deleteOutgoing(id: Int)
 
-    suspend fun cancelAllowOutgoing(ids: List<Int>)
+    suspend fun cancelAllowOutgoing(id: Int)
 
     suspend fun denyOutgoing(ids: List<Int>)
 
@@ -36,7 +38,7 @@ interface OutRepository {
 
     suspend fun allowOutsleeping(ids: List<Int>)
 
-    suspend fun cancelAllowOutsleeping(ids: List<Int>)
+    suspend fun cancelAllowOutsleeping(id: Int)
 
     suspend fun denyOutsleeping(ids: List<Int>)
 }

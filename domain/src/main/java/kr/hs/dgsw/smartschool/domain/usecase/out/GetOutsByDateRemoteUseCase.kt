@@ -11,6 +11,14 @@ class GetOutsByDateRemoteUseCase @Inject constructor(
         outRepository.getOutgoingByDate(param.date)
     }
 
+    suspend fun getOutSleeping(param: Param) = kotlin.runCatching {
+        outRepository.getOutSleepingByDate(param.date)
+    }
+
+    suspend fun getOutSleepingValid() = kotlin.runCatching {
+        outRepository.getOutSleepingValid()
+    }
+
     data class Param(
         val date: String,
     )

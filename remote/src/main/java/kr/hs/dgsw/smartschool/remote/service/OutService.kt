@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.service
 
+import kr.hs.dgsw.smartschool.remote.request.reject.RejectReasonRequest
 import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
 import kr.hs.dgsw.smartschool.remote.response.out.OutDetailResponse
@@ -19,10 +20,15 @@ interface OutService {
         @Query("date") date: String,
     ): Response<List<OutResponse>>
 
-
     @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING)
     suspend fun getOutSleepingByDate(
         @Query("date") date: String,
+    ): Response<List<OutResponse>>
+
+
+    @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING_VALID)
+    suspend fun getOutSleepingValidByDate(
+
     ): Response<List<OutResponse>>
 
     @GET(DodamUrl.Out.Outgoing.SINGLE)
@@ -65,9 +71,10 @@ interface OutService {
         @Body outIdRequest: OutIdRequest
     ): Response<Unit>
 
-    @PATCH(DodamUrl.Out.Outsleeping.CANCEL_ARROW)
+    @DELETE(DodamUrl.Out.Outsleeping.DELETE)
     suspend fun cancelAllowOutsleeping(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int,
+//        @Body reason: RejectReasonRequest
     ): Response<Unit>
 
     @PATCH(DodamUrl.Out.Outsleeping.DENY)
