@@ -14,10 +14,16 @@ import retrofit2.http.Query
 
 interface OutService {
 
-    @GET(DodamUrl.Out.DATE)
-    suspend fun getOutsByDate(
+    @GET(DodamUrl.Out.Outgoing.GET_OUTGOING)
+    suspend fun getOutgoingByDate(
         @Query("date") date: String,
-    ): Response<OutResponse>
+    ): Response<List<OutResponse>>
+
+
+    @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING)
+    suspend fun getOutSleepingByDate(
+        @Query("date") date: String,
+    ): Response<List<OutResponse>>
 
     @GET(DodamUrl.Out.Outgoing.SINGLE)
     suspend fun getOutgoing(

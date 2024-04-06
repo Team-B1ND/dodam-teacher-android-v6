@@ -10,10 +10,12 @@ fun String.yearDateToLocalDate(): LocalDate {
     return LocalDate.parse(this, formatter)
 }
 
-fun String.yearDateTimeToLocalDate(): LocalDateTime {
+fun String?.yearDateTimeToLocalDate(): LocalDateTime {
     try {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        return LocalDateTime.parse(this, formatter)
+        if (this != null) {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            return LocalDateTime.parse(this, formatter)
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }

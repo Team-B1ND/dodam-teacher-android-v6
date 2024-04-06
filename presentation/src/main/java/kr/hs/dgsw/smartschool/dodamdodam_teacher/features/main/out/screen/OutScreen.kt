@@ -43,6 +43,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewMod
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -130,7 +131,7 @@ fun OutScreen(
                             outViewModel.updateShowPrompt(false)
                         }
                     },
-                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
+                    description = "\n시작 날짜 : ${it.startOutDate} \n\n복귀 날짜 : ${it.endOutDate} \n\n사유 : ${it.reason}",
                     onDismiss = {
                         outViewModel.updateShowPrompt(false)
                     }
@@ -200,7 +201,7 @@ fun OutScreen(
                     ) {
                         items(outList) { outItem ->
                             val findStudent = state.members.find {
-                                it.student?.id == outItem.studentId
+                                it.student?.id == outItem.id
                             }
                             DodamStudentItem(
                                 members = state.members,
@@ -225,8 +226,8 @@ fun OutScreen(
     }
 }
 
-private fun getFilteredOutList(state: OutState): List<OutItem> {
-    val outList: List<OutItem> = if (state.currentOutType == 0)
+private fun getFilteredOutList(state: OutState): List<Out> {
+    val outList: List<Out> = if (state.currentOutType == 0)
         state.outGoings
     else
         state.outSleepings
@@ -248,9 +249,9 @@ private fun getFilteredOutList(state: OutState): List<OutItem> {
     }
 }
 
-private fun OutItem.getOutItemRoomInfo(state: OutState): Int {
+private fun Out.getOutItemRoomInfo(state: OutState): Int {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
@@ -260,9 +261,9 @@ private fun OutItem.getOutItemRoomInfo(state: OutState): Int {
     return classroom.room
 }
 
-private fun OutItem.getOutItemGradeInfo(state: OutState): Int? {
+private fun Out.getOutItemGradeInfo(state: OutState): Int? {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id == it.student?.id
     } ?: return 0
 
     val classroom = state.members.find {
@@ -272,9 +273,9 @@ private fun OutItem.getOutItemGradeInfo(state: OutState): Int? {
     return classroom.student?.grade
 }
 
-private fun OutItem.getOutItemNameInfo(state: OutState): String {
+private fun Out.getOutItemNameInfo(state: OutState): String {
     val student = state.members.find {
-        studentId == it.student?.id
+        this.id == it.student?.id
     } ?: return ""
 
     val member = state.members.find {
