@@ -117,8 +117,8 @@ class OutRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun allowOutsleeping(ids: List<Int>) =
-        remote.allowOutsleeping(ids)
+    override suspend fun allowOutsleeping(id: Int) =
+        remote.allowOutsleeping(id)
 
     override suspend fun cancelAllowOutsleeping(id: Int) =
         remote.cancelAllowOutsleeping(id)

@@ -14,6 +14,7 @@ import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
@@ -34,7 +35,7 @@ class OutViewModel @Inject constructor(
     private val allowOutgoingUseCase: AllowOutgoingUseCase,
     private val denyOutgoingUseCase: DenyOutgoingUseCase,
     private val allowOutsleepingUseCase: AllowOutsleepingUseCase,
-    private val denyOutsleepingUseCase: DenyOutsleepingUseCase,
+    private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
 
     override val container: Container<OutState, OutSideEffect> = container(OutState())
@@ -163,7 +164,7 @@ class OutViewModel @Inject constructor(
         }
         allowOutsleepingUseCase(
             AllowOutsleepingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외박 승인에 성공했어요"))
@@ -205,20 +206,20 @@ class OutViewModel @Inject constructor(
                 getOutsLoading = true,
             )
         }
-        denyOutsleepingUseCase(
-            DenyOutsleepingUseCase.Param(
-                ids = listOf(id)
+        cancelAllowOutsleepingUseCase(
+            CancelAllowOutsleepingUseCase.Param(
+                id = id
             )
         ).onSuccess {
-            postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
-        }.onFailure {
-            reduce {
-                state.copy(
-                    getOutsLoading = false,
-                )
+                postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
+            }.onFailure {
+                reduce {
+                    state.copy(
+                        getOutsLoading = false,
+                    )
+                }
+                postSideEffect(OutSideEffect.ShowException(it))
             }
-            postSideEffect(OutSideEffect.ShowException(it))
-        }
     }
 
     private fun getClassrooms() = intent {

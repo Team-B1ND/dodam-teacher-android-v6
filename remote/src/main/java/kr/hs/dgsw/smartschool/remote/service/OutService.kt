@@ -68,13 +68,13 @@ interface OutService {
 
     @PATCH(DodamUrl.Out.Outsleeping.ALLOW)
     suspend fun allowOutsleeping(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int
     ): Response<Unit>
 
-    @DELETE(DodamUrl.Out.Outsleeping.DELETE)
+    @PATCH(DodamUrl.Out.Outsleeping.REJECT)
     suspend fun cancelAllowOutsleeping(
         @Path("id") id: Int,
-//        @Body reason: RejectReasonRequest
+        @Body reason: RejectReasonRequest
     ): Response<Unit>
 
     @PATCH(DodamUrl.Out.Outsleeping.DENY)

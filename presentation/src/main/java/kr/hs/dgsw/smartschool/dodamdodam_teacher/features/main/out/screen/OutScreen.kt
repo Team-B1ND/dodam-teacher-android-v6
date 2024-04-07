@@ -77,6 +77,7 @@ fun OutScreen(
             is OutSideEffect.SuccessControl -> {
                 context.shortToast(message = it.message)
                 outViewModel.getOutsRemote()
+                outViewModel.getOutSleepingRemote()
             }
         }
     }
