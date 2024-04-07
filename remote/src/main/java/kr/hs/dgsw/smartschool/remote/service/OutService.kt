@@ -43,12 +43,13 @@ interface OutService {
 
     @PATCH(DodamUrl.Out.Outgoing.ALLOW)
     suspend fun allowOutgoing(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int
     ): Response<Unit>
 
-    @PATCH(DodamUrl.Out.Outgoing.CANCEL_ARROW)
+    @PATCH(DodamUrl.Out.Outgoing.REJECT_ALLOW)
     suspend fun cancelAllowOutgoing(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int,
+        @Body reason: RejectReasonRequest
     ): Response<Unit>
 
     @PATCH(DodamUrl.Out.Outgoing.DENY)

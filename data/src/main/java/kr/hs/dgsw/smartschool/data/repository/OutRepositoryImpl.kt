@@ -97,8 +97,8 @@ class OutRepositoryImpl @Inject constructor(
     override suspend fun clearOutData() =
         cache.deleteAllOut()
 
-    override suspend fun allowOutgoing(ids: List<Int>) =
-        remote.allowOutgoing(ids)
+    override suspend fun allowOutgoing(id: Int) =
+        remote.allowOutgoing(id)
 
     override suspend fun deleteOutgoing(id: Int) =
         remote.deleteOutgoing(id).apply {
@@ -106,7 +106,7 @@ class OutRepositoryImpl @Inject constructor(
         }
 
     override suspend fun cancelAllowOutgoing(id: Int) =
-        remote.deleteOutsleeping(id)
+        remote.cancelAllowOutgoing(id)
 
     override suspend fun denyOutgoing(ids: List<Int>) =
         remote.denyOutgoing(ids)
