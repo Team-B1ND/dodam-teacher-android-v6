@@ -59,7 +59,7 @@ class CurrentOutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it,
+                    outGoings = it.filter { it.status == OutStatus.ALLOWED },
                 )
             }
         }.onFailure {
@@ -84,7 +84,7 @@ class CurrentOutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outSleepings = it,
+                    outSleepings = it.filter { it.status == OutStatus.ALLOWED },
                 )
             }
         }.onFailure {
