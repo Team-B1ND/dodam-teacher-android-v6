@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
-
 interface StudentRepository {
 
 //    suspend fun setStudents(): List<Student>

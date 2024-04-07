@@ -81,15 +81,14 @@ fun CurrentNightStudyScreen(
     val gradeList =
         state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending()
             .map { "${it}학년" }.plus(
-            stringResource(id = R.string.label_all)
-        ).toList().reversed()
+                stringResource(id = R.string.label_all)
+            ).toList().reversed()
 
     val roomList =
         state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending()
             .map { "${it}반" }.plus(
-            stringResource(id = R.string.label_all)
-        ).toList().reversed()
-
+                stringResource(id = R.string.label_all)
+            ).toList().reversed()
 
     val convertedRoom = roomList.map { grade ->
         when (grade) {
@@ -104,7 +103,6 @@ fun CurrentNightStudyScreen(
             else -> grade.substring(0, 1).toInt()
         }
     }
-
 
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
@@ -131,10 +129,10 @@ fun CurrentNightStudyScreen(
                         }
                     },
                     description = "\n시작 날짜 : ${it.startAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                            "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
-                            " 심자 장소 : ${it.place}\n\n" +
-                            "학습 계획 : ${it.content}\n\n" +
-                            if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
+                        "종료 날짜 : ${it.endAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}\n\n" +
+                        " 심자 장소 : ${it.place}\n\n" +
+                        "학습 계획 : ${it.content}\n\n" +
+                        if (it.isPhone) "휴대폰 사용 이유 : ${it.reason}" else "휴대폰 사용 : X",
                     onDismiss = {
                         currentNightStudyViewModel.updateShowPrompt(false)
                     }
@@ -201,7 +199,7 @@ fun CurrentNightStudyScreen(
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.members.find {
                                 it.student?.number == nightStudy.student.number &&
-                                        it.student?.name == nightStudy.student.name
+                                    it.student?.name == nightStudy.student.name
                             }
                             DodamStudentItem(
                                 members = state.members,

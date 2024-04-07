@@ -2,9 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 
 data class OutState(
     val currentGrade: Int = 0,

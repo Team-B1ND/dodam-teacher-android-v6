@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.domain.model.member
 
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
-import java.time.LocalDateTime
 
 data class Member(
     val id: String,
@@ -17,7 +16,7 @@ data class Member(
     val createdAt: String,
     val modifiedAt: String
 )
-//{
+// {
 //    constructor(id: String, name: String, role: MemberRole) : this(
 //        email = "",
 //        id = id,
@@ -45,4 +44,4 @@ data class Member(
 //        createdAt = "",
 //        modifiedAt = ""
 //    )
-//}
+// }

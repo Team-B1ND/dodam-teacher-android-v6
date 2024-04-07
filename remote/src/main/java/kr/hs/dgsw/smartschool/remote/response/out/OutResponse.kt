@@ -14,5 +14,3 @@ data class OutResponse(
     @field:SerializedName("createdAt") val createdAt: String,
     @field:SerializedName("modifiedAt") val modifiedAt: String,
 )
-
-

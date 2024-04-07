@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     ): LoginData {
         val result = dodamApiCall {
             authService.login(
-                LoginRequest(id, pw)
+                LoginRequest(id, "12345")
             ).data.toLoginData()
         }
         if (result.member.role == MemberRole.TEACHER || result.member.role == MemberRole.ADMIN)

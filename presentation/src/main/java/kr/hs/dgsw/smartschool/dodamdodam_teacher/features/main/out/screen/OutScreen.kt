@@ -42,9 +42,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -109,7 +107,6 @@ fun OutScreen(
     } else {
         sleepingGradeList
     }
-
 
     val convertedRoom = categoryRoomList.map { grade ->
         when (grade) {
@@ -277,12 +274,10 @@ private fun getFilteredOutList(state: OutState): List<Out> {
     } else if (state.currentClassroom == 0) {
         outList.filter {
             it.student.grade == state.currentGrade
-
         }
     } else {
         outList.filter {
             (it.student.grade == state.currentGrade) && (it.student.room == state.currentClassroom)
-
         }
     }
 }

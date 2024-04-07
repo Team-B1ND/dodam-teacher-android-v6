@@ -21,5 +21,4 @@ data class Outgoing(
 data class OutSleeping(
     val outsleepings: List<OutItem>,
 
-    )
-
+)

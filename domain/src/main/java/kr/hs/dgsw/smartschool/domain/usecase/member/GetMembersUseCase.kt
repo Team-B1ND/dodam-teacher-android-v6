@@ -10,5 +10,4 @@ class GetMembersUseCase @Inject constructor(
     suspend operator fun invoke() = kotlin.runCatching {
         memberRepository.getMembers()
     }
-
 }

@@ -232,25 +232,25 @@ class PointViewModel @Inject constructor(
     private fun makePointStudents() = intent {
         reduce {
             val list = emptyList<PointState.PointStudent>().toMutableList()
-                state.members.forEach { member ->
-                    state.classrooms.forEach { classroom ->
-                        if (member.student != null){
-                            if (member.student?.grade == classroom.grade && member.student?.room == classroom.room) {
-                                list.add(
-                                    PointState.PointStudent(
-                                        id = member.id,
-                                        name = member.name,
-                                        grade = classroom.grade,
-                                        room = classroom.room,
-                                        isChecked = false,
-                                        studentId = member.student?.id ?: 0,
-                                        profileImage = member.profileImage ?: ""
-                                    )
+            state.members.forEach { member ->
+                state.classrooms.forEach { classroom ->
+                    if (member.student != null) {
+                        if (member.student?.grade == classroom.grade && member.student?.room == classroom.room) {
+                            list.add(
+                                PointState.PointStudent(
+                                    id = member.id,
+                                    name = member.name,
+                                    grade = classroom.grade,
+                                    room = classroom.room,
+                                    isChecked = false,
+                                    studentId = member.student?.id ?: 0,
+                                    profileImage = member.profileImage ?: ""
                                 )
-                            }
+                            )
                         }
                     }
                 }
+            }
 
             state.copy(
                 pointStudents = list

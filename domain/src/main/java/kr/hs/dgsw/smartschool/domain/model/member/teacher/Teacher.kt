@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.domain.model.member.teacher
 
-import kr.hs.dgsw.smartschool.domain.model.member.Member
 import org.json.JSONObject
 
 data class Teacher(

@@ -15,8 +15,6 @@ interface MemberDao : BaseDao<MemberEntity> {
     @Query("SELECT * FROM ${DodamTable.MEMBER} where id=:id")
     suspend fun getMemberById(id: String): MemberEntity?
 
-
-
     @Query("DELETE FROM ${DodamTable.MEMBER}")
     suspend fun deleteAllMember()
 }

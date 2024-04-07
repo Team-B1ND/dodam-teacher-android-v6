@@ -47,7 +47,7 @@ class NightStudyViewModel @Inject constructor(
 
         getPendingNightStudyUseCase()
             .onSuccess {
-                Log.d("TAG", "성공: ${it} ")
+                Log.d("TAG", "성공: $it ")
                 reduce {
                     state.copy(
                         isLoading = false,

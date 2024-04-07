@@ -1,19 +1,13 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
-import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
-import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.model.out.OutType
-import kr.hs.dgsw.smartschool.remote.response.night_study.NightStudyResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutDetailResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponseStatus
-
-
 
 internal fun List<OutResponse>.toModel(): List<Out> =
     this.map {
@@ -25,24 +19,12 @@ internal fun OutResponse.toOut(): Out =
         reason = reason,
         status = status.toOutStatus(),
         student = student.toModel(),
-        rejectReason = rejectReason?:"",
+        rejectReason = rejectReason ?: "",
         startOutDate = startOutDate.yearDateTimeToLocalDate().toString(),
         endOutDate = endOutDate.yearDateTimeToLocalDate().toString(),
         createdAt = createdAt.yearDateTimeToLocalDate().toString(),
         modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString()
     )
-
-
-
-
-
-
-
-
-
-
-
-
 
 internal fun OutDetailResponse.toOutItem(type: OutType): OutItem =
     OutItem(

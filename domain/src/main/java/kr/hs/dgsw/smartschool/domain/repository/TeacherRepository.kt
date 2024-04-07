@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
 import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 
 interface TeacherRepository {
 

@@ -1,14 +1,13 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
 import kr.hs.dgsw.smartschool.local.entity.member.MemberEntity
 
 internal fun List<MemberEntity>.toModel(): List<Member> =
-    this.map{
+    this.map {
         it.toModel()
     }
 
@@ -27,7 +26,6 @@ internal fun MemberEntity.toModel(): Member {
         phone = phone
     )
 }
-
 
 internal fun String.toMemberRole(): MemberRole = when (this) {
     MemberRole.TEACHER.name -> MemberRole.TEACHER

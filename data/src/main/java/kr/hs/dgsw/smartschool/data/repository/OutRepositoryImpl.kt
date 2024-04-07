@@ -5,8 +5,6 @@ import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
-import kr.hs.dgsw.smartschool.domain.model.out.OutSleeping
-import kr.hs.dgsw.smartschool.domain.model.out.Outgoing
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -23,7 +21,6 @@ class OutRepositoryImpl @Inject constructor(
 
     override suspend fun getOutSleepingValid(): List<Out> =
         remote.getOutSleepingValidByDate()
-
 
     /* 날짜 변경 시 필수로 호출되는 함수 */
 //    override suspend fun getOutsByDateRemote(date: String): Out =
@@ -60,8 +57,6 @@ class OutRepositoryImpl @Inject constructor(
 
     override suspend fun getOutsleepingById(id: Int): OutItem =
         cache.getOutById(id) ?: remote.getOutsleeping(id)
-
-
 
     override suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem> {
         val outgoings = emptyList<OutItem>().toMutableList()

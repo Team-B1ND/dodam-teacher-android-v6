@@ -31,5 +31,4 @@ interface NightStudyService {
 
     @GET(DodamUrl.NightStudy.NIGHT_PENDING)
     suspend fun getPendingNightStudy(): Response<List<NightStudyResponse>>
-
 }

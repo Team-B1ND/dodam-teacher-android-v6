@@ -57,8 +57,6 @@ fun CurrentOutScreen(
     val state = currentOutViewModel.collectAsState().value
     val context = LocalContext.current
 
-
-
     currentOutViewModel.collectSideEffect {
         when (it) {
             is CurrentOutSideEffect.ShowException -> {
@@ -102,7 +100,6 @@ fun CurrentOutScreen(
     } else {
         sleepingGradeList
     }
-
 
     val convertedRoom = categoryRoomList.map { grade ->
         when (grade) {
@@ -223,7 +220,7 @@ fun CurrentOutScreen(
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.student?.id ?:0,
+                                findMemberId = findStudent?.student?.id ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     currentOutViewModel.updateOutItem(outItem)
                                     currentOutViewModel.updateShowPrompt(showPrompt = true)
@@ -296,15 +293,13 @@ private fun Out.getOutItemGradeInfo(state: CurrentOutState): Int {
 private fun Out.getOutItemNameInfo(state: CurrentOutState): String {
     val student = state.members.find {
         this.student.id == it.student?.id
-
     } ?: return ""
-
 
     val member = state.members.find {
         student.student?.id == it.student?.id
     } ?: return ""
 
-    return member.student?.name ?:""
+    return member.student?.name ?: ""
 }
 
 private fun getOutType(context: Context, outType: Int): String = when (outType) {

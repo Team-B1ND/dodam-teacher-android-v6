@@ -15,7 +15,6 @@ import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -210,15 +209,15 @@ class OutViewModel @Inject constructor(
                 id = id
             )
         ).onSuccess {
-                postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
-            }.onFailure {
-                reduce {
-                    state.copy(
-                        getOutsLoading = false,
-                    )
-                }
-                postSideEffect(OutSideEffect.ShowException(it))
+            postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
             }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
     }
 
     private fun getClassrooms() = intent {

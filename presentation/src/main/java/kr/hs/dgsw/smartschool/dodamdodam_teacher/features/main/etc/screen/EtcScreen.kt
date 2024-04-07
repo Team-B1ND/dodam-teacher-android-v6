@@ -48,7 +48,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEf
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.vm.EtcViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable

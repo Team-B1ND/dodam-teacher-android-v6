@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.night_study.NightStudyRemoteDataSource
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
-import kr.hs.dgsw.smartschool.remote.request.reject.RejectReasonRequest
 import kr.hs.dgsw.smartschool.remote.request.reject.toNightStudyIdRequest
 import kr.hs.dgsw.smartschool.remote.service.NightStudyService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
@@ -31,6 +30,4 @@ class NightStudyRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPendingNightStudy() = dodamApiCall {
         nightStudyService.getPendingNightStudy().data.toModel()
     }
-
-
 }
