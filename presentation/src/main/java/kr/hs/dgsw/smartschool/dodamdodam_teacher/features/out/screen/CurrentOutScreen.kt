@@ -41,10 +41,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSide
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.vm.CurrentOutViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
-import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.LocalDate
@@ -78,25 +75,43 @@ fun CurrentOutScreen(
         }
     }
 
-    val gradeList = state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val goingGradeList = state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val roomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+    val goingRoomList = state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    Log.d("TAG", "$gradeList:\n$roomList ")
+    val sleepingGradeList = state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
+
+    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
+
+    val categoryRoomList = if (state.currentOutType == 0) {
+        goingRoomList
+    } else {
+        sleepingRoomList
+    }
+
+    val categoryGradeList = if (state.currentOutType == 0) {
+        goingGradeList
+    } else {
+        sleepingGradeList
+    }
 
 
-    val convertedRoom = roomList.map { grade ->
+    val convertedRoom = categoryRoomList.map { grade ->
         when (grade) {
             "전체" -> 0
             else -> grade.substring(0, 1).toInt()
         }
     }
 
-    val converterGrade = gradeList.map { grade ->
+    val converterGrade = categoryGradeList.map { grade ->
         when (grade) {
             "전체" -> 0
             else -> grade.substring(0, 1).toInt()
@@ -169,14 +184,14 @@ fun CurrentOutScreen(
                     ) {
                         SelectBar(
                             selectIdx = state.currentGrade,
-                            categoryList = gradeList,
+                            categoryList = categoryGradeList,
                             onSelectedItem = { idx ->
                                 currentOutViewModel.updateGrade(converterGrade[idx])
                             }
                         )
 
                         SelectBar(
-                            categoryList = roomList,
+                            categoryList = categoryRoomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
 
@@ -300,7 +315,7 @@ private fun getOutType(context: Context, outType: Int): String = when (outType) 
 
 fun getNextDay(): String {
     val currentDate = LocalDate.now()
-    val nextDay = currentDate.plusDays(1)
+    val nextDay = currentDate.plusDays(0)
 
     return nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 }

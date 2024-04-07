@@ -38,6 +38,7 @@ class OutViewModel @Inject constructor(
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
 
     override val container: Container<OutState, OutSideEffect> = container(OutState())
+    private val getDate = getNextDay()
 
     init {
         getClassrooms()
@@ -82,7 +83,10 @@ class OutViewModel @Inject constructor(
             )
         }
 
-        getOutsByDateRemoteUseCase.getOutSleepingValid(
+        getOutsByDateRemoteUseCase.getOutSleeping(
+            GetOutsByDateRemoteUseCase.Param(
+                date = getDate
+            )
         ).onSuccess {
             reduce {
                 state.copy(
