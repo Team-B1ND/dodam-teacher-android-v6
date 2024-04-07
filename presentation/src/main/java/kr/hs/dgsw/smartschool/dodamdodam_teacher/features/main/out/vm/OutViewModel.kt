@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.Out
@@ -14,9 +13,9 @@ import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -33,7 +32,7 @@ class OutViewModel @Inject constructor(
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetMembersUseCase,
     private val allowOutgoingUseCase: AllowOutgoingUseCase,
-    private val denyOutgoingUseCase: DenyOutgoingUseCase,
+    private val cancelAllowOutgoingUseCase: CancelAllowOutgoingUseCase,
     private val allowOutsleepingUseCase: AllowOutsleepingUseCase,
     private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
@@ -142,7 +141,7 @@ class OutViewModel @Inject constructor(
         }
         allowOutgoingUseCase(
             AllowOutgoingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외출 승인에 성공했어요"))
@@ -184,9 +183,9 @@ class OutViewModel @Inject constructor(
                 getOutsLoading = true,
             )
         }
-        denyOutgoingUseCase(
-            DenyOutgoingUseCase.Param(
-                ids = listOf(id)
+        cancelAllowOutgoingUseCase(
+            CancelAllowOutgoingUseCase.Param(
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외출 거절에 성공했어요"))

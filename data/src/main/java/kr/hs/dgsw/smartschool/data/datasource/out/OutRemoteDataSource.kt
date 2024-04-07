@@ -17,9 +17,9 @@ interface OutRemoteDataSource {
 
     suspend fun deleteOutgoing(id: Int)
 
-    suspend fun allowOutgoing(ids: List<Int>)
+    suspend fun allowOutgoing(id: Int)
 
-    suspend fun cancelAllowOutgoing(ids: List<Int>)
+    suspend fun cancelAllowOutgoing(id: Int)
 
     suspend fun denyOutgoing(ids: List<Int>)
 

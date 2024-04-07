@@ -26,7 +26,7 @@ interface OutRepository {
 
     suspend fun clearOutData()
 
-    suspend fun allowOutgoing(ids: List<Int>)
+    suspend fun allowOutgoing(id: Int)
 
     suspend fun deleteOutgoing(id: Int)
 

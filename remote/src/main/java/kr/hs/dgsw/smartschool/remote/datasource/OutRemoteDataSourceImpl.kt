@@ -43,12 +43,12 @@ class OutRemoteDataSourceImpl @Inject constructor(
         outService.deleteOutgoing(id).data
     }
 
-    override suspend fun allowOutgoing(ids: List<Int>) = dodamApiCall {
-        outService.allowOutgoing(ids.toOutIdRequest()).data
+    override suspend fun allowOutgoing(id: Int) = dodamApiCall {
+        outService.allowOutgoing(id).data
     }
 
-    override suspend fun cancelAllowOutgoing(ids: List<Int>) = dodamApiCall {
-        outService.cancelAllowOutgoing(ids.toOutIdRequest()).data
+    override suspend fun cancelAllowOutgoing(id: Int) = dodamApiCall {
+        outService.cancelAllowOutgoing(id, "null".toNightStudyIdRequest()).data
     }
 
     override suspend fun denyOutgoing(ids: List<Int>) = dodamApiCall {
@@ -62,7 +62,7 @@ class OutRemoteDataSourceImpl @Inject constructor(
 
 
     override suspend fun deleteOutsleeping(id: Int) = dodamApiCall {
-        outService.deleteOutsleeping(id).data
+//        outService.deleteOutsleeping(id).data
     }
 
     override suspend fun allowOutsleeping(id:Int) = dodamApiCall {
