@@ -6,7 +6,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEf
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcState
 import kr.hs.dgsw.smartschool.domain.usecase.auth.LogoutUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMemberUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent

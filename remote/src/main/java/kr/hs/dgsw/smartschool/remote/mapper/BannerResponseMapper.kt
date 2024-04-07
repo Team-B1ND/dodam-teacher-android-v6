@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.banner.BannerStatus

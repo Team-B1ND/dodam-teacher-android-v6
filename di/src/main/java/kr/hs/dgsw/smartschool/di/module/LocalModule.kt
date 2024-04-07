@@ -66,9 +66,6 @@ object LocalModule {
         dodamTeacherDatabase: DodamTeacherDatabase
     ): PlaceDao = dodamTeacherDatabase.placeDao()
 
-
-
-
     @Provides
     @Singleton
     fun provideTokenDao(

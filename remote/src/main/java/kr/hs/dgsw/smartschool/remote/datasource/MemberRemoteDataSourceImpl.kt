@@ -1,12 +1,8 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
-import kr.hs.dgsw.smartschool.data.data.member.MemberData
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberRemoteDataSource
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.remote.mapper.toMember
-import kr.hs.dgsw.smartschool.remote.mapper.toMemberData
-import kr.hs.dgsw.smartschool.remote.mapper.toModel
-import kr.hs.dgsw.smartschool.remote.response.member.MemberResponseRole
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.utils.dodamApiCall
 import javax.inject.Inject
@@ -24,6 +20,4 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     override suspend fun getMyInfo(): Member = dodamApiCall {
         memberService.getMyInfo().data.toMember()
     }
-
-
 }

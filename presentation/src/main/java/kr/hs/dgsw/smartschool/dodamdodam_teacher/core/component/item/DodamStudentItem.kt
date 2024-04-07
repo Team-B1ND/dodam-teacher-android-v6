@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.item
 
-import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,7 +45,7 @@ internal fun DodamStudentItem(
 
         Spacer(modifier = Modifier.width(11.dp))
         Label1(
-            text = member?.student?.name ?:"",
+            text = member?.student?.name ?: "",
             modifier = Modifier.weight(1f)
         )
     }

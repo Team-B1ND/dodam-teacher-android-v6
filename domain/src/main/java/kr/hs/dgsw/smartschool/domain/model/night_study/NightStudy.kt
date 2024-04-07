@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.domain.model.night_study
 
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class NightStudy(
     val id: Int,

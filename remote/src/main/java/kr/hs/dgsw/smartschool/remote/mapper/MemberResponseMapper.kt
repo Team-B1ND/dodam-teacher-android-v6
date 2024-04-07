@@ -1,13 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.data.member.MemberData
-import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
-import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.student.Student
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
-import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.remote.response.member.AllMemberResponse
-import kr.hs.dgsw.smartschool.remote.response.member.MemberResponse
 
 internal fun AllMemberResponse.toMemberData(): MemberData =
     MemberData(
@@ -15,7 +9,7 @@ internal fun AllMemberResponse.toMemberData(): MemberData =
         teachers = teachers.toModel()
     )
 
-//internal fun MemberResponse.toModel(): Teacher =
+// internal fun MemberResponse.toModel(): Teacher =
 //    Teacher(
 //        id = 0,
 //        member = this.toMember(),
@@ -24,7 +18,7 @@ internal fun AllMemberResponse.toMemberData(): MemberData =
 //        tel = this.teacher?.position?: "",
 //    )
 
-//internal fun MemberResponse.toModelStudent(): Student =
+// internal fun MemberResponse.toModelStudent(): Student =
 //    Student(
 //        id = this.student?.id?: 0,
 //        member = this.toMember(),

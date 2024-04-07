@@ -1,7 +1,5 @@
 package kr.hs.dgsw.smartschool.domain.model.member.student
 
-import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
-import kr.hs.dgsw.smartschool.domain.model.member.Member
 import org.json.JSONObject
 
 data class Student(
@@ -32,5 +30,4 @@ data class Student(
         jsonObject.put("number", number)
         return jsonObject.toString()
     }
-
 }

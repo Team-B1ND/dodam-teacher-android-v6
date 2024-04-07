@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
-import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -20,7 +19,6 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -79,8 +77,7 @@ class CurrentOutViewModel @Inject constructor(
             )
         }
 
-        getOutsByDateRemoteUseCase.getOutSleepingValid(
-        ).onSuccess {
+        getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess {
             reduce {
                 state.copy(
                     getOutsLoading = false,
@@ -108,9 +105,8 @@ class CurrentOutViewModel @Inject constructor(
             GetOutsByDateRemoteUseCase.Param(
                 date = getDate
             )
-        ).onSuccess {outGoing ->
-            getOutsByDateRemoteUseCase.getOutSleepingValid(
-            ).onSuccess {outSleeping ->
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess { outSleeping ->
                 reduce {
                     state.copy(
                         refreshing = false,
@@ -119,7 +115,6 @@ class CurrentOutViewModel @Inject constructor(
                     )
                 }
             }
-
         }.onFailure {
             reduce {
                 state.copy(
@@ -200,7 +195,6 @@ class CurrentOutViewModel @Inject constructor(
 
     private fun getMembers() = intent {
         getMembersUseCase().onSuccess {
-
 
             reduce {
                 state.copy(

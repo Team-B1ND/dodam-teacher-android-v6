@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.response.night_study
 
 import com.google.gson.annotations.SerializedName
-import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponseStatus
 
 data class NightStudyResponse(

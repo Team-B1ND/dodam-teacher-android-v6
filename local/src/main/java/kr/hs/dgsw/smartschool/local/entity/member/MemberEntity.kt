@@ -7,7 +7,6 @@ import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
 import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 import kr.hs.dgsw.smartschool.local.table.DodamTable
-import java.time.LocalDateTime
 
 @Entity(
     tableName = DodamTable.MEMBER,

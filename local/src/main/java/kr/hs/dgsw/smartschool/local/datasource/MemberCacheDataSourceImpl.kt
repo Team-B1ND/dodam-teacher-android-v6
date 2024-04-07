@@ -17,8 +17,6 @@ class MemberCacheDataSourceImpl @Inject constructor(
     override suspend fun getMemberById(id: String): Member? =
         memberDao.getMemberById(id)?.toModel()
 
-
-
     override suspend fun deleteAllMember() =
         memberDao.deleteAllMember()
 

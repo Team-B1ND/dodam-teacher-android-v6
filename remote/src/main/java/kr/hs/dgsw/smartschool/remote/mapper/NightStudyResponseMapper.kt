@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.night_study.AllowCheck
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy

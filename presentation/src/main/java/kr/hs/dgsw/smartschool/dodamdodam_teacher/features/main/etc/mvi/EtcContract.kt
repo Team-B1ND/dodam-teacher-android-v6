@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.member.Member
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
 
 data class EtcState(
     val isLoading: Boolean = false,

@@ -23,7 +23,6 @@ import kr.hs.dgsw.smartschool.components.theme.IcHome
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcBurger
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcLocation
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcOut
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen

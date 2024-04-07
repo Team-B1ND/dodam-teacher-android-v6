@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
@@ -58,7 +57,7 @@ class HomeViewModel @Inject constructor(
                 GetOutsByDateRemoteUseCase.Param(
                     LocalDate.now().toString()
                 )
-            ).onSuccess {outSleeping ->
+            ).onSuccess { outSleeping ->
                 val outgoingsCnt = outGoing.filter { it.status == OutStatus.ALLOWED }.size
                 val outSleepingCnt = outSleeping.filter { it.status == OutStatus.ALLOWED }.size
 
@@ -130,7 +129,7 @@ class HomeViewModel @Inject constructor(
                 GetOutsByDateRemoteUseCase.Param(
                     LocalDate.now().toString()
                 )
-            ).onSuccess {outSleeping ->
+            ).onSuccess { outSleeping ->
                 val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
                 val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
 

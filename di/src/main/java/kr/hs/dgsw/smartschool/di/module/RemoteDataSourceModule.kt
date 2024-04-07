@@ -88,7 +88,6 @@ abstract class RemoteDataSourceModule {
         itmapRemoteDataSourceImpl: ItmapRemoteDataSourceImpl
     ): ItmapRemoteDataSource
 
-
     @Singleton
     @Binds
     abstract fun providesPlaceRemoteDataSource(

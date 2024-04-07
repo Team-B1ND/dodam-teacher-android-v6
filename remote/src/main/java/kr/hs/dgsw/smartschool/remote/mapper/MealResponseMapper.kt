@@ -33,7 +33,7 @@ internal fun MealResponse.toModel(): Meal =
                 "${menuDetailResponse.name} , "
             }
         }?.joinToString("") ?: "석식이 없는 날이에요.",
-        calorie = ((breakfast?.calorie?: 0.0) + (lunch?.calorie?: 0.0) + (dinner?.calorie?: 0.0)).roundToInt().toDouble()
+        calorie = ((breakfast?.calorie ?: 0.0) + (lunch?.calorie ?: 0.0) + (dinner?.calorie ?: 0.0)).roundToInt().toDouble()
     )
 
 internal fun List<MealResponse>.toModel(): MealList =

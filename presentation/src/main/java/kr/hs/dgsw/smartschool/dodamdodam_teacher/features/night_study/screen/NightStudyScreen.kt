@@ -85,7 +85,6 @@ fun NightStudyScreen(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-
     val roomList = state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
@@ -204,14 +203,11 @@ fun NightStudyScreen(
                         items(nightStudies) { nightStudy ->
                             val findStudent = state.members.find {
 
-
                                 it.student?.number == nightStudy.student.number &&
                                     it.student?.name == nightStudy.student.name
-
                             }
                             Log.d("TAG", "nightStudies: $nightStudies")
                             Log.d("TAG", "member: $findStudent")
-
 
                             DodamStudentItem(
                                 members = state.members,
