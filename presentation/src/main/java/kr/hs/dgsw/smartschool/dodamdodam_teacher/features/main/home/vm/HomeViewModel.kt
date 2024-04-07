@@ -49,25 +49,28 @@ class HomeViewModel @Inject constructor(
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { outGoing ->
-            getOutsByDateLocalUseCase.GetOutSleeping(GetOutsByDateLocalUseCase.Param(date))
-                .onSuccess { outSleeping ->
+        getOutsByDateRemoteUseCase(
+            GetOutsByDateRemoteUseCase.Param(
+                LocalDate.now().toString()
+            )
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleeping(
+                GetOutsByDateRemoteUseCase.Param(
+                    LocalDate.now().toString()
+                )
+            ).onSuccess {outSleeping ->
+                val outgoingsCnt = outGoing.filter { it.status == OutStatus.ALLOWED }.size
+                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.ALLOWED }.size
 
-                    val outgoingCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
-                    val outsleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
-
-                    outGoing.forEach {
-                        Log.d("HomeLog", it.status.name)
-                    }
-
-                    reduce {
-                        state.copy(
-                            isOutLoading = false,
-                            outgoingCount = outgoingCnt,
-                            outsleepingCount = outsleepingCnt,
-                        )
-                    }
+                reduce {
+                    state.copy(
+                        outgoingCount = outgoingsCnt,
+                        outsleepingCount = outSleepingCnt,
+                        refreshing = false,
+                        outRefreshTime = LocalDateTime.now()
+                    )
                 }
+            }
         }
             .onFailure {
                 reduce {
@@ -122,15 +125,23 @@ class HomeViewModel @Inject constructor(
             GetOutsByDateRemoteUseCase.Param(
                 LocalDate.now().toString()
             )
-        ).onSuccess { out ->
-            val outgoingsCnt = out.filter { it.status == OutStatus.PENDING }.size
-
-            reduce {
-                state.copy(
-                    outgoingCount = outgoingsCnt,
-                    refreshing = false,
-                    outRefreshTime = LocalDateTime.now()
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleeping(
+                GetOutsByDateRemoteUseCase.Param(
+                    LocalDate.now().toString()
                 )
+            ).onSuccess {outSleeping ->
+                val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
+                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
+
+                reduce {
+                    state.copy(
+                        outgoingCount = outgoingsCnt,
+                        outsleepingCount = outSleepingCnt,
+                        refreshing = false,
+                        outRefreshTime = LocalDateTime.now()
+                    )
+                }
             }
         }.onFailure {
             reduce {
