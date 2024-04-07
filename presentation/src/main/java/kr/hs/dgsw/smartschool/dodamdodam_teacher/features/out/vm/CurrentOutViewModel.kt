@@ -35,6 +35,7 @@ class CurrentOutViewModel @Inject constructor(
     override val container: Container<CurrentOutState, CurrentOutSideEffect> = container(CurrentOutState())
 
     private val getDate = getNextDay()
+
     init {
         getClassrooms()
         getOutsRemote()
@@ -78,10 +79,7 @@ class CurrentOutViewModel @Inject constructor(
             )
         }
 
-        getOutsByDateRemoteUseCase.getOutSleeping(
-            GetOutsByDateRemoteUseCase.Param(
-                date = getDate
-            )
+        getOutsByDateRemoteUseCase.getOutSleepingValid(
         ).onSuccess {
             reduce {
                 state.copy(
@@ -111,10 +109,7 @@ class CurrentOutViewModel @Inject constructor(
                 date = getDate
             )
         ).onSuccess {outGoing ->
-            getOutsByDateRemoteUseCase.getOutSleeping(
-                GetOutsByDateRemoteUseCase.Param(
-                    date = getDate
-                )
+            getOutsByDateRemoteUseCase.getOutSleepingValid(
             ).onSuccess {outSleeping ->
                 reduce {
                     state.copy(

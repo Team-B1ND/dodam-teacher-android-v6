@@ -81,23 +81,43 @@ fun OutScreen(
         }
     }
 
-    val gradeList = state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val goingGradeList = state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val roomList = state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+    val goingRoomList = state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
+    val sleepingGradeList = state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
 
-    val convertedRoom = roomList.map { grade ->
+    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
+
+    val categoryRoomList = if (state.currentOutType == 0) {
+        goingRoomList
+    } else {
+        sleepingRoomList
+    }
+
+    val categoryGradeList = if (state.currentOutType == 0) {
+        goingGradeList
+    } else {
+        sleepingGradeList
+    }
+
+
+    val convertedRoom = categoryRoomList.map { grade ->
         when (grade) {
             "전체" -> 0
             else -> grade.substring(0, 1).toInt()
         }
     }
 
-    val converterGrade = gradeList.map { grade ->
+    val converterGrade = categoryGradeList.map { grade ->
         when (grade) {
             "전체" -> 0
             else -> grade.substring(0, 1).toInt()
@@ -182,7 +202,7 @@ fun OutScreen(
                     ) {
                         SelectBar(
                             selectIdx = state.currentGrade,
-                            categoryList = gradeList,
+                            categoryList = categoryGradeList,
                             onSelectedItem = { idx ->
                                 outViewModel.updateGrade(converterGrade[idx])
                             }
@@ -190,7 +210,7 @@ fun OutScreen(
 
                         SelectBar(
                             selectIdx = state.currentClassroom,
-                            categoryList = roomList,
+                            categoryList = categoryRoomList,
                             onSelectedItem = { idx ->
                                 outViewModel.updateClassroom(convertedRoom[idx])
                             }
