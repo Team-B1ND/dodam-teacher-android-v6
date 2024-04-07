@@ -1,10 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.service
 
 import kr.hs.dgsw.smartschool.remote.response.Response
-import kr.hs.dgsw.smartschool.remote.response.member.AllMemberResponse
 import kr.hs.dgsw.smartschool.remote.response.member.MemberResponse
-import kr.hs.dgsw.smartschool.remote.response.student.StudentResponse
-import kr.hs.dgsw.smartschool.remote.response.teacher.TeacherResponse
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
 import retrofit2.http.GET
 

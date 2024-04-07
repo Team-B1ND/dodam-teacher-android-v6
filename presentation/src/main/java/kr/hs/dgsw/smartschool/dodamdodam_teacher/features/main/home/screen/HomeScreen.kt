@@ -51,7 +51,6 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.IcBreakfast3D
 import kr.hs.dgsw.smartschool.components.theme.IcDinner3D
-import kr.hs.dgsw.smartschool.components.theme.IcItmap3D
 import kr.hs.dgsw.smartschool.components.theme.IcLunch3D
 import kr.hs.dgsw.smartschool.components.theme.IcPoint3D
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen

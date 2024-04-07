@@ -20,7 +20,7 @@ class StudentRepositoryImpl @Inject constructor(
         remote.getStudents()
 
     override suspend fun getStudents(): List<Student> {
-        val e =remote.getStudents()
+        val e = remote.getStudents()
         Log.d("TAG", "getStudents:$e")
         return e
     }

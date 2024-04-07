@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.data.repository
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthRemoteDataSource
-import kr.hs.dgsw.smartschool.data.utils.encryptSHA512
 import kr.hs.dgsw.smartschool.domain.model.token.Token
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
 import javax.inject.Inject

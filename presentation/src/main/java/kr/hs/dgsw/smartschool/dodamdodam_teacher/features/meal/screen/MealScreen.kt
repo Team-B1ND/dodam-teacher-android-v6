@@ -152,7 +152,7 @@ fun MealScreen(
                             )
                         else
                             Text(
-                                text = state.meal?.calorie?.toString() ?: stringResource(id = R.string.desc_empty_calorie) ,
+                                text = state.meal?.calorie?.toString() ?: stringResource(id = R.string.desc_empty_calorie),
                                 style = DodamTheme.typography.headline1.copy(
                                     fontWeight = FontWeight.SemiBold,
                                 ),

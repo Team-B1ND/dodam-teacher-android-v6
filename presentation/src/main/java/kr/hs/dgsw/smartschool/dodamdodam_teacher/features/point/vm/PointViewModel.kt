@@ -60,7 +60,7 @@ class PointViewModel @Inject constructor(
                         grade = i,
                         room = j,
                         place = Place(0),
-                        id = i+j
+                        id = i + j
                     )
                 )
             }

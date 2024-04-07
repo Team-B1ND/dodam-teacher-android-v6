@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.response.teacher
 
 import com.google.gson.annotations.SerializedName
-import kr.hs.dgsw.smartschool.remote.response.member.MemberResponse
 
 data class TeacherResponse(
     @field:SerializedName("name") val name: String,
