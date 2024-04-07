@@ -27,7 +27,7 @@ interface OutRemoteDataSource {
 
     suspend fun deleteOutsleeping(id: Int)
 
-    suspend fun allowOutsleeping(ids: List<Int>)
+    suspend fun allowOutsleeping(id: Int)
 
     suspend fun cancelAllowOutsleeping(id: Int)
 
