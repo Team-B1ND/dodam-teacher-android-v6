@@ -13,36 +13,44 @@ class OutRepositoryImpl @Inject constructor(
     override val remote: OutRemoteDataSource,
     override val cache: OutCacheDataSource,
 ) : BaseRepository<OutRemoteDataSource, OutCacheDataSource>, OutRepository {
+    override suspend fun getOutgoingByDate(date: String): List<Out> =
+        remote.getOutgoingByDate(date)
+
+    override suspend fun getOutSleepingByDate(date: String): List<Out> =
+        remote.getOutSleepingByDate(date)
+
+    override suspend fun getOutSleepingValid(): List<Out> =
+        remote.getOutSleepingValidByDate()
 
     /* 날짜 변경 시 필수로 호출되는 함수 */
-    override suspend fun getOutsByDateRemote(date: String): Out =
-        remote.getOutsByDate(date).apply {
-            cache.deleteAllOut()
-            cache.insertOuts(this.outgoings + this.outsleepings)
-        }
+//    override suspend fun getOutsByDateRemote(date: String): Out =
+//        remote.getOutsByDate(date).apply {
+//            cache.deleteAllOut()
+//            cache.insertOuts(this.outgoings + this.outsleepings)
+//        }
 
     /* 필수로 getOutsByDateRemote 함수가 선행이 되어야함 */
-    override suspend fun getOutsByDateLocal(date: LocalDateTime): Out {
-        val outgoings = emptyList<OutItem>().toMutableList()
-        val outsleepings = emptyList<OutItem>().toMutableList()
-
-        cache.getAllOut().let { out ->
-            out.outgoings.map { outItem ->
-                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
-                    outgoings.add(outItem)
-            }
-
-            out.outsleepings.map { outItem ->
-                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
-                    outsleepings.add(outItem)
-            }
-        }
-
-        return Out(
-            outgoings = outgoings,
-            outsleepings = outsleepings
-        )
-    }
+//    override suspend fun getOutsByDateLocal(date: LocalDateTime): Out {
+//        val outgoings = emptyList<OutItem>().toMutableList()
+//        val outsleepings = emptyList<OutItem>().toMutableList()
+//
+//        cache.getAllOut().let { out ->
+//            out.outgoings.map { outItem ->
+//                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
+//                    outgoings.add(outItem)
+//            }
+//
+//            out.outsleepings.map { outItem ->
+//                if (!outItem.startOutDate.toLocalDate().isBefore(date.toLocalDate()))
+//                    outsleepings.add(outItem)
+//            }
+//        }
+//
+//        return Out(
+//            outgoings = outgoings,
+//            outsleepings = outsleepings
+//        )
+//    }
 
     override suspend fun getOutgoingById(id: Int): OutItem =
         cache.getOutById(id) ?: remote.getOutgoing(id)
@@ -84,16 +92,16 @@ class OutRepositoryImpl @Inject constructor(
     override suspend fun clearOutData() =
         cache.deleteAllOut()
 
-    override suspend fun allowOutgoing(ids: List<Int>) =
-        remote.allowOutgoing(ids)
+    override suspend fun allowOutgoing(id: Int) =
+        remote.allowOutgoing(id)
 
     override suspend fun deleteOutgoing(id: Int) =
         remote.deleteOutgoing(id).apply {
             cache.deleteOutById(id)
         }
 
-    override suspend fun cancelAllowOutgoing(ids: List<Int>) =
-        remote.cancelAllowOutgoing(ids)
+    override suspend fun cancelAllowOutgoing(id: Int) =
+        remote.cancelAllowOutgoing(id)
 
     override suspend fun denyOutgoing(ids: List<Int>) =
         remote.denyOutgoing(ids)
@@ -104,11 +112,11 @@ class OutRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun allowOutsleeping(ids: List<Int>) =
-        remote.allowOutsleeping(ids)
+    override suspend fun allowOutsleeping(id: Int) =
+        remote.allowOutsleeping(id)
 
-    override suspend fun cancelAllowOutsleeping(ids: List<Int>) =
-        remote.cancelAllowOutsleeping(ids)
+    override suspend fun cancelAllowOutsleeping(id: Int) =
+        remote.cancelAllowOutsleeping(id)
 
     override suspend fun denyOutsleeping(ids: List<Int>) =
         remote.denyOutsleeping(ids)

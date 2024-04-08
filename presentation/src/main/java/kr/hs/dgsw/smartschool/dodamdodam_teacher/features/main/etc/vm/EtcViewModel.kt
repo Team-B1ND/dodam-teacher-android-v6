@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcState
 import kr.hs.dgsw.smartschool.domain.usecase.auth.LogoutUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.teacher.GetMyInfoUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.member.GetMemberUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EtcViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
-    private val getMyInfoUseCase: GetMyInfoUseCase,
+    private val getMyInfoUseCase: GetMemberUseCase,
 ) : ContainerHost<EtcState, EtcSideEffect>, ViewModel() {
 
     override val container: Container<EtcState, EtcSideEffect> = container(EtcState())

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.current.mvi.CurrentNightStudySideEffect
@@ -9,7 +10,6 @@ import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetNightStudyUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -23,7 +23,6 @@ class CurrentNightStudyViewModel @Inject constructor(
     private val getNightStudyUseCase: GetNightStudyUseCase,
     private val denyNightStudyUseCase: DenyNightStudyUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
 ) : ContainerHost<CurrentNightStudyState, CurrentNightStudySideEffect>, ViewModel() {
 
     override val container: Container<CurrentNightStudyState, CurrentNightStudySideEffect> = container(CurrentNightStudyState())
@@ -32,7 +31,7 @@ class CurrentNightStudyViewModel @Inject constructor(
         getCurrentNightStudy()
         getClassrooms()
         getMembers()
-        getStudents()
+//        getStudents()
     }
 
     fun getCurrentNightStudy() = intent {
@@ -120,17 +119,17 @@ class CurrentNightStudyViewModel @Inject constructor(
 //        }
     }
 
-    private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentNightStudySideEffect.ShowException(it))
-        }
-    }
+//    private fun getStudents() = intent {
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentNightStudySideEffect.ShowException(it))
+//        }
+//    }
 
     private fun getMembers() = intent {
         getMembersUseCase().onSuccess {
@@ -153,6 +152,7 @@ class CurrentNightStudyViewModel @Inject constructor(
     }
 
     fun updateGrade(grade: Int) = intent {
+        Log.d("TAG", "updateGrade: $grade")
         reduce {
             state.copy(
                 currentGrade = grade
@@ -161,6 +161,7 @@ class CurrentNightStudyViewModel @Inject constructor(
     }
 
     fun updateClassroom(classroom: Int) = intent {
+        Log.d("TAG", "updateClassroom: $classroom")
         reduce {
             state.copy(
                 currentClassroom = classroom

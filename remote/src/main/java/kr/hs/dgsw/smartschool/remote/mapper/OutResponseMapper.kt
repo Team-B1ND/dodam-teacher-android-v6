@@ -9,10 +9,21 @@ import kr.hs.dgsw.smartschool.remote.response.out.OutDetailResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponseStatus
 
+internal fun List<OutResponse>.toModel(): List<Out> =
+    this.map {
+        it.toOut()
+    }
 internal fun OutResponse.toOut(): Out =
     Out(
-        outgoings = outgoingList.map { it.toOutItem(OutType.OUTGOING) },
-        outsleepings = outsleepingList.map { it.toOutItem(OutType.OUTSLEEPING) }
+        id = id,
+        reason = reason,
+        status = status.toOutStatus(),
+        student = student.toModel(),
+        rejectReason = rejectReason ?: "",
+        startOutDate = startOutDate.yearDateTimeToLocalDate().toString(),
+        endOutDate = endOutDate.yearDateTimeToLocalDate().toString(),
+        createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+        modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString()
     )
 
 internal fun OutDetailResponse.toOutItem(type: OutType): OutItem =
@@ -33,6 +44,6 @@ internal fun OutResponseStatus.toOutStatus(): OutStatus =
     when (this.name) {
         OutStatus.ALLOWED.name -> OutStatus.ALLOWED
         OutStatus.PENDING.name -> OutStatus.PENDING
-        OutStatus.DENIED.name -> OutStatus.DENIED
+        OutStatus.REJECTED.name -> OutStatus.REJECTED
         else -> OutStatus.PENDING
     }

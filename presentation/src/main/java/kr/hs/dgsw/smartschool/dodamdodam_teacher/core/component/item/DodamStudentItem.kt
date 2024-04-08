@@ -22,11 +22,10 @@ import kr.hs.dgsw.smartschool.domain.model.member.Member
 @Composable
 internal fun DodamStudentItem(
     members: List<Member>,
-    findMemberId: String,
+    findMemberId: Int?,
     modifier: Modifier = Modifier,
 ) {
-    val member = members.find { it.id == findMemberId }
-
+    val member = members.find { it.student?.id == findMemberId }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -45,9 +44,8 @@ internal fun DodamStudentItem(
         )
 
         Spacer(modifier = Modifier.width(11.dp))
-
         Label1(
-            text = member?.name ?: "",
+            text = member?.student?.name ?: "",
             modifier = Modifier.weight(1f)
         )
     }

@@ -47,7 +47,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFu
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi.EtcSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.vm.EtcViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
+import kr.hs.dgsw.smartschool.domain.model.member.Member
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -158,7 +158,7 @@ fun EtcScreen(
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                EtcMemberItem(myInfo = etcState.myInfo)
+                                EtcMemberItem(myInfo = it)
                             }
 
                             Divider(
@@ -198,10 +198,10 @@ fun EtcScreen(
 
 @Composable
 private fun RowScope.EtcMemberItem(
-    myInfo: Teacher
+    myInfo: Member
 ) {
     Avatar(
-        link = myInfo.member.profileImage ?: "",
+        link = myInfo.profileImage ?: "",
         backgroundColor = DodamTheme.color.Background,
         size = 36.dp,
         failureIconSize = 18.dp,
@@ -210,7 +210,7 @@ private fun RowScope.EtcMemberItem(
     )
     Spacer(modifier = Modifier.width(DodamDimen.ScreenSidePadding))
     Text(
-        text = myInfo.member.name,
+        text = myInfo.name,
         color = DodamTheme.color.Black,
         style = DodamTheme.typography.label1.copy(
             fontWeight = FontWeight.SemiBold,

@@ -5,15 +5,19 @@ import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 
 interface OutRemoteDataSource {
 
-    suspend fun getOutsByDate(date: String): Out
+    suspend fun getOutgoingByDate(date: String): List<Out>
+
+    suspend fun getOutSleepingByDate(data: String): List<Out>
+
+    suspend fun getOutSleepingValidByDate(): List<Out>
 
     suspend fun getOutgoing(id: Int): OutItem
 
     suspend fun deleteOutgoing(id: Int)
 
-    suspend fun allowOutgoing(ids: List<Int>)
+    suspend fun allowOutgoing(id: Int)
 
-    suspend fun cancelAllowOutgoing(ids: List<Int>)
+    suspend fun cancelAllowOutgoing(id: Int)
 
     suspend fun denyOutgoing(ids: List<Int>)
 
@@ -21,9 +25,9 @@ interface OutRemoteDataSource {
 
     suspend fun deleteOutsleeping(id: Int)
 
-    suspend fun allowOutsleeping(ids: List<Int>)
+    suspend fun allowOutsleeping(id: Int)
 
-    suspend fun cancelAllowOutsleeping(ids: List<Int>)
+    suspend fun cancelAllowOutsleeping(id: Int)
 
     suspend fun denyOutsleeping(ids: List<Int>)
 }

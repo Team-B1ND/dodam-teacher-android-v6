@@ -13,8 +13,6 @@ import kr.hs.dgsw.smartschool.data.repository.OutRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PlaceRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.PointRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.ScheduleRepositoryImpl
-import kr.hs.dgsw.smartschool.data.repository.StudentRepositoryImpl
-import kr.hs.dgsw.smartschool.data.repository.TeacherRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TimeTableRepositoryImpl
 import kr.hs.dgsw.smartschool.data.repository.TokenRepositoryImpl
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
@@ -26,8 +24,6 @@ import kr.hs.dgsw.smartschool.domain.repository.OutRepository
 import kr.hs.dgsw.smartschool.domain.repository.PlaceRepository
 import kr.hs.dgsw.smartschool.domain.repository.PointRepository
 import kr.hs.dgsw.smartschool.domain.repository.ScheduleRepository
-import kr.hs.dgsw.smartschool.domain.repository.StudentRepository
-import kr.hs.dgsw.smartschool.domain.repository.TeacherRepository
 import kr.hs.dgsw.smartschool.domain.repository.TimeTableRepository
 import kr.hs.dgsw.smartschool.domain.repository.TokenRepository
 import javax.inject.Singleton
@@ -77,18 +73,6 @@ abstract class RepositoryModule {
     abstract fun providesMemberRepository(
         memberRepositoryImpl: MemberRepositoryImpl
     ): MemberRepository
-
-    @Singleton
-    @Binds
-    abstract fun providesTeacherRepository(
-        teacherRepositoryImpl: TeacherRepositoryImpl
-    ): TeacherRepository
-
-    @Singleton
-    @Binds
-    abstract fun providesStudentRepository(
-        studentRepositoryImpl: StudentRepositoryImpl
-    ): StudentRepository
 
     @Singleton
     @Binds

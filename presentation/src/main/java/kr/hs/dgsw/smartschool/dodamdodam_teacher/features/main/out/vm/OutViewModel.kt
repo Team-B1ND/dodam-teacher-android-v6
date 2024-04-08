@@ -4,17 +4,18 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
+import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 // import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutgoingUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.out.DenyOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -28,20 +29,22 @@ import javax.inject.Inject
 class OutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
+    private val getStudentsUseCase: GetMembersUseCase,
     private val allowOutgoingUseCase: AllowOutgoingUseCase,
-    private val denyOutgoingUseCase: DenyOutgoingUseCase,
+    private val cancelAllowOutgoingUseCase: CancelAllowOutgoingUseCase,
     private val allowOutsleepingUseCase: AllowOutsleepingUseCase,
-    private val denyOutsleepingUseCase: DenyOutsleepingUseCase,
+    private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
 
     override val container: Container<OutState, OutSideEffect> = container(OutState())
+    private val getDate = getNextDay()
 
     init {
         getClassrooms()
         getOutsRemote()
         getMembers()
         getStudents()
+        getOutSleepingRemote()
     }
 
     fun getOutsRemote() = intent {
@@ -59,8 +62,35 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it.outgoings.getNotAllowedOutItems(),
-                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
+                    outGoings = it.filter { it.status == OutStatus.PENDING },
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun getOutSleepingRemote() = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+
+        getOutsByDateRemoteUseCase.getOutSleeping(
+            GetOutsByDateRemoteUseCase.Param(
+                date = getDate
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                    outSleepings = it.filter { it.status == OutStatus.PENDING },
                 )
             }
         }.onFailure {
@@ -88,8 +118,8 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     refreshing = false,
-                    outGoings = it.outgoings.getNotAllowedOutItems(),
-                    outSleepings = it.outsleepings.getNotAllowedOutItems(),
+                    outGoings = it,
+                    outSleepings = it,
                 )
             }
         }.onFailure {
@@ -110,7 +140,7 @@ class OutViewModel @Inject constructor(
         }
         allowOutgoingUseCase(
             AllowOutgoingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외출 승인에 성공했어요"))
@@ -132,7 +162,7 @@ class OutViewModel @Inject constructor(
         }
         allowOutsleepingUseCase(
             AllowOutsleepingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외박 승인에 성공했어요"))
@@ -152,9 +182,9 @@ class OutViewModel @Inject constructor(
                 getOutsLoading = true,
             )
         }
-        denyOutgoingUseCase(
-            DenyOutgoingUseCase.Param(
-                ids = listOf(id)
+        cancelAllowOutgoingUseCase(
+            CancelAllowOutgoingUseCase.Param(
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외출 거절에 성공했어요"))
@@ -174,9 +204,9 @@ class OutViewModel @Inject constructor(
                 getOutsLoading = true,
             )
         }
-        denyOutsleepingUseCase(
-            DenyOutsleepingUseCase.Param(
-                ids = listOf(id)
+        cancelAllowOutsleepingUseCase(
+            CancelAllowOutsleepingUseCase.Param(
+                id = id
             )
         ).onSuccess {
             postSideEffect(OutSideEffect.SuccessControl("외박 거절에 성공했어요"))
@@ -258,7 +288,7 @@ class OutViewModel @Inject constructor(
         }
     }
 
-    fun updateOutItem(outItem: OutItem) = intent {
+    fun updateOutItem(outItem: Out) = intent {
         reduce {
             state.copy(
                 currentSelectedOutItem = outItem

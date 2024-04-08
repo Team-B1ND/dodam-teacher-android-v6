@@ -6,13 +6,15 @@ import java.time.LocalDateTime
 
 interface OutRepository {
 
-    suspend fun getOutsByDateRemote(date: String): Out
+    suspend fun getOutgoingByDate(date: String): List<Out>
 
-    suspend fun getOutsByDateLocal(date: LocalDateTime): Out
+    suspend fun getOutSleepingByDate(data: String): List<Out>
 
     suspend fun getOutgoingById(id: Int): OutItem
 
     suspend fun getOutsleepingById(id: Int): OutItem
+
+    suspend fun getOutSleepingValid(): List<Out>
 
     suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem>
 
@@ -22,19 +24,19 @@ interface OutRepository {
 
     suspend fun clearOutData()
 
-    suspend fun allowOutgoing(ids: List<Int>)
+    suspend fun allowOutgoing(id: Int)
 
     suspend fun deleteOutgoing(id: Int)
 
-    suspend fun cancelAllowOutgoing(ids: List<Int>)
+    suspend fun cancelAllowOutgoing(id: Int)
 
     suspend fun denyOutgoing(ids: List<Int>)
 
     suspend fun deleteOutsleeping(id: Int)
 
-    suspend fun allowOutsleeping(ids: List<Int>)
+    suspend fun allowOutsleeping(id: Int)
 
-    suspend fun cancelAllowOutsleeping(ids: List<Int>)
+    suspend fun cancelAllowOutsleeping(id: Int)
 
     suspend fun denyOutsleeping(ids: List<Int>)
 }
