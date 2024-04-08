@@ -14,7 +14,7 @@ class MemberRepositoryImpl @Inject constructor(
 
     private val NOT_FOUND_MEMBER_MESSAGE = "해당 맴버를 찾을 수 없어요"
 
-    override suspend fun setMembers(){
+    override suspend fun setMembers() {
         cache.insertMembers(remote.getMembers())
     }
 
