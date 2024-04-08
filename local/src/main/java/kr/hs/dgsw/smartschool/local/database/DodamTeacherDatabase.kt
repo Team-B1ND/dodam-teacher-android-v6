@@ -40,7 +40,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         CompanyEntity::class, CalorieEntity::class, TimeTableEntity::class, ParentEntity::class,
         TokenEntity::class
     ],
-    version = 14,
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(StudentConverter::class, TeacherConverter::class)
