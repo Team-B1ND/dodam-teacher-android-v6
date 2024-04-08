@@ -4,7 +4,7 @@ import kr.hs.dgsw.smartschool.domain.model.member.Member
 
 interface MemberRepository {
 
-    suspend fun setMembers(): List<Member>
+    suspend fun setMembers()
 
     suspend fun getMembers(): List<Member>
 
