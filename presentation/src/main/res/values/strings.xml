@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">도담도담 T</string>
-
     <string name="title_login">로그인</string>
     <string name="title_out_approve">외출/외박 승인</string>
     <string name="title_studyroom_check">자습실 확인</string>
@@ -13,7 +12,6 @@
     <string name="title_point">상벌점</string>
     <string name="title_out_current">외출/외박 현황</string>
     <string name="title_schedule">일정</string>
-    <string name="title_itmap">it을지도</string>
     <string name="title_student_list">학생 목록</string>
     <string name="title_point_info">상벌점 정보</string>
     <string name="title_night_study_approve">심자 승인</string>

@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.data.repository
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthRemoteDataSource
-import kr.hs.dgsw.smartschool.data.utils.encryptSHA512
 import kr.hs.dgsw.smartschool.domain.model.token.Token
 import kr.hs.dgsw.smartschool.domain.repository.AuthRepository
 import javax.inject.Inject
@@ -28,14 +27,14 @@ class AuthRepositoryImpl @Inject constructor(
             name = name,
             phone = phone,
             position = position,
-            pw = pw.encryptSHA512(),
+            pw = pw,
             tel = tel
         )
     }
 
     override suspend fun login(id: String, pw: String, enableAutoLogin: Boolean): Token {
-        val password = pw.encryptSHA512()
-        return remote.login(id, password).let {
+        val password = pw
+        return remote.login(id, "12345").let {
             cache.insertMember(it.member)
             cache.insertToken(it.token)
             if (enableAutoLogin) {

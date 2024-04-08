@@ -46,29 +46,29 @@ class MealViewModel @Inject constructor(
     }
 
     fun getCalorie(date: LocalDate) = intent {
-        reduce {
-            state.copy(
-                getCalorieLoading = true,
-            )
-        }
-        getCalorieOfMealUseCase(date)
-            .onSuccess {
-                reduce {
-                    state.copy(
-                        getCalorieLoading = false,
-                        calorie = "%.1f".format(it.dinner + it.lunch + it.breakfast)
-                    )
-                }
-            }
-            .onFailure {
-                reduce {
-                    state.copy(
-                        getCalorieLoading = false,
-                        calorie = ""
-                    )
-                }
-                postSideEffect(MealSideEffect.ToastError(it))
-            }
+//        reduce {
+//            state.copy(
+//                getCalorieLoading = true,
+//            )
+//        }
+//        getCalorieOfMealUseCase(date)
+//            .onSuccess {
+//                reduce {
+//                    state.copy(
+//                        getCalorieLoading = false,
+//                        calorie = "%.1f".format(it.dinner + it.lunch + it.breakfast)
+//                    )
+//                }
+//            }
+//            .onFailure {
+//                reduce {
+//                    state.copy(
+//                        getCalorieLoading = false,
+//                        calorie = ""
+//                    )
+//                }
+//                postSideEffect(MealSideEffect.ToastError(it))
+//            }
     }
 
     fun plusDay() = intent {

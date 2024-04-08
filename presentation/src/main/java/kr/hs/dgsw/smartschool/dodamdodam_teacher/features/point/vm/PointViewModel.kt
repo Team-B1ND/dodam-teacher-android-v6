@@ -1,14 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
+import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
 import kr.hs.dgsw.smartschool.domain.model.point.PointType
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GetPointReasonUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.point.GivePointUseCase
@@ -24,7 +27,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PointViewModel @Inject constructor(
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetStudentsUseCase,
     private val getPointReasonUseCase: GetPointReasonUseCase,
@@ -37,8 +39,8 @@ class PointViewModel @Inject constructor(
         getClassrooms()
         getMembers()
         getStudents()
-        getPointReason(PointType.MINUS)
-        getPointReason(PointType.BONUS)
+        getPointReason(PointPlace.DORMITORY, PointType.MINUS)
+        getPointReason(PointPlace.DORMITORY, PointType.BONUS)
     }
 
     fun updatePage(page: Int) = intent {
@@ -50,17 +52,23 @@ class PointViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
+        val testClassroom: MutableList<Classroom> = mutableListOf()
+        for (i in 1..3) {
+            for (j in 1..4) {
+                testClassroom.add(
+                    Classroom(
+                        grade = i,
+                        room = j,
+                        place = Place(0),
+                        id = i + j
+                    )
                 )
             }
-            if (state.members.isNotEmpty() && state.classrooms.isNotEmpty()) {
-                makePointStudents()
-            }
-        }.onFailure {
-            postSideEffect(PointSideEffect.ShowException(it))
+        }
+        reduce {
+            state.copy(
+                classrooms = testClassroom
+            )
         }
     }
 
@@ -80,12 +88,17 @@ class PointViewModel @Inject constructor(
 
     private fun getMembers() = intent {
         getMembersUseCase().onSuccess {
+            Log.d("TAG", "getMembers: $it")
             reduce {
                 state.copy(
-                    members = it.filter { it.role == MemberRole.STUDENT }
+                    members = it.filter {
+                        Log.d("TAG", "getMembers: ${it.role == MemberRole.STUDENT}")
+                        it.role == MemberRole.STUDENT
+                    }
                 )
             }
-            if (state.students.isNotEmpty() && state.classrooms.isNotEmpty())
+            delay(1000)
+            if (state.students.isNotEmpty())
                 makePointStudents()
         }.onFailure {
             postSideEffect(PointSideEffect.ShowException(it))
@@ -113,16 +126,23 @@ class PointViewModel @Inject constructor(
         }
     }
 
-    private fun getPointReason(pointType: PointType) = intent {
-        getPointReasonUseCase(pointType).onSuccess {
+    private fun getPointReason(
+        pointPlace: PointPlace,
+        pointType: PointType
+    ) = intent {
+        getPointReasonUseCase(pointPlace).onSuccess {
             reduce {
                 if (pointType == PointType.MINUS) {
                     state.copy(
-                        minusReason = it
+                        minusReason = it.filter {
+                            it.type == pointType
+                        }
                     )
                 } else {
                     state.copy(
-                        bonusReason = it
+                        bonusReason = it.filter {
+                            it.type == pointType
+                        }
                     )
                 }
             }
@@ -132,6 +152,7 @@ class PointViewModel @Inject constructor(
     }
 
     fun givePoint(
+        id: Int,
         place: PointPlace,
         reason: String,
         score: Int,
@@ -145,6 +166,7 @@ class PointViewModel @Inject constructor(
         }
         givePointUseCase(
             param = GivePointUseCase.Param(
+                id = id,
                 givenDate = LocalDate.now().toString(),
                 place = place,
                 reason = reason,
@@ -216,7 +238,7 @@ class PointViewModel @Inject constructor(
                 state.members.forEach { member ->
                     state.classrooms.forEach { classroom ->
                         if (student.member.id == member.id) {
-                            if (student.classroom.id == classroom.id) {
+                            if (student.classroom.grade == classroom.grade && student.classroom.room == classroom.room) {
                                 list.add(
                                     PointState.PointStudent(
                                         id = member.id,

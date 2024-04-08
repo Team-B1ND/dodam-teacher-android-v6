@@ -17,17 +17,15 @@ class MemberRepositoryImpl @Inject constructor(
     private val NOT_FOUND_MEMBER_MESSAGE = "해당 맴버를 찾을 수 없어요"
 
     override suspend fun setMembers(): List<Member> =
-        insertMember(remote.getMembers())
+        remote.getMembers()
 
     override suspend fun getMembers(): List<Member> =
-        cache.getMembers().ifEmpty {
-            insertMember(remote.getMembers())
-        }
+        remote.getMembers()
 
     override suspend fun getMemberById(id: String): Member =
-        cache.getMemberById(id) ?: insertMember(remote.getMembers()).find {
+        remote.getMembers().first {
             it.id == id
-        } ?: throw UnknownException(NOT_FOUND_MEMBER_MESSAGE)
+        }
 
     override suspend fun getMemberByTeacherId(id: Int): Member =
         cache.getMemberByTeacherId(id) ?: throw UnknownException(NOT_FOUND_MEMBER_MESSAGE)

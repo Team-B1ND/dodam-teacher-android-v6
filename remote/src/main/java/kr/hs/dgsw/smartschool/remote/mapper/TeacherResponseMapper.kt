@@ -10,9 +10,5 @@ internal fun List<TeacherResponse>.toModel(): List<Teacher> =
 
 internal fun TeacherResponse.toModel(): Teacher =
     Teacher(
-        id = id,
-        member = member.toMember(),
-        phone = phone,
-        position = position,
-        tel = tel,
+        id = 0,
     )

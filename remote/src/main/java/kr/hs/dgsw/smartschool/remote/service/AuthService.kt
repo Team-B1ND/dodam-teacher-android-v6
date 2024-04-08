@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface AuthService {
 
-    @POST(DodamUrl.Auth.JOIN)
+    @POST(DodamUrl.Member.JOIN)
     suspend fun join(
         @Body joinRequest: JoinRequest,
     ): Response<Unit>

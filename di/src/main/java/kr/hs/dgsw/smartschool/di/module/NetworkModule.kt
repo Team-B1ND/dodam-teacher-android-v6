@@ -13,8 +13,6 @@ import kr.hs.dgsw.smartschool.di.qualifier.OkhttpClient
 import kr.hs.dgsw.smartschool.remote.interceptor.TokenInterceptor
 import kr.hs.dgsw.smartschool.remote.service.AuthService
 import kr.hs.dgsw.smartschool.remote.service.BannerService
-import kr.hs.dgsw.smartschool.remote.service.ClassroomService
-import kr.hs.dgsw.smartschool.remote.service.ItmapService
 import kr.hs.dgsw.smartschool.remote.service.MealService
 import kr.hs.dgsw.smartschool.remote.service.MemberService
 import kr.hs.dgsw.smartschool.remote.service.NightStudyService
@@ -22,7 +20,6 @@ import kr.hs.dgsw.smartschool.remote.service.OutService
 import kr.hs.dgsw.smartschool.remote.service.PlaceService
 import kr.hs.dgsw.smartschool.remote.service.PointService
 import kr.hs.dgsw.smartschool.remote.service.ScheduleService
-import kr.hs.dgsw.smartschool.remote.service.StudyRoomService
 import kr.hs.dgsw.smartschool.remote.service.TimeTableService
 import kr.hs.dgsw.smartschool.remote.service.TokenService
 import kr.hs.dgsw.smartschool.remote.url.DodamUrl
@@ -30,7 +27,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -122,11 +118,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesClassroomService(@BasicRetrofit retrofit: Retrofit): ClassroomService =
-        retrofit.create(ClassroomService::class.java)
-
-    @Singleton
-    @Provides
     fun providesMemberService(@BasicRetrofit retrofit: Retrofit): MemberService =
         retrofit.create(MemberService::class.java)
 
@@ -134,16 +125,6 @@ class NetworkModule {
     @Provides
     fun providesScheduleService(@BasicRetrofit retrofit: Retrofit): ScheduleService =
         retrofit.create(ScheduleService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesItmapService(@BasicRetrofit retrofit: Retrofit): ItmapService =
-        retrofit.create(ItmapService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesStudyRoomService(@BasicRetrofit retrofit: Retrofit): StudyRoomService =
-        retrofit.create(StudyRoomService::class.java)
 
     @Singleton
     @Provides

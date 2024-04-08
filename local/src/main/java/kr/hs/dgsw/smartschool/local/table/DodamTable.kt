@@ -16,8 +16,6 @@ object DodamTable {
     const val OUT = "out_table"
     const val BANNER = "banner_table"
     const val SCHEDULE = "schedule_table"
-    const val ITMAP = "itmap_table"
     const val CALORIE = "calorie_table"
-    const val STUDYROOM = "studyroom_table"
     const val TIMETABLE = "timetable_table"
 }

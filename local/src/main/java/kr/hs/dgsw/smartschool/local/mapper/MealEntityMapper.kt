@@ -14,7 +14,8 @@ internal fun MealEntity.toModel(): Meal {
         exists = exists,
         breakfast = breakfast,
         lunch = lunch,
-        dinner = dinner
+        dinner = dinner,
+        calorie = calorie
     )
 }
 
@@ -29,7 +30,8 @@ internal fun Meal.toEntity(): MealEntity {
         exists = exists,
         breakfast = breakfast,
         lunch = lunch,
-        dinner = dinner
+        dinner = dinner,
+        calorie = calorie
     )
 }
 

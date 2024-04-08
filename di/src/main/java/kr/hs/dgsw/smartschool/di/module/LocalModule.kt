@@ -10,8 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.local.dao.AccountDao
 import kr.hs.dgsw.smartschool.local.dao.BannerDao
 import kr.hs.dgsw.smartschool.local.dao.CalorieDao
-import kr.hs.dgsw.smartschool.local.dao.ClassroomDao
-import kr.hs.dgsw.smartschool.local.dao.ItmapDao
 import kr.hs.dgsw.smartschool.local.dao.MealDao
 import kr.hs.dgsw.smartschool.local.dao.MemberDao
 import kr.hs.dgsw.smartschool.local.dao.OutDao
@@ -19,7 +17,6 @@ import kr.hs.dgsw.smartschool.local.dao.ParentDao
 import kr.hs.dgsw.smartschool.local.dao.PlaceDao
 import kr.hs.dgsw.smartschool.local.dao.ScheduleDao
 import kr.hs.dgsw.smartschool.local.dao.StudentDao
-import kr.hs.dgsw.smartschool.local.dao.StudyRoomDao
 import kr.hs.dgsw.smartschool.local.dao.TeacherDao
 import kr.hs.dgsw.smartschool.local.dao.TimeTableDao
 import kr.hs.dgsw.smartschool.local.dao.TokenDao
@@ -51,12 +48,6 @@ object LocalModule {
     fun provideMealDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): MealDao = dodamTeacherDatabase.mealDao()
-
-    @Provides
-    @Singleton
-    fun provideClassroomDao(
-        dodamTeacherDatabase: DodamTeacherDatabase
-    ): ClassroomDao = dodamTeacherDatabase.classroomDao()
 
     @Provides
     @Singleton
@@ -120,21 +111,9 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideItmapDao(
-        dodamTeacherDatabase: DodamTeacherDatabase
-    ): ItmapDao = dodamTeacherDatabase.itmapDao()
-
-    @Provides
-    @Singleton
     fun provideCalorieDao(
         dodamTeacherDatabase: DodamTeacherDatabase
     ): CalorieDao = dodamTeacherDatabase.calorieDao()
-
-    @Provides
-    @Singleton
-    fun provideStudyRoomDao(
-        dodamTeacherDatabase: DodamTeacherDatabase
-    ): StudyRoomDao = dodamTeacherDatabase.studyRoomDao()
 
     @Provides
     @Singleton
