@@ -35,7 +35,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
     entities = [
         MealEntity::class, MemberEntity::class, PlaceEntity::class,
         AccountEntity::class, OutEntity::class, BannerEntity::class, ScheduleEntity::class,
-        CompanyEntity::class, CalorieEntity::class, TimeTableEntity::class, ParentEntity::class,
+        CalorieEntity::class, TimeTableEntity::class, ParentEntity::class,
         TokenEntity::class
     ],
     version = 12,
