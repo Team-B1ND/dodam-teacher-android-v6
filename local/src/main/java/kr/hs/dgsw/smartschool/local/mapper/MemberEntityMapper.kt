@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
@@ -10,16 +11,21 @@ internal fun List<MemberEntity>.toModel(): List<Member> =
         it.toModel()
     }
 
-internal fun MemberEntity.toModel(): Member =
-    Member(
+internal fun MemberEntity.toModel(): Member {
+    return Member(
         email = email,
         id = id,
-        joinDate = joinDate,
         name = name,
         profileImage = profileImage,
-        role = role.toMemberRole(),
-        status = status.toMemberStatus(),
+        role = role.name.toMemberRole(),
+        status = status.name.toMemberStatus(),
+        teacher = teacher,
+        student = student,
+        createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+        modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString(),
+        phone = phone
     )
+}
 
 internal fun String.toMemberRole(): MemberRole = when (this) {
     MemberRole.TEACHER.name -> MemberRole.TEACHER
@@ -42,12 +48,16 @@ internal fun List<Member>.toEntity(): List<MemberEntity> =
 
 internal fun Member.toEntity(): MemberEntity {
     return MemberEntity(
-        id = id,
         email = email,
-        joinDate = joinDate?.toString(),
+        id = id,
         name = name,
         profileImage = profileImage,
-        role = role.name,
-        status = status.name
+        role = role.name.toMemberRole(),
+        status = status.name.toMemberStatus(),
+        teacher = teacher,
+        student = student,
+        createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+        modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString(),
+        phone = phone
     )
 }

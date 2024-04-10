@@ -81,13 +81,27 @@ fun NightStudyScreen(
         }
     }
 
-    val gradeList = state.classrooms.asSequence().map { it.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val gradeList = state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+    val roomList = state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
+
+    val convertedRoom = roomList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+
+    val converterGrade = gradeList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
 
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
@@ -164,7 +178,7 @@ fun NightStudyScreen(
                             selectIdx = state.currentGrade,
                             categoryList = gradeList,
                             onSelectedItem = { idx ->
-                                nightStudyViewModel.updateGrade(idx)
+                                nightStudyViewModel.updateGrade(converterGrade[idx])
                             }
                         )
 
@@ -172,7 +186,7 @@ fun NightStudyScreen(
                             categoryList = roomList,
                             selectIdx = state.currentClassroom,
                             onSelectedItem = { idx ->
-                                nightStudyViewModel.updateClassroom(idx)
+                                nightStudyViewModel.updateClassroom(convertedRoom[idx])
                             }
                         )
                     }
@@ -187,13 +201,17 @@ fun NightStudyScreen(
                         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
                     ) {
                         items(nightStudies) { nightStudy ->
-                            val findStudent = state.students.find {
-                                it.number == nightStudy.student.number &&
-                                    it.member.name == nightStudy.student.name
+                            val findStudent = state.members.find {
+
+                                it.student?.number == nightStudy.student.number &&
+                                    it.student?.name == nightStudy.student.name
                             }
+                            Log.d("TAG", "nightStudies: $nightStudies")
+                            Log.d("TAG", "member: $findStudent")
+
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.member?.id ?: "",
+                                findMemberId = findStudent?.student?.id ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     nightStudyViewModel.updateNightStudy(nightStudy)
                                     nightStudyViewModel.updateShowPrompt(showPrompt = true)

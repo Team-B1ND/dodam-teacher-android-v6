@@ -42,8 +42,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.vm.OutViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.toSimpleYearDateTime
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -76,17 +75,52 @@ fun OutScreen(
             is OutSideEffect.SuccessControl -> {
                 context.shortToast(message = it.message)
                 outViewModel.getOutsRemote()
+                outViewModel.getOutSleepingRemote()
             }
         }
     }
 
-    val gradeList = state.classrooms.asSequence().map { it.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val goingGradeList = state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val roomList = state.classrooms.asSequence().map { it.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+    val goingRoomList = state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
+
+    val sleepingGradeList = state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
+
+    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}학년" }.plus(
+        stringResource(id = R.string.label_all)
+    ).toList().reversed()
+
+    val categoryRoomList = if (state.currentOutType == 0) {
+        goingRoomList
+    } else {
+        sleepingRoomList
+    }
+
+    val categoryGradeList = if (state.currentOutType == 0) {
+        goingGradeList
+    } else {
+        sleepingGradeList
+    }
+
+    val convertedRoom = categoryRoomList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
+
+    val converterGrade = categoryGradeList.map { grade ->
+        when (grade) {
+            "전체" -> 0
+            else -> grade.substring(0, 1).toInt()
+        }
+    }
 
     val outTypeList = listOf(stringResource(id = R.string.label_outgoing), stringResource(id = R.string.label_outsleeping))
 
@@ -130,7 +164,7 @@ fun OutScreen(
                             outViewModel.updateShowPrompt(false)
                         }
                     },
-                    description = "\n시작 날짜 : ${it.startOutDate.toSimpleYearDateTime()} \n\n복귀 날짜 : ${it.endOutDate.toSimpleYearDateTime()} \n\n사유 : ${it.reason}",
+                    description = "\n시작 날짜 : ${it.startOutDate} \n\n복귀 날짜 : ${it.endOutDate} \n\n사유 : ${it.reason}",
                     onDismiss = {
                         outViewModel.updateShowPrompt(false)
                     }
@@ -166,17 +200,17 @@ fun OutScreen(
                     ) {
                         SelectBar(
                             selectIdx = state.currentGrade,
-                            categoryList = gradeList,
+                            categoryList = categoryGradeList,
                             onSelectedItem = { idx ->
-                                outViewModel.updateGrade(idx)
+                                outViewModel.updateGrade(converterGrade[idx])
                             }
                         )
 
                         SelectBar(
-                            categoryList = roomList,
                             selectIdx = state.currentClassroom,
+                            categoryList = categoryRoomList,
                             onSelectedItem = { idx ->
-                                outViewModel.updateClassroom(idx)
+                                outViewModel.updateClassroom(convertedRoom[idx])
                             }
                         )
 
@@ -199,12 +233,12 @@ fun OutScreen(
                         contentPadding = PaddingValues(top = DodamDimen.ScreenSidePadding * 2, bottom = DodamTeacherDimens.BottomNavHeight + DodamDimen.ScreenSidePadding)
                     ) {
                         items(outList) { outItem ->
-                            val findStudent = state.students.find {
-                                it.id == outItem.studentId
+                            val findStudent = state.members.find {
+                                it.student?.id == outItem.student.id
                             }
                             DodamStudentItem(
                                 members = state.members,
-                                findMemberId = findStudent?.member?.id ?: "",
+                                findMemberId = findStudent?.student?.id ?: 0,
                                 modifier = Modifier.dodamClickable(rippleEnable = false) {
                                     outViewModel.updateOutItem(outItem)
                                     outViewModel.updateShowPrompt(showPrompt = true)
@@ -225,8 +259,8 @@ fun OutScreen(
     }
 }
 
-private fun getFilteredOutList(state: OutState): List<OutItem> {
-    val outList: List<OutItem> = if (state.currentOutType == 0)
+private fun getFilteredOutList(state: OutState): List<Out> {
+    val outList: List<Out> = if (state.currentOutType == 0)
         state.outGoings
     else
         state.outSleepings
@@ -235,50 +269,50 @@ private fun getFilteredOutList(state: OutState): List<OutItem> {
         outList
     } else if (state.currentGrade == 0) {
         outList.filter {
-            it.getOutItemRoomInfo(state) == state.currentClassroom
+            it.student.room == state.currentClassroom
         }
     } else if (state.currentClassroom == 0) {
         outList.filter {
-            it.getOutItemGradeInfo(state) == state.currentGrade
+            it.student.grade == state.currentGrade
         }
     } else {
         outList.filter {
-            (it.getOutItemGradeInfo(state) == state.currentGrade) && (it.getOutItemRoomInfo(state) == state.currentClassroom)
+            (it.student.grade == state.currentGrade) && (it.student.room == state.currentClassroom)
         }
     }
 }
 
-private fun OutItem.getOutItemRoomInfo(state: OutState): Int {
-    val student = state.students.find {
-        studentId == it.id
+private fun Out.getOutItemRoomInfo(state: OutState): Int {
+    val student = state.members.find {
+        this.id == it.student?.id
     } ?: return 0
 
     val classroom = state.classrooms.find {
-        student.classroom.id == it.id
+        student.student?.id == it.id
     } ?: return 0
 
     return classroom.room
 }
 
-private fun OutItem.getOutItemGradeInfo(state: OutState): Int {
-    val student = state.students.find {
-        studentId == it.id
+private fun Out.getOutItemGradeInfo(state: OutState): Int? {
+    val student = state.members.find {
+        this.id == it.student?.id
     } ?: return 0
 
-    val classroom = state.classrooms.find {
-        student.classroom.id == it.id
+    val classroom = state.members.find {
+        student.id == it.id
     } ?: return 0
 
-    return classroom.grade
+    return classroom.student?.grade
 }
 
-private fun OutItem.getOutItemNameInfo(state: OutState): String {
-    val student = state.students.find {
-        studentId == it.id
+private fun Out.getOutItemNameInfo(state: OutState): String {
+    val student = state.members.find {
+        this.id == it.student?.id
     } ?: return ""
 
     val member = state.members.find {
-        student.member.id == it.id
+        student.id == it.id
     } ?: return ""
 
     return member.name

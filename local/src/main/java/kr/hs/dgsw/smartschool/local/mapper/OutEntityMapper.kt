@@ -39,7 +39,7 @@ internal fun String.toOutStatus(): OutStatus =
     when (this) {
         OutStatus.ALLOWED.name -> OutStatus.ALLOWED
         OutStatus.PENDING.name -> OutStatus.PENDING
-        OutStatus.DENIED.name -> OutStatus.DENIED
+        OutStatus.REJECTED.name -> OutStatus.REJECTED
         else -> OutStatus.PENDING
     }
 

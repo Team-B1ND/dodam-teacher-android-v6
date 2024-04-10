@@ -1,11 +1,8 @@
 package kr.hs.dgsw.smartschool.data.datasource.out
 
-import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 
 interface OutCacheDataSource {
-
-    suspend fun getAllOut(): Out
 
     suspend fun getOutById(id: Int): OutItem?
 
