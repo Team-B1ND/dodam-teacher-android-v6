@@ -23,13 +23,11 @@ import kr.hs.dgsw.smartschool.components.theme.IcHome
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.R
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.component.loading.LoadInFullScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcBurger
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcLocation
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.core.icon.IcOut
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.contract.MainSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.screen.EtcScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.screen.HomeScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.screen.OutScreen
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.studyroom.screen.StudyRoomScreen
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.vm.MainViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.root.navigation.NavGroup
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
@@ -95,12 +93,9 @@ fun MainScreen(
                         )
                     }
                     1 -> {
-                        StudyRoomScreen(navController = navController)
-                    }
-                    2 -> {
                         OutScreen(navController = navController)
                     }
-                    3 -> {
+                    2 -> {
                         EtcScreen(navController = navController)
                     }
                 }
@@ -126,22 +121,16 @@ fun MainScreen(
                     selected = state.selectedTab == 0,
                 )
                 DodamNavTab(
-                    text = stringResource(id = R.string.label_studyroom),
-                    icon = { IcLocation(contentDescription = null) },
+                    text = stringResource(id = R.string.label_out),
+                    icon = { IcOut(contentDescription = null) },
                     onClick = { mainViewModel.updateSelectedTab(1) },
                     selected = state.selectedTab == 1,
                 )
                 DodamNavTab(
-                    text = stringResource(id = R.string.label_out),
-                    icon = { IcOut(contentDescription = null) },
-                    onClick = { mainViewModel.updateSelectedTab(2) },
-                    selected = state.selectedTab == 2,
-                )
-                DodamNavTab(
                     text = stringResource(id = R.string.label_etc),
                     icon = { IcBurger(contentDescription = null) },
-                    onClick = { mainViewModel.updateSelectedTab(3) },
-                    selected = state.selectedTab == 3,
+                    onClick = { mainViewModel.updateSelectedTab(2) },
+                    selected = state.selectedTab == 2,
                 )
             }
         }

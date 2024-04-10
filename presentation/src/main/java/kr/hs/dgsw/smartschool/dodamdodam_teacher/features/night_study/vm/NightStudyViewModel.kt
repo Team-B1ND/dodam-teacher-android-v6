@@ -1,18 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightStudySideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.night_study.mvi.NightStudyState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
-import kr.hs.dgsw.smartschool.domain.model.night_study.AllowCheck
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
+import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.AllowNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.DenyNightStudyUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.night_study.GetPendingNightStudyUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -26,9 +25,7 @@ class NightStudyViewModel @Inject constructor(
     private val getPendingNightStudyUseCase: GetPendingNightStudyUseCase,
     private val allowNightStudyUseCase: AllowNightStudyUseCase,
     private val denyNightStudyUseCase: DenyNightStudyUseCase,
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
 ) : ContainerHost<NightStudyState, NightStudySideEffect>, ViewModel() {
 
     override val container: Container<NightStudyState, NightStudySideEffect> =
@@ -50,6 +47,7 @@ class NightStudyViewModel @Inject constructor(
 
         getPendingNightStudyUseCase()
             .onSuccess {
+                Log.d("TAG", "성공: $it ")
                 reduce {
                     state.copy(
                         isLoading = false,
@@ -57,6 +55,8 @@ class NightStudyViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
+                Log.d("TAG", "실패:$it ")
+
                 reduce {
                     state.copy(
                         isLoading = false,
@@ -121,13 +121,16 @@ class NightStudyViewModel @Inject constructor(
 
         getPendingNightStudyUseCase()
             .onSuccess {
+                Log.d("TAG", "getOutsRefresh: 성공")
                 reduce {
                     state.copy(
                         refreshing = false,
-                        nightStudies = it.filter { it.allowCheck == AllowCheck.PENDING },
+                        nightStudies = it.filter { it.state == OutStatus.PENDING },
                     )
                 }
             }.onFailure {
+                Log.d("TAG", "getOutsRefresh: 실패 $it")
+
                 reduce {
                     state.copy(
                         refreshing = false,
@@ -138,27 +141,27 @@ class NightStudyViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(NightStudySideEffect.ShowException(it))
-        }
+//        getClassroomsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    classrooms = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(NightStudySideEffect.ShowException(it))
+//        }
     }
 
     private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(NightStudySideEffect.ShowException(it))
-        }
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(NightStudySideEffect.ShowException(it))
+//        }
     }
 
     private fun getMembers() = intent {

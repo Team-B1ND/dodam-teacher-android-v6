@@ -51,7 +51,6 @@ import kr.hs.dgsw.smartschool.components.theme.DodamColor
 import kr.hs.dgsw.smartschool.components.theme.DodamTheme
 import kr.hs.dgsw.smartschool.components.theme.IcBreakfast3D
 import kr.hs.dgsw.smartschool.components.theme.IcDinner3D
-import kr.hs.dgsw.smartschool.components.theme.IcItmap3D
 import kr.hs.dgsw.smartschool.components.theme.IcLunch3D
 import kr.hs.dgsw.smartschool.components.theme.IcPoint3D
 import kr.hs.dgsw.smartschool.components.utlis.DodamDimen
@@ -106,7 +105,6 @@ fun HomeScreen(
         refreshing = homeState.refreshing,
         onRefresh = {
             homeViewModel.getOutRemote()
-            homeViewModel.getStudyRoomRemote()
         }
     )
 
@@ -146,26 +144,26 @@ fun HomeScreen(
                     hasLinkIcon = true,
                     onClick = {
                         navTabNavigate?.let {
-                            it(2)
+                            it(1)
                         }
                     }
                 ) {
                     OutApproveCardContent(homeState, outUpdateTime)
                 }
 
-                Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
-
-                DodamContentCard(
-                    title = stringResource(id = R.string.title_studyroom_check),
-                    modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
-                    hasLinkIcon = true,
-                    content = { StudyroomCheckCardContent(homeState, studyRoomUpdateTime) },
-                    onClick = {
-                        navTabNavigate?.let {
-                            it(1)
-                        }
-                    }
-                )
+//                Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
+//
+//                DodamContentCard(
+//                    title = stringResource(id = R.string.title_studyroom_check),
+//                    modifier = Modifier.padding(horizontal = DodamDimen.ScreenSidePadding),
+//                    hasLinkIcon = true,
+//                    content = { StudyroomCheckCardContent(homeState, studyRoomUpdateTime) },
+//                    onClick = {
+//                        navTabNavigate?.let {
+//                            it(1)
+//                        }
+//                    }
+//                )
 
                 Spacer(modifier = Modifier.height(DodamDimen.ScreenSidePadding))
 
@@ -237,16 +235,6 @@ fun HomeScreen(
                             )
                         },
                     ),
-                    ItemCardContent(
-                        subTitle = stringResource(id = R.string.label_employ),
-                        title = stringResource(id = R.string.title_itmap),
-                        icon = {
-                            IcItmap3D(
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                    ),
                 )
 
                 LazyRow(
@@ -265,9 +253,6 @@ fun HomeScreen(
                                     )
                                     context.getString(R.string.title_schedule) -> navController.navigate(
                                         NavGroup.Feature.SCHEDULE
-                                    )
-                                    context.getString(R.string.title_itmap) -> navController.navigate(
-                                        NavGroup.Feature.ITMAP
                                     )
                                     context.getString(R.string.label_out) -> navController.navigate(
                                         NavGroup.Feature.CURRENT_OUT
@@ -324,56 +309,6 @@ private fun OutApproveCardContent(
             content = "${homeState.outsleepingCount}명",
             icon = { IcSleepingFace3D(contentDescription = null, modifier = Modifier.size(CardItemIconSize)) }
         )
-    }
-}
-
-@Composable
-private fun StudyroomCheckCardContent(
-    state: HomeState,
-    studyRoomUpdateTime: LocalDateTime,
-) {
-
-    val firstClassCount = state.studyRooms.filter { it.timeTable.id == 1 || it.timeTable.id == 5 }.size
-    val secondClassCount = state.studyRooms.filter { it.timeTable.id == 2 || it.timeTable.id == 6 }.size
-    val thirdClassCount = state.studyRooms.filter { it.timeTable.id == 3 || it.timeTable.id == 7 }.size
-    val fourthClassCount = state.studyRooms.filter { it.timeTable.id == 4 || it.timeTable.id == 8 }.size
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Body3(
-            text = state.studyRoomRefreshTime?.toSimpleYearDateTime() ?: studyRoomUpdateTime.toSimpleYearDateTime(),
-            textColor = DodamTheme.color.Gray500,
-        )
-        Spacer(modifier = Modifier.height(DodamTeacherDimens.DefaultCardContentHeight))
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.label_class_8) else stringResource(id = R.string.label_forenoon_1),
-                content = "$firstClassCount/${state.allStudentsCount}",
-                icon = { }
-            )
-            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.label_class_9) else stringResource(id = R.string.label_forenoon_2),
-                content = "$secondClassCount/${state.allStudentsCount}",
-                icon = { }
-            )
-            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.label_class_10) else stringResource(id = R.string.label_afternoon_1),
-                content = "$thirdClassCount/${state.allStudentsCount}",
-                icon = { }
-            )
-            Spacer(modifier = Modifier.width(DodamDimen.CardSidePadding))
-            StudyRoomCardDetailItem(
-                title = if (state.isWeekDay) stringResource(id = R.string.label_class_11) else stringResource(id = R.string.label_afternoon_2),
-                content = "$fourthClassCount/${state.allStudentsCount}",
-                icon = { }
-            )
-        }
     }
 }
 

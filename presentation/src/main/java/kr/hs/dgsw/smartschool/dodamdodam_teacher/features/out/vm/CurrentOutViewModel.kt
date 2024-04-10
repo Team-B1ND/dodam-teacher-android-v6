@@ -1,18 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
-import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -24,10 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentOutViewModel @Inject constructor(
-    private val getClassroomsUseCase: GetClassroomsUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getMembersUseCase: GetMembersUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
     private val cancelAllowOutgoingUseCase: CancelAllowOutgoingUseCase,
     private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
 
@@ -40,6 +37,7 @@ class CurrentOutViewModel @Inject constructor(
         getOutsRemote()
         getMembers()
         getStudents()
+        getOutSleepingRemote()
     }
 
     fun getOutsRemote() = intent {
@@ -51,14 +49,37 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = LocalDate.now().toString()
+                LocalDate.now().toString()
             )
         ).onSuccess {
             reduce {
                 state.copy(
                     getOutsLoading = false,
-                    outGoings = it.outgoings.getAllowedOutItem(),
-                    outSleepings = it.outsleepings.getAllowedOutItem(),
+                    outGoings = it.filter { it.status == OutStatus.ALLOWED },
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                )
+            }
+            postSideEffect(CurrentOutSideEffect.ShowException(it))
+        }
+    }
+
+    fun getOutSleepingRemote() = intent {
+        reduce {
+            state.copy(
+                getOutsLoading = true,
+            )
+        }
+
+        getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess {
+            reduce {
+                state.copy(
+                    getOutsLoading = false,
+                    outSleepings = it.filter { it.status == OutStatus.ALLOWED },
                 )
             }
         }.onFailure {
@@ -80,15 +101,17 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = LocalDate.now().toString()
+                LocalDate.now().toString()
             )
-        ).onSuccess {
-            reduce {
-                state.copy(
-                    refreshing = false,
-                    outGoings = it.outgoings.getAllowedOutItem(),
-                    outSleepings = it.outsleepings.getAllowedOutItem(),
-                )
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess { outSleeping ->
+                reduce {
+                    state.copy(
+                        refreshing = false,
+                        outGoings = outGoing,
+                        outSleepings = outSleeping,
+                    )
+                }
             }
         }.onFailure {
             reduce {
@@ -108,7 +131,7 @@ class CurrentOutViewModel @Inject constructor(
         }
         cancelAllowOutgoingUseCase(
             CancelAllowOutgoingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(CurrentOutSideEffect.SuccessControl("외출 취소에 성공했어요"))
@@ -130,7 +153,7 @@ class CurrentOutViewModel @Inject constructor(
         }
         cancelAllowOutsleepingUseCase(
             CancelAllowOutsleepingUseCase.Param(
-                ids = listOf(id)
+                id = id
             )
         ).onSuccess {
             postSideEffect(CurrentOutSideEffect.SuccessControl("외박 취소에 성공했어요"))
@@ -145,37 +168,39 @@ class CurrentOutViewModel @Inject constructor(
     }
 
     private fun getClassrooms() = intent {
-        getClassroomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    classrooms = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentOutSideEffect.ShowException(it))
-        }
+//        getClassroomsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    classrooms = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentOutSideEffect.ShowException(it))
+//        }
     }
 
     private fun getStudents() = intent {
-        getStudentsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    students = it
-                )
-            }
-        }.onFailure {
-            postSideEffect(CurrentOutSideEffect.ShowException(it))
-        }
+//        getStudentsUseCase().onSuccess {
+//            reduce {
+//                state.copy(
+//                    students = it
+//                )
+//            }
+//        }.onFailure {
+//            postSideEffect(CurrentOutSideEffect.ShowException(it))
+//        }
     }
 
     private fun getMembers() = intent {
         getMembersUseCase().onSuccess {
+
             reduce {
                 state.copy(
-                    members = it.filter { it.role == MemberRole.STUDENT }
+                    members = it
                 )
             }
         }.onFailure {
+            Log.d("TAG", "실패: ")
             postSideEffect(CurrentOutSideEffect.ShowException(it))
         }
     }
@@ -212,7 +237,7 @@ class CurrentOutViewModel @Inject constructor(
         }
     }
 
-    fun updateOutItem(outItem: OutItem) = intent {
+    fun updateOutItem(outItem: Out) = intent {
         reduce {
             state.copy(
                 currentSelectedOutItem = outItem

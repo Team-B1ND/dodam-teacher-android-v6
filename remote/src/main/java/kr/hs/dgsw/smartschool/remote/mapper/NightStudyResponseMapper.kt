@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.night_study.AllowCheck
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudy
 import kr.hs.dgsw.smartschool.domain.model.night_study.NightStudyStudent
@@ -17,18 +17,21 @@ internal fun NightStudyResponse.toModel(): NightStudy =
     NightStudy(
         id = id,
         content = content,
-        allowCheck = allowCheck.toAllowCheck(),
-        reason = reason,
+        reason = reasonForPhone,
+        state = status.toOutStatus(),
         student = student.toModel(),
         place = place,
-        startAt = startAt.yearDateTimeToLocalDate(),
-        endAt = endAt.yearDateTimeToLocalDate(),
-        createdAt = createdAt.yearDateTimeToLocalDate(),
-        isPhone = isPhone,
+        startAt = startAt.yearDateToLocalDate(),
+        endAt = endAt.yearDateToLocalDate(),
+        createdAt = createdAt,
+        modifiedAt = modifiedAt,
+        isPhone = doNeedPhone,
+
     )
 
 internal fun EveningStudyStudentResponse.toModel(): NightStudyStudent =
     NightStudyStudent(
+        id = id,
         name = name,
         grade = grade,
         room = room,

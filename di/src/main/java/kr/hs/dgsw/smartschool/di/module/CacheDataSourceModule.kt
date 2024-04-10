@@ -7,29 +7,19 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.smartschool.data.datasource.auth.AuthCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.banner.BannerCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.calorie.CalorieCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.classroom.ClassroomCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.itmap.ItmapCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.meal.MealCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.member.MemberCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.schedule.ScheduleCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.student.StudentCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.studyroom.StudyRoomCacheDataSource
-import kr.hs.dgsw.smartschool.data.datasource.teacher.TeacherCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.timetable.TimeTableCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.token.TokenCacheDataSource
 import kr.hs.dgsw.smartschool.local.datasource.AuthCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.BannerCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.CalorieCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.ClassroomCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.ItmapCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MealCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.MemberCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.OutCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.ScheduleCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.StudentCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.StudyRoomCacheDataSourceImpl
-import kr.hs.dgsw.smartschool.local.datasource.TeacherCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TimeTableCacheDataSourceImpl
 import kr.hs.dgsw.smartschool.local.datasource.TokenCacheDataSourceImpl
 import javax.inject.Singleton
@@ -70,27 +60,9 @@ abstract class CacheDataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun provideClassroomCacheDataSource(
-        classroomCacheDataSourceImpl: ClassroomCacheDataSourceImpl
-    ): ClassroomCacheDataSource
-
-    @Singleton
-    @Binds
     abstract fun provideMemberCacheDataSource(
         memberCacheDataSourceImpl: MemberCacheDataSourceImpl
     ): MemberCacheDataSource
-
-    @Singleton
-    @Binds
-    abstract fun provideTeacherCacheDataSource(
-        teacherCacheDataSourceImpl: TeacherCacheDataSourceImpl
-    ): TeacherCacheDataSource
-
-    @Singleton
-    @Binds
-    abstract fun provideStudentCacheDataSource(
-        studentCacheDataSourceImpl: StudentCacheDataSourceImpl
-    ): StudentCacheDataSource
 
     @Singleton
     @Binds
@@ -100,21 +72,9 @@ abstract class CacheDataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun provideItmapCacheDataSource(
-        itmapCacheDataSourceImpl: ItmapCacheDataSourceImpl,
-    ): ItmapCacheDataSource
-
-    @Singleton
-    @Binds
     abstract fun provideCalorieCacheDataSource(
         calorieCacheDataSourceImpl: CalorieCacheDataSourceImpl,
     ): CalorieCacheDataSource
-
-    @Singleton
-    @Binds
-    abstract fun provideStudyRoomCacheDataSource(
-        studyRoomCacheDataSourceImpl: StudyRoomCacheDataSourceImpl,
-    ): StudyRoomCacheDataSource
 
     @Singleton
     @Binds

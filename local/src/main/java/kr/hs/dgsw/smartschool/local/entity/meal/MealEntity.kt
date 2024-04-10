@@ -15,4 +15,5 @@ data class MealEntity(
     val breakfast: String,
     val lunch: String,
     val dinner: String,
+    val calorie: Double
 )

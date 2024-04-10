@@ -8,10 +8,10 @@ class CancelAllowOutsleepingUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.cancelAllowOutsleeping(param.ids)
+        outRepository.cancelAllowOutsleeping(param.id)
     }
 
     data class Param(
-        val ids: List<Int>,
+        val id: Int,
     )
 }

@@ -18,8 +18,6 @@ internal fun List<BannerEntity>.toModel(): List<Banner> =
 internal fun BannerEntity.toModel(): Banner =
     Banner(
         id = id,
-        bannerOrder = bannerOrder,
-        createdDate = createdDate.yearDateTimeToLocalDate(),
         expiryDateTime = expiryDateTime.yearDateTimeToLocalDate(),
         image = image,
         url = url,
@@ -30,8 +28,6 @@ internal fun BannerEntity.toModel(): Banner =
 internal fun Banner.toEntity(): BannerEntity =
     BannerEntity(
         id = id,
-        bannerOrder = bannerOrder,
-        createdDate = createdDate.toString(),
         expiryDateTime = expiryDateTime.toString(),
         image = image,
         url = url,

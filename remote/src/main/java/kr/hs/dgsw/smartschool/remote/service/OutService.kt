@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.service
 
 import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
+import kr.hs.dgsw.smartschool.remote.request.reject.RejectReasonRequest
 import kr.hs.dgsw.smartschool.remote.response.Response
 import kr.hs.dgsw.smartschool.remote.response.out.OutDetailResponse
 import kr.hs.dgsw.smartschool.remote.response.out.OutResponse
@@ -14,10 +15,18 @@ import retrofit2.http.Query
 
 interface OutService {
 
-    @GET(DodamUrl.Out.DATE)
-    suspend fun getOutsByDate(
+    @GET(DodamUrl.Out.Outgoing.GET_OUTGOING)
+    suspend fun getOutgoingByDate(
         @Query("date") date: String,
-    ): Response<OutResponse>
+    ): Response<List<OutResponse>>
+
+    @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING)
+    suspend fun getOutSleepingByDate(
+        @Query("date") date: String,
+    ): Response<List<OutResponse>>
+
+    @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING_VALID)
+    suspend fun getOutSleepingValidByDate(): Response<List<OutResponse>>
 
     @GET(DodamUrl.Out.Outgoing.SINGLE)
     suspend fun getOutgoing(
@@ -31,12 +40,13 @@ interface OutService {
 
     @PATCH(DodamUrl.Out.Outgoing.ALLOW)
     suspend fun allowOutgoing(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int
     ): Response<Unit>
 
-    @PATCH(DodamUrl.Out.Outgoing.CANCEL_ARROW)
+    @PATCH(DodamUrl.Out.Outgoing.REJECT_ALLOW)
     suspend fun cancelAllowOutgoing(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int,
+        @Body reason: RejectReasonRequest
     ): Response<Unit>
 
     @PATCH(DodamUrl.Out.Outgoing.DENY)
@@ -56,12 +66,13 @@ interface OutService {
 
     @PATCH(DodamUrl.Out.Outsleeping.ALLOW)
     suspend fun allowOutsleeping(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int
     ): Response<Unit>
 
-    @PATCH(DodamUrl.Out.Outsleeping.CANCEL_ARROW)
+    @PATCH(DodamUrl.Out.Outsleeping.REJECT)
     suspend fun cancelAllowOutsleeping(
-        @Body outIdRequest: OutIdRequest
+        @Path("id") id: Int,
+        @Body reason: RejectReasonRequest
     ): Response<Unit>
 
     @PATCH(DodamUrl.Out.Outsleeping.DENY)

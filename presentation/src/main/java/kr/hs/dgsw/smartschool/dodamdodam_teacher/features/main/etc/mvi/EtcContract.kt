@@ -1,10 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.etc.mvi
 
-import kr.hs.dgsw.smartschool.domain.model.member.teacher.Teacher
+import kr.hs.dgsw.smartschool.domain.model.member.Member
 
 data class EtcState(
     val isLoading: Boolean = false,
-    val myInfo: Teacher? = null,
+    val myInfo: Member? = null,
     val showPrompt: Boolean = false,
 )
 

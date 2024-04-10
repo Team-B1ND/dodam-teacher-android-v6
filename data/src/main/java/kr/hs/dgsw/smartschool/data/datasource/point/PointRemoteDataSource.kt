@@ -9,10 +9,11 @@ interface PointRemoteDataSource {
 
     suspend fun getPoint(
         studentId: Int,
-        pointType: PointType,
+        pointType: PointPlace,
     ): List<Point>
 
     suspend fun givePoint(
+        id: Int,
         givenDate: String,
         place: PointPlace,
         reason: String,
@@ -21,5 +22,5 @@ interface PointRemoteDataSource {
         type: PointType,
     )
 
-    suspend fun getReason(pointType: PointType): List<PointReason>
+    suspend fun getReason(type: PointPlace): List<PointReason>
 }

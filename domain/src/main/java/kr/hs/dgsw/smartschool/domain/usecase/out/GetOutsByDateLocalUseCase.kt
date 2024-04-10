@@ -9,7 +9,11 @@ class GetOutsByDateLocalUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.getOutsByDateLocal(param.date)
+        outRepository.getOutgoingByDate(param.date.toString())
+    }
+
+    suspend fun GetOutSleeping(param: Param) = kotlin.runCatching {
+        outRepository.getOutSleepingByDate(param.date.toString())
     }
 
     data class Param(

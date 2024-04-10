@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
@@ -8,11 +7,9 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeStat
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.banner.GetActiveBannersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.meal.GetMealUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.student.GetStudentsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.GetStudyRoomsUseCase
-import kr.hs.dgsw.smartschool.domain.usecase.studyroom.SetStudyRoomsUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -29,15 +26,13 @@ class HomeViewModel @Inject constructor(
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
-    private val getStudentsUseCase: GetStudentsUseCase,
-    private val getStudyRoomsUseCase: GetStudyRoomsUseCase,
-    private val setStudyRoomsUseCase: SetStudyRoomsUseCase,
+    private val getStudentsUseCase: GetMembersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
     init {
-        getOutsByDate(LocalDateTime.now())
+        getOutsByDate(LocalDate.now())
         getMeal(
             if (LocalDateTime.now().hour >= 20)
                 LocalDate.now().plusDays(1)
@@ -46,37 +41,44 @@ class HomeViewModel @Inject constructor(
         )
         getBanner()
         getStudents()
-        getStudyRooms()
     }
 
-    private fun getOutsByDate(date: LocalDateTime) = intent {
+    private fun getOutsByDate(date: LocalDate) = intent {
         reduce {
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateLocalUseCase(GetOutsByDateLocalUseCase.Param(date)).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
-
-            out.outgoings.forEach {
-                Log.d("HomeLog", it.status.name)
-            }
-
-            reduce {
-                state.copy(
-                    isOutLoading = false,
-                    outgoingCount = outgoingsCnt,
-                    outsleepingCount = outsleepingsCnt,
+        getOutsByDateRemoteUseCase(
+            GetOutsByDateRemoteUseCase.Param(
+                date.toString()
+            )
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleeping(
+                GetOutsByDateRemoteUseCase.Param(
+                    date.toString()
                 )
+            ).onSuccess { outSleeping ->
+                val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
+                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
+
+                reduce {
+                    state.copy(
+                        outgoingCount = outgoingsCnt,
+                        outsleepingCount = outSleepingCnt,
+                        refreshing = false,
+                        outRefreshTime = LocalDateTime.now()
+                    )
+                }
             }
-        }.onFailure {
-            reduce {
-                state.copy(
-                    isOutLoading = false,
-                )
-            }
-            postSideEffect(HomeSideEffect.ToastError(it))
         }
+            .onFailure {
+                reduce {
+                    state.copy(
+                        isOutLoading = false,
+                    )
+                }
+                postSideEffect(HomeSideEffect.ToastError(it))
+            }
     }
 
     private fun getStudents() = intent {
@@ -84,18 +86,6 @@ class HomeViewModel @Inject constructor(
             reduce {
                 state.copy(
                     allStudentsCount = it.size,
-                )
-            }
-        }.onFailure {
-            postSideEffect(HomeSideEffect.ToastError(it))
-        }
-    }
-
-    private fun getStudyRooms() = intent {
-        getStudyRoomsUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    studyRooms = it
                 )
             }
         }.onFailure {
@@ -130,42 +120,27 @@ class HomeViewModel @Inject constructor(
             state.copy(refreshing = true)
         }
 
-        getOutsByDateRemoteUseCase(GetOutsByDateRemoteUseCase.Param(LocalDate.now().toString())).onSuccess { out ->
-            val outgoingsCnt = out.outgoings.filter { it.status == OutStatus.PENDING }.size
-            val outsleepingsCnt = out.outsleepings.filter { it.status == OutStatus.PENDING }.size
-
-            reduce {
-                state.copy(
-                    outgoingCount = outgoingsCnt,
-                    outsleepingCount = outsleepingsCnt,
-                    refreshing = false,
-                    outRefreshTime = LocalDateTime.now()
+        getOutsByDateRemoteUseCase(
+            GetOutsByDateRemoteUseCase.Param(
+                LocalDate.now().toString()
+            )
+        ).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleeping(
+                GetOutsByDateRemoteUseCase.Param(
+                    LocalDate.now().toString()
                 )
-            }
-        }.onFailure {
-            reduce {
-                state.copy(
-                    refreshing = false,
-                )
-            }
-            postSideEffect(HomeSideEffect.ToastError(it))
-        }
-    }
+            ).onSuccess { outSleeping ->
+                val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
+                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
 
-    fun getStudyRoomRemote() = intent {
-        reduce {
-            state.copy(refreshing = true)
-        }
-
-        val today = LocalDate.now()
-        setStudyRoomsUseCase(SetStudyRoomsUseCase.Param(today.year, today.monthValue, today.dayOfMonth)).onSuccess {
-
-            reduce {
-                state.copy(
-                    studyRooms = it,
-                    refreshing = false,
-                    studyRoomRefreshTime = LocalDateTime.now()
-                )
+                reduce {
+                    state.copy(
+                        outgoingCount = outgoingsCnt,
+                        outsleepingCount = outSleepingCnt,
+                        refreshing = false,
+                        outRefreshTime = LocalDateTime.now()
+                    )
+                }
             }
         }.onFailure {
             reduce {

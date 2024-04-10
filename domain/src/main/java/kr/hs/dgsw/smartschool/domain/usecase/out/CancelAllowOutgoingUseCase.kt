@@ -8,10 +8,10 @@ class CancelAllowOutgoingUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.cancelAllowOutgoing(param.ids)
+        outRepository.cancelAllowOutgoing(param.id)
     }
 
     data class Param(
-        val ids: List<Int>,
+        val id: Int
     )
 }

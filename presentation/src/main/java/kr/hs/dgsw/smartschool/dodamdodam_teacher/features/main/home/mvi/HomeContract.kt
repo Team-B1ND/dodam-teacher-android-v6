@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi
 
 import kr.hs.dgsw.smartschool.domain.model.banner.Banner
 import kr.hs.dgsw.smartschool.domain.model.meal.Meal
-import kr.hs.dgsw.smartschool.domain.model.studyroom.StudyRoom
 import java.time.LocalDateTime
 
 data class HomeState(
@@ -15,8 +14,6 @@ data class HomeState(
 
     val outgoingCount: Int = 0,
     val outsleepingCount: Int = 0,
-
-    val studyRooms: List<StudyRoom> = emptyList(),
 
     val firstClassCount: Int = 0,
     val secondClassCount: Int = 0,

@@ -8,3 +8,20 @@ internal fun AllMemberResponse.toMemberData(): MemberData =
         students = students.toModel(),
         teachers = teachers.toModel()
     )
+
+// internal fun MemberResponse.toModel(): Teacher =
+//    Teacher(
+//        id = 0,
+//        member = this.toMember(),
+//        phone = phone,
+//        position = this.teacher?.position?: "",
+//        tel = this.teacher?.position?: "",
+//    )
+
+// internal fun MemberResponse.toModelStudent(): Student =
+//    Student(
+//        id = this.student?.id?: 0,
+//        member = this.toMember(),
+//        phone = phone,
+//        number = this.student?.number?: 0
+//    )

@@ -9,8 +9,6 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
 )
 data class BannerEntity(
     @PrimaryKey val id: Int,
-    val bannerOrder: Int,
-    val createdDate: String,
     val expiryDateTime: String,
     val image: String,
     val url: String,
