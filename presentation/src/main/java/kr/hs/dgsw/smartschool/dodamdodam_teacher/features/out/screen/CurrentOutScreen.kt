@@ -44,8 +44,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -85,7 +83,7 @@ fun CurrentOutScreen(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
@@ -306,11 +304,4 @@ private fun getOutType(context: Context, outType: Int): String = when (outType) 
     0 -> context.getString(R.string.label_outgoing)
     1 -> context.getString(R.string.label_outsleeping)
     else -> ""
-}
-
-fun getNextDay(): String {
-    val currentDate = LocalDate.now()
-    val nextDay = currentDate.plusDays(0)
-
-    return nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 }

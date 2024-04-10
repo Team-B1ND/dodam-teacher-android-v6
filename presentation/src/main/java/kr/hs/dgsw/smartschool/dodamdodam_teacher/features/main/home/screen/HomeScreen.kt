@@ -144,7 +144,7 @@ fun HomeScreen(
                     hasLinkIcon = true,
                     onClick = {
                         navTabNavigate?.let {
-                            it(2)
+                            it(1)
                         }
                     }
                 ) {

@@ -32,30 +32,6 @@ class MainViewModel @Inject constructor(
 //        setTeachers()
 //        setStudents()
         setOuts()
-        setTimeTables()
-    }
-
-    private fun setTimeTables() = intent {
-        reduce {
-            state.copy(
-                setTimeTablesLoading = true
-            )
-        }
-
-        setTimeTablesUseCase().onSuccess {
-            reduce {
-                state.copy(
-                    setTimeTablesLoading = false
-                )
-            }
-        }.onFailure {
-            postSideEffect(MainSideEffect.ShowException(it))
-            reduce {
-                state.copy(
-                    setTimeTablesLoading = false
-                )
-            }
-        }
     }
 
     private fun setOuts() = intent {

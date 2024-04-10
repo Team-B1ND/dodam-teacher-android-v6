@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -19,6 +18,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,8 +31,6 @@ class CurrentOutViewModel @Inject constructor(
 ) : ContainerHost<CurrentOutState, CurrentOutSideEffect>, ViewModel() {
 
     override val container: Container<CurrentOutState, CurrentOutSideEffect> = container(CurrentOutState())
-
-    private val getDate = getNextDay()
 
     init {
         getClassrooms()
@@ -51,7 +49,7 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = getDate
+                LocalDate.now().toString()
             )
         ).onSuccess {
             reduce {
@@ -103,7 +101,7 @@ class CurrentOutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                date = getDate
+                LocalDate.now().toString()
             )
         ).onSuccess { outGoing ->
             getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess { outSleeping ->
