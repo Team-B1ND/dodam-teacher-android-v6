@@ -85,7 +85,7 @@ fun CurrentOutScreen(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
-    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}학년" }.plus(
+    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
         stringResource(id = R.string.label_all)
     ).toList().reversed()
 
