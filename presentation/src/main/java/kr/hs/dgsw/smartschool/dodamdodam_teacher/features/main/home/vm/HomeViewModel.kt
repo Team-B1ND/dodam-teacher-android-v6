@@ -58,8 +58,8 @@ class HomeViewModel @Inject constructor(
                     date.toString()
                 )
             ).onSuccess { outSleeping ->
-                val outgoingsCnt = outGoing.filter { it.status == OutStatus.ALLOWED }.size
-                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.ALLOWED }.size
+                val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
+                val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
 
                 reduce {
                     state.copy(
