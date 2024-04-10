@@ -32,7 +32,6 @@ class CurrentOutViewModel @Inject constructor(
 
     override val container: Container<CurrentOutState, CurrentOutSideEffect> = container(CurrentOutState())
 
-
     init {
         getClassrooms()
         getOutsRemote()

@@ -34,8 +34,6 @@ class MainViewModel @Inject constructor(
         setOuts()
     }
 
-
-
     private fun setOuts() = intent {
         reduce {
             state.copy(

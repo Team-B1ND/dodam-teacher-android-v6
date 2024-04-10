@@ -44,8 +44,6 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.utils.shortToast
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -307,5 +305,3 @@ private fun getOutType(context: Context, outType: Int): String = when (outType) 
     1 -> context.getString(R.string.label_outsleeping)
     else -> ""
 }
-
-
