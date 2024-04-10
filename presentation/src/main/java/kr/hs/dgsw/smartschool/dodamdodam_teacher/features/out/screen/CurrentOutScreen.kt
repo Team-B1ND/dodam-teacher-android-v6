@@ -308,9 +308,4 @@ private fun getOutType(context: Context, outType: Int): String = when (outType) 
     else -> ""
 }
 
-fun getNextDay(): String {
-    val currentDate = LocalDate.now()
-    val nextDay = currentDate.plusDays(0)
 
-    return nextDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-}

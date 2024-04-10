@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
     init {
-        getOutsByDate(LocalDateTime.now())
+        getOutsByDate(LocalDate.now())
         getMeal(
             if (LocalDateTime.now().hour >= 20)
                 LocalDate.now().plusDays(1)
@@ -43,19 +43,19 @@ class HomeViewModel @Inject constructor(
         getStudents()
     }
 
-    private fun getOutsByDate(date: LocalDateTime) = intent {
+    private fun getOutsByDate(date: LocalDate) = intent {
         reduce {
             state.copy(isOutLoading = true)
         }
 
         getOutsByDateRemoteUseCase(
             GetOutsByDateRemoteUseCase.Param(
-                LocalDate.now().toString()
+                date.toString()
             )
         ).onSuccess { outGoing ->
             getOutsByDateRemoteUseCase.getOutSleeping(
                 GetOutsByDateRemoteUseCase.Param(
-                    LocalDate.now().toString()
+                    date.toString()
                 )
             ).onSuccess { outSleeping ->
                 val outgoingsCnt = outGoing.filter { it.status == OutStatus.ALLOWED }.size

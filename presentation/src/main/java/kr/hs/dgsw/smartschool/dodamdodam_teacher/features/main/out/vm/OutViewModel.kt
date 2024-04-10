@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
-import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.screen.getNextDay
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
@@ -37,7 +36,6 @@ class OutViewModel @Inject constructor(
 ) : ContainerHost<OutState, OutSideEffect>, ViewModel() {
 
     override val container: Container<OutState, OutSideEffect> = container(OutState())
-    private val getDate = getNextDay()
 
     init {
         getClassrooms()
@@ -84,7 +82,7 @@ class OutViewModel @Inject constructor(
 
         getOutsByDateRemoteUseCase.getOutSleeping(
             GetOutsByDateRemoteUseCase.Param(
-                date = getDate
+                LocalDate.now().toString()
             )
         ).onSuccess {
             reduce {
