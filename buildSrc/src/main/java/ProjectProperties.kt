@@ -1,8 +1,8 @@
 import org.gradle.api.JavaVersion
 
 object ProjectProperties {
-    const val VERSION_CODE = 30
-    const val VERSION_NAME = "2.1.2"
+    const val VERSION_CODE = 31
+    const val VERSION_NAME = "2.2.0"
 
     const val APPLICATION_ID = "kr.hs.dgsw.smartschool.dodamdodam_teacher"
     const val NAME_SPACE_DOMAIN = "kr.hs.dgsw.smartschool.domain"
