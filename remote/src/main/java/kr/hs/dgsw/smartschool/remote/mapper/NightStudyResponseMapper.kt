@@ -23,8 +23,8 @@ internal fun NightStudyResponse.toModel(): NightStudy =
         place = place,
         startAt = startAt.yearDateToLocalDate(),
         endAt = endAt.yearDateToLocalDate(),
-        createdAt = createdAt?:"",
-        modifiedAt = modifiedAt?:"",
+        createdAt = createdAt ?: "",
+        modifiedAt = modifiedAt ?: "",
         isPhone = doNeedPhone,
 
     )

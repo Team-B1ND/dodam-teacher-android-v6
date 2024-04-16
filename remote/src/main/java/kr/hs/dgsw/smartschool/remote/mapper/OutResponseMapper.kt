@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
-import android.util.Log
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
