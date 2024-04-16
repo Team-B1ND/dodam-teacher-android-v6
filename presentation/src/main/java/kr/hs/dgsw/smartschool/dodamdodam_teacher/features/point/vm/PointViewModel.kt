@@ -94,7 +94,7 @@ class PointViewModel @Inject constructor(
                     students = it.filter {
                         it.role == MemberRole.STUDENT
                     }.map {
-                        it.student?: Student(0, "", 0,0, 0)
+                        it.student ?: Student(0, "", 0, 0, 0)
                     }
                 )
             }
