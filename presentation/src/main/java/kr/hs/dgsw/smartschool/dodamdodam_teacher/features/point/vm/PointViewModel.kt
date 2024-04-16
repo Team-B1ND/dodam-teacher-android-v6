@@ -8,6 +8,7 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointSideEff
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.point.mvi.PointState
 import kr.hs.dgsw.smartschool.domain.model.classroom.Classroom
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
+import kr.hs.dgsw.smartschool.domain.model.member.student.Student
 import kr.hs.dgsw.smartschool.domain.model.place.Place
 import kr.hs.dgsw.smartschool.domain.model.point.PointPlace
 import kr.hs.dgsw.smartschool.domain.model.point.PointReason
@@ -89,15 +90,18 @@ class PointViewModel @Inject constructor(
             Log.d("TAG", "getMembers: $it")
             reduce {
                 state.copy(
-                    members = it.filter {
-                        Log.d("TAG", "getMembers: ${it.role == MemberRole.STUDENT}")
+                    members = it,
+                    students = it.filter {
                         it.role == MemberRole.STUDENT
+                    }.map {
+                        it.student ?: Student(0, "", 0, 0, 0)
                     }
                 )
             }
             delay(1000)
             if (state.students.isNotEmpty())
                 makePointStudents()
+            Log.d("TAG", "getMembers: ${state.members}")
         }.onFailure {
             postSideEffect(PointSideEffect.ShowException(it))
         }
