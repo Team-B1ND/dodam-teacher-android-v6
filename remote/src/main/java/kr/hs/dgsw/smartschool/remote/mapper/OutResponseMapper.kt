@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
+import android.util.Log
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
@@ -13,18 +14,20 @@ internal fun List<OutResponse>.toModel(): List<Out> =
     this.map {
         it.toOut()
     }
-internal fun OutResponse.toOut(): Out =
-    Out(
+internal fun OutResponse.toOut(): Out {
+    return Out(
         id = id,
         reason = reason,
         status = status.toOutStatus(),
         student = student.toModel(),
         rejectReason = rejectReason ?: "",
-        startOutDate = startOutDate.yearDateTimeToLocalDate().toString(),
-        endOutDate = endOutDate.yearDateTimeToLocalDate().toString(),
+        startOutDate = startOutDate,
+        endOutDate = endOutDate,
         createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+
         modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString()
     )
+}
 
 internal fun OutDetailResponse.toOutItem(type: OutType): OutItem =
     OutItem(
