@@ -13,6 +13,6 @@ data class NightStudyResponse(
     @field:SerializedName("place") val place: String,
     @field:SerializedName("startAt") val startAt: String,
     @field:SerializedName("endAt") val endAt: String,
-    @field:SerializedName("createdAt") val createdAt: String,
-    @field:SerializedName("modifiedAt") val modifiedAt: String,
+    @field:SerializedName("createdAt") val createdAt: String?,
+    @field:SerializedName("modifiedAt") val modifiedAt: String?,
 )
