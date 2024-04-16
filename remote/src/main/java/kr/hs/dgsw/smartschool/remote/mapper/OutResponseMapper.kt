@@ -13,18 +13,20 @@ internal fun List<OutResponse>.toModel(): List<Out> =
     this.map {
         it.toOut()
     }
-internal fun OutResponse.toOut(): Out =
-    Out(
+internal fun OutResponse.toOut(): Out {
+    return Out(
         id = id,
         reason = reason,
         status = status.toOutStatus(),
         student = student.toModel(),
         rejectReason = rejectReason ?: "",
-        startOutDate = startOutDate.yearDateTimeToLocalDate().toString(),
-        endOutDate = endOutDate.yearDateTimeToLocalDate().toString(),
+        startOutDate = startOutDate,
+        endOutDate = endOutDate,
         createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+
         modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString()
     )
+}
 
 internal fun OutDetailResponse.toOutItem(type: OutType): OutItem =
     OutItem(

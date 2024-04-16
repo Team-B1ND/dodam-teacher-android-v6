@@ -78,17 +78,17 @@ fun CurrentNightStudyScreen(
         }
     }
 
-    val gradeList =
-        state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending()
-            .map { "${it}학년" }.plus(
-                stringResource(id = R.string.label_all)
-            ).toList().reversed()
+    val gradeList = listOf("전체", "1학년", "2학년", "3학년")
+//        state.nightStudies.asSequence().map { it.student.grade }.distinct().sortedDescending()
+//            .map { "${it}학년" }.plus(
+//                stringResource(id = R.string.label_all)
+//            ).toList().reversed()
 
-    val roomList =
-        state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending()
-            .map { "${it}반" }.plus(
-                stringResource(id = R.string.label_all)
-            ).toList().reversed()
+    val roomList = listOf("전체", "1반", "2반", "3반", "4반")
+//        state.nightStudies.asSequence().map { it.student.room }.distinct().sortedDescending()
+//            .map { "${it}반" }.plus(
+//                stringResource(id = R.string.label_all)
+//            ).toList().reversed()
 
     val convertedRoom = roomList.map { grade ->
         when (grade) {

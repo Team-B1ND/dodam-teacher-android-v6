@@ -80,21 +80,25 @@ fun OutScreen(
         }
     }
 
-    val goingGradeList = state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val goingGradeList = listOf("전체", "1학년", "2학년", "3학년")
+//        state.outGoings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+//        stringResource(id = R.string.label_all)
+//    ).toList().reversed()
 
-    val goingRoomList = state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val goingRoomList = listOf("전체", "1반", "2반", "3반", "4반")
+//        state.outGoings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+//        stringResource(id = R.string.label_all)
+//    ).toList().reversed()
 
-    val sleepingGradeList = state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val sleepingGradeList = listOf("전체", "1학년", "2학년", "3학년")
+//        state.outSleepings.asSequence().map { it.student.grade }.distinct().sortedDescending().map { "${it}학년" }.plus(
+//        stringResource(id = R.string.label_all)
+//    ).toList().reversed()
 
-    val sleepingRoomList = state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
-        stringResource(id = R.string.label_all)
-    ).toList().reversed()
+    val sleepingRoomList = listOf("전체", "1반", "2반", "3반", "4반")
+//        state.outSleepings.asSequence().map { it.student.room }.distinct().sortedDescending().map { "${it}반" }.plus(
+//        stringResource(id = R.string.label_all)
+//    ).toList().reversed()
 
     val categoryRoomList = if (state.currentOutType == 0) {
         goingRoomList

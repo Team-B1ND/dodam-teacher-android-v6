@@ -9,8 +9,8 @@ data class OutResponse(
     @field:SerializedName("status") val status: OutResponseStatus,
     @field:SerializedName("student") val student: StudentResponse,
     @field:SerializedName("rejectReason")val rejectReason: String?,
-    @field:SerializedName("startOutDate") val startOutDate: String,
-    @field:SerializedName("endOutDate") val endOutDate: String,
+    @field:SerializedName("startAt") val startOutDate: String,
+    @field:SerializedName("endAt") val endOutDate: String,
     @field:SerializedName("createdAt") val createdAt: String,
     @field:SerializedName("modifiedAt") val modifiedAt: String,
 )
