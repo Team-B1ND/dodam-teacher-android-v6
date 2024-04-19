@@ -98,20 +98,26 @@ class CurrentOutViewModel @Inject constructor(
                 refreshing = true,
             )
         }
+        val param = GetOutsByDateRemoteUseCase.Param(
+            LocalDate.now().toString()
+        )
 
-        getOutsByDateRemoteUseCase(
-            GetOutsByDateRemoteUseCase.Param(
-                LocalDate.now().toString()
-            )
-        ).onSuccess { outGoing ->
-            getOutsByDateRemoteUseCase.getOutSleepingValid().onSuccess { outSleeping ->
+        getOutsByDateRemoteUseCase(param).onSuccess { outGoing ->
+            getOutsByDateRemoteUseCase.getOutSleeping(param).onSuccess { outSleeping ->
                 reduce {
                     state.copy(
                         refreshing = false,
-                        outGoings = outGoing,
-                        outSleepings = outSleeping,
+                        outGoings = outGoing.filter { it.status == OutStatus.ALLOWED },
+                        outSleepings = outSleeping.filter { it.status == OutStatus.ALLOWED },
                     )
                 }
+            }.onFailure {
+                reduce {
+                    state.copy(
+                        refreshing = false,
+                    )
+                }
+                postSideEffect(CurrentOutSideEffect.ShowException(it))
             }
         }.onFailure {
             reduce {

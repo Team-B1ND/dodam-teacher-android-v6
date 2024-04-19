@@ -131,7 +131,11 @@ fun OutScreen(
     val refreshState = rememberPullRefreshState(
         refreshing = state.refreshing,
         onRefresh = {
-            outViewModel.getOutsRefresh()
+            if (state.currentOutType == 0) {
+                outViewModel.getOutsRefresh()
+            } else {
+                outViewModel.getOutSleepingRefresh()
+            }
         }
     )
 

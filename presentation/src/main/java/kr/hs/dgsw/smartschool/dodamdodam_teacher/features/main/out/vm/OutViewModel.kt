@@ -116,8 +116,35 @@ class OutViewModel @Inject constructor(
             reduce {
                 state.copy(
                     refreshing = false,
-                    outGoings = it,
-                    outSleepings = it,
+                    outGoings = it.filter { it.status == OutStatus.PENDING },
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                )
+            }
+            postSideEffect(OutSideEffect.ShowException(it))
+        }
+    }
+
+    fun getOutSleepingRefresh() = intent {
+        reduce {
+            state.copy(
+                refreshing = true,
+            )
+        }
+
+        getOutsByDateRemoteUseCase.getOutSleeping(
+            GetOutsByDateRemoteUseCase.Param(
+                date = LocalDate.now().toString()
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    refreshing = false,
+                    outSleepings = it.filter { it.status == OutStatus.PENDING },
                 )
             }
         }.onFailure {
