@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.local.mapper
 
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeMinToLocalDate
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
@@ -56,8 +58,8 @@ internal fun Member.toEntity(): MemberEntity {
         status = status.name.toMemberStatus(),
         teacher = teacher,
         student = student,
-        createdAt = createdAt.yearDateTimeToLocalDate().toString(),
-        modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString(),
+        createdAt = createdAt.yearDateTimeToLocalDateT().toString(),
+        modifiedAt = modifiedAt.yearDateTimeToLocalDateT().toString(),
         phone = phone
     )
 }
