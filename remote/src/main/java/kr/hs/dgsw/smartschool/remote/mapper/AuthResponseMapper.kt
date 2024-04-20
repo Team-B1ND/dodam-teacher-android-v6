@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.data.auth.LoginData
-import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.member.Member
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.member.MemberStatus
@@ -28,8 +28,8 @@ internal fun MemberResponse.toMember(): Member =
         phone = phone,
         student = student?.toModel(),
         teacher = teacher?.toModel(),
-        createdAt = createdAt?.yearDateTimeToLocalDate().toString(),
-        modifiedAt = modifiedAt?.yearDateTimeToLocalDate().toString(),
+        createdAt = createdAt?.yearDateTimeToLocalDateT().toString(),
+        modifiedAt = modifiedAt?.yearDateTimeToLocalDateT().toString(),
     )
 
 internal fun MemberResponseRole.toMemberRole(): MemberRole =
