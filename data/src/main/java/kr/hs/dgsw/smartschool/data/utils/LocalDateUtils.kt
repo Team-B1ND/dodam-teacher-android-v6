@@ -14,7 +14,7 @@ fun String?.yearDateTimeToLocalDate(): LocalDateTime {
     try {
         if (this != null) {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            return LocalDateTime.parse(this, formatter)
+            return LocalDateTime.parse(this.split(".")[0], formatter)
         }
     } catch (e: Exception) {
         e.printStackTrace()
@@ -23,7 +23,8 @@ fun String?.yearDateTimeToLocalDate(): LocalDateTime {
 }
 fun String.yearDateTimeToLocalDateT(): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-    return LocalDateTime.parse(this, formatter)
+    val time = if (length == 16) "$this:00" else this
+    return LocalDateTime.parse(time.split(".")[0], formatter)
 }
 
 fun String.yearDateTimeHourToLocalDate(): LocalDateTime {

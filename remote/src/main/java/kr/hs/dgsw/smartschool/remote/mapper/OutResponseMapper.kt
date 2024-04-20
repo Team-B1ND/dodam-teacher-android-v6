@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.remote.mapper
 
 import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeToLocalDateT
 import kr.hs.dgsw.smartschool.domain.model.out.Out
 import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -22,9 +23,9 @@ internal fun OutResponse.toOut(): Out {
         rejectReason = rejectReason ?: "",
         startOutDate = startOutDate,
         endOutDate = endOutDate,
-        createdAt = createdAt.yearDateTimeToLocalDate().toString(),
+        createdAt = createdAt.yearDateTimeToLocalDateT().toString(),
 
-        modifiedAt = modifiedAt.yearDateTimeToLocalDate().toString()
+        modifiedAt = modifiedAt.yearDateTimeToLocalDateT().toString()
     )
 }
 
