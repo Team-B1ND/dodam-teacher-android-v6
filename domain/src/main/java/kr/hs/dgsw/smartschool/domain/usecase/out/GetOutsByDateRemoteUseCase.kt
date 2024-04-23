@@ -8,11 +8,11 @@ class GetOutsByDateRemoteUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.getOutgoingByDate(param.date)
+        outRepository.getOutgoingByDateRemote(param.date)
     }
 
     suspend fun getOutSleeping(param: Param) = kotlin.runCatching {
-        outRepository.getOutSleepingByDate(param.date)
+        outRepository.getOutSleepingByDateRemote(param.date)
     }
 
     suspend fun getOutSleepingValid() = kotlin.runCatching {

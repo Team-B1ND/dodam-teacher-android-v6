@@ -3,9 +3,12 @@ package kr.hs.dgsw.smartschool.data.repository
 import kr.hs.dgsw.smartschool.data.base.BaseRepository
 import kr.hs.dgsw.smartschool.data.datasource.out.OutCacheDataSource
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
+import kr.hs.dgsw.smartschool.data.utils.yearDateTimeHourToLocalDate
+import kr.hs.dgsw.smartschool.data.utils.yearDateToLocalDate
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -13,11 +16,37 @@ class OutRepositoryImpl @Inject constructor(
     override val remote: OutRemoteDataSource,
     override val cache: OutCacheDataSource,
 ) : BaseRepository<OutRemoteDataSource, OutCacheDataSource>, OutRepository {
-    override suspend fun getOutgoingByDate(date: String): List<Out> =
-        remote.getOutgoingByDate(date)
+    override suspend fun getOutgoingByDateRemote(date: String): List<Out> =
+        remote.getOutgoingByDate(date).apply {
+            cache.deleteTypeAllOut(OutType.OUTGOING)
+            cache.insertOuts(OutType.OUTGOING, this)
+        }
 
-    override suspend fun getOutSleepingByDate(date: String): List<Out> =
-        remote.getOutSleepingByDate(date)
+    override suspend fun getOutSleepingByDateRemote(date: String): List<Out> =
+        remote.getOutSleepingByDate(date).apply {
+            cache.deleteTypeAllOut(OutType.OUTSLEEPING)
+            cache.insertOuts(OutType.OUTSLEEPING, this)
+        }
+
+    override suspend fun getOutgoingByDateLocal(date: LocalDate): List<Out> {
+        val nowOutgoings = mutableListOf<Out>()
+        cache.getOutgoings().forEach {
+            if (it.startOutDate.yearDateToLocalDate().isBefore(date)) {
+                nowOutgoings.add(it)
+            }
+        }
+        return nowOutgoings
+    }
+
+    override suspend fun getOutSleepingByDateLocal(date: LocalDate): List<Out> {
+        val nowOutsleeping = mutableListOf<Out>()
+        cache.getOutsleepings().forEach {
+            if (it.startOutDate.yearDateToLocalDate().isBefore(date)) {
+                nowOutsleeping.add(it)
+            }
+        }
+        return nowOutsleeping
+    }
 
     override suspend fun getOutSleepingValid(): List<Out> =
         remote.getOutSleepingValidByDate()
@@ -52,48 +81,47 @@ class OutRepositoryImpl @Inject constructor(
 //        )
 //    }
 
-    override suspend fun getOutgoingById(id: Int): OutItem =
-        cache.getOutById(id) ?: remote.getOutgoing(id)
-
-    override suspend fun getOutsleepingById(id: Int): OutItem =
-        cache.getOutById(id) ?: remote.getOutsleeping(id)
-
-    override suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem> {
-        val outgoings = emptyList<OutItem>().toMutableList()
-
-        cache.getOutgoings().let { outItems ->
-            outItems.map {
-                if (it.startOutDate.isAfter(date)) {
-                    outgoings.add(it)
-                }
-            }
-        }
-
-        return outgoings
-    }
-
-    override suspend fun getOutsleepingsByDate(date: LocalDateTime): List<OutItem> {
-        val outsleepings = emptyList<OutItem>().toMutableList()
-
-        cache.getOutsleepings().let { outItems ->
-            outItems.map {
-                if (it.startOutDate.isAfter(date)) {
-                    outsleepings.add(it)
-                }
-            }
-        }
-
-        return outsleepings
-    }
-
-    override suspend fun getOutByStudentId(id: Int): List<OutItem> =
-        cache.getOutByStudentId(id)
-
-    override suspend fun clearOutData() =
-        cache.deleteAllOut()
+//    override suspend fun getOutgoingById(id: Int): OutItem =
+//        cache.getOutById(id) ?: remote.getOutgoing(id)
+//
+//    override suspend fun getOutsleepingById(id: Int): OutItem =
+//        cache.getOutById(id) ?: remote.getOutsleeping(id)
+//
+//    override suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem> {
+//        val outgoings = emptyList<OutItem>().toMutableList()
+//
+//        cache.getOutgoings().let { outItems ->
+//            outItems.map {
+//                if (it.startOutDate.isAfter(date)) {
+//                    outgoings.add(it)
+//                }
+//            }
+//        }
+//
+//        return outgoings
+//    }
+//
+//    override suspend fun getOutsleepingsByDate(date: LocalDateTime): List<OutItem> {
+//        val outsleepings = emptyList<OutItem>().toMutableList()
+//
+//        cache.getOutsleepings().let { outItems ->
+//            outItems.map {
+//                if (it.startOutDate.isAfter(date)) {
+//                    outsleepings.add(it)
+//                }
+//            }
+//        }
+//
+//        return outsleepings
+//    }
+//
+//    override suspend fun getOutByStudentId(id: Int): List<OutItem> =
+//        cache.getOutByStudentId(id)
 
     override suspend fun allowOutgoing(id: Int) =
-        remote.allowOutgoing(id)
+        remote.allowOutgoing(id).let {
+            cache.deleteOutById(id)
+        }
 
     override suspend fun deleteOutgoing(id: Int) =
         remote.deleteOutgoing(id).apply {

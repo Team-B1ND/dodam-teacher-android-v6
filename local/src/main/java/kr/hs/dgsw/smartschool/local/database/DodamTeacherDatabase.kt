@@ -38,7 +38,7 @@ import kr.hs.dgsw.smartschool.local.table.DodamTable
         CalorieEntity::class, TimeTableEntity::class, ParentEntity::class,
         TokenEntity::class
     ],
-    version = 12,
+    version = 13,
     exportSchema = false
 )
 @TypeConverters(StudentConverter::class, TeacherConverter::class)
@@ -72,17 +72,11 @@ val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
     }
 }
 
-val MIGRATION_11_TO_12: Migration = object : Migration(11, 12) {
+val MIGRATION_12_TO_13: Migration = object : Migration(12, 13) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.run {
-            execSQL("CREATE TABLE ${DodamTable.CLASSROOM} (id INTEGER not null, placeId INTEGER not null, grade INTEGER not null, room INTEGER not null, PRIMARY KEY (id))")
-            execSQL("CREATE TABLE ${DodamTable.MEMBER} (id TEXT not null, joinDate TEXT, role TEXT not null, name TEXT not null, profileImage TEXT, email TEXT not null, status TEXT not null, PRIMARY KEY (id))")
-            execSQL("CREATE TABLE ${DodamTable.PLACE} (name INTEGER not null, placeTypeId INTEGER not null, id INTEGER not null, placeTypeName TEXT not null, primary key (id))")
-            execSQL("CREATE TABLE ${DodamTable.STUDENT} (studentId INTEGER not null, classroomId INTEGER not null, number INTEGER not null, phone TEXT not null, memberId TEXT not null, memberName TEXT not null, primary key (studentId))")
-            execSQL("CREATE TABLE ${DodamTable.TEACHER} (tel TEXT not null, teacherId INTEGER not null, position TEXT not null, phone TEXT not null, memberId TEXT not null, primary key (teacherId))")
-            execSQL("CREATE TABLE ${DodamTable.PARENT} (studentId INTEGER not null, phone TEXT not null, id INTEGER not null, primary key (id))")
-            execSQL("CREATE TABLE ${DodamTable.TOKEN} (idx INTEGER not null, token TEXT not null, refreshToken TEXT not null, primary key (idx))")
-            execSQL("CREATE TABLE ${DodamTable.ACCOUNT} (idx INTEGER not null, id TEXT not null, pw TEXT not null, primary key (idx))")
+            execSQL("DROP TABLE ${DodamTable.OUT}")
+            execSQL("CREATE TABLE ${DodamTable.OUT} (id INTEGER not null, reason TEXT not null, status TEXT not null, studentId INTERGER not null, studentName TEXT not null, studentGrade Interger not null, studentRoom Interger not null, studentNumber Interger not null, rejectReason TEXT not null, startOutDate TEXT not null, endOutDate TEXT not null, createdAt TEXT not null, modifiedAt TEXT not null, type TEXT not null, primary key (id))")
         }
     }
 }

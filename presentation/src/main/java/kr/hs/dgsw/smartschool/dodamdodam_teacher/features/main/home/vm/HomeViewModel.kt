@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kr.hs.dgsw.smartschool.components.component.organization.calendar.getLocalDateTime
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.home.mvi.HomeState
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
@@ -25,7 +26,6 @@ class HomeViewModel @Inject constructor(
     private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMealUseCase: GetMealUseCase,
     private val getActiveBannersUseCase: GetActiveBannersUseCase,
-    private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
     private val getStudentsUseCase: GetMembersUseCase,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
 
@@ -48,15 +48,11 @@ class HomeViewModel @Inject constructor(
             state.copy(isOutLoading = true)
         }
 
-        getOutsByDateRemoteUseCase(
-            GetOutsByDateRemoteUseCase.Param(
-                date.toString()
-            )
+        getOutsByDateLocalUseCase(
+            GetOutsByDateLocalUseCase.Param(date)
         ).onSuccess { outGoing ->
-            getOutsByDateRemoteUseCase.getOutSleeping(
-                GetOutsByDateRemoteUseCase.Param(
-                    date.toString()
-                )
+            getOutsByDateLocalUseCase.getOutSleeping(
+                GetOutsByDateLocalUseCase.Param(date)
             ).onSuccess { outSleeping ->
                 val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size
                 val outSleepingCnt = outSleeping.filter { it.status == OutStatus.PENDING }.size
@@ -120,14 +116,14 @@ class HomeViewModel @Inject constructor(
             state.copy(refreshing = true)
         }
 
-        getOutsByDateRemoteUseCase(
-            GetOutsByDateRemoteUseCase.Param(
-                LocalDate.now().toString()
+        getOutsByDateLocalUseCase(
+            GetOutsByDateLocalUseCase.Param(
+                LocalDate.now()
             )
         ).onSuccess { outGoing ->
-            getOutsByDateRemoteUseCase.getOutSleeping(
-                GetOutsByDateRemoteUseCase.Param(
-                    LocalDate.now().toString()
+            getOutsByDateLocalUseCase.getOutSleeping(
+                GetOutsByDateLocalUseCase.Param(
+                    LocalDate.now()
                 )
             ).onSuccess { outSleeping ->
                 val outgoingsCnt = outGoing.filter { it.status == OutStatus.PENDING }.size

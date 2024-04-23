@@ -6,11 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutSideEffect
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.out.mvi.CurrentOutState
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -24,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CurrentOutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
+    private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val cancelAllowOutgoingUseCase: CancelAllowOutgoingUseCase,
     private val cancelAllowOutsleepingUseCase: CancelAllowOutsleepingUseCase,
@@ -59,6 +60,18 @@ class CurrentOutViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            getOutsByDateLocalUseCase(
+                GetOutsByDateLocalUseCase.Param(
+                    LocalDate.now()
+                )
+            ).onSuccess {
+                reduce {
+                    state.copy(
+                        getOutsLoading = false,
+                        outGoings = it.filter { it.status == OutStatus.PENDING },
+                    )
+                }
+            }
             reduce {
                 state.copy(
                     getOutsLoading = false,
@@ -83,6 +96,18 @@ class CurrentOutViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            getOutsByDateLocalUseCase.getOutSleeping(
+                GetOutsByDateLocalUseCase.Param(
+                    LocalDate.now()
+                )
+            ).onSuccess {
+                reduce {
+                    state.copy(
+                        getOutsLoading = false,
+                        outSleepings = it.filter { it.status == OutStatus.ALLOWED },
+                    )
+                }
+            }
             reduce {
                 state.copy(
                     getOutsLoading = false,
@@ -250,9 +275,4 @@ class CurrentOutViewModel @Inject constructor(
             )
         }
     }
-
-    private fun List<OutItem>.getAllowedOutItem(): List<OutItem> =
-        this.filter {
-            it.status == OutStatus.ALLOWED
-        }
 }

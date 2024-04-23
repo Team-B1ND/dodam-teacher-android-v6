@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.domain.usecase.out
 
 import kr.hs.dgsw.smartschool.domain.repository.OutRepository
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -9,14 +10,14 @@ class GetOutsByDateLocalUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Param) = kotlin.runCatching {
-        outRepository.getOutgoingByDate(param.date.toString())
+        outRepository.getOutgoingByDateLocal(param.date)
     }
 
-    suspend fun GetOutSleeping(param: Param) = kotlin.runCatching {
-        outRepository.getOutSleepingByDate(param.date.toString())
+    suspend fun getOutSleeping(param: Param) = kotlin.runCatching {
+        outRepository.getOutSleepingByDateLocal(param.date)
     }
 
     data class Param(
-        val date: LocalDateTime,
+        val date: LocalDate,
     )
 }

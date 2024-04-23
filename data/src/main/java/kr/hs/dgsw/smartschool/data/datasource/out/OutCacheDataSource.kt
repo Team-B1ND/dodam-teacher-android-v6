@@ -1,36 +1,38 @@
 package kr.hs.dgsw.smartschool.data.datasource.out
 
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import kr.hs.dgsw.smartschool.domain.model.out.Out
+import kr.hs.dgsw.smartschool.domain.model.out.OutType
+
 
 interface OutCacheDataSource {
 
-    suspend fun getOutById(id: Int): OutItem?
-
-    suspend fun getOutByStatus(status: String): List<OutItem>
-
-    suspend fun getOutByStudentId(studentId: Int): List<OutItem>
-
-    suspend fun getOutgoings(): List<OutItem>
-
-    suspend fun getOutsleepings(): List<OutItem>
-
-    suspend fun getAllowedOut(): List<OutItem>
-
-    suspend fun getNotAllowedOut(): List<OutItem>
-
-    suspend fun getAllowedOutgoing(): List<OutItem>
-
-    suspend fun getNotAllowedOutgoing(): List<OutItem>
-
-    suspend fun getAllowedOutsleeping(): List<OutItem>
-
-    suspend fun getNotAllowedOutsleeping(): List<OutItem>
-
+//    suspend fun getOutById(id: Int): OutItem?
+//
+//    suspend fun getOutByStatus(status: String): List<OutItem>
+//
+//    suspend fun getOutByStudentId(studentId: Int): List<OutItem>
+//
+    suspend fun getOutgoings(): List<Out>
+//
+    suspend fun getOutsleepings(): List<Out>
+//
+    suspend fun getNotAllowedOut(): List<Out>
+//
+    suspend fun getAllowedOutgoing(): List<Out>
+//
+    suspend fun getNotAllowedOutgoing(): List<Out>
+//
+    suspend fun getAllowedOutsleeping(): List<Out>
+//
+    suspend fun getNotAllowedOutsleeping(): List<Out>
+//
     suspend fun deleteAllOut()
+//
+    suspend fun deleteTypeAllOut(type: OutType)
 
     suspend fun deleteOutById(id: Int)
-
-    suspend fun insertOut(outItem: OutItem)
-
-    suspend fun insertOuts(outItems: List<OutItem>)
+//
+//    suspend fun insertOut(outItem: OutItem)
+//
+    suspend fun insertOuts(type: OutType, outItems: List<Out>)
 }

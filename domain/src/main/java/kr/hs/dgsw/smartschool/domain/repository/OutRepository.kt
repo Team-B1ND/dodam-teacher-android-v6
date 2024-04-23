@@ -1,28 +1,31 @@
 package kr.hs.dgsw.smartschool.domain.repository
 
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface OutRepository {
 
-    suspend fun getOutgoingByDate(date: String): List<Out>
+    suspend fun getOutgoingByDateRemote(date: String): List<Out>
 
-    suspend fun getOutSleepingByDate(data: String): List<Out>
+    suspend fun getOutSleepingByDateRemote(data: String): List<Out>
 
-    suspend fun getOutgoingById(id: Int): OutItem
+    suspend fun getOutgoingByDateLocal(date: LocalDate): List<Out>
 
-    suspend fun getOutsleepingById(id: Int): OutItem
+    suspend fun getOutSleepingByDateLocal(date: LocalDate): List<Out>
+
+//    suspend fun getOutgoingById(id: Int): OutItem
+//
+//    suspend fun getOutsleepingById(id: Int): OutItem
 
     suspend fun getOutSleepingValid(): List<Out>
 
-    suspend fun getOutgoingsByDate(date: LocalDateTime): List<OutItem>
+//    suspend fun getOutgoingsByDate(date: LocalDateTime): List<Out>
+//
+//    suspend fun getOutsleepingsByDate(date: LocalDateTime): List<Out>
+//
+//    suspend fun getOutByStudentId(id: Int): List<OutItem>
 
-    suspend fun getOutsleepingsByDate(date: LocalDateTime): List<OutItem>
-
-    suspend fun getOutByStudentId(id: Int): List<OutItem>
-
-    suspend fun clearOutData()
 
     suspend fun allowOutgoing(id: Int)
 

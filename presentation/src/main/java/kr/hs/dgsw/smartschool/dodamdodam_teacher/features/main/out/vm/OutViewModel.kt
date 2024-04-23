@@ -6,14 +6,13 @@ import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutSideEf
 import kr.hs.dgsw.smartschool.dodamdodam_teacher.features.main.out.mvi.OutState
 import kr.hs.dgsw.smartschool.domain.model.member.MemberRole
 import kr.hs.dgsw.smartschool.domain.model.out.Out
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutStatus
-// import kr.hs.dgsw.smartschool.domain.usecase.classroom.GetClassroomsUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.member.GetMembersUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.AllowOutsleepingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutgoingUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.CancelAllowOutsleepingUseCase
+import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateLocalUseCase
 import kr.hs.dgsw.smartschool.domain.usecase.out.GetOutsByDateRemoteUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -27,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OutViewModel @Inject constructor(
     private val getOutsByDateRemoteUseCase: GetOutsByDateRemoteUseCase,
+    private val getOutsByDateLocalUseCase: GetOutsByDateLocalUseCase,
     private val getMembersUseCase: GetMembersUseCase,
     private val getStudentsUseCase: GetMembersUseCase,
     private val allowOutgoingUseCase: AllowOutgoingUseCase,
@@ -64,6 +64,18 @@ class OutViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            getOutsByDateLocalUseCase(
+                GetOutsByDateLocalUseCase.Param(
+                    LocalDate.now()
+                )
+            ).onSuccess {
+                reduce {
+                    state.copy(
+                        getOutsLoading = false,
+                        outGoings = it.filter { it.status == OutStatus.PENDING },
+                    )
+                }
+            }
             reduce {
                 state.copy(
                     getOutsLoading = false,
@@ -92,6 +104,18 @@ class OutViewModel @Inject constructor(
                 )
             }
         }.onFailure {
+            getOutsByDateLocalUseCase.getOutSleeping(
+                GetOutsByDateLocalUseCase.Param(
+                    LocalDate.now()
+                )
+            ).onSuccess {
+                reduce {
+                    state.copy(
+                        getOutsLoading = false,
+                        outSleepings = it.filter { it.status == OutStatus.PENDING },
+                    )
+                }
+            }
             reduce {
                 state.copy(
                     getOutsLoading = false,
@@ -320,9 +344,4 @@ class OutViewModel @Inject constructor(
             )
         }
     }
-
-    private fun List<OutItem>.getNotAllowedOutItems(): List<OutItem> =
-        this.filter {
-            it.status == OutStatus.PENDING
-        }
 }

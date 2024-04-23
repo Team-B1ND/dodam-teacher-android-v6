@@ -50,4 +50,7 @@ interface OutDao : BaseDao<OutEntity> {
 
     @Query("DELETE FROM ${DodamTable.OUT}")
     suspend fun deleteAllOut()
+
+    @Query("DELETE FROM ${DodamTable.OUT} WHERE type=:type")
+    suspend fun deleteAllTypeOut(type: String)
 }

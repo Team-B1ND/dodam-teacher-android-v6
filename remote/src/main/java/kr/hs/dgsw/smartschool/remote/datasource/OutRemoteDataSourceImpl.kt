@@ -1,10 +1,8 @@
 package kr.hs.dgsw.smartschool.remote.datasource
 
 import kr.hs.dgsw.smartschool.data.datasource.out.OutRemoteDataSource
-import kr.hs.dgsw.smartschool.domain.model.out.OutItem
 import kr.hs.dgsw.smartschool.domain.model.out.OutType
 import kr.hs.dgsw.smartschool.remote.mapper.toModel
-import kr.hs.dgsw.smartschool.remote.mapper.toOutItem
 import kr.hs.dgsw.smartschool.remote.request.out.OutIdRequest
 import kr.hs.dgsw.smartschool.remote.request.reject.toNightStudyIdRequest
 import kr.hs.dgsw.smartschool.remote.service.OutService
@@ -28,9 +26,9 @@ class OutRemoteDataSourceImpl @Inject constructor(
         outService.getOutSleepingValidByDate().data.toModel()
     }
 
-    override suspend fun getOutgoing(id: Int): OutItem = dodamApiCall {
-        outService.getOutgoing(id).data.toOutItem(OutType.OUTGOING)
-    }
+//    override suspend fun getOutgoing(id: Int): OutItem = dodamApiCall {
+//        outService.getOutgoing(id).data.toOutItem(OutType.OUTGOING)
+//    }
 
     override suspend fun deleteOutgoing(id: Int) = dodamApiCall {
         outService.deleteOutgoing(id).data
@@ -48,9 +46,9 @@ class OutRemoteDataSourceImpl @Inject constructor(
         outService.denyOutgoing(ids.toOutIdRequest()).data
     }
 
-    override suspend fun getOutsleeping(id: Int): OutItem = dodamApiCall {
-        outService.getOutsleeping(id).data.toOutItem(OutType.OUTSLEEPING)
-    }
+//    override suspend fun getOutsleeping(id: Int): OutItem = dodamApiCall {
+//        outService.getOutsleeping(id).data.toOutItem(OutType.OUTSLEEPING)
+//    }
 
     override suspend fun deleteOutsleeping(id: Int) = dodamApiCall {
 //        outService.deleteOutsleeping(id).data

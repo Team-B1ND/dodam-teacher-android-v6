@@ -13,12 +13,3 @@ data class Out(
     val createdAt: String,
     val modifiedAt: String
 )
-
-data class Outgoing(
-    val outgoings: List<OutItem>,
-)
-
-data class OutSleeping(
-    val outsleepings: List<OutItem>,
-
-)
