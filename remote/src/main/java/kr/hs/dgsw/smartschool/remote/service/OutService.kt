@@ -22,7 +22,7 @@ interface OutService {
 
     @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING)
     suspend fun getOutSleepingByDate(
-        @Query("date") date: String,
+        @Query("endAt") date: String,
     ): Response<List<OutResponse>>
 
     @GET(DodamUrl.Out.Outsleeping.GET_OUT_SLEEPING_VALID)
